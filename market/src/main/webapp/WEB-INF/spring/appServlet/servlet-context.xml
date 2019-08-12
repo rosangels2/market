@@ -32,7 +32,7 @@
 	    <beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 	        <beans:property name="definitions">
 	            <beans:list>
-	                <beans:value>/WEB-INF/spring/tiles-def.xml</beans:value>	<!-- 해당 경로에 있는 tiles-def.xml 파일을 연결-->
+	                <beans:value>/WEB-INF/spring/tiles-def.xml</beans:value>	<!-- 해당 경로에 있는 tiles-def.xml 파일을 연결 -->
 	            </beans:list>
 	        </beans:property>
 	</beans:bean>
