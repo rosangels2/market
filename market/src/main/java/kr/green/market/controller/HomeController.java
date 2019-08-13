@@ -51,5 +51,11 @@ public class HomeController {
         mv.setViewName("/member/myMenu");		//타일즈를 통해 불러올 jsp 경로
         mv.addObject("setHeader", "타일즈");
         return mv;
+    }
+    @RequestMapping(value= "/order")
+    public ModelAndView order(ModelAndView mv) throws Exception{
+        mv.setViewName("/items/order");		//타일즈를 통해 불러올 jsp 경로
+        mv.addObject("setHeader", "타일즈");
+        return mv;
     }  
 }
