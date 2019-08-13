@@ -249,12 +249,11 @@
 			<div class="menu-info-contents">
 				<div class="menu-info-box">
 					<!-- 상품 상세 정보 -->
-					<div class="item-info display-none">
+					<div class="item-info">
 						<div class="info-box">
 							<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-							<h1>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h1>
+							<h5>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h5>
 							<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
-							<h1>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h1>
 						</div>
 					</div>
 					<!-- 문의/답변 -->
@@ -312,7 +311,7 @@
 						</div>
 					</div>
 					<!-- 댓글 -->
-					<div class="comment">
+					<div class="comment display-none">
 						<div class="comment-contents">
 							<!-- 댓글 게시판 -->
 							<div class="comment-board">

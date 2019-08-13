@@ -27,6 +27,7 @@
 	    	</ul>
 		</div> 
 		<c:if test="${user eq null}">
+			<a href="<%=request.getContextPath()%>/myMenu" class="float-right" style="color : white; margin-right: 20px;">My Menu</a>
 			<a href="<%=request.getContextPath()%>/signin" class="float-right" style="color : white; margin-right: 20px;">Signin</a>				
 			<a href="<%=request.getContextPath()%>/signup" class="float-right" style="color : white;">Signup</a>
 		</c:if>
