@@ -117,6 +117,7 @@ ul{
 	width: 100%;
 	background-color: white;
 	top : 152px;
+	/* 전체 카테고리 창 숨김 */
  	display: none; 
 }
 .hidden-page .hidden-li{

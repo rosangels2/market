@@ -74,6 +74,7 @@ ul{
 	width: 250px;
 	height: 50px;
 	padding: 10px 10px;
+	/* 선택된 카테고리창 숨김 */
 	display: none;
 }
 .selected-category-box .category-text{

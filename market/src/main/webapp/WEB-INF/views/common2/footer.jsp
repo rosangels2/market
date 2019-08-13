@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div style="  padding: 1.5rem 0.5rem;
+<div style="  padding: 0.5rem 0.5rem;
   			  margin-bottom: 0;
  			  background-color: #e9ecef;
  			  border-radius: 0.3rem;">
