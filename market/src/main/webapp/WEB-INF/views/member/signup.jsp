@@ -8,7 +8,7 @@
 }
 </style>
 </head>
-	<div class="row m-5" style="min-height: 630px;">
+	<div class="row m-5" style="min-height: 1000px;">
 		<div class="container offset-3 col-6 signup-box">
 			<div class="offset-4"> <h1>Signup</h1></div>
 			<form method="post" action="<%=request.getContextPath()%>/signup" id="signup">

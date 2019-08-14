@@ -173,7 +173,7 @@ $(document).ready(function(){
 });
 </script>
 </head>
-	<div style="min-height: 630px; position: relative;">
+	<div style="min-height: 1000px; position: relative;">
 		<div class="views-page">
 			<!-- 검색창 -->
 			<div class="search">

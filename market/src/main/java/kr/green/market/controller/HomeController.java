@@ -50,4 +50,14 @@ public class HomeController {
         mv.setViewName("/items/order");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }  
+    @RequestMapping(value= "/board/list")
+    public ModelAndView boardList(ModelAndView mv) throws Exception{
+        mv.setViewName("/board/list");		//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    }    
+    @RequestMapping(value= "/board/display")
+    public ModelAndView boardDisplay(ModelAndView mv) throws Exception{
+        mv.setViewName("/board/display");		//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    }    
 }

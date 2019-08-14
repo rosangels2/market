@@ -123,7 +123,7 @@
 
 </script>
 </head>
-<div style="min-height: 600px;">
+<div style="min-height: 1000px;">
 	<div class="view-page">
 		<!-- 상단 박스 -->
 		<div class="up-contents">

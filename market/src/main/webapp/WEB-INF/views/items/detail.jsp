@@ -129,7 +129,7 @@
 
 </script>
 </head>
-<div style="min-height: 630px;">
+<div style="min-height: 1000px;">
 	<div class="views-page">
 		<!-- 이미지 박스 -->
 		<div class="img-info">

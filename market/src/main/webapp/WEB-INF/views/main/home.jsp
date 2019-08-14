@@ -134,7 +134,7 @@ ul{
 }
 </style>
 </head>
-	<div style="min-height: 630px; position: relative;">
+	<div style="min-height: 1000px; position: relative;">
 		<div class="views-page">
 			<div class="search">
 				<div class="search-contents">
