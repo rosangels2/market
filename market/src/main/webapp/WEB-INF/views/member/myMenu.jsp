@@ -665,7 +665,7 @@
 						</div>
 					</div>
 					<!-- 쿠폰함 클릭 시 -->
-					<div class="coupon-bag">
+					<div class="coupon-bag display-none">
 						<div class="coupon-bag-contents">
 							<div class="have-text">
 								<h2>보유 쿠폰</h2>
@@ -854,7 +854,13 @@
 						</div>
 					</div>
 					<!-- 문의/답변 클릭 시 -->
-					<div class="ask display-none"></div>
+					<div class="ask">
+						<div class="ask-contents">
+							<div>
+								
+							</div>
+						</div>
+					</div>
 					<!-- 판매자 신청 클릭 시 -->
 					<div class="seller-request display-none"></div>
 					<!-- 회원 탈퇴 클릭 시 -->
