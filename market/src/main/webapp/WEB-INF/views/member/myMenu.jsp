@@ -29,7 +29,7 @@
 .list-contents{
 	float: right;
 	width: 950px;
-	min-height: 660px;
+	min-height: 1000px;
 }
 .list-contents .list-text{
 	margin: 10px;
@@ -95,18 +95,22 @@
 	margin-top: 10px;
 }
 /* 내 정보 보기 */
-.my-info{
-	padding: 20px 0;
+.my-info-contents{
+	float: right;
+	width: 950px;
+	min-height: 1000px;
 }
 /* 내 정보 수정 */
-.info-modify{
-	padding: 20px 0;
+.info-modify-contents{
+	float: right;
+	width: 950px;
+	min-height: 1000px;
 }
 /* 위시리스트 */
 .wishlist-contents{
 	float: right;
 	width: 950px;
-	min-height: 660px;
+	min-height: 1000px;
 }
 .wishlist-box{
 	min-height: 150px;
@@ -154,7 +158,7 @@
 .bag-contents{
 	float: right;
 	width: 950px;
-	min-height: 591px;
+	min-height: 1000px;
 	border: 1px solid gray;
 }
 .bag-img-box div{
@@ -194,7 +198,7 @@
 .coupon-bag-contents{
 	float: right;
 	width: 950px;
-	min-height: 600px;
+	min-height: 1000px;
 }
 .have-coupon-list{
 	min-height: 300px;
@@ -215,6 +219,27 @@
 }
 .table-title th{
 	border-bottom: 1px solid gray;
+}
+/* 문의 답변 클릭 시 */
+.ask-contents{
+	float: right;
+	width: 950px;
+	min-height: 1000px;
+}
+.ask-board .table-contents{
+	text-align: center;
+}
+/* 판매자 신청 클릭 시 */
+.seller-request-contents{
+	float: right;
+	width: 950px;
+	min-height: 1000px;
+}
+/* 회원 탈퇴 클릭 시 */
+.withdrawal-contents{
+	float: right;
+	width: 950px;
+	min-height: 1000px;
 }
 
 
@@ -263,7 +288,7 @@
 			<div class="info-page">
 				<div class="info-contents clearfix">
 					<!-- 주문 내역 클릭 시 -->
-					<div class="order-list display-none">
+					<div class="order-list">
 						<div class="list-contents">
 							<div class="list-text">
 								<h2>총 주문 내역</h2>
@@ -417,94 +442,97 @@
 					</div>
 					<!-- 내 정보 클릭 시 -->
 					<div class="my-info display-none">
-						<div class="container offset-3 col-6 signup-box">
-							<div class="offset-4"> <h1>내 정보</h1></div>
-							<div class="form-group">
-							<label for="usr">ID</label><br>
-								<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id">
-								<label id="id-error" class="offset-4 col-7" for="id"></label>
-							</div>
-							<div class="form-group">
-								<label for="email">email</label>
-								<input type="text" class="form-control" id="email" placeholder="email" name="email">
-							</div>
-							<div class="form-group">
-								<label for="name">name</label>
-								<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
-							</div>
-							<div class="form-group">
-								<label for="phone">phone</label>
-								<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
-							</div>
-							<div class="form-group">
-								<label for="address">address</label>
-								<input type="text" class="form-control" id="address" placeholder="address" name="address">
-							</div>
-							<div class="form-group">
-								<label for="point">point</label>
-								<input type="text" class="form-control" id="point" placeholder="point" name="pont">
-							</div>
-							<div class="form-group">
-								<label for="bank">bank</label>
-								<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
-							</div>
-							<div class="form-group">
-								<label for="account">account</label>
-								<input type="text" class="form-control" id="account" placeholder="account" name="account">
-							</div>
-							<div class="form-group">
-								<label for="grade">grade</label>
-								<input type="text" class="form-control" id="grade" placeholder="grade" name="grade">
-							</div>
-						</div>					
+						<div class="my-info-contents"> 
+							<div class="container offset-3 col-6 signup-box">
+								<div class="offset-4"> <h1>내 정보</h1></div>
+								<div class="form-group">
+								<label for="usr">ID</label><br>
+									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id">
+									<label id="id-error" class="offset-4 col-7" for="id"></label>
+								</div>
+								<div class="form-group">
+									<label for="email">email</label>
+									<input type="text" class="form-control" id="email" placeholder="email" name="email">
+								</div>
+								<div class="form-group">
+									<label for="name">name</label>
+									<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
+								</div>
+								<div class="form-group">
+									<label for="phone">phone</label>
+									<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+								</div>
+								<div class="form-group">
+									<label for="address">address</label>
+									<input type="text" class="form-control" id="address" placeholder="address" name="address">
+								</div>
+								<div class="form-group">
+									<label for="point">point</label>
+									<input type="text" class="form-control" id="point" placeholder="point" name="pont">
+								</div>
+								<div class="form-group">
+									<label for="bank">bank</label>
+									<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
+								</div>
+								<div class="form-group">
+									<label for="account">account</label>
+									<input type="text" class="form-control" id="account" placeholder="account" name="account">
+								</div>
+								<div class="form-group">
+									<label for="grade">grade</label>
+									<input type="text" class="form-control" id="grade" placeholder="grade" name="grade">
+								</div>
+							</div>		
+						</div>			
 					</div>
 					<!-- 내 정보 수정 클릭 시 -->
 					<div class="info-modify display-none">
-						<div class="container offset-3 col-6 signup-box">
-							<div class="offset-4"> <h1>내 정보 수정</h1></div>
-							<div class="form-group">
-							<label for="usr">ID</label><br>
-								<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id" readonly>
-								<label id="id-error" class="offset-4 col-7" for="id"></label>
+						<div class="info-modify-contents">
+							<div class="container offset-3 col-6 signup-box">
+								<div class="offset-4"> <h1>내 정보 수정</h1></div>
+								<div class="form-group">
+								<label for="usr">ID</label><br>
+									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id" readonly>
+									<label id="id-error" class="offset-4 col-7" for="id"></label>
+								</div>
+								<div class="form-group">
+									<label for="opw">password</label>
+									<input type="password" class="form-control col-7" id="opw" placeholder="old password" name="opw">
+								</div>							
+								<div class="form-group">
+									<label for="pw">password</label>
+									<input type="password" class="form-control col-7" id="pw" placeholder="new password" name="pw">
+								</div>
+								<div class="form-group">
+									<label for="pw1">password confirm</label>
+									<input type="password" class="form-control col-7" id="pw1" placeholder="new password confirm" name="pw1">
+								</div>							
+								<div class="form-group">
+									<label for="email">email</label>
+									<input type="text" class="form-control" id="email" placeholder="email" name="email">
+								</div>
+								<div class="form-group">
+									<label for="name">name</label>
+									<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
+								</div>
+								<div class="form-group">
+									<label for="phone">phone</label>
+									<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+								</div>
+								<div class="form-group">
+									<label for="address">address</label>
+									<input type="text" class="form-control" id="address" placeholder="address" name="address">
+								</div>
+								<div class="form-group">
+									<label for="bank">bank</label>
+									<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
+								</div>
+								<div class="form-group">
+									<label for="account">account</label>
+									<input type="text" class="form-control" id="account" placeholder="account" name="account">
+								</div>
+								<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">입력완료</button>							
 							</div>
-							<div class="form-group">
-								<label for="opw">password</label>
-								<input type="password" class="form-control col-7" id="opw" placeholder="old password" name="opw">
-							</div>							
-							<div class="form-group">
-								<label for="pw">password</label>
-								<input type="password" class="form-control col-7" id="pw" placeholder="new password" name="pw">
-							</div>
-							<div class="form-group">
-								<label for="pw1">password confirm</label>
-								<input type="password" class="form-control col-7" id="pw1" placeholder="new password confirm" name="pw1">
-							</div>							
-							<div class="form-group">
-								<label for="email">email</label>
-								<input type="text" class="form-control" id="email" placeholder="email" name="email">
-							</div>
-							<div class="form-group">
-								<label for="name">name</label>
-								<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
-							</div>
-							<div class="form-group">
-								<label for="phone">phone</label>
-								<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
-							</div>
-							<div class="form-group">
-								<label for="address">address</label>
-								<input type="text" class="form-control" id="address" placeholder="address" name="address">
-							</div>
-							<div class="form-group">
-								<label for="bank">bank</label>
-								<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
-							</div>
-							<div class="form-group">
-								<label for="account">account</label>
-								<input type="text" class="form-control" id="account" placeholder="account" name="account">
-							</div>
-							<button type="button" class="btn btn-dark float-right" id="cancel" name="cancel">취소</button>
-							<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">입력완료</button>							
 						</div>
 					</div>
 					<!-- 위시리스트 클릭 시 -->
@@ -681,88 +709,40 @@
 									</tr>
 									<!-- 테이블 컨텐츠 -->
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용 가능</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용 가능</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용 가능</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용 가능</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용 가능</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용 가능</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 								</table>
 							</div>
@@ -773,98 +753,266 @@
 								<table class="table">
 									<!-- 테이블 타이틀 -->
 									<tr class="table-title">
-										<th width="20%" class="order-date-border">쿠폰명</th>
-										<th width="25%" class="item-info-border">할인 금액</th>
-										<th width="30%" class="order-status-border">유효 기간</th>
+										<th width="20%" class="">쿠폰명</th>
+										<th width="25%" class="">할인 금액</th>
+										<th width="30%" class="">유효 기간</th>
 										<th width="15%">상태</th>
 									</tr>
 									<!-- 테이블 컨텐츠 -->
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>기간 만료</h6>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 										</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>기간 만료</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>사용</h6>
-										</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>
-											<h6>놓칠 수 없는 기회</h6>
-										</th>
-										<th>
-											<h6>5000원</h6>
-										</th>
-										<th>
-											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
-										</th>
-										<th>
-											<h6>기간 만료</h6>
-										</th>
+										<th>놓칠 수 없는 기회</th>
+										<th>5000원</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>기간 만료</th>
 									</tr>
 								</table>
 							</div>
 						</div>
 					</div>
 					<!-- 문의/답변 클릭 시 -->
-					<div class="ask">
+					<div class="ask display-none">
 						<div class="ask-contents">
-							<div>
-								
+							<div class="ask-board">
+								<h2>문의/답변</h2>
+								<table class="table">
+									<!-- 테이블 타이틀 -->
+									<tr class="table-title">
+										<th width="20%" class="">문의 번호</th>
+										<th width="25%" class="">제목</th>
+										<th width="30%" class="">문의 날짜</th>
+										<th width="15%">상태</th>
+									</tr>
+									<!-- 테이블 컨텐츠 -->
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+									<tr class="table-contents">
+										<th>175</th>
+										<th>배송 언제 되나요</th>
+										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+										<th>답변 대기</th>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
 					<!-- 판매자 신청 클릭 시 -->
-					<div class="seller-request display-none"></div>
+					<div class="seller-request display-none">
+						<div class="seller-request-contents">
+							<div class="container offset-3 col-6 signup-box">
+								<div class="offset-4"> <h1>판매자 신청</h1></div>
+								<div class="form-group">
+								<label for="id">ID</label><br>
+									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id" readonly>
+									<label id="id-error" class="offset-4 col-7" for="id"></label>
+								</div>
+								<div class="form-group">
+								<label for="licensee">licensee</label><br>
+									<input type="text" class="form-control col-6 float-left" id="licensee" style="display: inline-block;" placeholder="licensee" name="licensee">
+									<label id="id-error" class="offset-4 col-7" for="licensee"></label>
+								</div>								
+								<div class="form-group">
+									<label for="pw">password</label>
+									<input type="password" class="form-control col-7" id="pw" placeholder="password" name="pw">
+								</div>
+								<div class="form-group">
+									<label for="name">name</label>
+									<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
+								</div>								
+								<div class="form-group">
+									<label for="email">email</label>
+									<input type="text" class="form-control" id="email" placeholder="email" name="email">
+								</div>
+								<div class="form-group">
+									<label for="phone">phone</label>
+									<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+								</div>
+								<div class="form-group">
+									<label for="bank">bank</label>
+									<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
+								</div>
+								<div class="form-group">
+									<label for="account">account</label>
+									<input type="text" class="form-control" id="account" placeholder="account" name="account">
+								</div>
+								<div class="form-group">
+									<label for="address">address</label>
+									<input type="text" class="form-control" id="address" placeholder="address" name="address">
+								</div>
+								<div class="form-group">
+									<label for="business-address">business-address</label>
+									<input type="text" class="form-control" id="business-address" placeholder="business-address" name="business-address">
+								</div>																
+								<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">신청하기</button>							
+							</div>						
+						</div>
+					</div>
 					<!-- 회원 탈퇴 클릭 시 -->
-					<div class="withdrawal display-none"></div>
+					<div class="withdrawal display-none">
+						<div class="withdrawal-contents">
+							<div class="container offset-3 col-6 signup-box">
+								<div class="offset-3"> <h1 style="margin-top: 50px;">회원 탈퇴</h1></div>
+								<div class="form-group">
+								<label for="id">ID</label><br>
+									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id">
+									<label id="id-error" class="offset-4 col-7" for="id"></label>
+								</div>
+								<div class="form-group">
+									<label for="pw">password</label>
+									<input type="password" class="form-control col-7" id="pw" placeholder="password" name="pw">
+								</div>														
+								<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">탈퇴하기</button>							
+							</div>						
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
