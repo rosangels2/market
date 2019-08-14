@@ -190,8 +190,36 @@
 	float: left;
 	margin: 0 10px;
 }
+/* 쿠폰함 클릭 시 */
+.coupon-bag-contents{
+	float: right;
+	width: 950px;
+	min-height: 600px;
+}
+.have-coupon-list{
+	min-height: 300px;
+	border: 1px solid gray;
+	border-bottom: none;
+}
+.use-coupon-list{
+	min-height: 300px;
+	border: 1px solid gray;
+	border-bottom: none;
+}
+.coupon-bag .table-title{
+	border-bottom: 1px solid gray;
+}
+.coupon-list-text{
+	text-align: center;
+	border-bottom: 1px solid gray;
+}
+.table-title th{
+	border-bottom: 1px solid gray;
+}
 
 
+
+/* 공통 */
 .display-none{
 	display: none;
 }
@@ -637,8 +665,193 @@
 						</div>
 					</div>
 					<!-- 쿠폰함 클릭 시 -->
-					<div class="coupon-bag display-none">
-					
+					<div class="coupon-bag">
+						<div class="coupon-bag-contents">
+							<div class="have-text">
+								<h2>보유 쿠폰</h2>
+							</div>
+							<div class="have-coupon-list">
+								<table class="table">
+									<!-- 테이블 타이틀 -->
+									<tr class="table-title">
+										<th width="20%" class="order-date-border">쿠폰명</th>
+										<th width="25%" class="item-info-border">할인 금액</th>
+										<th width="30%" class="order-status-border">유효 기간</th>
+										<th width="15%">상태</th>
+									</tr>
+									<!-- 테이블 컨텐츠 -->
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용 가능</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용 가능</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용 가능</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용 가능</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용 가능</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용 가능</h6>
+										</th>
+									</tr>
+								</table>
+							</div>
+							<div class="use-text">
+								<h2>만료된 쿠폰</h2>
+							</div>
+							<div class="use-coupon-list">
+								<table class="table">
+									<!-- 테이블 타이틀 -->
+									<tr class="table-title">
+										<th width="20%" class="order-date-border">쿠폰명</th>
+										<th width="25%" class="item-info-border">할인 금액</th>
+										<th width="30%" class="order-status-border">유효 기간</th>
+										<th width="15%">상태</th>
+									</tr>
+									<!-- 테이블 컨텐츠 -->
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>기간 만료</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>기간 만료</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>사용</h6>
+										</th>
+									</tr>
+									<tr class="coupon-list-text">
+										<th>
+											<h6>놓칠 수 없는 기회</h6>
+										</th>
+										<th>
+											<h6>5000원</h6>
+										</th>
+										<th>
+											<h6>yyyy-mm-dd ~ yyyy-mm-dd</h6>
+										</th>
+										<th>
+											<h6>기간 만료</h6>
+										</th>
+									</tr>
+								</table>
+							</div>
+						</div>
 					</div>
 					<!-- 문의/답변 클릭 시 -->
 					<div class="ask display-none"></div>
