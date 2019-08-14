@@ -19,11 +19,11 @@
 					<label id="id-error" class="offset-4 col-7" for="id"></label>
 				</div>
 				<div class="form-group">
-					<label for="pwd">password</label>
+					<label for="pw">password</label>
 					<input type="password" class="form-control col-7" id="pw" placeholder="password" name="pw">
 				</div>
 				<div class="form-group">
-					<label for="pwdRe">password confirm</label>
+					<label for="pw1">password confirm</label>
 					<input type="password" class="form-control col-7" id="pw1" placeholder="password confirm" name="pw1">
 				</div>
 				<div class="form-group">

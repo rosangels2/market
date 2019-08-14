@@ -60,6 +60,10 @@
 	float: right;
 	margin-left: 20px;
 }
+.button-contents .buy-button{
+	text-align: center;
+	width: 150px;
+}
 /* 메뉴 선택 박스 */
 .menu-box{
 	margin: 20px 0 0 0;
@@ -214,7 +218,7 @@
 		<!-- 버튼 박스 -->
 		<div class="button">
 			<div class="button-contents clearfix">
-				<button><h4>주문하기</h4></button>
+				<a href="<%=request.getContextPath()%>/order"><button class="buy-button"><h4>구매하기</h4></button></a>
 				<button><h4>장바구니 담기</h4></button>				
 				<button><h4>위시리스트 담기</h4></button>
 			</div>
