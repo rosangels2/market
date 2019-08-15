@@ -43,17 +43,21 @@
 }
 .info-box input{
 	float: left;
-	margin: 20px 50px 0 50px;
+	margin: 20px 40px 0 40px;
 	border: 1px solid gray;
 	text-align: center;
 }
+.info-box-last{
+	padding: 20px 70px;
+}
 .info-box-last input{
 	float: right;
-	margin-right: 52px;
+	margin-right: 40px;
 	text-align: center;
 }
 /* 버튼 박스 */
 .button-contents{
+	margin-top: 30px;
 	padding: 10px 0;
 }
 .button-contents button{
@@ -96,6 +100,9 @@
 .item-info .info-box img{
 	width: 100%;
 	height: 700px;
+}
+.bottom-box{
+	min-height: 200px;
 }
 /* 문의/답변 선택 */
 .search-box{
@@ -258,6 +265,11 @@
 							<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
 							<h5>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h5>
 							<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
+						</div>
+					</div>
+					<div class="contents-bottom">
+						<div class="bottom-box">
+						
 						</div>
 					</div>
 					<!-- 문의/답변 -->

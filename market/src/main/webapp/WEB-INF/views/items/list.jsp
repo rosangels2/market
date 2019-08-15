@@ -161,6 +161,10 @@ ul{
 	font-size: 60px;
 	left: 500px;
 }
+/* 하단 페이지 */
+.bottom-contents{
+	height: 200px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -423,7 +427,9 @@ $(document).ready(function(){
 				<i class="fas fa-plus-square more-img"></i>
 			</div>			
 			<div class="page-bottom">
-			
+				<div class="bottom-contents">
+					
+				</div>
 			</div>
 		</div>
 	</div>

@@ -60,4 +60,9 @@ public class HomeController {
         mv.setViewName("/board/display");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }    
+    @RequestMapping(value= "/items/register")
+    public ModelAndView itemRegister(ModelAndView mv) throws Exception{
+        mv.setViewName("/items/register");		//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    }    
 }
