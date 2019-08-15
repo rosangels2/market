@@ -12,85 +12,9 @@ ul{
 	list-style: none;
 	display: block;
 }
-/* 검색창 */
-.search-contents{
-	position: relative;
-	height: 100px;
-	padding-top: 30px;
-}
-.search-contents .search-text{
-	position: absolute;
-	right: 360px;
-	top: 20px;
-}
-.search-text img{
-	width: 150px;
-	height: 50px;
-}
-.search-contents .search-input{
-	position: absolute;
-	right: 50px;
-}
-.search-input .input{
-	width: 300px;
-	height: 35px;
-}
-.search-contents .search-img{
-	position: absolute;
-	right: 0;
-}
-/* 카테고리창 */
-.category{
-	border: 1px solid gray;
-}
-.category .category-contents{
-	position: relative;
-	height: 50px;
-}
-.category-contents .category-box{
-	position : relative;
-	border: 1px solid gray;
-	width: 300px;
-	height: 50px;
-	padding-top: 5px;
-}
-.category-box .category-menu{
-	position: absolute;
-	left: 5px;
-	font-size: 40px;
-}
-.category-box .category-text{
-	position: absolute;
-	left: 65px;
-	margin: 4px 0 0 0;
-}
-.category-box .down-arrow{
-	position: absolute;
-	left: 260px;
-	font-size: 40px;
-}
-.selected-category-box{
-	position: relative;
-	width: 250px;
-	height: 50px;
-	padding: 10px 10px;
-	/* 선택된 카테고리창 숨김 */
-	display: none;
-}
-.selected-category-box .category-text{
-	margin: 0;
-	width: 200px;
-}
-.selected-category-box i{
-	position: absolute;
-	font-size: 50px;
-	top: 0;
-	right: 0;
-}
 /* 페이지 선택창 */
 .page-select-contents{
 	height: 50px;
-	border: 1px solid gray;
 	position: relative;
 }
 .list-select-box{
@@ -116,8 +40,7 @@ ul{
 /* 상품 리스트 */
 .item-list-contents{
 	min-height : 600px;
-	border: 1px solid gray;
-}
+}  
 .item-contents{
 	height: 150px;
 	border-bottom: 1px solid gray;
@@ -134,8 +57,12 @@ ul{
 .item-contents .item-info{
 	width: 180px;
 	height: 130px;
-	border: 1px solid gray;
 	position: relative;
+}
+.item-info button{
+	width: 150px;
+	text-align: center;
+	font-size: 30px;
 }
 .item-info div{
 	text-align: center;
@@ -152,6 +79,9 @@ ul{
 .item-img img{
 	width: 300px;
 	height: 130px;
+}
+.item-info-last{
+	float: right;
 }
 /* 더보기 버튼 */
 .more-img-box{
@@ -180,39 +110,9 @@ $(document).ready(function(){
 </head>
 	<div style="min-height: 1000px; position: relative;">
 		<div class="views-page">
-			<!-- 검색창 -->
-			<div class="search">
-				<div class="search-contents">
-					<div class="search-text"><img src="<%=request.getContextPath()%>/resources/images/search-text.jpg"></div>
-					<div class="search-input"><input class="input"></div>
-					<div class="search-img"><i class="fas fa-search img" style="font-size: 40px;"></i></div>
-				</div>
-			</div>
-			<!-- 카테고리창 -->
-			<div class="category">
-				<div class="category-contents clearfix">
-					<div class="category-box float-left">
-						<i class="fas fa-bars category-menu"></i>
-						<h3 class="category-text">전체 카테고리</h3>
-						<i class="fas fa-chevron-down down-arrow"></i>
-					</div>
-					<div class="selected-category-box float-left">
-						<h3 class="category-text">현재 카테고리</h3>
-						<i class="fas fa-times float-right"></i>
-					</div>
-				</div>
-			</div>
 			<!-- 페이지 선택창  -->
 			<div class="page-select">
 				<div class="page-select-contents">
-					<div class="list-select-box">
-						<select>
-							<option>추천 순/가격 순</option>
-							<option>추천 많은 순으로 보기</option>
-							<option>낮은 가격 순으로 보기</option>
-							<option>높은 가격 순으로 보기</option>
-						</select>
-					</div>
 					<div class="page-view">
 						<select>
 							<option>표시할 상품 개수</option>
@@ -249,21 +149,13 @@ $(document).ready(function(){
 								</a>
 							</div>					
 						</div>
-						<div class="item-info">
-							<div><h3>추천 수</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
+						<div class="item-info" style="float: right">
+							<div>
+								<button>수정</button>
+							</div>
+							<div>
+								<button>삭제</button>
 							</div>		
-						</div>
-						<div class="item-info">
-							<div><h3>판매자</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>				
 						</div>
 					</div>
 					<div class="item-contents clearfix">
@@ -288,22 +180,14 @@ $(document).ready(function(){
 								</a>
 							</div>				
 						</div>
-						<div class="item-info">
-							<div><h3>추천 수</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
+						<div class="item-info" style="float: right">
+							<div>
+								<button>수정</button>
+							</div>
+							<div>
+								<button>삭제</button>
 							</div>					
-						</div>
-						<div class="item-info">
-							<div><h3>판매자</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>					
-						</div>					
+						</div>				
 					</div>
 					<div class="item-contents clearfix">
 						<div class="item-img">
@@ -327,22 +211,14 @@ $(document).ready(function(){
 								</a>
 							</div>					
 						</div>
-						<div class="item-info">
-							<div><h3>추천 수</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
+						<div class="item-info" style="float: right">
+							<div>
+								<button>수정</button>
+							</div>
+							<div>
+								<button>삭제</button>
 							</div>					
-						</div>
-						<div class="item-info">
-							<div><h3>판매자</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>				
-						</div>					
+						</div>				
 					</div>
 					<div class="item-contents clearfix">
 						<div class="item-img">
@@ -366,20 +242,12 @@ $(document).ready(function(){
 								</a>
 							</div>				
 						</div>
-						<div class="item-info">
-							<div><h3>추천 수</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>					
-						</div>
-						<div class="item-info">
-							<div><h3>판매자</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
+						<div class="item-info" style="float: right">
+							<div>
+								<button>수정</button>
+							</div>
+							<div>
+								<button>삭제</button>
 							</div>					
 						</div>					
 					</div>
@@ -405,22 +273,14 @@ $(document).ready(function(){
 								</a>
 							</div>						
 						</div>
-						<div class="item-info">
-							<div><h3>추천 수</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
+						<div class="item-info" style="float: right">
+							<div>
+								<button>수정</button>
+							</div>
+							<div>
+								<button>삭제</button>
 							</div>					
-						</div>
-						<div class="item-info">
-							<div><h3>판매자</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>					
-						</div>					
+						</div>				
 					</div>																				
 				</div>
 			</div>

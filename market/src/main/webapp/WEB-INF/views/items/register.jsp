@@ -49,6 +49,9 @@
 }
 
 /* 상품 정보 선택*/
+.contents-text{
+	margin: 50px 0 0 0;
+}
 .menu-info-box{
 	min-height: 200px;
 	border: 1px solid gray;
@@ -79,7 +82,7 @@
 }
 /* 하단 박스 */
 .bottom-box{
-	min-height: 200px;
+	min-height: 100px;
 }
 
 
