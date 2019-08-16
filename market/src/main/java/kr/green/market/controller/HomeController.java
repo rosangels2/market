@@ -95,4 +95,9 @@ public class HomeController {
         mv.setViewName("/admin/requestDisplay");	//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
+    @RequestMapping(value= "/admin/coupon")
+    public ModelAndView adminCoupon(ModelAndView mv) throws Exception{
+        mv.setViewName("/admin/coupon");	//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    }
 }

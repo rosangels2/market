@@ -38,15 +38,6 @@
 	margin-top: 15px;
 	text-align: center;
 }
-.order-date-border{
-	border-right: 1px solid gray;
-}
-.item-info-border{
-	border-right: 1px solid gray;
-}
-.order-status-border{
-	border-right: 1px solid gray;
-}
 .table-title{
 	text-align: center;
 	border-bottom: 1px solid gray;
@@ -200,15 +191,15 @@
 	width: 950px;
 	min-height: 1000px;
 }
-.have-coupon-list{
-	min-height: 300px;
-	border: 1px solid gray;
-	border-bottom: none;
+.give-text{
+	margin-top: 30px;
+}
+.give-coupon-list{
+	min-height: 200px;
+	margin-bottom: 50px;
 }
 .use-coupon-list{
 	min-height: 300px;
-	border: 1px solid gray;
-	border-bottom: none;
 }
 .coupon-bag .table-title{
 	border-bottom: 1px solid gray;
@@ -241,7 +232,9 @@
 	width: 950px;
 	min-height: 1000px;
 }
-
+.bottom-contents{
+	min-height: 100px;
+}
 
 
 /* 공통 */
@@ -288,7 +281,7 @@
 			<div class="info-page">
 				<div class="info-contents clearfix">
 					<!-- 주문 내역 클릭 시 -->
-					<div class="order-list">
+					<div class="order-list display-none">
 						<div class="list-contents">
 							<div class="list-text">
 								<h2>총 주문 내역</h2>
@@ -536,7 +529,7 @@
 						</div>
 					</div>
 					<!-- 위시리스트 클릭 시 -->
-					<div class="wishlist display-none">
+					<div class="wishlist d-none">
 						<div class="wishlist-contents">
 							<div class="wishlist-box clearfix">
 								<div class="item-img-box">
@@ -693,61 +686,33 @@
 						</div>
 					</div>
 					<!-- 쿠폰함 클릭 시 -->
-					<div class="coupon-bag display-none">
+					<div class="coupon-bag">
 						<div class="coupon-bag-contents">
-							<div class="have-text">
-								<h2>보유 쿠폰</h2>
+							<div class="give-text">
+								<h2>받을 수 있는 쿠폰</h2>
 							</div>
-							<div class="have-coupon-list">
+							<div class="give-coupon-list">
 								<table class="table">
 									<!-- 테이블 타이틀 -->
 									<tr class="table-title">
 										<th width="20%" class="order-date-border">쿠폰명</th>
 										<th width="25%" class="item-info-border">할인 금액</th>
 										<th width="30%" class="order-status-border">유효 기간</th>
-										<th width="15%">상태</th>
+										<th width="15%">쿠폰 받기</th>
 									</tr>
 									<!-- 테이블 컨텐츠 -->
 									<tr class="coupon-list-text">
 										<th>놓칠 수 없는 기회</th>
 										<th>5000원</th>
 										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
+										<th>
+											<a>받기</a>
+										</th>
 									</tr>
 								</table>
 							</div>
 							<div class="use-text">
-								<h2>만료된 쿠폰</h2>
+								<h2>사용 가능한 쿠폰</h2>
 							</div>
 							<div class="use-coupon-list">
 								<table class="table">
@@ -1014,6 +979,11 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<div class="bottom-contents">
+			
 			</div>
 		</div>
 	</div>
