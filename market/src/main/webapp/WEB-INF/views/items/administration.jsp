@@ -30,6 +30,7 @@ ul{
 .page-view{
 	position: absolute;
 	right: 0;
+	margin:20px 0 0 0;
 	top: 0px;
 }
 .page-view select{
@@ -42,6 +43,7 @@ ul{
 	min-height : 600px;
 }  
 .item-contents{
+	margin-top: 20px;
 	height: 150px;
 	border-bottom: 1px solid gray;
 	padding: 10px 10px;
@@ -113,7 +115,7 @@ $(document).ready(function(){
 			<!-- 페이지 선택창  -->
 			<div class="page-select">
 				<div class="page-select-contents">
-					<div class="page-view">
+					<div class="page-view clearfix">
 						<select>
 							<option>표시할 상품 개수</option>
 							<option>10개씩 보기</option>

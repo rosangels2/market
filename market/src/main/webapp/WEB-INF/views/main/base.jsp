@@ -10,6 +10,10 @@
 </script>
 </head>
 <div style="min-height: 1000px;">
-
+	<div class="contents">
+		<div class="contents-box">
+		
+		</div>
+	</div>
 </div>
 </html>

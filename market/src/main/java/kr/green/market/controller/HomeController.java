@@ -69,5 +69,30 @@ public class HomeController {
     public ModelAndView itemAdministration(ModelAndView mv) throws Exception{
         mv.setViewName("/items/administration");	//타일즈를 통해 불러올 jsp 경로
         return mv;
+    }
+    @RequestMapping(value= "/items/modify")
+    public ModelAndView itemModify(ModelAndView mv) throws Exception{
+        mv.setViewName("/items/modify");		//타일즈를 통해 불러올 jsp 경로
+        return mv;
     } 
+    @RequestMapping(value= "/admin/board")
+    public ModelAndView adminBoard(ModelAndView mv) throws Exception{
+        mv.setViewName("/admin/board");	//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    }
+    @RequestMapping(value= "/admin/board/modify")
+    public ModelAndView adminBoardModify(ModelAndView mv) throws Exception{
+        mv.setViewName("/admin/boardModify");	//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    } 
+    @RequestMapping(value= "/admin/member")
+    public ModelAndView adminMember(ModelAndView mv) throws Exception{
+        mv.setViewName("/admin/member");	//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    }
+    @RequestMapping(value= "/admin/requestDisplay")
+    public ModelAndView adminRequestDisplay(ModelAndView mv) throws Exception{
+        mv.setViewName("/admin/requestDisplay");	//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    }
 }
