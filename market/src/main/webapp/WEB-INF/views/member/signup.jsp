@@ -7,10 +7,10 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/additional-methods.js"></script>
 <style type="text/css">
 .id-box{
-	
+	margin: 0;
 }
-.id-box .id-check{
-	float: right;
+#id-check{
+margin-bottom: 20px;
 }
 </style>
 <script type="text/javascript">
@@ -42,7 +42,6 @@ $(document).ready(function(){
 		alert("회원가입을 진행합니다.");
 		isChecked = -1;
 		return true;
-		
 		
 	});
 	$('#id').change(function(){
@@ -133,8 +132,8 @@ $(document).ready(function(){
 						<label for="id">*ID</label>
 					</div>
 					<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id"><br>
-					<div id="id-check"></div>
 				</div>
+				<div id="id-check"></div>
 				<div class="form-group clearfix">
 					<label for="password">*password</label>
 					<input type="password" class="form-control col-7" id="password" placeholder="password" name="password">

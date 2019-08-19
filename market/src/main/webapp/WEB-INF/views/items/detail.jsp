@@ -102,7 +102,7 @@
 	height: 700px;
 }
 .bottom-box{
-	min-height: 200px;
+	min-height: 150px;
 }
 /* 문의/답변 선택 */
 .search-box{
@@ -266,10 +266,10 @@
 							<h5>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h5>
 							<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
 						</div>
-					</div>
-					<div class="contents-bottom">
-						<div class="bottom-box">
-						
+						<div class="contents-bottom">
+							<div class="bottom-box">
+							
+							</div>
 						</div>
 					</div>
 					<!-- 문의/답변 -->
