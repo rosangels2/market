@@ -42,12 +42,40 @@
 		class="kr.green.market.interceptor.LoginInterceptor">
 	</beans:bean>	<!-- 패키지명.클래스명 -->
 	
+	<!-- 로그인이 안됐을 때 접근을 막는 인터셉터 등록 -->
+	<beans:bean id="authInterceptor" 
+		class="kr.green.market.interceptor.AuthInterceptor">		<!-- 패키지명.클래스명 -->
+	</beans:bean>			
+	
+	<!-- 로그인이 됐을 때 접근을 막는 인터셉터 등록 -->
+	<beans:bean id="unAuthInterceptor" 
+		class="kr.green.market.interceptor.UnauthInterceptor">
+	</beans:bean>	
+	
 		<interceptors>
+		
 			<!-- 로그인 정보를 저장할 경로 -->
 			<interceptor>
 				<mapping path="/signin"/>	<!-- URI 경로에 맞는 인터셉터를 실행	-->
 				<beans:ref bean="loginInterceptor"/>	<!-- 위쪽 beans의 id와 일치해야 한다 -->
 			</interceptor>
+			
+			<!-- 로그인이 안됐을 때 접근 제한 -->
+		   	<interceptor>
+			       	<mapping path="/items/modify"/>	<!--	<mapping path="/"/>	 URI 경로에 맞는 인터셉터를 실행		-->
+			       	<mapping path="/items/register"/>
+			       	<mapping path="/items/administration"/>
+			       	<mapping path="/items/order"/>
+			     	<beans:ref bean="authInterceptor"/>		<!-- 위쪽 beans의 id와 일치해야 한다 -->
+			</interceptor>
+			
+			<!-- 로그인이 됐을 때 접근 제한 -->
+			<interceptor>
+		      		 <mapping path="/signin"/>	<!--	<mapping path="/"/>	 URI 경로에 맞는 인터셉터를 실행		-->
+		      		 <mapping path="/signup"/>
+		    		 <beans:ref bean="unAuthInterceptor"/>		<!-- 위쪽 beans의 id와 일치해야 한다 -->
+			</interceptor>	
+				
 		</interceptors>
 	
 </beans:beans>
