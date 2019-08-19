@@ -28,11 +28,10 @@ public class HomeController {
         return mv;
     }
     @RequestMapping(value= "/signup", method = RequestMethod.POST)
-    public ModelAndView signupPost(ModelAndView mv, MemberVO mVo, String password1) throws Exception{
-    	System.out.println("signupPost mVo : " + mVo);
-    	System.out.println("signupPost password1 : " + password1);
-        mv.setViewName("/member/signup");		//타일즈를 통해 불러올 jsp 경로
-        return mv;
+    public String signupPost(MemberVO mVo) throws Exception{
+    	System.out.println("signup mVo : " + mVo);
+    	memberService.signup(mVo);
+        return "redirect:/";
     }
 	//id 중복 검사
 	@RequestMapping(value ="/dup")
@@ -48,10 +47,14 @@ public class HomeController {
 	    }
 	    return true;
 	}
-    @RequestMapping(value= "/signin")
+    @RequestMapping(value= "/signin", method = RequestMethod.GET)
     public ModelAndView signinGet(ModelAndView mv) throws Exception{
         mv.setViewName("/member/signin");		//타일즈를 통해 불러올 jsp 경로
         return mv;
+    }
+    @RequestMapping(value= "/signin", method = RequestMethod.POST)
+    public String signinPost(){
+    	return "redirect:/";
     }
     @RequestMapping(value= "/passwordFind")
     public ModelAndView passwordFind(ModelAndView mv) throws Exception{

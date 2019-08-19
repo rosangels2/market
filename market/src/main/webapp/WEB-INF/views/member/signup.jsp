@@ -140,7 +140,7 @@ $(document).ready(function(){
 				</div>
 				<div class="form-group clearfix">
 					<label for="password1">*password confirm</label>
-					<input type="password" class="form-control col-7" id="password1" placeholder="password confirm" name="password1">
+					<input type="password" class="form-control col-7" id="password1" placeholder="password confirm">
 				</div>
 				<div class="form-group clearfix">
 					<label for="email">*email</label>
