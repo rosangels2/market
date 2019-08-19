@@ -51,4 +51,19 @@ public class MemberServiceImp implements MemberService{
 		memberDao.insertMember(mVo);
 	}
 
+	@Override
+	public MemberVO signin(MemberVO mVo) {
+		if(mVo == null){
+			return null;
+		}
+		MemberVO oVo = memberDao.selectMember(mVo.getId());
+		if(oVo == null){
+			return null;
+		}
+		if(!passwordEncoder.matches(mVo.getPassword(), oVo.getPassword())){
+			return null;
+		}
+		return oVo;
+	}
+
 }

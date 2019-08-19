@@ -13,14 +13,14 @@
 		<div class="offset-3"> <h1>Signin</h1></div>
 		<form method="post" action="" class="form">
 			<div class="form-group">
-				<label for="usr">ID</label>
+				<label for="id">ID</label>
 				<input type="text" class="form-control" id="id" placeholder="ID" name="id">
 			</div>
 			<div class="form-group">
-				<label for="pwd">password</label>
-				<input type="password" class="form-control" id="pw" placeholder="password" name="pw">
+				<label for="password">password</label>
+				<input type="password" class="form-control" id="password" placeholder="password" name="password">
 			</div>
-			<button type="button" class="btn btn-dark float-right">Signin</button>
+			<button class="btn btn-dark float-right">Signin</button>
 			<a href="<%=request.getContextPath()%>/passwordFind">
 				<button type="button" class="btn btn-dark float-right" style="margin-right: 15px;">Find Password</button>
 			</a>

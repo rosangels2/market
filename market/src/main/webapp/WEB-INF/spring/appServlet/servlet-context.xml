@@ -36,4 +36,18 @@
 	            </beans:list>
 	        </beans:property>
 	</beans:bean>
+	
+	<!-- 로그인 정보를 저장할 인터셉터 등록 -->
+	<beans:bean id="loginInterceptor" 
+		class="kr.green.market.interceptor.LoginInterceptor">
+	</beans:bean>	<!-- 패키지명.클래스명 -->
+	
+		<interceptors>
+			<!-- 로그인 정보를 저장할 경로 -->
+			<interceptor>
+				<mapping path="/signin"/>	<!-- URI 경로에 맞는 인터셉터를 실행	-->
+				<beans:ref bean="loginInterceptor"/>	<!-- 위쪽 beans의 id와 일치해야 한다 -->
+			</interceptor>
+		</interceptors>
+	
 </beans:beans>

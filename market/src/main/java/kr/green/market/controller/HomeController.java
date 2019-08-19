@@ -1,7 +1,10 @@
 package kr.green.market.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +56,19 @@ public class HomeController {
         return mv;
     }
     @RequestMapping(value= "/signin", method = RequestMethod.POST)
-    public String signinPost(){
+    public String signinPost(Model model, MemberVO mVo){
+    	System.out.println("signin mVo : " + mVo);
+    	MemberVO user = memberService.signin(mVo);
+    	System.out.println("signin user : " + user);
+    	if(user == null){
+    		return "redirect:/signin";
+    	}
+    	model.addAttribute("user", user);
+    	return "redirect:/";
+    }
+    @RequestMapping(value= "/signout")
+    public String signout(HttpServletRequest r) {
+    	r.getSession().removeAttribute("user");
     	return "redirect:/";
     }
     @RequestMapping(value= "/passwordFind")
