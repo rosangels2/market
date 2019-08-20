@@ -1,5 +1,8 @@
 package kr.green.market.service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,6 +67,31 @@ public class MemberServiceImp implements MemberService{
 			return null;
 		}
 		return oVo;
+	}
+
+	@Override
+	public MemberVO modify(MemberVO mVo, String oldPassword) {
+		if(mVo == null){
+			return null;
+		}
+		MemberVO oVo = memberDao.selectMember(mVo.getId());
+		if(oVo == null || !passwordEncoder.matches(oldPassword, oVo.getPassword())){
+			return null;
+		}
+		mVo.setPassword(passwordEncoder.encode(mVo.getPassword()));
+		memberDao.updateMember(mVo);
+		return mVo;
+	}
+
+	@Override
+	public boolean updateUserToSession(HttpServletRequest r, MemberVO oVo) {
+		if(oVo == null){
+			return false;
+		}
+		HttpSession s = r.getSession();
+		s.removeAttribute("user");//이전 회원정보 제거
+		s.setAttribute("user", oVo);//새 회원 정보 추가
+		return true;
 	}
 
 }

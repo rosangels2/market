@@ -225,7 +225,7 @@
 		<!-- 버튼 박스 -->
 		<div class="button">
 			<div class="button-contents clearfix">
-				<a href="<%=request.getContextPath()%>/order"><button class="buy-button"><h4>구매하기</h4></button></a>
+				<a href="<%=request.getContextPath()%>/items/order"><button class="buy-button"><h4>구매하기</h4></button></a>
 				<button><h4>장바구니 담기</h4></button>				
 				<button><h4>위시리스트 담기</h4></button>
 			</div>

@@ -86,4 +86,15 @@ public class HomeController {
         mv.setViewName("/member/myMenu");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
+    @RequestMapping(value= "/modify")
+    public String signout(Model model, MemberVO mVo, String oldPassword, HttpServletRequest r){
+    	System.out.println("modify mVo : " + mVo);
+    	System.out.println("modify oldPassword : " + oldPassword);
+    	MemberVO oVo = memberService.modify(mVo, oldPassword);
+    	System.out.println("modify oVo : " + oVo);
+		boolean t = memberService.updateUserToSession(r,oVo);
+		model.addAttribute("success",t);
+		System.out.println("modify success : " + t);
+    	return "redirect:/myMenu";
+    }
 }

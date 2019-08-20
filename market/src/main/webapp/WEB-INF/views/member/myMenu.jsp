@@ -242,8 +242,62 @@
 	display: none;
 }
 </style>
-<script>
+<script type="text/javascript">
+$.validator.addMethod(
+	    "regex",
+	    function(value, element, regexp) {
+	        var re = new RegExp(regexp);
+	        return this.optional(element) || re.test(value);
+	    },
+	    "가입 양식에 맞게 입력해 주세요."
+);
 
+$(document).ready(function(){
+	
+	$('#modify').submit(function(){
+		if(!$('#modify').valid()){
+			return false;
+		}
+		return true;
+	});
+
+	// /^\w*(\d[A-z]|[A-z]\d)\w*$/ 영어숫자 포함
+	$("form").validate({	
+        rules: {
+            password: {
+                required : true,
+                minlength : 8,
+                maxlength : 12,
+                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/  //영어와 숫자를 1개씩 포함
+            },
+            password1: {
+                required : true,
+                equalTo : password
+            },
+            email: {
+                required : true,
+                email : true	//email 형식에 맞는지 여부
+            }
+        },
+        messages : {	//규칙체크 실패시 출력될 메시지
+            password: {
+                required : "필수로 입력하세요",
+                minlength : "최소 {8}글자 이상이어야 합니다",
+                maxlength : "최대 {12}글자 이하여야 합니다",
+                regex : "영문과 숫자를 1개씩 포함해야 합니다.."
+            },
+            password1: {
+                required : "필수로 입력하세요",
+                equalTo : "비밀번호와 비밀번호 확인이 일치하지 않습니다."
+            },
+            email: {
+                required : "필수로 입력하세요",
+                email : "메일 규칙에 어긋납니다"
+            }
+        }
+	});
+	
+});	//레디
 </script>
 </head>
 <div style="min-height: 660px;">
@@ -479,52 +533,54 @@
 						</div>			
 					</div>
 					<!-- 내 정보 수정 클릭 시 -->
-					<div class="info-modify display-none">
+					<div class="info-modify">
 						<div class="info-modify-contents">
 							<div class="container offset-3 col-6 signup-box">
-								<div class="offset-4"> <h1>내 정보 수정</h1></div>
-								<div class="form-group">
-								<label for="usr">ID</label><br>
-									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id" readonly>
-									<label id="id-error" class="offset-4 col-7" for="id"></label>
-								</div>
-								<div class="form-group">
-									<label for="opw">password</label>
-									<input type="password" class="form-control col-7" id="opw" placeholder="old password" name="opw">
-								</div>							
-								<div class="form-group">
-									<label for="pw">password</label>
-									<input type="password" class="form-control col-7" id="pw" placeholder="new password" name="pw">
-								</div>
-								<div class="form-group">
-									<label for="pw1">password confirm</label>
-									<input type="password" class="form-control col-7" id="pw1" placeholder="new password confirm" name="pw1">
-								</div>							
-								<div class="form-group">
-									<label for="email">email</label>
-									<input type="text" class="form-control" id="email" placeholder="email" name="email">
-								</div>
-								<div class="form-group">
-									<label for="name">name</label>
-									<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
-								</div>
-								<div class="form-group">
-									<label for="phone">phone</label>
-									<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
-								</div>
-								<div class="form-group">
-									<label for="address">address</label>
-									<input type="text" class="form-control" id="address" placeholder="address" name="address">
-								</div>
-								<div class="form-group">
-									<label for="bank">bank</label>
-									<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
-								</div>
-								<div class="form-group">
-									<label for="account">account</label>
-									<input type="text" class="form-control" id="account" placeholder="account" name="account">
-								</div>
-								<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">입력완료</button>							
+								<form method="post" action="<%=request.getContextPath()%>/modify" id="modify">
+									<div class="offset-4"> <h1>내 정보 수정</h1></div>
+									<div class="form-group">
+									<label for="usr">ID</label><br>
+										<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" value="${user.id}" name="id" readonly>
+										<label id="id-error" class="offset-4 col-7" for="id"></label>
+									</div>
+									<div class="form-group">
+										<label for="oldPassword">old password</label>
+										<input type="password" class="form-control col-7" id="oldPassword" placeholder="old password" name="oldPassword">
+									</div>							
+									<div class="form-group">
+										<label for="password">new password</label>
+										<input type="password" class="form-control col-7" id="password" placeholder="new password" name="password">
+									</div>
+									<div class="form-group">
+										<label for="password1">new password confirm</label>
+										<input type="password" class="form-control col-7" id="password1" placeholder="new password confirm" name="password1">
+									</div>							
+									<div class="form-group">
+										<label for="email">email</label>
+										<input type="text" class="form-control" id="email" name="email" value="${user.email}">
+									</div>
+									<div class="form-group">
+										<label for="name">name</label>
+										<input type="text" class="form-control col-6" id="name" name="name" value="${user.name}">
+									</div>
+									<div class="form-group">
+										<label for="phone">phone</label>
+										<input type="text" class="form-control" id="phone" name="phone" value="${user.phone}">
+									</div>
+									<div class="form-group">
+										<label for="address">address</label>
+										<input type="text" class="form-control" id="address" name="address" value="${user.address}">
+									</div>
+									<div class="form-group">
+										<label for="bank">bank</label>
+										<input type="text" class="form-control" id="bank" name="bank" value="${user.bank}">
+									</div>
+									<div class="form-group">
+										<label for="account">account</label>
+										<input type="text" class="form-control" id="account" name="account" value="${user.account}">
+									</div>
+									<button class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">입력완료</button>
+								</form>							
 							</div>
 						</div>
 					</div>
@@ -686,7 +742,7 @@
 						</div>
 					</div>
 					<!-- 쿠폰함 클릭 시 -->
-					<div class="coupon-bag">
+					<div class="coupon-bag display-none">
 						<div class="coupon-bag-contents">
 							<div class="give-text">
 								<h2>받을 수 있는 쿠폰</h2>

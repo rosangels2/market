@@ -1,5 +1,7 @@
 package kr.green.market.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import kr.green.market.vo.MemberVO;
 
 public interface MemberService {
@@ -9,5 +11,9 @@ public interface MemberService {
 	void signup(MemberVO mVo);
 
 	MemberVO signin(MemberVO mVo);
+
+	MemberVO modify(MemberVO mVo, String oldPassword);
+
+	boolean updateUserToSession(HttpServletRequest r, MemberVO oVo);
 
 }

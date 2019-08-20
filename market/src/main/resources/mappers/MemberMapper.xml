@@ -11,15 +11,10 @@
 	insert into member(id, password, email, name, phone, address, bank, account)
 		values(#{mVo.id}, #{mVo.password}, #{mVo.email}, #{mVo.name}, #{mVo.phone}, #{mVo.address}, #{mVo.bank}, #{mVo.account})
 </insert>
+<update id="updateMember">
+	update member
+		set password = #{mVo.password}, email = #{mVo.email}, name = #{mVo.name}, phone = #{mVo.phone}, address = #{mVo.address},
+			bank = #{mVo.bank}, account = #{mVo.account}
+		where id = #{mVo.id}
+</update>
 </mapper>
-
-<!--private String id;
-	private String password;
-	private String email;
-	private String name;
-	private String phone;
-	private String address;
-	private int point;
-	private String bank;
-	private String account;
-	private String grade; -->

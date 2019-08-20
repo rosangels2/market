@@ -2,9 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 	<!-- UTF-8 인코딩 -->
 <html>
 <head>
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.validate.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/additional-methods.js"></script>
 <style type="text/css">
 .id-box{
 	margin: 0;
@@ -25,6 +22,7 @@ $.validator.addMethod(
 	    },
 	    "가입 양식에 맞게 입력해 주세요."
 );
+
 $(document).ready(function(){
 	$('#signup').submit(function(){
 		var test = $('form').valid();
@@ -118,6 +116,7 @@ $(document).ready(function(){
 		            }
 		        }
 		});
+		
 });	//레디
 </script> 
 </head>
@@ -152,7 +151,7 @@ $(document).ready(function(){
 				</div>
 				<div class="form-group clearfix">
 					<label for="phone clearfix">phone</label>
-					<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+					<input type="text" class="form-control" id="phone" placeholder="010-0000-0000" name="phone">
 				</div>
 				<div class="form-group clearfix">
 					<label for="address">address</label>
