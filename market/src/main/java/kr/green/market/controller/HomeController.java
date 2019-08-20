@@ -76,8 +76,8 @@ public class HomeController {
     	r.getSession().removeAttribute("user");
     	return "redirect:/";
     }
-    @RequestMapping(value= "/passwordFind")
-    public ModelAndView passwordFind(ModelAndView mv) throws Exception{
+    @RequestMapping(value= "/passwordFind", method=RequestMethod.GET)
+    public ModelAndView passwordFindGet(ModelAndView mv) throws Exception{
         mv.setViewName("/member/passwordFind");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
@@ -86,7 +86,7 @@ public class HomeController {
         mv.setViewName("/member/idFind");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
-	@RequestMapping(value ="/idFind", method = RequestMethod.POST)	//id 중복검사를 위한 메서드 매핑
+	@RequestMapping(value ="/idFind", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<Object, Object> idFindPost(@RequestBody String str){
 	    Map<Object, Object> map = new HashMap<Object, Object>();
