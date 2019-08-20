@@ -89,9 +89,32 @@ public class MemberServiceImp implements MemberService{
 			return false;
 		}
 		HttpSession s = r.getSession();
-		s.removeAttribute("user");//이전 회원정보 제거
-		s.setAttribute("user", oVo);//새 회원 정보 추가
+		s.removeAttribute("user");		//이전 회원정보 제거
+		s.setAttribute("user", oVo);	//새 회원 정보 추가
 		return true;
 	}
 
+	@Override
+	public MemberVO idFind(String name, String email) {
+		if(name == null || email == null){
+			return null;
+		}
+		MemberVO mVo = memberDao.selectMemberFind(email, name);
+		if(mVo == null){
+			return null;
+		}
+		return mVo;
+	}
+
+	@Override
+	public String getVal(String str) {
+		String [] arr = str.split("=");	//입력받은 문자열을 =을 기준으로 배열로 나눠서 저장 
+		if(arr.length == 2){	//배열의 길이가 2라면 	예시)id=xxx -> 0번지 = id, 1번지 = xxx
+			return arr[1];	//배열의 1번지를 반환(실제 입력값인 xxx)
+		}else{
+			return "";
+		}
+	}
+	
+	
 }

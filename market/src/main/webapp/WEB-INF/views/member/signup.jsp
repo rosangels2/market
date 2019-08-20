@@ -83,6 +83,7 @@ $(document).ready(function(){
 		                minlength : 8,
 		                maxlength : 12,
 		                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
+						//     /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함	
 		            },
 		            password1: {
 		                required : true,

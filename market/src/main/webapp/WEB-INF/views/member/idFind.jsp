@@ -7,6 +7,32 @@
 	margin-top: 15px;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#find').click(function(){
+		var name = $('#name').val();
+		var email = $('#email').val();
+		 $.ajax({
+		        async:false,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{'name':name , 'email':email},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/idFind",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data.id != null){
+						alert("검색된 아이디 : " + data.id);
+					}else{
+						alert("검색된 아이디가 없습니다.");
+					}
+		       },
+		       error:function(request,status,error){
+		           console.log(request.responseText); // 실패 시 처리
+	          }
+		    });
+	});
+});	//레디
+</script>
 </head>
 <div style="min-height: 1000px;">
 	<div class="container offset-4 col-4">
@@ -20,7 +46,7 @@
 				<label for="pwd">email</label>
 				<input type="email" class="form-control" id="email" placeholder="email" name="email">
 			</div>
-			<button type="button" class="btn btn-dark float-right">Find</button>
+			<button type="button" class="btn btn-dark float-right" id="find">Find</button>
 		</form>
 	</div>
 </div>

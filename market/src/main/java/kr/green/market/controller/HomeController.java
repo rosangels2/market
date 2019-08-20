@@ -1,5 +1,10 @@
 package kr.green.market.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +81,35 @@ public class HomeController {
         mv.setViewName("/member/passwordFind");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
-    @RequestMapping(value= "/idFind")
-    public ModelAndView idFind(ModelAndView mv) throws Exception{
+    @RequestMapping(value= "/idFind", method = RequestMethod.GET)
+    public ModelAndView idFindGet(ModelAndView mv) throws Exception{
         mv.setViewName("/member/idFind");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
+	@RequestMapping(value ="/idFind", method = RequestMethod.POST)	//id 중복검사를 위한 메서드 매핑
+	@ResponseBody
+	public Map<Object, Object> idFindPost(@RequestBody String str){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println(str);
+	    String [] arr = str.split("&");	//전송된 정보를 &을 기준으로 구분하여 나눠 배열에 저장
+	    String name = arr[0];	//&을 기준으로 앞쪽의 0번지값을 String객체 id에 저장한다
+	    String email = "";	//빈 문자열 객체를 생성
+	    try {
+			email=URLDecoder.decode(arr[1], "UTF-8");	//인코딩 돼 깨진 email값을 decode 메서드로 복원
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    name = memberService.getVal(name);	//id=xxx 형식의 값에서 id=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    email = memberService.getVal(email);	//email=xxx 형식의 값에서 email=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    System.out.println("idFind name = " + name);
+	    System.out.println("idFind email = " + email);
+	    MemberVO mVo = memberService.idFind(name, email);
+	    if(mVo != null)
+	    	map.put("id", mVo.getId());
+	    else
+	    	map.put("id", null);
+	    return map;
+	}
     @RequestMapping(value= "/myMenu")
     public ModelAndView myMenu(ModelAndView mv) throws Exception{
         mv.setViewName("/member/myMenu");		//타일즈를 통해 불러올 jsp 경로

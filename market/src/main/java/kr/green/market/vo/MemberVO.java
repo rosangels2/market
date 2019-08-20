@@ -12,8 +12,7 @@ public class MemberVO {
 	private String bank;
 	private String account;
 	private String grade;
-	
-	
+
 	public String getId() {
 		return id;
 	}
@@ -74,7 +73,6 @@ public class MemberVO {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
-	
 	
 	@Override
 	public String toString() {

@@ -268,7 +268,8 @@ $(document).ready(function(){
                 required : true,
                 minlength : 8,
                 maxlength : 12,
-                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/  //영어와 숫자를 1개씩 포함
+                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
+                //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
             },
             password1: {
                 required : true,
@@ -284,7 +285,7 @@ $(document).ready(function(){
                 required : "필수로 입력하세요",
                 minlength : "최소 {8}글자 이상이어야 합니다",
                 maxlength : "최대 {12}글자 이하여야 합니다",
-                regex : "영문과 숫자를 1개씩 포함해야 합니다.."
+                regex : "영문과 숫자를 1개씩 포함해야 합니다."
             },
             password1: {
                 required : "필수로 입력하세요",

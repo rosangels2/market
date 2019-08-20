@@ -17,4 +17,8 @@
 			bank = #{mVo.bank}, account = #{mVo.account}
 		where id = #{mVo.id}
 </update>
+<select id="selectMemberFind" resultType="kr.green.market.vo.MemberVO">
+	select * from member 
+	where name = #{name} and email = #{email}
+</select>
 </mapper>

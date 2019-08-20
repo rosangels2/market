@@ -16,4 +16,8 @@ public interface MemberService {
 
 	boolean updateUserToSession(HttpServletRequest r, MemberVO oVo);
 
+	MemberVO idFind(String name, String email);
+
+	String getVal(String str);
+
 }

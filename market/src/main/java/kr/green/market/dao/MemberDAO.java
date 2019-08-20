@@ -12,4 +12,6 @@ public interface MemberDAO {
 
 	void updateMember(@Param("mVo")MemberVO mVo);
 
+	MemberVO selectMemberFind(@Param("email")String email, @Param("name")String name);
+
 }
