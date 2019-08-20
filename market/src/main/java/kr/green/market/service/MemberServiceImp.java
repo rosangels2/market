@@ -1,9 +1,12 @@
 package kr.green.market.service;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ public class MemberServiceImp implements MemberService{
 	MemberDAO memberDao;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Override
 	public MemberVO getMember(String id) {
@@ -115,6 +120,58 @@ public class MemberServiceImp implements MemberService{
 			return "";
 		}
 	}
-	
+
+	@Override
+	public boolean checkMember(String id, String email) {
+		MemberVO user = memberDao.selectMember(id);	//id를 통해 가져온 회원 정보를 저장
+		if(user != null && user.getEmail().equals(email)) {	//회원정보의 이메일과 입력한 이메일이 같다면 
+			return true;	//true를 반환
+		}
+		return false;
+	}
+
+	@Override
+	public String createPw() {
+		String str ="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String pw="";
+		for(int i=0; i< 8; i++) {
+			int r = (int)(Math.random()*62);
+			pw += str.charAt(r);
+		}
+		return pw;
+	}
+
+	@Override
+	public void modify(String id, String email, String newPw) {
+		MemberVO user = memberDao.selectMember(id);	//id를 통해 회언 정보를 가져와서 변수에 저장
+		if(user == null){
+			return;
+		}
+		if(!user.getEmail().equals(email)){
+			return;
+		}
+		String encodePw = passwordEncoder.encode(newPw);	//새로 생성된 임시 비밀번호를 암호화해 변수에 저장
+		user.setPassword(encodePw);			//암호화된 비밀번호로 객체 정보를 수정
+		memberDao.updateMember(user);		//해당 객체 정보를 통해 회원 정보를 수정		
+	}
+
+	@Override
+	public void sendMail(String email, String title, String contents) {
+		String setfrom = "stajun@google.com";         
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper 
+	            = new MimeMessageHelper(message, true, "UTF-8");
+	        
+	        messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	        messageHelper.setTo(email);     // 받는사람 이메일
+	        messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	        messageHelper.setText(contents);  // 메일 내용
+
+	        mailSender.send(message);
+	    } catch(Exception e){
+	        System.out.println(e);
+	    }		
+	}
 	
 }

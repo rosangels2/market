@@ -23,6 +23,7 @@ $(document).ready(function(){
         success : function(data){
             if(data.isOk){		//입력한 id와 email이 회원 정보와 일치하면
             	$('#findForm').submit();	//form태그의 정보 전송 기능을 실행
+            	alert('이메일로 임시 비밀번호가 발송되었습니다.');
             }else{	//입력한 id와 email이 회원 정보와 일치하지 않으면
             	alert('일치하는 정보가 없습니다.');		//정보가 일치하지 않음을 알리고 form태그의 정보를 전송하지 않는다
             }

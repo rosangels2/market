@@ -20,4 +20,12 @@ public interface MemberService {
 
 	String getVal(String str);
 
+	boolean checkMember(String id, String email);
+
+	String createPw();
+
+	void modify(String id, String email, String newPw);
+
+	void sendMail(String email, String title, String contents);
+
 }
