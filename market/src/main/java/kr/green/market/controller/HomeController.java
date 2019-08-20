@@ -175,7 +175,7 @@ public class HomeController {
 		String title = "변경된 비밀번호입니다.";
 		String contents = "변경된 비밀번호입니다.\n"+newPw+"\n";
 		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
-	    return "redirect:/";
+	    return "redirect:/passwordFind";
 	}
     @RequestMapping(value= "/myMenu")
     public ModelAndView myMenu(ModelAndView mv) throws Exception{
