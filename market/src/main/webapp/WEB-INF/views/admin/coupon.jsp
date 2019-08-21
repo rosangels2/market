@@ -64,39 +64,48 @@
 									<th width="20%" class="">쿠폰명</th>
 									<th width="25%" class="">할인 금액</th>
 									<th width="30%" class="">유효 기간</th>
-									<th width="15%">상태</th>
+									<th width="15%">관리</th>
 								</tr>
 								<!-- 테이블 컨텐츠 -->
 								<tr class="coupon-list-text">
 									<th>놓칠 수 없는 기회</th>
 									<th>5000원</th>
 									<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-									<th>기간 만료</th>
-								</tr>
-								<tr class="coupon-list-text">
-									<th>놓칠 수 없는 기회</th>
-									<th>5000원</th>
-									<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-									<th>기간 만료</th>
+									<th>
+										<button>삭제</button>
 									</th>
 								</tr>
 								<tr class="coupon-list-text">
 									<th>놓칠 수 없는 기회</th>
 									<th>5000원</th>
 									<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-									<th>기간 만료</th>
+									<th>
+										<button>삭제</button>
+									</th>
 								</tr>
 								<tr class="coupon-list-text">
 									<th>놓칠 수 없는 기회</th>
 									<th>5000원</th>
 									<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-									<th>기간 만료</th>
+									<th>
+										<button>삭제</button>
+									</th>
 								</tr>
 								<tr class="coupon-list-text">
 									<th>놓칠 수 없는 기회</th>
 									<th>5000원</th>
 									<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-									<th>기간 만료</th>
+									<th>
+										<button>삭제</button>
+									</th>
+								</tr>
+								<tr class="coupon-list-text">
+									<th>놓칠 수 없는 기회</th>
+									<th>5000원</th>
+									<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
+									<th>
+										<button>삭제</button>
+									</th>
 								</tr>
 							</table>
 						</div>

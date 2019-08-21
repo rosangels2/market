@@ -106,13 +106,28 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-	
+	addOptionEvent();
+	addInputEvent();
 });	//레디
 function addOptionEvent(){
 	$('#add-option').click(function(){
-		var div = $('.info-box').last();
-		
+		$('input[name=select]').last().val($('input[name=item-select]').val());
+		$('input[name=detail]').last().val($('input[name=item-detail]').val());
+		$('input[name=stock]').last().val($('input[name=item-stock]').val());
+		$('input[name=price]').last().val($('input[name=item-price]').val());
+		$('input[name=item-select]').val("");
+		$('input[name=item-detail]').val("");
+		$('input[name=item-stock]').val("");
+		$('input[name=item-price]').val("");
 		var str = '<div class="info-box clearfix"><input placeholder="선택 옵션" name="select" readonly value=""><input placeholder="세부 옵션" name="detail" readonly value=""><input placeholder="상품 재고" name="stock" readonly value=""><input placeholder="가격" name="price" readonly value=""></div>'
+		$('.option-info-contents').append(str);
+	});
+}
+function addInputEvent(){
+	$('input[name=file2]').change(function(){
+		var str = '<input type="file" class="form-control" name="file2" value="">'
+		$(this).after(str);
+		addInputEvent();
 	});
 }
 </script>
@@ -143,19 +158,19 @@ function addOptionEvent(){
 					</div>
 					<div class="item-select">
 						<h4>상품 선택</h4>
-						<input name="select">
+						<input name="item-select">
 					</div>			
-					<div class="item-option">
+					<div class="item-detail">
 						<h4>세부 옵션</h4>
-						<input name="option">
+						<input name="item-detail">
 					</div>			
 					<div class="item-stock">
 						<h4>상품 재고</h4>
-						<input name="stock">
+						<input name="item-stock">
 					</div>			
 					<div class="item-price">
 						<h4>가격</h4>
-						<input name="price">
+						<input name="item-price">
 					</div>		
 					<div class="add-option clearfix">
 						<button class="add-button" id="add-option">옵션 추가</button>
@@ -203,10 +218,10 @@ function addOptionEvent(){
 				</div>
 			</div>
 		</div>
-		<div class="file-box clearfix">
-			<h3 class="float-left">첨부파일</h3>
-			<input class="float-left">
-		</div>
+		<div class="form-group">
+		  <label style="font-size:30px;">첨부파일</label>
+		  <input type="file" class="form-control" name="file2" value="">
+		</div>		
 		<div class="button-box clearfix">
 			<button><h3>등록하기</h3></button>
 		</div>

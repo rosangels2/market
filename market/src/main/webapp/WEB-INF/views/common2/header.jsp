@@ -32,6 +32,9 @@
 			      	<li class="nav-item">
 			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/member" style="color : white;">회원 관리</a>
 			      	</li>      	
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/coupon" style="color : white;">쿠폰 관리</a>
+			      	</li>    
 		      	</c:if>        			      	
 	    	</ul>
 		</div> 
