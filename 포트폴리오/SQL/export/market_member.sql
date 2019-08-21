@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -46,7 +46,7 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES ('z1111111','$2a$10$jtn.j9tqUuyumc7gMrZG5eEljfI6vSUQK5DIk1./m3vtgzkLEEPIe','홍길동','010-1010-1010','1@1','충북 청주시 상당구 신선로 209',0,'국민은행','10101-20292-39','member','I'),('z11111111','$2a$10$VLx3dA/a9vjAawUONiHwF.p1U97TCE5Lbz1KDkPr/w9ICFuStCZnS','홍길동','010-1111-1111','1@1','충북 청주시 상당구 신선로 209',0,'국민은행','10101-20292-39','member','I'),('z111111111','$2a$10$Iyd/pGuzFsLpAG06.4pe6.XIyyrOlvZut2Hb64Pc.4n3oCz4ugkuu','홍길동','010-2222-2222','3@3','충북 청주시 상당구 신선로 209',0,'신한은행','10101-20292-39','member','I');
+INSERT INTO `member` VALUES ('z1111111','$2a$10$YFVIxVfra6csonRXz1C6N.x2.YNAkGyXaIiC7AaUa1/tFHHYzDn6e','22','2','222@222','2',0,'2','2','member','I'),('z11111111','$2a$10$VLx3dA/a9vjAawUONiHwF.p1U97TCE5Lbz1KDkPr/w9ICFuStCZnS','홍길동','010-1111-1111','1@1','충북 청주시 상당구 신선로 209',0,'국민은행','10101-20292-39','seller','I'),('z111111111','$2a$10$Iyd/pGuzFsLpAG06.4pe6.XIyyrOlvZut2Hb64Pc.4n3oCz4ugkuu','홍길동','010-2222-2222','3@3','충북 청주시 상당구 신선로 209',0,'신한은행','10101-20292-39','admin','I');
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-20  1:26:58
+-- Dump completed on 2019-08-21 17:20:37

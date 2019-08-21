@@ -12,25 +12,25 @@
 	    			<a class="navbar-brand" href="<%=request.getContextPath()%>/">메인 페이지</a>
 	    		</li>
 		      	<li class="nav-item">
-		        	<a class="nav-link" href="<%=request.getContextPath()%>/board/list">공지사항</a>
+		        	<a class="nav-link" href="<%=request.getContextPath()%>/board/list" style="color : white;">공지사항</a>
 		      	</li>
 		      	<li class="nav-item">
-		        	<a class="nav-link" href="<%=request.getContextPath()%>/items/list">상품 리스트</a>
+		        	<a class="nav-link" href="<%=request.getContextPath()%>/items/list" style="color : white;">상품 목록</a>
 		      	</li>
 		      	<c:if test="${user.grade eq 'seller'}">
 			      	<li class="nav-item">
-			        	<a class="nav-link" href="<%=request.getContextPath()%>/items/register">상품 등록</a>
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/items/register" style="color : white;">상품 등록</a>
 			      	</li>
 			      	<li class="nav-item">
-		        	<a class="nav-link" href="<%=request.getContextPath()%>/items/administration">상품 관리</a>
+		        	<a class="nav-link" href="<%=request.getContextPath()%>/items/administration" style="color : white;">상품 관리</a>
 		      	</li>      	
 		      	</c:if>      	
 		      	<c:if test="${user.grade eq 'admin'}">
 			      	<li class="nav-item">
-			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/board">게시판 관리</a>
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/board" style="color : white;">게시판 관리</a>
 			      	</li>
 			      	<li class="nav-item">
-			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/member">회원 관리</a>
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/member" style="color : white;">회원 관리</a>
 			      	</li>      	
 		      	</c:if>        			      	
 	    	</ul>

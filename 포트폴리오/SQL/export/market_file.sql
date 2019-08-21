@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -27,8 +27,8 @@ DROP TABLE IF EXISTS `file`;
 CREATE TABLE `file` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `board_no` int(11) NOT NULL,
-  `route` longtext COLLATE utf8_bin,
-  `valid` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'I',
+  `route` longtext CHARACTER SET utf8 COLLATE utf8_bin,
+  `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
   KEY `fk_file_board1_idx` (`board_no`),
   CONSTRAINT `fk_file_board1` FOREIGN KEY (`board_no`) REFERENCES `board` (`no`)
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-20  1:26:58
+-- Dump completed on 2019-08-21 17:20:38

@@ -9,37 +9,46 @@
 	box-sizing: border-box;
 }
 /* img / select 박스 */
-.img-info-contents{
-
+.img-info{
+	margin-top: 50px;
 }
-.img-info-contents .img-box{
+.img-box{
+	float: left;
 	width: 60%;
-	padding: 20px;
-	float: left;
-}
-.img-info-contents .select-box{
-	width: 40%;
-	padding: 20px;
-	float: left;
+	padding: 10px;
 }
 .img-box img{
 	width: 620px;
 	height: 555px;
 }
+.input-box{
+	float: left;
+	width: 40%;
+}
 .input-box div{
 	margin-top: 10px;
 }
-.input-box option{
-	font-size: 30px;
+.input-box input{
+	width: 400px; 
+	font-size: 25px;
 }
+.item-category select{
+	font-size: 30px;
+	width: 350px;
+}
+.add-option{
+	padding: 10px 45px 10px 0;
+}
+.add-button{
+	float: right;
+	font-size: 25px;
+}
+
 /* 옵션 텍스트 */
 /* 옵션 상세 내용 */
 .option-info-contents{
 	border: 1px solid gray;
-	padding: 20px 0;
-}
-.info-box{
-
+	padding: 20px 0 40px 0;
 }
 .info-box input{
 	float: left;
@@ -47,15 +56,19 @@
 	border: 1px solid gray;
 	text-align: center;
 }
+.info-box img{
+	margin-bottom: 20px;
+}
 
-/* 상품 정보 선택*/
-.contents-text{
+/* 상품 정보*/
+.contents-text,
+.option-text-contents{
 	margin: 50px 0 0 0;
 }
 .menu-info-box{
 	min-height: 200px;
 	border: 1px solid gray;
-	padding: 10px;
+	padding: 30px;
 	margin-bottom: 40px;
 	position: relative;
 }
@@ -86,15 +99,22 @@
 }
 
 
-
-
 /* 공통 적용 */
 .display-none{
 	display: none;
 }
 </style>
 <script type="text/javascript">
-
+$(document).ready(function(){
+	
+});	//레디
+function addOptionEvent(){
+	$('#add-option').click(function(){
+		var div = $('.info-box').last();
+		
+		var str = '<div class="info-box clearfix"><input placeholder="선택 옵션" name="select" readonly value=""><input placeholder="세부 옵션" name="detail" readonly value=""><input placeholder="상품 재고" name="stock" readonly value=""><input placeholder="가격" name="price" readonly value=""></div>'
+	});
+}
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -102,32 +122,44 @@
 		<!-- 이미지 박스 -->
 		<div class="img-info">
 			<div class="img-info-contents clearfix">
-				<div class="img-box clearfix">
+				<div class="img-box">
 					<div class="img-box-contents">
 						<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
 					</div>
 				</div>
 				<div class="input-box">
-					<div class="seller">
-						<h4>게시글 제목</h1>
-						<input style="width: 400px; font-size: 25px;">
+					<div class="item-category">
+						<h4>카테고리</h4>
+						<select>
+							<option>카테고리</option>
+							<option>01</option>
+							<option>02</option>
+							<option>03</option>
+						</select>
+					</div>
+					<div class="item-title">
+						<h4>게시글 제목</h4>
+						<input name="title">
 					</div>
 					<div class="item-select">
 						<h4>상품 선택</h4>
-						<input style="width: 400px; font-size: 25px;">
+						<input name="select">
 					</div>			
 					<div class="item-option">
 						<h4>세부 옵션</h4>
-						<input style="width: 400px; font-size: 25px;">
+						<input name="option">
 					</div>			
 					<div class="item-stock">
 						<h4>상품 재고</h4>
-						<input readonly>
+						<input name="stock">
 					</div>			
 					<div class="item-price">
 						<h4>가격</h4>
-						<input readonly>
-					</div>			
+						<input name="price">
+					</div>		
+					<div class="add-option clearfix">
+						<button class="add-button" id="add-option">옵션 추가</button>
+					</div>	
 				</div>
 			</div>
 		</div>
@@ -141,22 +173,10 @@
 		<div class="option-info">
 			<div class="option-info-contents">
 				<div class="info-box clearfix">
-					<input readonly value="선택 옵션">
-					<input readonly value="세부 옵션">
-					<input readonly value="상품 재고">
-					<input readonly value="가격">
-				</div>
-				<div class="info-box clearfix">
-					<input readonly>
-					<input readonly>
-					<input readonly>
-					<input readonly>
-				</div>
-				<div class="info-box clearfix">
-					<input readonly>
-					<input readonly>
-					<input readonly>
-					<input readonly>
+					<input placeholder="선택 옵션" name="select" readonly value="">
+					<input placeholder="세부 옵션" name="detail" readonly value="">
+					<input placeholder="상품 재고" name="stock" readonly value="">
+					<input placeholder="가격" name="price" readonly value="">
 				</div>
 			</div>
 		</div>
@@ -172,7 +192,6 @@
 					<div class="item-info">
 						<div class="info-box">
 							<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-							<h5>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h5>
 							<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
 						</div>
 					</div>

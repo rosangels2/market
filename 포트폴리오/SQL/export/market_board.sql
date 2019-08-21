@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `board`;
 CREATE TABLE `board` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `category_no` int(11) NOT NULL,
-  `item_no` int(11) NOT NULL,
+  `item_no` int(11) DEFAULT NULL,
   `writer` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `title` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `contents` longtext CHARACTER SET utf8 COLLATE utf8_bin,
@@ -39,7 +39,7 @@ CREATE TABLE `board` (
   KEY `fk_board_member1_idx` (`writer`),
   CONSTRAINT `fk_board_category1` FOREIGN KEY (`category_no`) REFERENCES `category` (`no`),
   CONSTRAINT `fk_board_item1` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`),
-  CONSTRAINT `fk_board_member1` FOREIGN KEY (`writer`) REFERENCES `member` (`ID`)
+  CONSTRAINT `fk_board_member1` FOREIGN KEY (`writer`) REFERENCES `member` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -61,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-20  1:26:58
+-- Dump completed on 2019-08-21 17:20:38

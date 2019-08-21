@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -27,11 +27,11 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `board_no` int(11) NOT NULL,
-  `to` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `to` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `writer` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `contents` longtext COLLATE utf8_bin,
+  `contents` longtext CHARACTER SET utf8 COLLATE utf8_bin,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `valid` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'I',
+  `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
   KEY `fk_comment_board1_idx` (`board_no`),
   KEY `fk_comment_member1_idx` (`to`),
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-20  1:26:56
+-- Dump completed on 2019-08-21 17:20:36

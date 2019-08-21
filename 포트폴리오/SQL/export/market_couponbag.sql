@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -26,14 +26,14 @@ DROP TABLE IF EXISTS `couponbag`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `couponbag` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
-  `ID` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `id` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `coupon_no` int(11) NOT NULL,
-  `valid` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'I',
+  `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
-  KEY `fk_couponBag_member1_idx` (`ID`),
+  KEY `fk_couponBag_member1_idx` (`id`),
   KEY `fk_couponBag_coupon1_idx` (`coupon_no`),
   CONSTRAINT `fk_couponBag_coupon1` FOREIGN KEY (`coupon_no`) REFERENCES `coupon` (`no`),
-  CONSTRAINT `fk_couponBag_member1` FOREIGN KEY (`ID`) REFERENCES `member` (`ID`)
+  CONSTRAINT `fk_couponBag_member1` FOREIGN KEY (`id`) REFERENCES `member` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-20  1:26:56
+-- Dump completed on 2019-08-21 17:20:36
