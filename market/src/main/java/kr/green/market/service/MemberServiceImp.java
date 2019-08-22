@@ -173,5 +173,13 @@ public class MemberServiceImp implements MemberService{
 	        System.out.println(e);
 	    }		
 	}
+
+	@Override
+	public Integer getSellerNo(String id) {
+		if(id == null) {
+			return null;
+		}
+		return memberDao.selectSellerNo(id);
+	}
 	
 }

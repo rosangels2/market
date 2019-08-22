@@ -28,4 +28,6 @@ public interface MemberService {
 
 	void sendMail(String email, String title, String contents);
 
+	Integer getSellerNo(String id);
+
 }

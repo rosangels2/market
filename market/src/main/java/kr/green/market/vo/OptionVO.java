@@ -10,6 +10,15 @@ public class OptionVO {
 	private Integer stock;
 	private String valid;
 	
+	public OptionVO(){
+		no = 0;
+		item_no = 0;
+		select = "";
+		detail = "";
+		price = 0;
+		stock = 0;
+		valid = "I";
+	}
 	
 	public Integer getNo() {
 		return no;

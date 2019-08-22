@@ -37,7 +37,7 @@ $(document).ready(function(){
 <div style="min-height: 1000px;">
 	<div class="container offset-4 col-4">
 		<div class="offset-2"> <h1>Find Password</h1></div>
-		<form method="post" action="<%=request.getContextPath()%>/password/send" id="findForm">
+		<form method="post" action="<%=request.getContextPath()%>/password/send" id="findForm" class="clearfix">
 			<div class="form-group">
 				<label for="id">ID</label>
 				<input type="text" class="form-control" id="id" placeholder="ID" name="id">
@@ -47,6 +47,12 @@ $(document).ready(function(){
 				<input type="email" class="form-control" id="email" placeholder="email" name="email">
 			</div>
 			<button type="button" class="btn btn-dark float-right" id="findBtn">Find</button>
+			<a href="<%=request.getContextPath()%>/idFind">
+				<button type="button" class="btn btn-dark float-left" style="margin-right: 15px;">Find ID</button>
+			</a>
+			<a href="<%=request.getContextPath()%>/signin">
+				<button type="button" class="btn btn-dark float-left" style="margin-right: 15px;">signin</button>
+			</a>
 		</form>
 	</div>
 </div>

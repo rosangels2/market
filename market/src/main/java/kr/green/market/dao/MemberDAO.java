@@ -14,4 +14,6 @@ public interface MemberDAO {
 
 	MemberVO selectMemberFind(@Param("email")String email, @Param("name")String name);
 
+	Integer selectSellerNo(String id);
+
 }

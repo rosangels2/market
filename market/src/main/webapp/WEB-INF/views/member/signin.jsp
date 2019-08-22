@@ -11,7 +11,7 @@
 <div style="min-height: 1000px;">
 	<div class="container offset-4 col-4">
 		<div class="offset-3"> <h1>Signin</h1></div>
-		<form method="post" action="" class="form">
+		<form method="post" action="" class="form clearfix">
 			<div class="form-group">
 				<label for="id">ID</label>
 				<input type="text" class="form-control" id="id" placeholder="ID" name="id">
@@ -21,11 +21,11 @@
 				<input type="password" class="form-control" id="password" placeholder="password" name="password">
 			</div>
 			<button class="btn btn-dark float-right">Signin</button>
-			<a href="<%=request.getContextPath()%>/passwordFind">
-				<button type="button" class="btn btn-dark float-right" style="margin-right: 15px;">Find Password</button>
-			</a>
 			<a href="<%=request.getContextPath()%>/idFind">
-				<button type="button" class="btn btn-dark float-right" style="margin-right: 15px;">Find ID</button>
+				<button type="button" class="btn btn-dark float-left" style="margin-right: 15px;">Find ID</button>
+			</a>
+			<a href="<%=request.getContextPath()%>/passwordFind">
+				<button type="button" class="btn btn-dark float-left" style="margin-right: 15px;">Find Password</button>
 			</a>
 		</form>
 	</div>

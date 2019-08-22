@@ -3,7 +3,7 @@ package kr.green.market.vo;
 public class FileVO {
 
 	private Integer no;
-	private Integer board_no;
+	private Integer item_no;
 	private String route;
 	private String valid;
 	
@@ -15,13 +15,16 @@ public class FileVO {
 		this.no = no;
 	}
 	public Integer getBoard_no() {
-		return board_no;
+		return item_no;
 	}
 	public void setBoard_no(Integer board_no) {
-		this.board_no = board_no;
+		this.item_no = board_no;
 	}
 	public String getRoute() {
-		return route;
+		if(route == null)
+			return "";
+		int index = route.indexOf("_");
+		return route.substring(index+1);
 	}
 	public void setRoute(String route) {
 		this.route = route;
@@ -36,7 +39,7 @@ public class FileVO {
 	
 	@Override
 	public String toString() {
-		return "FileVO [no=" + no + ", board_no=" + board_no + ", route=" + route + ", valid=" + valid + "]";
+		return "FileVO [no=" + no + ", item_no=" + item_no + ", route=" + route + ", valid=" + valid + "]";
 	}
 	
 }

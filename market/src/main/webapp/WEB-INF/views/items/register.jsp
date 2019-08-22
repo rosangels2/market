@@ -14,16 +14,23 @@
 }
 .img-box{
 	float: left;
-	width: 60%;
+	width: 59%;
 	padding: 10px;
+	min-height: 600px;
+	border: 1px solid gray;
 }
 .img-box img{
 	width: 620px;
 	height: 555px;
 }
+.img-box-contents{
+	text-align: center;
+	padding-top: 200px;
+}
 .input-box{
-	float: left;
+	float: right;
 	width: 40%;
+	min-height: 600px;
 }
 .input-box div{
 	margin-top: 10px;
@@ -111,16 +118,16 @@ $(document).ready(function(){
 });	//레디
 function addOptionEvent(){
 	$('#add-option').click(function(){
-		$('input[name=select]').last().val($('input[name=item-select]').val());
-		$('input[name=detail]').last().val($('input[name=item-detail]').val());
-		$('input[name=stock]').last().val($('input[name=item-stock]').val());
-		$('input[name=price]').last().val($('input[name=item-price]').val());
-		$('input[name=item-select]').val("");
-		$('input[name=item-detail]').val("");
-		$('input[name=item-stock]').val("");
-		$('input[name=item-price]').val("");
 		var str = '<div class="info-box clearfix"><input placeholder="선택 옵션" name="select" readonly value=""><input placeholder="세부 옵션" name="detail" readonly value=""><input placeholder="상품 재고" name="stock" readonly value=""><input placeholder="가격" name="price" readonly value=""></div>'
 		$('.option-info-contents').append(str);
+		$('input[name=select]').last().val($('#item-select').val());
+		$('input[name=detail]').last().val($('#item-detail').val());
+		$('input[name=stock]').last().val($('#item-stock').val());
+		$('input[name=price]').last().val($('#item-price').val());
+		$('#item-select').val("");
+		$('#item-detail').val("");
+		$('#item-stock').val("");
+		$('#item-price').val("");
 	});
 }
 function addInputEvent(){
@@ -134,102 +141,104 @@ function addInputEvent(){
 </head>
 <div style="min-height: 1000px;">
 	<div class="views-page">
-		<!-- 이미지 박스 -->
-		<div class="img-info">
-			<div class="img-info-contents clearfix">
-				<div class="img-box">
-					<div class="img-box-contents">
-						<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-					</div>
-				</div>
-				<div class="input-box">
-					<div class="item-category">
-						<h4>카테고리</h4>
-						<select>
-							<option>카테고리</option>
-							<option>01</option>
-							<option>02</option>
-							<option>03</option>
-						</select>
-					</div>
-					<div class="item-title">
-						<h4>게시글 제목</h4>
-						<input name="title">
-					</div>
-					<div class="item-select">
-						<h4>상품 선택</h4>
-						<input name="item-select">
-					</div>			
-					<div class="item-detail">
-						<h4>세부 옵션</h4>
-						<input name="item-detail">
-					</div>			
-					<div class="item-stock">
-						<h4>상품 재고</h4>
-						<input name="item-stock">
-					</div>			
-					<div class="item-price">
-						<h4>가격</h4>
-						<input name="item-price">
-					</div>		
-					<div class="add-option clearfix">
-						<button class="add-button" id="add-option">옵션 추가</button>
-					</div>	
-				</div>
-			</div>
-		</div>
-		<!-- 옵션 텍스트 -->
-		<div class="option-text">
-			<div class="option-text-contents">
-				<h1>선택 옵션</h1>
-			</div>
-		</div>
-		<!-- 선택 옵션 정보 -->
-		<div class="option-info">
-			<div class="option-info-contents">
-				<div class="info-box clearfix">
-					<input placeholder="선택 옵션" name="select" readonly value="">
-					<input placeholder="세부 옵션" name="detail" readonly value="">
-					<input placeholder="상품 재고" name="stock" readonly value="">
-					<input placeholder="가격" name="price" readonly value="">
-				</div>
-			</div>
-		</div>
-		<!-- 메뉴 선택 박스 -->
-		<div class="contents-text">
-			<h2>내용</h2>
-		</div>
-		<!-- 선택한 메뉴의 html -->
-		<div class="menu-info">
-			<div class="menu-info-contents">
-				<div class="menu-info-box">
-					<!-- 상품 상세 정보 -->
-					<div class="item-info">
-						<div class="info-box">
-							<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-							<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
+		<form method="post" action="<%=request.getContextPath()%>/items/register" enctype="multipart/form-data">
+			<!-- 이미지 박스 -->
+			<div class="img-info">
+				<div class="img-info-contents clearfix">
+					<div class="img-box">
+						<div class="img-box-contents">
+							<h1>대표 이미지</h1>
+							<h4>(첫 번째 첨부파일)</h4>
 						</div>
 					</div>
-					<div class="contents-bottom">
-						<div class="bottom-box">
-						
+					<div class="input-box">
+						<div class="item-category" style="margin-top: 0;">
+							<h4>카테고리</h4>
+							<select>
+								<option>카테고리</option>
+								<option>01</option>
+								<option>02</option>
+								<option>03</option>
+							</select>
+						</div>
+						<!-- 작성자 ID 전송 -->
+						<div class="display-none">
+							<h4>작성자 아이디</h4>
+							<input type="hidden" name="id" value="${user.id}">
+						</div>
+						<div class="item-title">
+							<h4>상품명</h4>
+							<input name="title">
+						</div>
+						<div class="item-select">
+							<h4>상품 선택</h4>
+							<input id="item-select">
+						</div>			
+						<div class="item-detail">
+							<h4>세부 옵션</h4>
+							<input id="item-detail">
+						</div>			
+						<div class="item-stock">
+							<h4>상품 재고</h4>
+							<input id="item-stock">
+						</div>			
+						<div class="item-price">
+							<h4>가격</h4>
+							<input id="item-price">
+						</div>		
+						<div class="add-option clearfix">
+							<button type="button" class="add-button" id="add-option">옵션 추가</button>
+						</div>	
+					</div>
+				</div>
+			</div>
+			<!-- 옵션 텍스트 -->
+			<div class="option-text">
+				<div class="option-text-contents">
+					<h1>선택 옵션</h1>
+				</div>
+			</div>
+			<!-- 선택 옵션 정보 -->
+			<div class="option-info">
+				<div class="option-info-contents">
+				  
+				</div>
+			</div>
+			<!-- 메뉴 선택 박스 -->
+			<div class="contents-text">
+				<h2>내용</h2>
+			</div>
+			<!-- 선택한 메뉴의 html -->
+			<div class="menu-info">
+				<div class="menu-info-contents">
+					<div class="menu-info-box">
+						<!-- 상품 상세 정보 -->
+						<div class="item-info">
+							<div class="info-box">
+								<h2>첨부파일들 표시</h2>
+							</div>
+						</div>
+						<div class="contents-bottom">
+							<div class="bottom-box">
+							
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="form-group">
-		  <label style="font-size:30px;">첨부파일</label>
-		  <input type="file" class="form-control" name="file2" value="">
-		</div>		
-		<div class="button-box clearfix">
-			<button><h3>등록하기</h3></button>
-		</div>
-		<div class="bottom-box">
-			<div class="bottom-contents">
-			
+			<div class="form-group">
+			  <label style="font-size:30px;">첨부파일</label>
+			  <input type="file" class="form-control" name="file2" value="">
+			</div>		
+			<div class="button-box clearfix">
+				<button><h3>등록하기</h3></button>
 			</div>
-		</div>
+			<div class="bottom-box">
+				<div class="bottom-contents">
+				
+				</div>
+			</div>
+		</form>
 	</div>
 </div>
 </html>

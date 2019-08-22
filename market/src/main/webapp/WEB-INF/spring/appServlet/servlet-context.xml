@@ -63,7 +63,7 @@
 	    <!--
 		<beans:constructor-arg value="서버에 저장할 경로"></beans:constructor-arg>
 		-->
-	    <beans:constructor-arg value="C:\\최진영\\git\\market\\uploadFiles"></beans:constructor-arg>	<!-- \\를 두개씩 입력 -->
+	    <beans:constructor-arg value="C:\\최진영\\git\\market\\market\\src\\main\\webapp\\resources\\uploadFiles"></beans:constructor-arg>	<!-- \\를 두개씩 입력 -->
 	</beans:bean>	
 	
 	
