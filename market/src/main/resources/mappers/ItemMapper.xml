@@ -8,14 +8,27 @@
 		values(#{seller_no}, #{category_no}, #{title})
 </insert>
 <select id="selectItemNo" resultType="int">
-	select max(no) from item
+	select max(no) from market.item
 </select>
 <insert id="insertOption">
-	insert into option1(item_no, select1, detail, stock, price)
+	insert into market.option(item_no, market.select, detail, stock, price)
 		values(#{oVo.item_no}, #{oVo.select}, #{oVo.detail}, #{oVo.stock}, #{oVo.price})
 </insert>
 <insert id="insertFile">
-	insert into file(item_no,route)
+	insert into market.file(item_no,route)
 		 values(#{item_no}, #{file})
 </insert>
+<select id="selectFile" resultType="String">
+	select min(route) from market.file
+	where item_no = #{item_no}
+</select>
+<select id="selectItem" resultType="kr.green.market.dao.ItemDAO">
+	select * from market.item
+	where item.no = #{no}
+</select>
+<update id="updateItem">
+	update market.item
+	set category_no = #{iVo.category_no}, item.name = #{iVo.name}, item.file = #{iVo.file}, commend = #{iVo.commend}
+	where item.no = #{iVo.no}
+</update>
 </mapper>

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,8 @@ public class ItemsController {
 	private String uploadPath;
 	
     @RequestMapping(value= "/list")
-    public ModelAndView itemList(ModelAndView mv) throws Exception{
+    public ModelAndView itemList(ModelAndView mv, Model model) throws Exception{
+    	
         mv.setViewName("/items/list");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
@@ -68,9 +70,10 @@ public class ItemsController {
 				itemService.addFile(file, itemNo);
 			}
 		}
+		itemService.registerFile(itemNo);
         OptionVO oVo = new OptionVO();
         oVo.setItem_no(itemNo);
-        if(select.length == 0 || detail.length == 0 || stock == null || price == null){
+        if(select[0] == "" || detail[0] == "" || stock[0] == null || price[0] == null){
         	return "redirect:/items/register";
         }
         itemService.registerOption(oVo, select, detail, stock, price);

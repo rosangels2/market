@@ -10,4 +10,6 @@ public interface ItemService {
 
 	void addFile(String file, int itemNo);
 
+	void registerFile(int itemNo);
+
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.ItemDAO;
+import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
 
 @Service
@@ -39,6 +40,13 @@ public class ItemServiceImp implements ItemService{
 	@Override
 	public void addFile(String file, int itemNo) {
 		itemDao.insertFile(file, itemNo);
+	}
+	@Override
+	public void registerFile(int itemNo) {
+		String file =  itemDao.selectFile(itemNo);
+		ItemVO iVo = itemDao.selectItem(itemNo);
+		iVo.setFile(file);
+		itemDao.updateItem(iVo);
 	}
 
 }

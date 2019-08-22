@@ -6,10 +6,9 @@ public class OptionVO {
 	private Integer item_no;
 	private String select;
 	private String detail;
-	private Integer price;
 	private Integer stock;
+	private Integer price;
 	private String valid;
-	
 	public OptionVO(){
 		no = 0;
 		item_no = 0;
