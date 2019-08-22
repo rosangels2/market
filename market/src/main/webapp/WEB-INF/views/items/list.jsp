@@ -227,45 +227,47 @@ $(document).ready(function(){
 			<!-- 상품 목록창 -->
 			<div class="item-list">
 				<div class="item-list-contents">
-					<div class="item-contents clearfix">
-						<div class="item-img">
-							<a href="#">
-								<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles/2019/08/22/655ef1a8-bd4a-44f3-8b1c-72529ab4c200_market.png">
-							</a>
-						</div>
-						<div class="item-info">
-							<div><h3>상품명</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
+					<c:forEach var="item" items="itemList">
+						<div class="item-contents clearfix">
+							<div class="item-img">
+								<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+									<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
 								</a>
 							</div>
-						</div>
-						<div class="item-info">
-							<div><h3>가격</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>					
-						</div>
-						<div class="item-info">
-							<div><h3>추천 수</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>		
-						</div>
-						<div class="item-info">
-							<div><h3>판매자</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>				
-						</div>
-					</div>																			
+							<div class="item-info">
+								<div><h3>상품명</h3></div>
+								<div class="item-link">
+									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+										<h3>${item.name}</h3>
+									</a>
+								</div>
+							</div>
+							<div class="item-info">
+								<div><h3>가격</h3></div>
+								<div class="item-link">
+									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+										<h3>${item.price}</h3> 
+									</a>
+								</div>					
+							</div>
+							<div class="item-info">
+								<div><h3>추천 수</h3></div>
+								<div class="item-link">
+									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+										<h3>${item.commend}</h3>
+									</a>
+								</div>		
+							</div>
+							<div class="item-info">
+								<div><h3>판매자</h3></div>
+								<div class="item-link">
+									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+										<h3>${item.seller_id}</h3>
+									</a>
+								</div>				
+							</div>
+						</div>	
+					</c:forEach>																		
 				</div>
 			</div>
 			<div class="more-img-box" style="text-align: center;">

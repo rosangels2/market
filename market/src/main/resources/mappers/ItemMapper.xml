@@ -31,4 +31,7 @@
 	set category_no = #{iVo.category_no}, item.name = #{iVo.name}, item.file = #{iVo.file}, commend = #{iVo.commend}
 	where item.no = #{iVo.no}
 </update>
+<select id="selectItemList" resultType="kr.green.market.dao.ItemDAO">
+	select * from market.item;
+</select>
 </mapper>

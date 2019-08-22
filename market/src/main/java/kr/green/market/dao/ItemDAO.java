@@ -1,5 +1,7 @@
 package kr.green.market.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
 import kr.green.market.vo.FileVO;
@@ -21,5 +23,7 @@ public interface ItemDAO {
 	ItemVO selectItem(@Param("no")int itemNo);
 
 	void updateItem(@Param("iVo")ItemVO iVo);
+
+	ArrayList<ItemVO> selectItemList();
 
 }

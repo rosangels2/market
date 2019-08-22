@@ -1,5 +1,8 @@
 package kr.green.market.service;
 
+import java.util.ArrayList;
+
+import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
 
 public interface ItemService {
@@ -11,5 +14,7 @@ public interface ItemService {
 	void addFile(String file, int itemNo);
 
 	void registerFile(int itemNo);
+
+	ArrayList<ItemVO> getItemList();
 
 }

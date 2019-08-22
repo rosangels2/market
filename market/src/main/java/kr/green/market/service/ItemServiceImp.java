@@ -1,5 +1,7 @@
 package kr.green.market.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +50,8 @@ public class ItemServiceImp implements ItemService{
 		iVo.setFile(file);
 		itemDao.updateItem(iVo);
 	}
-
+	@Override
+	public ArrayList<ItemVO> getItemList() {
+		return itemDao.selectItemList();
+	}
 }

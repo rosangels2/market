@@ -7,9 +7,10 @@ import java.util.Date;
 public class ItemVO {
 
 	private Integer no;
-	private Integer seller_no;
 	private Integer category_no;
+	private String seller_id;
 	private String name;
+	private String price;
 	private String information;
 	private String file;
 	private Date time;
@@ -17,6 +18,14 @@ public class ItemVO {
 	private String valid;
 	
 	
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
 	public String getFileName(){	//파일명 추출 getter
 		if(file == null){
 			return "";
@@ -34,11 +43,11 @@ public class ItemVO {
 	public void setNo(Integer no) {
 		this.no = no;
 	}
-	public Integer getSeller_no() {
-		return seller_no;
+	public String getSeller_id() {
+		return seller_id;
 	}
-	public void setSeller_no(Integer seller_no) {
-		this.seller_no = seller_no;
+	public void setSeller_id(String seller_id) {
+		this.seller_id = seller_id;
 	}
 	public Integer getCategory_no() {
 		return category_no;
@@ -92,9 +101,9 @@ public class ItemVO {
 	
 	@Override
 	public String toString() {
-		return "ItemVO [no=" + no + ", seller_no=" + seller_no + ", category_no=" + category_no + ", name=" + name
-				+ ", information=" + information + ", file=" + file + ", time=" + time + ", commend=" + commend
-				+ ", valid=" + valid + "]";
+		return "ItemVO [no=" + no + ", category_no=" + category_no + ", seller_id=" + seller_id + ", name=" + name
+				+ ", price=" + price + ", information=" + information + ", file=" + file + ", time=" + time
+				+ ", commend=" + commend + ", valid=" + valid + "]";
 	}
-	
+
 }

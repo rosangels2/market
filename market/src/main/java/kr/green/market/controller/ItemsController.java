@@ -3,6 +3,7 @@ package kr.green.market.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.utils.UploadFileUtils;
+import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
 
 @Controller
@@ -40,7 +42,8 @@ public class ItemsController {
 	
     @RequestMapping(value= "/list")
     public ModelAndView itemList(ModelAndView mv, Model model) throws Exception{
-    	
+    	ArrayList<ItemVO> itemList = itemService.getItemList();
+    	model.addAttribute("itemList", itemList);
         mv.setViewName("/items/list");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
