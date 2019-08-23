@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -9,7 +9,7 @@ USE `market`;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,22 +23,22 @@ USE `market`;
 
 DROP TABLE IF EXISTS `item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `item` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `category_no` int(11) NOT NULL,
-  `seller_id` varchar(12) COLLATE utf8_bin DEFAULT NULL,
-  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `seller_id` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `title` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `information` longtext CHARACTER SET utf8 COLLATE utf8_bin,
-  `file` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `file` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `time` datetime DEFAULT CURRENT_TIMESTAMP,
   `commend` int(11) NOT NULL DEFAULT '0',
   `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
   KEY `fk_item_category1_idx` (`category_no`),
   CONSTRAINT `fk_item_category1` FOREIGN KEY (`category_no`) REFERENCES `category` (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +47,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,1,'z11111111','1',1,'1','/2019/08/23/2764898f-084c-4f48-8b41-414808288be5_market.png','2019-08-23 10:35:12',0,'I'),(2,1,'z11111111','로지텍 마우스',30000,NULL,'/2019/08/23/2764898f-084c-4f48-8b41-414808288be5_market.png','2019-08-23 10:47:50',0,'I'),(3,1,'z11111111','로지텍 마우스',30000,NULL,'/2019/08/23/2764898f-084c-4f48-8b41-414808288be5_market.png','2019-08-23 10:52:46',0,'I'),(4,1,'z11111111','로지텍 마우스',30000,NULL,'/2019/08/23/2764898f-084c-4f48-8b41-414808288be5_market.png','2019-08-23 10:56:03',0,'I'),(5,1,'z11111111','로지텍 마우스',30000,NULL,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','2019-08-23 11:02:08',0,'I');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-22 22:11:42
+-- Dump completed on 2019-08-23 17:13:06

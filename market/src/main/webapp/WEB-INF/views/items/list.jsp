@@ -227,7 +227,7 @@ $(document).ready(function(){
 			<!-- 상품 목록창 -->
 			<div class="item-list">
 				<div class="item-list-contents">
-					<c:forEach var="item" items="itemList">
+					<c:forEach var="item" items="${itemList}">
 						<div class="item-contents clearfix">
 							<div class="item-img">
 								<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
@@ -238,7 +238,7 @@ $(document).ready(function(){
 								<div><h3>상품명</h3></div>
 								<div class="item-link">
 									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
-										<h3>${item.name}</h3>
+										<h3>${item.title}</h3>
 									</a>
 								</div>
 							</div>

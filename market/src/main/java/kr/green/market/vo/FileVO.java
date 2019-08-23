@@ -21,10 +21,7 @@ public class FileVO {
 		this.item_no = board_no;
 	}
 	public String getRoute() {
-		if(route == null)
-			return "";
-		int index = route.indexOf("_");
-		return route.substring(index+1);
+		return route;
 	}
 	public void setRoute(String route) {
 		this.route = route;

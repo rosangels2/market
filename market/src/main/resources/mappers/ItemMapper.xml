@@ -4,14 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.green.market.dao.ItemDAO">	<!-- DAO 인터페이스가 있는 파일명 -->
 <insert id="insertItem">
-	insert into item(seller_no, category_no, title)
-		values(#{seller_no}, #{category_no}, #{title})
+	insert into item(seller_id, category_no, title, price)
+		values(#{seller_id}, #{category_no}, #{title}, #{price})
 </insert>
 <select id="selectItemNo" resultType="int">
 	select max(no) from market.item
 </select>
 <insert id="insertOption">
-	insert into market.option(item_no, market.select, detail, stock, price)
+	insert into market.option(item_no, option.select, detail, stock, price)
 		values(#{oVo.item_no}, #{oVo.select}, #{oVo.detail}, #{oVo.stock}, #{oVo.price})
 </insert>
 <insert id="insertFile">
@@ -22,16 +22,32 @@
 	select min(route) from market.file
 	where item_no = #{item_no}
 </select>
-<select id="selectItem" resultType="kr.green.market.dao.ItemDAO">
+<select id="selectItem" resultType="kr.green.market.vo.ItemVO">
 	select * from market.item
 	where item.no = #{no}
 </select>
 <update id="updateItem">
 	update market.item
-	set category_no = #{iVo.category_no}, item.name = #{iVo.name}, item.file = #{iVo.file}, commend = #{iVo.commend}
+	set category_no = #{iVo.category_no}, item.title = #{iVo.title}, item.file = #{iVo.file}, commend = #{iVo.commend}
 	where item.no = #{iVo.no}
 </update>
-<select id="selectItemList" resultType="kr.green.market.dao.ItemDAO">
+<select id="selectItemList" resultType="kr.green.market.vo.ItemVO">
 	select * from market.item;
+</select>
+<select id="selectFiles" resultType="kr.green.market.vo.FileVO">
+	select * from market.file
+	where item_no = #{item_no}
+</select>
+<select id="selectSeller" resultType="kr.green.market.vo.SellerVO">
+	select * from seller
+	where id = #{id}
+</select>
+<select id="selectOptions" resultType="kr.green.market.vo.OptionVO">
+	select * from `option`
+	where item_no = #{item_no}
+</select>
+<select id="selectDetails" resultType="kr.green.market.vo.OptionVO">
+	select * from `option`
+	where item_no = #{item_no} and `select` = #{select}
 </select>
 </mapper>

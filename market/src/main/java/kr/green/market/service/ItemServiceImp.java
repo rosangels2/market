@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.ItemDAO;
+import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
+import kr.green.market.vo.SellerVO;
 
 @Service
 public class ItemServiceImp implements ItemService{
@@ -15,11 +17,11 @@ public class ItemServiceImp implements ItemService{
 	@Autowired
 	ItemDAO itemDao;
 	@Override
-	public int registerItem(Integer sellerNo, Integer categoryNo, String title) {
-		if(sellerNo == null || categoryNo == null || title == null){
+	public int registerItem(String seller_id, Integer categoryNo, String title, Integer price1) {
+		if(seller_id == null || categoryNo == null || title == null || price1 == null){
 			return -1;
 		}
-		itemDao.insertItem(sellerNo, categoryNo, title);
+		itemDao.insertItem(seller_id, categoryNo, title, price1);
 		return itemDao.selectItemNo();
 	}
 	@Override
@@ -53,5 +55,48 @@ public class ItemServiceImp implements ItemService{
 	@Override
 	public ArrayList<ItemVO> getItemList() {
 		return itemDao.selectItemList();
+	}
+	@Override
+	public ItemVO getItem(Integer no) {
+		if(no == null){
+			return null;
+		}
+		ItemVO iVo = itemDao.selectItem(no);
+		if(iVo == null) {
+			return null;
+		}
+		return iVo;
+	}
+	@Override
+	public ArrayList<FileVO> getFiles(Integer no) {
+		if(no == null){
+			return null;
+		}
+		return itemDao.selectFiles(no);
+	}
+	@Override
+	public SellerVO getSellerName(String seller_id) {
+		if(seller_id == null){
+			return null;
+		}
+		SellerVO sVo = itemDao.selectSeller(seller_id);
+		if(sVo == null){
+			return null;
+		}
+		return sVo;
+	}
+	@Override
+	public ArrayList<OptionVO> getItemOptions(Integer no) {
+		if(no == null){
+			return null;
+		}
+		return itemDao.selectOptions(no);
+	}
+	@Override
+	public ArrayList<OptionVO> getOptionDetail(Integer item_no, String select) {
+		if(item_no == null || select == null){
+			return null;
+		}
+		return itemDao.selectDetails(item_no, select);
 	}
 }

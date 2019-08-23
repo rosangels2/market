@@ -27,10 +27,16 @@
 	height: 555px;
 }
 .select-box div{
-	margin-top: 10px;
+	margin-top: 20px;
+}
+.select-box .title{
+	margin: 30px 0;
 }
 .select-box option{
 	font-size: 30px;
+}
+.select-box input{
+	border: none;
 }
 /* 옵션 텍스트 */
 /* 옵션 상세 내용 */
@@ -41,6 +47,9 @@
 .info-box{
 
 }
+.info-box img{
+	margin-top: 20px;
+}
 .info-box input{
 	float: left;
 	margin: 20px 40px 0 40px;
@@ -49,6 +58,7 @@
 }
 .info-box-last{
 	padding: 20px 70px;
+	margin-top: 30px;
 }
 .info-box-last input{
 	float: right;
@@ -92,7 +102,6 @@
 /* 상품 정보 선택*/
 .menu-info-box{
 	min-height: 200px;
-	border: 1px solid gray;
 	padding: 10px;
 	margin-bottom: 40px;
 	position: relative;
@@ -133,7 +142,31 @@
 }
 </style>
 <script type="text/javascript">
-
+var data2;
+$(document).ready(function(){
+	$('#item-select').change(function(){
+			 alert($(this).val());
+			 var option = $(this).val();
+			 $.ajax({ 
+			        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+			        type:'POST',	//POST방식으로 전송
+			        data:option,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+			        url:"<%=request.getContextPath()%>/items/dup",
+			        dataType:"json",
+			        contentType:"application/json; charset=UTF-8",
+			        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+			        	date2 = data.oVo;
+			        	 console.log(data.oVo);
+			        	 var str = "";
+			        	 str += '<option>세부 옵션 선택</option>';
+			        	 for(var i = 0; i<data.oVo.length; i++){
+			        	 	str += '<option>'+data.oVo[i].detail+'</option>'
+			        	 }
+			        	 $('#option-select').html(str);
+			        }
+			  });
+	});
+});	//레디
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -143,48 +176,48 @@
 			<div class="img-info-contents clearfix">
 				<div class="img-box clearfix">
 					<div class="img-box-contents">
-						<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
+						<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
 					</div>
 				</div>
 				<div class="select-box">
-					<div class="seller">
-						<h4>판매자명</h1>
+					<div class="seller" style="margin:0;">
+						<h4>${seller.name}</h4>
 					</div>
 					<div class="title">
-						<h1>상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명</h1>
+						<h1>${item.title}</h1>
 					</div>
 					<div class="register">
 						<h4>작성일</h1>
-						<input readonly>
+						<input readonly value="${item.time}">
 					</div>
 					<div class="commend">
 						<h4>추천 수</h1>
-						<input readonly>
+						<input readonly value="${item.commend}" style="padding-left: 20px;">
 					</div>		
 					<div class="item-select">
 						<h4>상품 선택</h4>
-						<select>
-							<option>상품 선택</option>
-							<option>1234567891111111111111111111111111</option>
-							<option>123456789</option>
+						<select id="item-select">
+							<option value="0">상품 선택</option>
+						<c:forEach var="itemOption" items="${options}">
+							<option value="item_no=${itemOption.item_no}&select=${itemOption.select}">${itemOption.select}</option>
+						</c:forEach>
 						</select>
 					</div>			
 					<div class="item-option">
 						<h4>세부 옵션</h4>
-						<select>
+						<select id="option-select">
 							<option>세부 옵션 선택</option>
-							<option>12345678911111111111111111111111</option>
-							<option>123456789</option>
-						</select>
-					</div>			
-					<div class="item-stock">
-						<h4>상품 재고</h4>
-						<input readonly>
-					</div>			
+						</select>  
+					</div>				
 					<div class="item-price">
 						<h4>가격</h4>
-						<input readonly>
-					</div>			
+						<input readonly value="" style="width: 80px;" id="item-price">원
+					</div>
+					<div class="item-stock">
+						<h4>선택 수량</h4> 
+						<input placeholder="0" style="width: 80px; border: 1px solid gray; text-align: center;">
+						<button>선택</button>
+					</div>					
 				</div>
 			</div>
 		</div>
@@ -203,22 +236,11 @@
 					<input readonly value="선택 수량">
 					<input readonly value="가격">
 				</div>
-				<div class="info-box clearfix">
-					<input readonly>
-					<input readonly>
-					<input readonly>
-					<input readonly>
-				</div>
-				<div class="info-box clearfix">
-					<input readonly>
-					<input readonly>
-					<input readonly>
-					<input readonly>
-				</div>
 				<div class="info-box info-box-last clearfix">
-					<input readonly value="총 상품 가격">
+					<h3 class="float-left" style="margin-top:15px;">결제 예상액</h3>
+					<input readonly value="최종 주문 가격" style="margin-right: 54px;">
 					<input readonly value="배송비">
-					<input readonly value="총 주문 가격">
+					<input readonly value="총 상품 가격">
 				</div>
 			</div>
 		</div>
@@ -262,9 +284,9 @@
 					<!-- 상품 상세 정보 -->
 					<div class="item-info">
 						<div class="info-box">
-							<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-							<h5>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h5>
-							<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
+							<c:forEach var="files" items="${itemFiles}">
+								<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${files.route}">
+							</c:forEach>
 						</div>
 						<div class="contents-bottom">
 							<div class="bottom-box">

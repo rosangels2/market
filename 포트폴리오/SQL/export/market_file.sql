@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -9,7 +9,7 @@ USE `market`;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `market`;
 
 DROP TABLE IF EXISTS `file`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `file` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `item_no` int(11) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `file` (
   PRIMARY KEY (`no`),
   KEY `fk_file_board1_idx` (`item_no`),
   CONSTRAINT `fk_file_itemNo` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `file` (
 
 LOCK TABLES `file` WRITE;
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
+INSERT INTO `file` VALUES (3,1,'12345','I'),(5,2,'/2019/08/23/b9436073-c2ad-4428-a4da-52373acfab67_market.png','I'),(6,3,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.png','I'),(7,4,'/2019/08/23/2764898f-084c-4f48-8b41-414808288be5_market.png','I'),(8,5,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(9,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(10,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(11,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(12,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I');
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-22 22:11:43
+-- Dump completed on 2019-08-23 17:13:07

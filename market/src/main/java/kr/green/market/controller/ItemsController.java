@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,8 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.utils.UploadFileUtils;
+import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
+import kr.green.market.vo.SellerVO;
 
 @Controller
 @RequestMapping(value= "/items")
@@ -48,10 +53,42 @@ public class ItemsController {
         return mv;
     }
     @RequestMapping(value= "/detail")
-    public ModelAndView itemsDetail(ModelAndView mv) throws Exception{
+    public ModelAndView itemsDetail(ModelAndView mv, Model model, Integer no) throws Exception{
+    	ItemVO iVo = itemService.getItem(no);	//상품 상세 정보 불러오기
+    	model.addAttribute("item", iVo);
+    	ArrayList<FileVO> itemFiles = itemService.getFiles(no);		//상품 첨부파일 불러오기
+    	System.out.println("itemDetail itemFiles : " + itemFiles);
+    	if(itemFiles != null){
+    		model.addAttribute("itemFiles", itemFiles);
+    	}
+    	SellerVO sVo = itemService.getSellerName(iVo.getSeller_id());	//판매자 정보 불러오기
+    	System.out.println("itemDetail sVo : " + sVo);
+    	model.addAttribute("seller", sVo);
+    	ArrayList<OptionVO> options = itemService.getItemOptions(no);
+    	System.out.println("itemDetail Options : " + options);
+    	model.addAttribute("options", options);
         mv.setViewName("/items/detail");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
+	@RequestMapping(value="/dup")	//세부 옵션 불러오기
+	@ResponseBody
+	public Map<Object, Object> getDetailOptions(@RequestBody String option){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("getDetailOptions option" + option);
+	    String[] arr = option.split("&");
+	    String no = arr[0];
+	    String select = arr[1];
+	    System.out.println("getDetailOptions no : " + no + " , select : " + select);
+	    no = memberService.getVal(no);
+	    select = memberService.getVal(select);
+	    int item_no1 = Integer.parseInt(no);
+	    Integer item_no = item_no1;
+	    System.out.println("getDetailOptions item_no : " + item_no + " , select : " + select);
+	    ArrayList<OptionVO> oVo = itemService.getOptionDetail(item_no, select);
+	    System.out.println("getDetailOptions oVo : " + oVo);
+	    map.putIfAbsent("oVo", oVo);
+	    return map;
+	}
     @RequestMapping(value= "/order")
     public ModelAndView order(ModelAndView mv) throws Exception{
         mv.setViewName("/items/order");		//타일즈를 통해 불러올 jsp 경로
@@ -63,10 +100,9 @@ public class ItemsController {
         return mv;
     }
     @RequestMapping(value= "/register", method = RequestMethod.POST)
-    public String itemRegisterPost(MultipartFile[] file2, String id, String title, String[] select,  String[] detail,  Integer[] stock,  Integer[] price) throws Exception{
-        Integer sellerNo = memberService.getSellerNo(id);
+    public String itemRegisterPost(MultipartFile[] file2, String seller_id, String title, Integer price1, String[] select,  String[] detail,  Integer[] stock,  Integer[] price) throws Exception{
         Integer categoryNo = 1;
-        int itemNo = itemService.registerItem(sellerNo, categoryNo, title);
+        int itemNo = itemService.registerItem(seller_id, categoryNo, title, price1);
 		for(MultipartFile tmp : file2){
 			if(tmp.getOriginalFilename().length() != 0) {
 				String file = UploadFileUtils.uploadFile(uploadPath, tmp.getOriginalFilename(),tmp.getBytes());
@@ -76,9 +112,6 @@ public class ItemsController {
 		itemService.registerFile(itemNo);
         OptionVO oVo = new OptionVO();
         oVo.setItem_no(itemNo);
-        if(select[0] == "" || detail[0] == "" || stock[0] == null || price[0] == null){
-        	return "redirect:/items/register";
-        }
         itemService.registerOption(oVo, select, detail, stock, price);
         return "redirect:/items/list";
         

@@ -164,18 +164,22 @@ function addInputEvent(){
 						<!-- 작성자 ID 전송 -->
 						<div class="display-none">
 							<h4>작성자 아이디</h4>
-							<input type="hidden" name="id" value="${user.id}">
+							<input type="hidden" name="seller_id" value="${user.id}">
 						</div>
 						<div class="item-title">
-							<h4>상품명</h4>
+							<h4>상품 제목</h4>
 							<input name="title">
 						</div>
+						<div class="item-price1">
+							<h4>대표 상품 가격</h4>
+							<input name="price1">
+						</div>
 						<div class="item-select">
-							<h4>상품 선택</h4>
+							<h4>상품 옵션</h4>
 							<input id="item-select">
 						</div>			
 						<div class="item-detail">
-							<h4>세부 옵션</h4>
+							<h4>상품 세부 옵션</h4>
 							<input id="item-detail">
 						</div>			
 						<div class="item-stock">

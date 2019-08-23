@@ -9,7 +9,7 @@ public class ItemVO {
 	private Integer no;
 	private Integer category_no;
 	private String seller_id;
-	private String name;
+	private String title;
 	private String price;
 	private String information;
 	private String file;
@@ -21,22 +21,9 @@ public class ItemVO {
 	public String getPrice() {
 		return price;
 	}
-
 	public void setPrice(String price) {
 		this.price = price;
 	}
-
-	public String getFileName(){	//파일명 추출 getter
-		if(file == null){
-			return "";
-		}
-		int index = file.indexOf("_");	//UUID 뒤에 오는 첫번째 _의 위치를 찾아서 저장
-		if(index == -1){	//파일이 없을 때의 예외처리
-			return "";
-		}
-		return file.substring(index+1);	// _ 다음 위치의 문자열을 서브스트링으로 변환하여 반환
-	}
-	
 	public Integer getNo() {
 		return no;
 	}
@@ -55,11 +42,11 @@ public class ItemVO {
 	public void setCategory_no(Integer category_no) {
 		this.category_no = category_no;
 	}
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getInformation() {
 		return information;
@@ -97,11 +84,21 @@ public class ItemVO {
 			e.printStackTrace();
 		}
 	}
+	public String getFileName(){	//파일명 추출 getter
+		if(file == null){
+			return "";
+		}
+		int index = file.indexOf("_");	//UUID 뒤에 오는 첫번째 _의 위치를 찾아서 저장
+		if(index == -1){	//파일이 없을 때의 예외처리
+			return "";
+		}
+		return file.substring(index+1);	// _ 다음 위치의 문자열을 서브스트링으로 변환하여 반환
+	}
 
 	
 	@Override
 	public String toString() {
-		return "ItemVO [no=" + no + ", category_no=" + category_no + ", seller_id=" + seller_id + ", name=" + name
+		return "ItemVO [no=" + no + ", category_no=" + category_no + ", seller_id=" + seller_id + ", title=" + title
 				+ ", price=" + price + ", information=" + information + ", file=" + file + ", time=" + time
 				+ ", commend=" + commend + ", valid=" + valid + "]";
 	}
