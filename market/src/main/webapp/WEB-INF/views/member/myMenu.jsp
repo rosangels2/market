@@ -241,6 +241,9 @@
 .display-none{
 	display: none;
 }
+.background-gray{
+	background-color: gray;
+}
 </style>
 <script type="text/javascript">
 $.validator.addMethod(
@@ -298,45 +301,110 @@ $(document).ready(function(){
         }
 	});
 	
+	$('.nav-bar .order-list').click(function(){
+		$('.nav-bar .order-list').siblings().removeClass('background-gray');
+		$('.nav-bar .order-list').addClass('background-gray');
+		$('.info-contents .order-list').siblings().addClass('display-none');
+		$('.info-contents .order-list').removeClass('display-none');
+	});
+	$('.nav-bar .my-info').click(function(){
+		$('.nav-bar .my-info').siblings().removeClass('background-gray');
+		$('.nav-bar .my-info').addClass('background-gray');
+		$('.info-contents .my-info').siblings().addClass('display-none');
+		$('.info-contents .my-info').removeClass('display-none');
+	});
+	$('.nav-bar .info-modify').click(function(){
+		$('.nav-bar .info-modify').siblings().removeClass('background-gray');
+		$('.nav-bar .info-modify').addClass('background-gray');
+		$('.info-contents .info-modify').siblings().addClass('display-none');
+		$('.info-contents .info-modify').removeClass('display-none');
+	});
+	$('.nav-bar .wishlist').click(function(){
+		$('.nav-bar .wishlist').siblings().removeClass('background-gray');
+		$('.nav-bar .wishlist').addClass('background-gray');
+		$('.info-contents .wishlist').siblings().addClass('display-none');
+		$('.info-contents .wishlist').removeClass('display-none');
+	});
+	$('.nav-bar .bag').click(function(){
+		$('.nav-bar .bag').siblings().removeClass('background-gray');
+		$('.nav-bar .bag').addClass('background-gray');
+		$('.info-contents .bag').siblings().addClass('display-none');
+		$('.info-contents .bag').removeClass('display-none');
+	});
+	$('.nav-bar .coupon-bag').click(function(){
+		$('.nav-bar .coupon-bag').siblings().removeClass('background-gray');
+		$('.nav-bar .coupon-bag').addClass('background-gray');
+		$('.info-contents .coupon-bag').siblings().addClass('display-none');
+		$('.info-contents .coupon-bag').removeClass('display-none');
+	});
+	$('.nav-bar .ask').click(function(){
+		$('.nav-bar .ask').siblings().removeClass('background-gray');
+		$('.nav-bar .ask').addClass('background-gray');
+		$('.info-contents .ask').siblings().addClass('display-none');
+		$('.info-contents .ask').removeClass('display-none');
+	});
+	$('.nav-bar .seller-request').click(function(){
+		$('.nav-bar .seller-request').siblings().removeClass('background-gray');
+		$('.nav-bar .seller-request').addClass('background-gray');
+		$('.info-contents .seller-request').siblings().addClass('display-none');
+		$('.info-contents .seller-request').removeClass('display-none');
+	});
+	$('.nav-bar .withdrawal').click(function(){
+		$('.nav-bar .withdrawal').siblings().removeClass('background-gray');
+		$('.nav-bar .withdrawal').addClass('background-gray');
+		$('.info-contents .withdrawal').siblings().addClass('display-none');
+		$('.info-contents .withdrawal').removeClass('display-none');
+	});
+	
 });	//레디
+
+function menuClick(selecter){
+	$('.nav-bar .'+selecter).click(function(){
+		$('.nav-bar .'+selecter).siblings().removeClass('background-gray');
+		$('.nav-bar .'+selecter).addClass('background-gray');
+		$('.info-contents .'+selecter).siblings().addClass('display-none');
+		$('.info-contents .'+selecter).removeClass('display-none');
+	});
+};
+
 </script>
 </head>
 <div style="min-height: 660px;">
 	<div class="view-page">
 		<div class="page-contents clearfix">
 			<div class="nav-bar">
-				<div class="nav-box order-list">
+				<div class="nav-box order-list background-gray" value="order-list">
 					<h6>주문 내역</h6>
 				</div>
-				<div class="nav-box my-info">
+				<div class="nav-box my-info" value="my-info">
 					<h6>내 정보</h6>
 				</div>
-				<div class="nav-box info-modify">
+				<div class="nav-box info-modify" value="info-modify">
 					<h6>내 정보 수정</h6>
 				</div>
-				<div class="nav-box wishlist">
+				<div class="nav-box wishlist" value="wishlist">
 					<h6>위시리스트</h6>
 				</div>
-				<div class="nav-box bag">
+				<div class="nav-box bag" value="bag">
 					<h6>장바구니</h6>
 				</div>
-				<div class="nav-box coupon-bag">
+				<div class="nav-box coupon-bag" value="coupon-bag">
 					<h6>쿠폰함</h6>
 				</div>
-				<div class="nav-box ask">
+				<div class="nav-box ask" value="ask">
 					<h6>문의 내역</h6>
 				</div>
-				<div class="nav-box seller-request">
+				<div class="nav-box seller-request" value="seller-request">
 					<h6>판매자 신청</h6>
 				</div>
-				<div class="nav-box withdrawal" style="border-bottom: none;">
+				<div class="nav-box withdrawal" style="border-bottom: none;" value="withdrawal">
 					<h6>회원 탈퇴</h6>
 				</div>
 			</div>
 			<div class="info-page">
 				<div class="info-contents clearfix">
 					<!-- 주문 내역 클릭 시 -->
-					<div class="order-list display-none">
+					<div class="order-list">
 						<div class="list-contents">
 							<div class="list-text">
 								<h2>총 주문 내역</h2>
@@ -586,7 +654,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<!-- 위시리스트 클릭 시 -->
-					<div class="wishlist d-none">
+					<div class="wishlist display-none">
 						<div class="wishlist-contents">
 							<div class="wishlist-box clearfix">
 								<div class="item-img-box">
