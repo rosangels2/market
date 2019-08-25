@@ -59,7 +59,7 @@
 }
 .info-box-last input{
 	float: right;
-	margin: 20px 40px 0 37px;
+	margin: 20px 54px 0 37px;
 	text-align: center;
 }
 /* 버튼 박스 */
@@ -139,10 +139,10 @@
 }
 </style>
 <script type="text/javascript">
-var data2;
+
+var data3;
+
 $(document).ready(function(){
-	
-	addOptionEvent();
 	
 	$('#item-select').change(function(){
 			 var option = $(this).val();
@@ -154,8 +154,6 @@ $(document).ready(function(){
 			        dataType:"json",
 			        contentType:"application/json; charset=UTF-8",
 			        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
-			        	date2 = data.oVo;
-			        	 console.log(data.oVo);
 			        	 var str = "";
 			        	 str += '<option>세부 옵션 선택</option>';
 			        	 for(var i = 0; i<data.oVo.length; i++){
@@ -165,6 +163,7 @@ $(document).ready(function(){
 			        }
 			  });
 	});
+	
 	$('#option-select').change(function(){
 		var detail_no = $(this).val();
 		 $.ajax({ 
@@ -175,29 +174,42 @@ $(document).ready(function(){
 		        dataType:"json",
 		        contentType:"application/json; charset=UTF-8",
 		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
-					$('#item-price').val(data.price);
-		        	$('#select-hidden').val(data.select);
-		        	$('#detail-hidden').val(data.detail);
-		        	$('#count-hidden').val($('#stock-count').val());
-		        	$('#price-hidden').val(data.price);
+		        	data3 = data.oVo;
+		        	console.log("data3.select : " + data3.select);
+		        	console.log("data.oVo.detail : " + data.oVo.detail);
+					$('#item-price').val(data.oVo.price);
 		        }
 		  });
 	});
 
-});	//레디
-function addOptionEvent(){
 	$('#stock-select').click(function(){
 		if($('#stock-count').val() < 1){
 			return;
 		}
-		var str = '<div class="info-box clearfix"><input readonly value="select" placeholder="선택 옵션"><input readonly value="detail" placeholder="세부 옵션"><input readonly value="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
+		var str = '<div class="info-box clearfix"><input readonly name="select" placeholder="선택 옵션"><input readonly name="detail" placeholder="세부 옵션"><input readonly name="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
 		$('.info-box-last').before(str);
-		$('.info-box input[name=select]').last().val(${selectOption.select});
-		$('.info-box input[name=detail]').last().val(${selectOption.detail});
-		$('.info-box input[name=stock]').last().val(${selectOption.stock});
-		$('.info-box input[name=price]').last().val(${selectOption.price});
+		$('.info-box input[name=select]').last().val(data3.select);
+		$('.info-box input[name=detail]').last().val(data3.detail);
+		$('.info-box input[name=count]').last().val($('#stock-count').val());
+		var price = (data3.price)*($('#stock-count').val());
+		$('.info-box input[name=price]').last().val(price);
+		var total = $('.option-box input[name=total-price]').val();
+		 $.ajax({ 
+		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{"price": price, "total": total},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/items/getTotal",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+		    		$('.option-box input[name=total-price]').val(data.total);
+		        }
+		  });
+
 	});
-};
+	
+});	//레디
+
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -240,9 +252,13 @@ function addOptionEvent(){
 							<option>세부 옵션 선택</option>
 						</select>  
 					</div>				
+					<div class="delivery-price">
+						<h4>배송비</h4>
+						<h5 style="padding-left: 2px;">3000원 / 30000원 이상 구매 시 무료</h5>
+					</div>
 					<div class="item-price">
 						<h4>가격</h4>
-						<input readonly value="" style="width: 80px;" id="item-price">원
+						<input readonly style="width: 80px;" id="item-price">원
 					</div>
 					<div class="item-stock">
 						<h4>선택 수량</h4> 
@@ -261,17 +277,9 @@ function addOptionEvent(){
 		<!-- 선택 옵션 정보 -->
 		<div class="option-info">
 			<div class="option-info-contents">
-				<div class="info-box clearfix">
-					<input type="hidden" id="select-hidden">
-					<input type="hidden" id="detail-hidden">
-					<input type="hidden" id="count-hidden">
-					<input type="hidden" id="price-hidden">
-				</div>
-				<div class="info-box-last clearfix">
+				<div class="info-box-last option-box clearfix">
 					<h3 class="float-left" style="margin-top:15px;">결제 예상액</h3>
-					<input readonly value="최종 주문 가격" style="margin-right: 54px;">
-					<input readonly value="배송비">
-					<input readonly value="총 상품 가격">
+					<input readonly name="total-price" value="0">
 				</div>
 			</div>
 		</div>

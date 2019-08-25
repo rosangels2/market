@@ -86,18 +86,38 @@ public class ItemsController {
 	    System.out.println("getDetailOptions item_no : " + item_no + " , select : " + select);
 	    ArrayList<OptionVO> oVo = itemService.getOptionDetail(item_no, select);
 	    System.out.println("getDetailOptions oVo : " + oVo);
-	    map.putIfAbsent("oVo", oVo);
+	    map.put("oVo", oVo);
 	    return map;
 	}
 	@RequestMapping(value="/getPrice")	//세부 옵션 불러오기
 	@ResponseBody
-	public Map<Object, Object> getPrice(@RequestBody Integer detail_no, Model model){
+	public Map<Object, Object> getPrice(@RequestBody Integer detail_no){
 	    Map<Object, Object> map = new HashMap<Object, Object>();
 	    System.out.println("getPrice detail_no : " + detail_no);
 	    OptionVO oVo = itemService.getDetailOptions(detail_no);
 	    System.out.println("getPrice oVo : " + oVo);
-	    map.putIfAbsent("price", oVo.getPrice());
-	    model.addAttribute("selectOption", oVo);
+	    map.put("price", oVo.getPrice());
+	    map.put("oVo", oVo);
+	    return map;
+	}
+	@RequestMapping(value="/getTotal")	//세부 옵션 불러오기
+	@ResponseBody
+	public Map<Object, Object> getTotal(@RequestBody String str){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("getTotal str : " + str);
+	    String[] arr = str.split("&");
+	    String price = arr[0];
+	    String total = arr[1];
+	    System.out.println("getTOtal arr[0] : " + arr[0]);
+	    System.out.println("getTOtal arr[1] : " + arr[1]);
+	    price = memberService.getVal(price);
+	    total = memberService.getVal(total);
+	    System.out.println("getTOtal price : " + price);
+	    System.out.println("getTOtal total : " + total);
+	    int price1 = Integer.parseInt(price);
+	    int total1 = Integer.parseInt(total);
+	    int total_price = price1+total1;
+	    map.put("total", total_price);
 	    return map;
 	}
     @RequestMapping(value= "/order")
