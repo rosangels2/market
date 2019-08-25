@@ -31,8 +31,10 @@ public interface ItemDAO {
 
 	SellerVO selectSeller(@Param("id")String seller_id);
 
-	ArrayList<OptionVO> selectOptions(@Param("item_no")Integer no);
+	ArrayList<OptionVO> selectOptions(@Param("item_no")Integer item_no);
 
 	ArrayList<OptionVO> selectDetails(@Param("item_no")Integer item_no, @Param("select")String select);
+
+	OptionVO selectOption(@Param("no")Integer detail_no);
 
 }

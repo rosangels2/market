@@ -50,4 +50,8 @@
 	select * from `option`
 	where item_no = #{item_no} and `select` = #{select}
 </select>
+<select id="selectOption" resultType="kr.green.market.vo.OptionVO">
+	select * from `option`
+	where no = #{no}
+</select>
 </mapper>

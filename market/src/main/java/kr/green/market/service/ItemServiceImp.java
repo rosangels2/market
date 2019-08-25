@@ -86,11 +86,11 @@ public class ItemServiceImp implements ItemService{
 		return sVo;
 	}
 	@Override
-	public ArrayList<OptionVO> getItemOptions(Integer no) {
-		if(no == null){
+	public ArrayList<OptionVO> getItemOptions(Integer item_no) {
+		if(item_no == null){
 			return null;
 		}
-		return itemDao.selectOptions(no);
+		return itemDao.selectOptions(item_no);
 	}
 	@Override
 	public ArrayList<OptionVO> getOptionDetail(Integer item_no, String select) {
@@ -98,5 +98,12 @@ public class ItemServiceImp implements ItemService{
 			return null;
 		}
 		return itemDao.selectDetails(item_no, select);
+	}
+	@Override
+	public OptionVO getDetailOptions(Integer detail_no) {
+		if(detail_no == null){
+			return null;
+		}
+		return itemDao.selectOption(detail_no);
 	}
 }

@@ -25,8 +25,10 @@ public interface ItemService {
 
 	SellerVO getSellerName(String seller_id);
 
-	ArrayList<OptionVO> getItemOptions(Integer no);
+	ArrayList<OptionVO> getItemOptions(Integer item_no);
 
 	ArrayList<OptionVO> getOptionDetail(Integer item_no, String select);
+
+	OptionVO getDetailOptions(Integer detail_no);
 
 }

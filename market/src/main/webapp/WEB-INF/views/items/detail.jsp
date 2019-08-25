@@ -44,9 +44,6 @@
 	border: 1px solid gray;
 	padding: 20px 0;
 }
-.info-box{
-
-}
 .info-box img{
 	margin-top: 20px;
 }
@@ -62,7 +59,7 @@
 }
 .info-box-last input{
 	float: right;
-	margin-right: 40px;
+	margin: 20px 40px 0 37px;
 	text-align: center;
 }
 /* 버튼 박스 */
@@ -144,14 +141,16 @@
 <script type="text/javascript">
 var data2;
 $(document).ready(function(){
+	
+	addOptionEvent();
+	
 	$('#item-select').change(function(){
-			 alert($(this).val());
 			 var option = $(this).val();
 			 $.ajax({ 
 			        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
 			        type:'POST',	//POST방식으로 전송
 			        data:option,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
-			        url:"<%=request.getContextPath()%>/items/dup",
+			        url:"<%=request.getContextPath()%>/items/getDetail",
 			        dataType:"json",
 			        contentType:"application/json; charset=UTF-8",
 			        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
@@ -160,13 +159,45 @@ $(document).ready(function(){
 			        	 var str = "";
 			        	 str += '<option>세부 옵션 선택</option>';
 			        	 for(var i = 0; i<data.oVo.length; i++){
-			        	 	str += '<option>'+data.oVo[i].detail+'</option>'
+			        	 	str += '<option value="'+data.oVo[i].no+'">'+data.oVo[i].detail+'</option>'
 			        	 }
 			        	 $('#option-select').html(str);
 			        }
 			  });
 	});
+	$('#option-select').change(function(){
+		var detail_no = $(this).val();
+		 $.ajax({ 
+		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:detail_no,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/items/getPrice",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					$('#item-price').val(data.price);
+		        	$('#select-hidden').val(data.select);
+		        	$('#detail-hidden').val(data.detail);
+		        	$('#count-hidden').val($('#stock-count').val());
+		        	$('#price-hidden').val(data.price);
+		        }
+		  });
+	});
+
 });	//레디
+function addOptionEvent(){
+	$('#stock-select').click(function(){
+		if($('#stock-count').val() < 1){
+			return;
+		}
+		var str = '<div class="info-box clearfix"><input readonly value="select" placeholder="선택 옵션"><input readonly value="detail" placeholder="세부 옵션"><input readonly value="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
+		$('.info-box-last').before(str);
+		$('.info-box input[name=select]').last().val(${selectOption.select});
+		$('.info-box input[name=detail]').last().val(${selectOption.detail});
+		$('.info-box input[name=stock]').last().val(${selectOption.stock});
+		$('.info-box input[name=price]').last().val(${selectOption.price});
+	});
+};
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -215,8 +246,8 @@ $(document).ready(function(){
 					</div>
 					<div class="item-stock">
 						<h4>선택 수량</h4> 
-						<input placeholder="0" style="width: 80px; border: 1px solid gray; text-align: center;">
-						<button>선택</button>
+						<input id="stock-count" placeholder="0" style="width: 80px; border: 1px solid gray; text-align: center;">
+						<button id="stock-select">선택</button>
 					</div>					
 				</div>
 			</div>
@@ -231,12 +262,12 @@ $(document).ready(function(){
 		<div class="option-info">
 			<div class="option-info-contents">
 				<div class="info-box clearfix">
-					<input readonly value="선택 옵션">
-					<input readonly value="세부 옵션">
-					<input readonly value="선택 수량">
-					<input readonly value="가격">
+					<input type="hidden" id="select-hidden">
+					<input type="hidden" id="detail-hidden">
+					<input type="hidden" id="count-hidden">
+					<input type="hidden" id="price-hidden">
 				</div>
-				<div class="info-box info-box-last clearfix">
+				<div class="info-box-last clearfix">
 					<h3 class="float-left" style="margin-top:15px;">결제 예상액</h3>
 					<input readonly value="최종 주문 가격" style="margin-right: 54px;">
 					<input readonly value="배송비">

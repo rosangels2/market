@@ -53,10 +53,10 @@ public class ItemsController {
         return mv;
     }
     @RequestMapping(value= "/detail")
-    public ModelAndView itemsDetail(ModelAndView mv, Model model, Integer no) throws Exception{
-    	ItemVO iVo = itemService.getItem(no);	//상품 상세 정보 불러오기
+    public ModelAndView itemsDetail(ModelAndView mv, Model model, Integer item_no) throws Exception{
+    	ItemVO iVo = itemService.getItem(item_no);	//상품 상세 정보 불러오기
     	model.addAttribute("item", iVo);
-    	ArrayList<FileVO> itemFiles = itemService.getFiles(no);		//상품 첨부파일 불러오기
+    	ArrayList<FileVO> itemFiles = itemService.getFiles(item_no);		//상품 첨부파일 불러오기
     	System.out.println("itemDetail itemFiles : " + itemFiles);
     	if(itemFiles != null){
     		model.addAttribute("itemFiles", itemFiles);
@@ -64,13 +64,13 @@ public class ItemsController {
     	SellerVO sVo = itemService.getSellerName(iVo.getSeller_id());	//판매자 정보 불러오기
     	System.out.println("itemDetail sVo : " + sVo);
     	model.addAttribute("seller", sVo);
-    	ArrayList<OptionVO> options = itemService.getItemOptions(no);
+    	ArrayList<OptionVO> options = itemService.getItemOptions(item_no);
     	System.out.println("itemDetail Options : " + options);
     	model.addAttribute("options", options);
         mv.setViewName("/items/detail");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
-	@RequestMapping(value="/dup")	//세부 옵션 불러오기
+	@RequestMapping(value="/getDetail")	//세부 옵션 불러오기
 	@ResponseBody
 	public Map<Object, Object> getDetailOptions(@RequestBody String option){
 	    Map<Object, Object> map = new HashMap<Object, Object>();
@@ -87,6 +87,17 @@ public class ItemsController {
 	    ArrayList<OptionVO> oVo = itemService.getOptionDetail(item_no, select);
 	    System.out.println("getDetailOptions oVo : " + oVo);
 	    map.putIfAbsent("oVo", oVo);
+	    return map;
+	}
+	@RequestMapping(value="/getPrice")	//세부 옵션 불러오기
+	@ResponseBody
+	public Map<Object, Object> getPrice(@RequestBody Integer detail_no, Model model){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("getPrice detail_no : " + detail_no);
+	    OptionVO oVo = itemService.getDetailOptions(detail_no);
+	    System.out.println("getPrice oVo : " + oVo);
+	    map.putIfAbsent("price", oVo.getPrice());
+	    model.addAttribute("selectOption", oVo);
 	    return map;
 	}
     @RequestMapping(value= "/order")

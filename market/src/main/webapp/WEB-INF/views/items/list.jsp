@@ -230,14 +230,14 @@ $(document).ready(function(){
 					<c:forEach var="item" items="${itemList}">
 						<div class="item-contents clearfix">
 							<div class="item-img">
-								<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+								<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
 									<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
 								</a>
 							</div>
 							<div class="item-info">
 								<div><h3>상품명</h3></div>
 								<div class="item-link">
-									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
 										<h3>${item.title}</h3>
 									</a>
 								</div>
@@ -245,7 +245,7 @@ $(document).ready(function(){
 							<div class="item-info">
 								<div><h3>가격</h3></div>
 								<div class="item-link">
-									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
 										<h3>${item.price}</h3> 
 									</a>
 								</div>					
@@ -253,7 +253,7 @@ $(document).ready(function(){
 							<div class="item-info">
 								<div><h3>추천 수</h3></div>
 								<div class="item-link">
-									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
 										<h3>${item.commend}</h3>
 									</a>
 								</div>		
@@ -261,7 +261,7 @@ $(document).ready(function(){
 							<div class="item-info">
 								<div><h3>판매자</h3></div>
 								<div class="item-link">
-									<a href="<%=request.getContextPath()%>/items/detail?no=${item.no}">
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
 										<h3>${item.seller_id}</h3>
 									</a>
 								</div>				
