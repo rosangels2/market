@@ -7,6 +7,7 @@ public class BuyVO {
 	private Integer no;
 	private String id;
 	private Integer item_no;
+	private Integer option_no;
 	private Integer count;
 	private String information;
 	private Integer price;
@@ -15,6 +16,12 @@ public class BuyVO {
 	private String valid;
 	
 	
+	public Integer getOption_no() {
+		return option_no;
+	}
+	public void setOption_no(Integer option_no) {
+		this.option_no = option_no;
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -73,9 +80,9 @@ public class BuyVO {
 	
 	@Override
 	public String toString() {
-		return "BuyVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", count=" + count + ", information="
-				+ information + ", price=" + price + ", time=" + time + ", state=" + state + ", valid=" + valid + "]";
+		return "BuyVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", option_no=" + option_no + ", count="
+				+ count + ", information=" + information + ", price=" + price + ", time=" + time + ", state=" + state
+				+ ", valid=" + valid + "]";
 	}
-	
-	
+
 }

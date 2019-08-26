@@ -58,4 +58,8 @@
 	select * from couponBag
 	where id = #{id} and valid = "I"
 </select>
+<select id="selectCoupon" resultType="kr.green.market.vo.CouponVO">
+	select * from coupon
+	where no = #{no}
+</select>
 </mapper>

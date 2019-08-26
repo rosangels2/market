@@ -118,28 +118,32 @@ public class ItemsController {
 	    return map;
 	}
     @RequestMapping(value= "/order")
-    public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,  String[] detail,  Integer[] count,  Integer[] price, Integer total_price) throws Exception{
+    public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,  String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id) throws Exception{
     	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
         System.out.println("order oVoList : " + oVoList);
         Integer orderCount = select.length;
-        System.out.println("order orderCount : " + orderCount);
         model.addAttribute("orderCount", orderCount);
         model.addAttribute("optionList", oVoList);
         model.addAttribute("total_price", total_price);
         mv.setViewName("/items/order");		//타일즈를 통해 불러올 jsp 경로
-        return mv;
-    }  
-	@RequestMapping(value="/getCouponList")	//세부 옵션 불러오기
-	@ResponseBody
-	public Map<Object, Object> getCouponList(@RequestBody String id){
-	    Map<Object, Object> map = new HashMap<Object, Object>();
 	    System.out.println("getCouponList id : " + id);
 	    ArrayList<CouponBagVO> couponList = itemService.getCouponList(id);	//쿠폰함 불러오기
 	    System.out.println("getCouponList couponList : " + couponList);
 	    ArrayList<CouponVO> cVo = new ArrayList<CouponVO>();
-	    map.put("couponList", couponList);
-	    return map;
-	}
+	    for(int i=0; i<couponList.size(); i++){	
+	    	System.out.println(couponList.get(i));
+	    	CouponVO cVo1 = itemService.getCoupon(couponList.get(i).getCoupon_no());
+	    	System.out.println("getCouponLIst cVo1 : " + cVo1);
+	    	int discount = Integer.parseInt(String.valueOf(Math.round(cVo1.getDiscount())));	//double 반올림 > String 형변환 > int 형변환
+	    	cVo1.setDiscount(discount);
+	    	System.out.println("order discount : " + discount);
+	    	System.out.println("order cVo1.discount : " + cVo1.getDiscount());
+	    	cVo.add(cVo1);
+	    }
+	    System.out.println("getCouponLIst cVo : " + cVo);
+	    model.addAttribute("cVo", cVo);
+        return mv;
+    }  
     @RequestMapping(value= "/register", method = RequestMethod.GET)
     public ModelAndView itemRegisterGet(ModelAndView mv) throws Exception{
         mv.setViewName("/items/register");		//타일즈를 통해 불러올 jsp 경로

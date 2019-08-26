@@ -158,7 +158,7 @@
 }
 </style>
 <script type="text/javascript">
-
+var discount;
 $(document).ready(function(){
 	if($('#total_price').val() < 30000){
 		$('#delivery_price').val(3000);
@@ -171,25 +171,30 @@ $(document).ready(function(){
 	
 	$('.coupon-price button').click(function(){
 		$('.hidden-contents').removeClass('display-none');
-		var id = $('#user_id').val();
-		 $.ajax({ 
-		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
-		        type:'POST',	//POST방식으로 전송
-		        data:id,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
-		        url:"<%=request.getContextPath()%>/items/getCouponList",
-		        dataType:"json",
-		        contentType:"application/json; charset=UTF-8",
-		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
-		    		alert(data.couponList);
-		        }
-		  });
 	});
 	
 	$('.coupon-cancel button').click(function(){
 		$('.hidden-contents').addClass('display-none');
 	});
 	
+	$('.coupon-use').click(function(){
+		var t = $('#total_price').val();
+		var a = $(this).siblings('input[name=discount]').val();
+		if($('#total_price').val() < 30000){
+			$('#delivery_price').val(3000);
+			$('input[name=coupon_price]').val(parseInt(a));
+			$('#last_price').val(parseInt(t)+3000-parseInt(a)); 
+			$('.hidden-contents').addClass('display-none');
+		}else{
+			$('#delivery_price').val(0);
+			$('input[name=coupon_price]').val(parseInt(a));
+			$('#last_price').val(parseInt(t)-parseInt(a)); 
+			$('.hidden-contents').addClass('display-none');
+		}
+	});
+
 });	//레디
+
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -338,7 +343,7 @@ $(document).ready(function(){
 								<h5 class="float-right">배송비</h5>
 							</div>
 							<div class="coupon-price clearfix">
-								<input class="float-right" id="coupon">
+								<input class="float-right" name="coupon_price">
 								<button class="float-right">쿠폰</button>
 							</div> 
 							<div class="total-price clearfix" style="margin-top: 50px;">
@@ -357,20 +362,22 @@ $(document).ready(function(){
 				<div class="hidden-contents display-none">
 					<div class="hidden-box">
 						<input type="hidden" value="${user.id}" id="user_id">
-						<table class="table">
+						<table class="table table-box">
 							<tr class="table table-title">
 								<th width="20%" class="order-date-border">쿠폰명</th>
 								<th width="25%" class="item-info-border">할인 금액</th>
 								<th width="30%" class="order-status-border">유효 기간</th>
 								<th width="15%">쿠폰 선택</th>
 							</tr>
-							<c:forEach items="" var="coupon">
-								<tr class="table table-contents">
-									<th></th>
-									<th></th>
-									<th>456</th>
+							<c:forEach items="${cVo}" var="coupon">
+								<tr class="table-contents">
+									<th>${coupon.title}</th>
+									<th>${coupon.discount}</th>
+									<th>${coupon.period}</th>
 									<th>
-										<button>사용</button>
+										<input type="hidden" value="${coupon.no}" name="coupon_no">
+										<button class="coupon-use">사용</button>
+										<input type="hidden" value="${coupon.discount}" name="discount">
 									</th>
 								</tr>
 							</c:forEach>

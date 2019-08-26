@@ -282,6 +282,7 @@ $(document).ready(function(){
 		</div>
 		<!-- 선택 옵션 정보 -->
 		<form action="<%=request.getContextPath()%>/items/order" method="post">
+			<input type="hidden" name="id" value="${user.id}">
 			<input type="hidden" name="item_no" value="${item.no}">
 			<div class="option-info">
 				<div class="option-info-contents">
