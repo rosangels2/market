@@ -186,14 +186,15 @@ $(document).ready(function(){
 		if($('#stock-count').val() < 1){
 			return;
 		}
-		var str = '<div class="info-box clearfix"><input readonly name="select" placeholder="선택 옵션"><input readonly name="detail" placeholder="세부 옵션"><input readonly name="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
+		var str = '<div class="info-box clearfix"><input type="hidden" name="option_no"><input readonly name="select" placeholder="선택 옵션"><input readonly name="detail" placeholder="세부 옵션"><input readonly name="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
 		$('.info-box-last').before(str);
+		$('.info-box input[name=option_no]').last().val(data3.no);
 		$('.info-box input[name=select]').last().val(data3.select);
 		$('.info-box input[name=detail]').last().val(data3.detail);
 		$('.info-box input[name=count]').last().val($('#stock-count').val());
 		var price = (data3.price)*($('#stock-count').val());
 		$('.info-box input[name=price]').last().val(price);
-		var total = $('.option-box input[name=total-price]').val();
+		var total = $('.option-box input[name=total_price]').val();
 		 $.ajax({ 
 		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
 		        type:'POST',	//POST방식으로 전송
@@ -202,10 +203,15 @@ $(document).ready(function(){
 		        dataType:"json",
 		        contentType:"application/json; charset=UTF-8",
 		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
-		    		$('.option-box input[name=total-price]').val(data.total);
+		    		$('.option-box input[name=total_price]').val(data.total);
 		        }
 		  });
-
+	});
+	
+	$('.button-contents a').click(function(){
+		if($('.option-box input[name=total_price]').val() == 0){
+			return false;
+		}
 	});
 	
 });	//레디
@@ -275,22 +281,25 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<!-- 선택 옵션 정보 -->
-		<div class="option-info">
-			<div class="option-info-contents">
-				<div class="info-box-last option-box clearfix">
-					<h3 class="float-left" style="margin-top:15px;">결제 예상액</h3>
-					<input readonly name="total-price" value="0">
+		<form action="<%=request.getContextPath()%>/items/order" method="post">
+			<input type="hidden" name="item_no" value="${item.no}">
+			<div class="option-info">
+				<div class="option-info-contents">
+					<div class="info-box-last option-box clearfix">
+						<h3 class="float-left" style="margin-top:15px;">결제 예상액</h3>
+						<input readonly name="total_price" value="0">
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 버튼 박스 -->
-		<div class="button">
-			<div class="button-contents clearfix">
-				<a href="<%=request.getContextPath()%>/items/order"><button class="buy-button"><h4>구매하기</h4></button></a>
-				<button><h4>장바구니 담기</h4></button>				
-				<button><h4>위시리스트 담기</h4></button>
+			<!-- 버튼 박스 -->
+			<div class="button">
+				<div class="button-contents clearfix">
+					<a href="<%=request.getContextPath()%>/items/order"><button class="buy-button"><h4>구매하기</h4></button></a>
+					<a><button type="button"><h4>장바구니 담기</h4></button></a>				
+					<a><button type="button"><h4>위시리스트 담기</h4></button></a>
+				</div>
 			</div>
-		</div>
+		</form>
 		<!-- 메뉴 선택 박스 -->
 		<div class="menu">
 			<div class="menu-contents">

@@ -104,16 +104,11 @@ public class ItemsController {
 	@ResponseBody
 	public Map<Object, Object> getTotal(@RequestBody String str){
 	    Map<Object, Object> map = new HashMap<Object, Object>();
-	    System.out.println("getTotal str : " + str);
 	    String[] arr = str.split("&");
 	    String price = arr[0];
 	    String total = arr[1];
-	    System.out.println("getTOtal arr[0] : " + arr[0]);
-	    System.out.println("getTOtal arr[1] : " + arr[1]);
 	    price = memberService.getVal(price);
 	    total = memberService.getVal(total);
-	    System.out.println("getTOtal price : " + price);
-	    System.out.println("getTOtal total : " + total);
 	    int price1 = Integer.parseInt(price);
 	    int total1 = Integer.parseInt(total);
 	    int total_price = price1+total1;
@@ -121,7 +116,14 @@ public class ItemsController {
 	    return map;
 	}
     @RequestMapping(value= "/order")
-    public ModelAndView order(ModelAndView mv) throws Exception{
+    public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,  String[] detail,  Integer[] count,  Integer[] price, Integer total_price) throws Exception{
+    	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
+        System.out.println("order oVoList : " + oVoList);
+        Integer orderCount = select.length;
+        System.out.println("order orderCount : " + orderCount);
+        model.addAttribute("orderCount", orderCount);
+        model.addAttribute("optionList", oVoList);
+        model.addAttribute("total_price", total_price);
         mv.setViewName("/items/order");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }  
@@ -133,17 +135,17 @@ public class ItemsController {
     @RequestMapping(value= "/register", method = RequestMethod.POST)
     public String itemRegisterPost(MultipartFile[] file2, String seller_id, String title, Integer price1, String[] select,  String[] detail,  Integer[] stock,  Integer[] price) throws Exception{
         Integer categoryNo = 1;
-        int itemNo = itemService.registerItem(seller_id, categoryNo, title, price1);
+        int itemNo = itemService.registerItem(seller_id, categoryNo, title, price1);	//아이템 등록
 		for(MultipartFile tmp : file2){
 			if(tmp.getOriginalFilename().length() != 0) {
 				String file = UploadFileUtils.uploadFile(uploadPath, tmp.getOriginalFilename(),tmp.getBytes());
-				itemService.addFile(file, itemNo);
+				itemService.addFile(file, itemNo);	//파일 등록
 			}
 		}
-		itemService.registerFile(itemNo);
+		itemService.registerFile(itemNo);	//파일명 등록
         OptionVO oVo = new OptionVO();
         oVo.setItem_no(itemNo);
-        itemService.registerOption(oVo, select, detail, stock, price);
+        itemService.registerOption(oVo, select, detail, stock, price);	//옵션 등록
         return "redirect:/items/list";
         
     }

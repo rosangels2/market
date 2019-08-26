@@ -106,4 +106,22 @@ public class ItemServiceImp implements ItemService{
 		}
 		return itemDao.selectOption(detail_no);
 	}
+	@Override
+	public ArrayList<OptionVO> getOderOptions(Integer item_no, Integer[] option_no, String[] select, String[] detail, Integer[] count, Integer[] price) {
+    	ArrayList<OptionVO> oVoList = new ArrayList<OptionVO>();
+    	OptionVO oVo = new OptionVO();
+        for(int i=0 ; i<select.length ; i++){
+        	if(item_no == null || option_no[i] == null || select[i] == "" || detail[i] == "" || count[i] == null || price[i] == null){
+        		return null;
+        	}
+        	oVo.setItem_no(item_no);
+        	oVo.setNo(option_no[i]);
+        	oVo.setSelect(select[i]);
+        	oVo.setDetail(detail[i]);
+        	oVo.setStock(count[i]);
+        	oVo.setPrice(price[i]);
+        	oVoList.add(new OptionVO(oVo));
+        }
+		return oVoList;
+	}
 }

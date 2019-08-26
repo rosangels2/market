@@ -9,6 +9,8 @@ public class OptionVO {
 	private Integer stock;
 	private Integer price;
 	private String valid;
+	
+	
 	public OptionVO(){
 		no = 0;
 		item_no = 0;
@@ -17,6 +19,15 @@ public class OptionVO {
 		price = 0;
 		stock = 0;
 		valid = "I";
+	}
+	public OptionVO(OptionVO oVo){
+		this.no = oVo.getNo();
+		this.item_no = oVo.getItem_no();
+		this.select = oVo.getSelect();
+		this.detail = oVo.getDetail();
+		this.stock = oVo.getStock();
+		this.price = oVo.getPrice();
+		this.valid = oVo.getValid();
 	}
 	
 	public Integer getNo() {

@@ -64,13 +64,15 @@
 }
 /* 결제 수단 선택 창 */
 .pay-box{
+	margin-top: 50px;
 	float: left;
 	width: 60%;
 	min-height: 400px;
 	border: 1px solid gray;
 }
 .pay-menu{
-	border: 1px solid gray;
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
 }
 .pay-menu .menu-box{
 	border-right: 1px solid black;
@@ -88,11 +90,10 @@
 
 /* 최종 주문 정보 창 */
 .total-order-box{
+	margin-top: 82px;
 	float: left;
 	width: 40%;
 	min-height: 400px;
-	border: 1px solid gray;
-	border-left: none;
 	padding: 10px;
 }
 .order-contents{
@@ -113,6 +114,9 @@
 	width: 300px;
 	text-align: center;
 }
+.last-set input{
+	text-align: right;
+}
 
 
 .display-none{
@@ -120,7 +124,16 @@
 }
 </style>
 <script type="text/javascript">
-
+$(document).ready(function(){
+	if($('#total_price').val() < 30000){
+		$('#delivery_price').val(3000);
+		var t = $('#total_price').val();
+		$('#last_price').val(parseInt(t)+3000); 
+	}else{
+		$('#delivery_price').val(0);
+		$('#last_price').val($('#total_price').val());
+	}
+});	//레디
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -186,42 +199,26 @@
 							<h1>주문 상품 정보</h1>
 						</div>
 						<div class="info-box">
-							<div class="info-set">
-								<div class="item-name clearfix">
-									<input class="float-right">
-									<h4 class="float-right">상품명</h4>
+							<c:forEach items="${optionList}" var="order">
+								<div class="info-set">
+									<div class="item-name clearfix">
+										<input class="float-right" value="${order.select}">
+										<h4 class="float-right">선택 상품</h4>
+									</div>
+									<div class="item-option clearfix">
+										<input class="float-right" value="${order.detail}">
+										<h4 class="float-right">세부 옵션</h4>
+									</div>
+									<div class="item-count clearfix">
+										<input class="float-right" value="${order.stock}">
+										<h4 class="float-right">수량</h4>
+									</div>
+									<div class="item-price clearfix">
+										<input class="float-right" value="${order.price}">
+										<h4 class="float-right">가격</h4>
+									</div>
 								</div>
-								<div class="item-option clearfix">
-									<input class="float-right">
-									<h4 class="float-right">세부 옵션</h4>
-								</div>
-								<div class="item-count clearfix">
-									<input class="float-right">
-									<h4 class="float-right">수량</h4>
-								</div>
-								<div class="item-price clearfix">
-									<input class="float-right">
-									<h4 class="float-right">가격</h4>
-								</div>
-							</div>
-							<div class="info-set">
-								<div class="item-name clearfix">
-									<input class="float-right">
-									<h4 class="float-right">상품명</h4>
-								</div>
-								<div class="item-option clearfix">
-									<input class="float-right">
-									<h4 class="float-right">세부 옵션</h4>
-								</div>
-								<div class="item-count clearfix">
-									<input class="float-right">
-									<h4 class="float-right">수량</h4>
-								</div>
-								<div class="item-price clearfix">
-									<input class="float-right">
-									<h4 class="float-right">가격</h4>
-								</div>
-							</div>
+							</c:forEach>
 						</div>
 						<!-- 상품 정보 묶음 -->
 						<div class="info-total">
@@ -230,7 +227,7 @@
 									<h4>건</h4>
 								</div>
 								<div class="float-right">
-									<h4>X</h4>
+									<h4>${orderCount}</h4>
 								</div>
 								<div class="float-right">
 									<h4>총</h4>
@@ -277,19 +274,19 @@
 					<div class="order-contents">
 						<div class="last-set">
 							<div class="item-price clearfix">
-								<input class="float-right">
+								<input class="float-right" value="${total_price}" id="total_price">
 								<h5 class="float-right">상품 가격</h5>
 							</div>
 							<div class="delivery-price clearfix">
-								<input class="float-right">
+								<input class="float-right" id="delivery_price">
 								<h5 class="float-right">배송비</h5>
 							</div>
 							<div class="coupon-price clearfix">
-								<input class="float-right">
+								<input class="float-right" id="coupon">
 								<button class="float-right">쿠폰</button>
 							</div> 
 							<div class="total-price clearfix" style="margin-top: 50px;">
-								<input class="float-right">
+								<input class="float-right" id="last_price">
 								<h5 class="float-right">결제 예정액</h5>
 							</div>
 						</div>

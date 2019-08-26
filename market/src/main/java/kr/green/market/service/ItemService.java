@@ -31,4 +31,6 @@ public interface ItemService {
 
 	OptionVO getDetailOptions(Integer detail_no);
 
+	ArrayList<OptionVO> getOderOptions(Integer item_no, Integer[] option_no, String[] select, String[] detail, Integer[] count, Integer[] price);
+
 }
