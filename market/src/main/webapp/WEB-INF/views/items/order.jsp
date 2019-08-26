@@ -8,6 +8,10 @@
 	margin: 0;
 	box-sizing: border-box;
 }
+/* 상단 박스 */
+.up-contents{
+
+}
 /* 배송지 박스 */
 .delivery-box{
 	float: left;
@@ -61,6 +65,11 @@
 }
 .total-box div{
 	margin-right: 10px;
+}
+
+/* 하단 박스 */
+.down-contents{
+	position: relative;
 }
 /* 결제 수단 선택 창 */
 .pay-box{
@@ -119,6 +128,28 @@
 }
 
 
+/* 숨김 페이지 */
+.hidden-contents{
+	position: absolute;
+	min-height: 300px;
+	width: 90%;
+	border: 1px solid gray;
+	z-index: 10;
+	top: 50px;
+	background-color: white;
+}
+.table-title{
+	
+}
+.table-title th{
+	text-align: center;
+}
+.table-contents th{
+	text-align: center;
+}
+
+
+
 .display-none{
 	display: none;
 }
@@ -140,7 +171,7 @@ $(document).ready(function(){
 	<div class="view-page">
 		<!-- 상단 박스 -->
 		<div class="up-contents">
-			<div class="up-box">
+			<div class="up-box clearfix">
 				<!-- 배송지 정보 -->
 				<div class="delivery-box">
 					<div class="delivery-text">
@@ -295,6 +326,27 @@ $(document).ready(function(){
 								<h1>주문하기</h1>
 							</button>
 						</div>
+					</div>
+				</div>
+				<!-- 쿠폰 창 -->
+				<div class="hidden-contents">
+					<div class="hidden-box">
+						<table class="table">
+							<tr class="table table-title">
+								<th width="20%" class="order-date-border">쿠폰명</th>
+								<th width="25%" class="item-info-border">할인 금액</th>
+								<th width="30%" class="order-status-border">유효 기간</th>
+								<th width="15%">쿠폰 선택</th>
+							</tr>
+							<tr class="table table-contents">
+								<th>456</th>
+								<th>456</th>
+								<th>456</th>
+								<th>
+									<button>사용</button>
+								</th>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
