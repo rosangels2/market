@@ -29,6 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.utils.UploadFileUtils;
+import kr.green.market.vo.CouponBagVO;
+import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
@@ -127,6 +129,17 @@ public class ItemsController {
         mv.setViewName("/items/order");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }  
+	@RequestMapping(value="/getCouponList")	//세부 옵션 불러오기
+	@ResponseBody
+	public Map<Object, Object> getCouponList(@RequestBody String id){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("getCouponList id : " + id);
+	    ArrayList<CouponBagVO> couponList = itemService.getCouponList(id);	//쿠폰함 불러오기
+	    System.out.println("getCouponList couponList : " + couponList);
+	    ArrayList<CouponVO> cVo = new ArrayList<CouponVO>();
+	    map.put("couponList", couponList);
+	    return map;
+	}
     @RequestMapping(value= "/register", method = RequestMethod.GET)
     public ModelAndView itemRegisterGet(ModelAndView mv) throws Exception{
         mv.setViewName("/items/register");		//타일즈를 통해 불러올 jsp 경로

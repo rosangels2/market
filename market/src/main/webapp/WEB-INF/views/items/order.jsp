@@ -131,7 +131,7 @@
 /* 숨김 페이지 */
 .hidden-contents{
 	position: absolute;
-	min-height: 300px;
+	min-height: 100px;
 	width: 90%;
 	border: 1px solid gray;
 	z-index: 10;
@@ -147,7 +147,10 @@
 .table-contents th{
 	text-align: center;
 }
-
+.coupon-cancel{
+	margin: 20px 0;
+	padding: 10px 59px 10px 10px;
+}
 
 
 .display-none{
@@ -155,6 +158,7 @@
 }
 </style>
 <script type="text/javascript">
+
 $(document).ready(function(){
 	if($('#total_price').val() < 30000){
 		$('#delivery_price').val(3000);
@@ -164,6 +168,27 @@ $(document).ready(function(){
 		$('#delivery_price').val(0);
 		$('#last_price').val($('#total_price').val());
 	}
+	
+	$('.coupon-price button').click(function(){
+		$('.hidden-contents').removeClass('display-none');
+		var id = $('#user_id').val();
+		 $.ajax({ 
+		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:id,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/items/getCouponList",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+		    		alert(data.couponList);
+		        }
+		  });
+	});
+	
+	$('.coupon-cancel button').click(function(){
+		$('.hidden-contents').addClass('display-none');
+	});
+	
 });	//레디
 </script>
 </head>
@@ -329,8 +354,9 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<!-- 쿠폰 창 -->
-				<div class="hidden-contents">
+				<div class="hidden-contents display-none">
 					<div class="hidden-box">
+						<input type="hidden" value="${user.id}" id="user_id">
 						<table class="table">
 							<tr class="table table-title">
 								<th width="20%" class="order-date-border">쿠폰명</th>
@@ -338,15 +364,20 @@ $(document).ready(function(){
 								<th width="30%" class="order-status-border">유효 기간</th>
 								<th width="15%">쿠폰 선택</th>
 							</tr>
-							<tr class="table table-contents">
-								<th>456</th>
-								<th>456</th>
-								<th>456</th>
-								<th>
-									<button>사용</button>
-								</th>
-							</tr>
+							<c:forEach items="" var="coupon">
+								<tr class="table table-contents">
+									<th></th>
+									<th></th>
+									<th>456</th>
+									<th>
+										<button>사용</button>
+									</th>
+								</tr>
+							</c:forEach>
 						</table>
+						<div class="coupon-cancel clearfix">
+							<button class="float-right">취소</button>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -36,7 +36,7 @@ public class CouponBagVO {
 	
 	@Override
 	public String toString() {
-		return "CouponBagVO [no=" + no + ", id=" + id + ", coupon_no=" + coupon_no + ", valid=" + valid + "]";
+		return "CouponBagVO [no=" + no + ", id=" + id + ", coupon_no=" + coupon_no + ",  valid=" + valid + "]";
 	}
 	
 }

@@ -124,4 +124,11 @@ public class ItemServiceImp implements ItemService{
         }
 		return oVoList;
 	}
+	@Override
+	public ArrayList getCouponList(String id) {
+		if(id == null){
+			return null;
+		}
+		return itemDao.selectCouponList(id);
+	}
 }
