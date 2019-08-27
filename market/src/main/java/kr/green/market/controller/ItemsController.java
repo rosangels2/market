@@ -146,12 +146,10 @@ public class ItemsController {
     String[] detail,  Integer[] count,  Integer[] price, Integer total_price, Integer delivery_price, Integer coupon_price,
     Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no){
     	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
-    	aVo.setNo(address_no);
-    	System.out.println("orderRequest aVo: " + aVo);
-    	System.out.println("orderRequest id: " + id);
-    	System.out.println("orderRequest delivery_code : " + delivery_code);
-    	if(delivery_code == 1){
-    		Integer num = memberService.addAddress(aVo);
+    	if(delivery_code == 0){
+    		aVo.setNo(address_no);
+    	}else if(delivery_code == 1){
+    		Integer num = memberService.addAddress(aVo);	//배송지 등록
     		aVo.setNo(num);
     	}
     	return "redirect:/myMenu";
