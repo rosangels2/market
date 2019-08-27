@@ -198,7 +198,7 @@
 </style>
 <script type="text/javascript">
 var discount; 
-var delevery_code = 0;
+var delivery_code = 0;
 var name = "${user.name}";
 var phone = "${user.phone}";
 var address = "${user.address}";
@@ -247,7 +247,7 @@ $(document).ready(function(){
 		}else{
 			$('#delivery_price').val(0);
 			$('#last_price').val($('#total_price').val());
-			$('#coupon_price').val("");
+			$('#coupon_price').val(0);
 		}
 	});
 	
@@ -258,7 +258,8 @@ $(document).ready(function(){
 		$('.address input[name=address]').val(address);
 		$(this).siblings().removeClass('background-gray');
 		$(this).addClass('background-gray');
-		delevery_code = 0;
+		delivery_code = 0;
+		$('input[name=delivery_code]').val(0);
 	});
 	
 	$('.delivery-menu .new').click(function(){
@@ -267,7 +268,8 @@ $(document).ready(function(){
 		$('.address input[name=address]').val("");
 		$(this).siblings().removeClass('background-gray');
 		$(this).addClass('background-gray');
-		delevery_code = 1;
+		delivery_code = 1;
+		$('input[name=delivery_code]').val(1);
 	});
 	
 	$('.delivery-menu .list').click(function(){
@@ -286,7 +288,10 @@ $(document).ready(function(){
 		$('.phone-box input[name=phone]').val(phone);
 		$('.address-box input[name=address]').val(address);
 		$('.delivery-list').addClass('display-none');
-		delevery_code = 0;
+		delivery_code = 0;
+		$('input[name=delivery_code]').val(0);
+		var s = $(this).siblings('.address-no').val();
+		$('input[name=address_no]').val(s);
 	}); 
 	
 	$('#request-select').change(function(){
@@ -303,228 +308,251 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('#order').click(function(){
+		if($('.name-box input[name=name]').val() == ""){
+			return false;
+		}
+		if($('.phone-box input[name=phone]').val() == ""){
+			return false;
+		}
+		if($('.address-box input[name=address]').val() == ""){
+			return false;
+		}
+		if($('.message-box input[name=request]').val() == ""){
+			return false;
+		}
+		$('#order-form').submit();
+	});
+	
+
 });	//레디
 
 </script>
 </head>
 <div style="min-height: 1000px;">
 	<div class="view-page">
-		<!-- 상단 박스 -->
-		<div class="up-contents">
-			<div class="up-box clearfix">
-				<!-- 배송지 정보 -->
-				<div class="delivery-box">
-					<div class="delivery-text">
-						<h1>배송지 선택</h1>
-					</div>
-					<div class="delivery-menu clearfix">
-						<div class="my float-left background-gray">
-							<h4>내 배송지</h4>
+		<form method="post" action="<%=request.getContextPath()%>/items/orderRequest" id="order-form">
+			<!-- 상단 박스 -->
+			<div class="up-contents">
+				<div class="up-box clearfix">
+					<!-- 배송지 정보 -->
+					<div class="delivery-box">
+						<div class="delivery-text">
+							<h1>배송지 선택</h1>
 						</div>
-						<div class="new float-left">
-							<h4>새로운 배송지</h4>
-						</div>
-						<div class="list float-left">
-							<h4>배송지 목록</h4>
-						</div>
-						<!-- 배송지 목록 창 -->  
-						<div class="delivery-list display-none">
-							<div class="delivery-list-box clearfix">
-								<table class="table" style="border:none;">
-									<tr class="table-title">
-										<th width="15%">이름</th>
-										<th width="25%">연락처</th>
-										<th width="45%">주소</th>
-										<th width="15%">선택</th>
-									</tr>
-									<c:forEach items="${addressList}" var="list">
-										<tr class="table-contents">
-											<input type="hidden" value="${list.no}" name="addressList_no">
-											<th class="list-name">${list.name}</th>
-											<th class="list-phone">${list.phone}</th>
-											<th class="list-address">${list.address}</th>
-											<th>
-												<button class="address-select">선택</button>
-											</th>
-										</tr> 
-									</c:forEach>
-								</table>
-								<button class="addressList-cancel" id="addressList-cancel">취소</button>
+						<div class="delivery-menu clearfix">
+							<div class="my float-left background-gray">
+								<h4>내 배송지</h4>
+							</div>
+							<div class="new float-left">
+								<h4>새로운 배송지</h4>
+							</div>
+							<div class="list float-left">
+								<h4>배송지 목록</h4>
+							</div>
+							<input type="hidden" name="delivery_code" value="0"> 
+							<input type="hidden" name="id" value="${user.id}">
+							<!-- 배송지 목록 창 -->  
+							<div class="delivery-list display-none">
+								<input type="hidden" name="address_no" value="0">
+								<div class="delivery-list-box clearfix">
+									<table class="table" style="border:none;">
+										<tr class="table-title">
+											<th width="15%">이름</th>
+											<th width="25%">연락처</th>
+											<th width="45%">주소</th>
+											<th width="15%">선택</th>
+										</tr>
+										<c:forEach items="${addressList}" var="list">
+											<tr class="table-contents">
+												<th class="list-name">${list.name}</th>
+												<th class="list-phone">${list.phone}</th>
+												<th class="list-address">${list.address}</th>
+												<th>
+													<input type="hidden" value="${list.no}" class="address-no">
+													<button type="button" class="address-select">선택</button>
+												</th>
+											</tr> 
+										</c:forEach>
+									</table>
+									<button type="button" class="addressList-cancel" id="addressList-cancel">취소</button>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="delivery-info">
-						<div class="name-box clearfix">
-							<h4 class="float-left">이름</h4>
-							<input class="float-left" value="${user.name}" name="name">
-						</div>
-						<div class="phone-box clearfix">
-							<h4 class="float-left">연락처</h4>
-							<input class="float-left" value="${user.phone}" name="phone">							
-						</div>
-						<div class="address-box">
-							<h3>주소</h3>
-							<div class="zib-code clearfix display-none">
-								<h5 class="float-left">우편번호</h5>
-								<input class="float-left"> 
+						<div class="delivery-info">
+							<div class="name-box clearfix">
+								<h4 class="float-left">이름</h4>
+								<input class="float-left" value="${user.name}" name="name">
 							</div>
-							<div class="address">
-								<h5>상세 주소</h5>
-								<input  class="address-input" value="${user.address}" name="address">
+							<div class="phone-box clearfix">
+								<h4 class="float-left">연락처</h4>
+								<input class="float-left" value="${user.phone}" name="phone">							
 							</div>
+							<div class="address-box">
+								<h3>주소</h3>
+								<div class="zib-code clearfix display-none">
+									<h5 class="float-left">우편번호</h5>
+									<input class="float-left"> 
+								</div>
+								<div class="address">
+									<h5>상세 주소</h5>
+									<input  class="address-input" value="${user.address}" name="address">
+								</div>
+							</div>
+							<div class="request-box">
+								<h4>배송 시 요청 사항</h4>
+								<select id="request-select">
+									<option value="0">요청 사항 없음</option>
+									<option value="1">배송 전, 연락 바랍니다</option>
+									<option value="2">부재 시, 경비실에 맡겨 주세요</option>
+									<option value="3">부재 시, 문 앞에 놔주세요</option>
+									<option value="4">직접 입력</option>
+								</select>							
+							</div>
+							<div class="message-box">
+								<input name="request" value="요청 사항 없음">
+							</div>						
 						</div>
-						<div class="request-box">
-							<h4>배송 시 요청 사항</h4>
-							<select id="request-select">
-								<option value="0">요청 사항 없음</option>
-								<option value="1">배송 전, 연락 바랍니다</option>
-								<option value="2">부재 시, 경비실에 맡겨 주세요</option>
-								<option value="3">부재 시, 문 앞에 놔주세요</option>
-								<option value="4">직접 입력</option>
-							</select>							
-						</div>
-						<div class="message-box">
-							<input name="request" value="요청 사항 없음">
-						</div>						
 					</div>
-				</div>
-				<!-- 주문 상품 정보 -->
-				<div class="order-info-box">
-					<div class="info-box">
-						<div class="info-text">
-							<h1>주문 상품 정보</h1>
-						</div>
+					<!-- 주문 상품 정보 -->
+					<div class="order-info-box">
 						<div class="info-box">
-							<c:forEach items="${optionList}" var="order">
-								<div class="info-set">
-									<div class="item-name clearfix">
-										<input class="float-right" value="${order.select}">
-										<h4 class="float-right">선택 상품</h4>
+							<div class="info-text">
+								<h1>주문 상품 정보</h1>
+							</div>
+							<div class="info-box">
+								<c:forEach items="${optionList}" var="order">
+									<div class="info-set">
+										<input type="hidden" value="${order.item_no}" name="item_no">
+										<input type="hidden" value="${order.no}" name="option_no">
+										<div class="item-name clearfix">
+											<input class="float-right" value="${order.select}" name="select">
+											<h4 class="float-right">선택 상품</h4>
+										</div>
+										<div class="item-option clearfix">
+											<input class="float-right" value="${order.detail}" name="detail">
+											<h4 class="float-right">세부 옵션</h4>
+										</div>
+										<div class="item-count clearfix">
+											<input class="float-right" value="${order.stock}" name="count">
+											<h4 class="float-right">수량</h4>
+										</div>
+										<div class="item-price clearfix">
+											<input class="float-right" value="${order.price}" name="price">
+											<h4 class="float-right">가격</h4>
+										</div>
 									</div>
-									<div class="item-option clearfix">
-										<input class="float-right" value="${order.detail}">
-										<h4 class="float-right">세부 옵션</h4>
+								</c:forEach>
+							</div>
+							<!-- 상품 정보 묶음 -->
+							<div class="info-total">
+								<div class="total-box clearfix">
+									<div class="float-right">
+										<h4>건</h4>
 									</div>
-									<div class="item-count clearfix">
-										<input class="float-right" value="${order.stock}">
-										<h4 class="float-right">수량</h4>
+									<div class="float-right">
+										<h4>${orderCount}</h4>
 									</div>
-									<div class="item-price clearfix">
-										<input class="float-right" value="${order.price}">
-										<h4 class="float-right">가격</h4>
+									<div class="float-right">
+										<h4>총</h4>
 									</div>
-								</div>
-							</c:forEach>
-						</div>
-						<!-- 상품 정보 묶음 -->
-						<div class="info-total">
-							<div class="total-box clearfix">
-								<div class="float-right">
-									<h4>건</h4>
-								</div>
-								<div class="float-right">
-									<h4>${orderCount}</h4>
-								</div>
-								<div class="float-right">
-									<h4>총</h4>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 하단 컨텐츠 시작 -->
-		<div class="down-contents">
-			<div class="down-box clearfix">
-				<!-- 결제 수단 선택창 -->
-				<div class="pay-box">
-					<div class="pay-text">
-						<h1>결제 수단 선택</h1>
-					</div>
-					<div class="pay-menu clearfix">
-						<div class="menu-box">
-							<h4 style="margin: 0;">결제 수단 선택</h3>
+			<!-- 하단 컨텐츠 시작 -->
+			<div class="down-contents">
+				<div class="down-box clearfix">
+					<!-- 결제 수단 선택창 -->
+					<div class="pay-box">
+						<div class="pay-text">
+							<h1>결제 수단 선택</h1>
 						</div>
-					</div>
-					<div class="pay-choice">
-						<div class="phone">
-							<h2>핸드폰 결제</h2>
-						</div>
-						<div class="card">
-							<h2>카드 결제</h2>
-						</div>
-						<div class="deposit">
-							<h2>무통장 입금</h2>
-						</div>
-						<div class="transfer" style="border: none;">
-							<h2>계좌이체</h2>
-						</div>
-					</div>
-				</div>
-				<!-- 최종 주문 정보창 -->
-				<div class="total-order-box">
-					<div class="order-text">
-						<h1>최종 결제 정보</h1>
-					</div>
-					<div class="order-contents">
-						<div class="last-set">
-							<div class="item-price clearfix">
-								<input class="float-right" value="${total_price}" id="total_price">
-								<h5 class="float-right">상품 가격</h5>
-							</div>
-							<div class="delivery-price clearfix">
-								<input class="float-right" id="delivery_price">
-								<h5 class="float-right">배송비</h5>
-							</div>
-							<div class="coupon-price clearfix">
-								<input class="float-right" id="coupon_price">
-								<button class="float-right">쿠폰</button>
-							</div> 
-							<div class="total-price clearfix" style="margin-top: 50px;">
-								<input class="float-right" id="last_price">
-								<h5 class="float-right">결제 예정액</h5>
+						<div class="pay-menu clearfix">
+							<div class="menu-box">
+								<h4 style="margin: 0;">결제 수단 선택</h3>
 							</div>
 						</div>
-						<div class="button-box">
-							<button>
-								<h1>주문하기</h1>
-							</button>
+						<div class="pay-choice">
+							<div class="phone">
+								<h2>핸드폰 결제</h2>
+							</div>
+							<div class="card">
+								<h2>카드 결제</h2>
+							</div>
+							<div class="deposit">
+								<h2>무통장 입금</h2>
+							</div>
+							<div class="transfer" style="border: none;">
+								<h2>계좌이체</h2>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- 쿠폰 창 -->
-				<div class="hidden-contents display-none">
-					<div class="hidden-box">
-						<input type="hidden" value="${user.id}" id="user_id name="id">
-						<table class="table table-box">
-							<tr class="table table-title">
-								<th width="20%" class="order-date-border">쿠폰명</th>
-								<th width="25%" class="item-info-border">할인 금액</th>
-								<th width="30%" class="order-status-border">유효 기간</th>
-								<th width="15%">쿠폰 선택</th>
-							</tr>
-							<c:forEach items="${cVo}" var="coupon">
-								<tr class="table-contents">
-									<th>${coupon.title}</th>
-									<th>${coupon.discount}</th>
-									<th>${coupon.period}</th>
-									<th>
-										<input type="hidden" value="${coupon.no}" name="coupon_no">
-										<button class="coupon-use">사용</button>
-										<input type="hidden" value="${coupon.discount}" id="coupon-discount">
-									</th>
+					<!-- 최종 주문 정보창 -->
+					<div class="total-order-box">
+						<div class="order-text">
+							<h1>최종 결제 정보</h1>
+						</div>
+						<div class="order-contents">
+							<div class="last-set">
+								<div class="item-price clearfix">
+									<input class="float-right" value="${total_price}" id="total_price" name="total_price">
+									<h5 class="float-right">상품 가격</h5>
+								</div>
+								<div class="delivery-price clearfix">
+									<input class="float-right" id="delivery_price" name="delivery_price">
+									<h5 class="float-right">배송비</h5>
+								</div>
+								<div class="coupon-price clearfix">
+									<input class="float-right" value="0" id="coupon_price" name="discount">
+									<button type="button" class="float-right">쿠폰</button>
+								</div> 
+								<div class="total-price clearfix" style="margin-top: 50px;">
+									<input class="float-right" id="last_price" name="last_price">
+									<h5 class="float-right">결제 예정액</h5>
+								</div>
+							</div>
+							<div class="button-box">
+								<button type="button" id="order">
+									<h1>주문하기</h1>
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- 쿠폰 창 -->
+					<div class="hidden-contents display-none">
+						<div class="hidden-box">
+							<table class="table table-box">
+								<tr class="table table-title">
+									<th width="20%" class="order-date-border">쿠폰명</th>
+									<th width="25%" class="item-info-border">할인 금액</th>
+									<th width="30%" class="order-status-border">유효 기간</th>
+									<th width="15%">쿠폰 선택</th>
 								</tr>
-							</c:forEach>
-						</table>
-						<div class="coupon-cancel clearfix">
-							<button class="float-right return">취소</button>
-							<button class="float-right cancel">쿠폰 적용 취소</button>							
+								<c:forEach items="${cVo}" var="coupon">
+									<tr class="table-contents">
+										<th>${coupon.title}</th>
+										<th>${coupon.discount}</th>
+										<th>${coupon.period}</th>
+										<th>
+											<input type="hidden" value="${coupon.no}" name="coupon_no">
+											<button type="button" class="coupon-use">사용</button>
+											<input type="hidden" value="${coupon.discount}" id="coupon-discount">
+										</th>
+									</tr>
+								</c:forEach>
+							</table>
+							<div class="coupon-cancel clearfix">
+								<button type="button" class="float-right return">취소</button>
+								<button type="button" class="float-right cancel">쿠폰 적용 취소</button>							
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>
 </html>

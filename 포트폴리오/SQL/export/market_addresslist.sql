@@ -18,36 +18,31 @@ USE `market`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `delivery`
+-- Table structure for table `addresslist`
 --
 
-DROP TABLE IF EXISTS `delivery`;
+DROP TABLE IF EXISTS `addresslist`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `delivery` (
+CREATE TABLE `addresslist` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
-  `buy_no` int(11) NOT NULL,
-  `start` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `end` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `company` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `deliverer` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `phone` varchar(13) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `startTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `endTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
-  PRIMARY KEY (`no`),
-  KEY `fk_delivery_buy1_idx` (`buy_no`),
-  CONSTRAINT `fk_delivery_buy1` FOREIGN KEY (`buy_no`) REFERENCES `buy` (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `id` varchar(12) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `phone` varchar(13) COLLATE utf8_bin DEFAULT NULL,
+  `address` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `valid` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'I',
+  PRIMARY KEY (`no`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `delivery`
+-- Dumping data for table `addresslist`
 --
 
-LOCK TABLES `delivery` WRITE;
-/*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
+LOCK TABLES `addresslist` WRITE;
+/*!40000 ALTER TABLE `addresslist` DISABLE KEYS */;
+INSERT INTO `addresslist` VALUES (1,'z11111111','asdasd','010-4355-2444','서울시 강변대로','I'),(2,'z11111111','민어앙','010-4566-2323','부산시 남구','I');
+/*!40000 ALTER TABLE `addresslist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -35,4 +35,6 @@ public interface MemberService {
 
 	ArrayList<AddressListVO> getAddressList(String id);
 
+	Integer addAddress(AddressListVO aVo);
+
 }

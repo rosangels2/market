@@ -119,7 +119,8 @@ public class ItemsController {
 	    return map;
 	}
     @RequestMapping(value= "/order")
-    public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,  String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id) throws Exception{
+    public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,
+    	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id) throws Exception{
     	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
         Integer orderCount = select.length;
         model.addAttribute("orderCount", orderCount);
@@ -134,12 +135,27 @@ public class ItemsController {
 	    	cVo1.setDiscount(discount);
 	    	cVo.add(cVo1);
 	    }
-	    ArrayList<AddressListVO> aVo = memberService.getAddressList(id);
+	    ArrayList<AddressListVO> aVo = memberService.getAddressList(id);	//배송지 목록 불러오기
 	    System.out.println("order aVo : " + aVo);
 	    model.addAttribute("addressList", aVo);
 	    model.addAttribute("cVo", cVo);
         return mv;
     }  
+    @RequestMapping(value="/orderRequest", method=RequestMethod.POST)
+    public String orderRequest(Integer item_no, Integer[] option_no, String[] select,
+    String[] detail,  Integer[] count,  Integer[] price, Integer total_price, Integer delivery_price, Integer coupon_price,
+    Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no){
+    	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
+    	aVo.setNo(address_no);
+    	System.out.println("orderRequest aVo: " + aVo);
+    	System.out.println("orderRequest id: " + id);
+    	System.out.println("orderRequest delivery_code : " + delivery_code);
+    	if(delivery_code == 1){
+    		Integer num = memberService.addAddress(aVo);
+    		aVo.setNo(num);
+    	}
+    	return "redirect:/myMenu";
+    }
     @RequestMapping(value= "/register", method = RequestMethod.GET)
     public ModelAndView itemRegisterGet(ModelAndView mv) throws Exception{
         mv.setViewName("/items/register");		//타일즈를 통해 불러올 jsp 경로

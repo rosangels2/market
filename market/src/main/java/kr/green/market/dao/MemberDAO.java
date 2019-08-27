@@ -21,4 +21,8 @@ public interface MemberDAO {
 
 	ArrayList<AddressListVO> selectAddressList(@Param("id")String id);
 
+	void insertAddress(@Param("aVo")AddressListVO aVo);
+
+	Integer selectInsertAddress();
+
 }

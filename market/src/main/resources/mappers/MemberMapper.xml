@@ -29,4 +29,11 @@
 	select * from addressList
 	where id = #{id}
 </select>
+<insert id="insertAddress">
+	insert into addressList(id, `name`, phone, address)
+		values(#{aVo.id}, #{aVo.name}, #{aVo.phone}, #{aVo.address})
+</insert>
+<select id="selectInsertAddress" resultType="int">
+	select max(no) from addressList
+</select>
 </mapper>

@@ -192,5 +192,14 @@ public class MemberServiceImp implements MemberService{
 		}
 		return memberDao.selectAddressList(id);
 	}
+
+	@Override
+	public Integer addAddress(AddressListVO aVo) {
+		if(aVo == null){
+			return -1;
+		}
+		memberDao.insertAddress(aVo);
+		return memberDao.selectInsertAddress();
+	}
 	
 }
