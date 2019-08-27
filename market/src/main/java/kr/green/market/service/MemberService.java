@@ -1,7 +1,10 @@
 package kr.green.market.service;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
+import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.MemberVO;
 
 public interface MemberService {
@@ -29,5 +32,7 @@ public interface MemberService {
 	void sendMail(String email, String title, String contents);
 
 	Integer getSellerNo(String id);
+
+	ArrayList<AddressListVO> getAddressList(String id);
 
 }

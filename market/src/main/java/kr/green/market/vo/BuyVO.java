@@ -8,19 +8,22 @@ public class BuyVO {
 	private String id;
 	private Integer item_no;
 	private Integer option_no;
+	private String select;
+	private String detail;
 	private Integer count;
-	private String information;
 	private Integer price;
+	private String request;
 	private Date time;
 	private String state;
 	private String valid;
 	
 	
-	public Integer getOption_no() {
-		return option_no;
+	
+	public String getRequest() {
+		return request;
 	}
-	public void setOption_no(Integer option_no) {
-		this.option_no = option_no;
+	public void setRequest(String request) {
+		this.request = request;
 	}
 	public Integer getNo() {
 		return no;
@@ -40,17 +43,29 @@ public class BuyVO {
 	public void setItem_no(Integer item_no) {
 		this.item_no = item_no;
 	}
+	public Integer getOption_no() {
+		return option_no;
+	}
+	public void setOption_no(Integer option_no) {
+		this.option_no = option_no;
+	}
+	public String getSelect() {
+		return select;
+	}
+	public void setSelect(String select) {
+		this.select = select;
+	}
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 	public Integer getCount() {
 		return count;
 	}
 	public void setCount(Integer count) {
 		this.count = count;
-	}
-	public String getInformation() {
-		return information;
-	}
-	public void setInformation(String information) {
-		this.information = information;
 	}
 	public Integer getPrice() {
 		return price;
@@ -80,9 +95,9 @@ public class BuyVO {
 	
 	@Override
 	public String toString() {
-		return "BuyVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", option_no=" + option_no + ", count="
-				+ count + ", information=" + information + ", price=" + price + ", time=" + time + ", state=" + state
-				+ ", valid=" + valid + "]";
+		return "BuyVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", option_no=" + option_no + ", select="
+				+ select + ", detail=" + detail + ", count=" + count + ", price=" + price + ", request=" + request
+				+ ", time=" + time + ", state=" + state + ", valid=" + valid + "]";
 	}
 
 }

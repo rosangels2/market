@@ -18,18 +18,31 @@
 	width: 60%;
 	min-height: 400px;
 }
+.delivery-menu{
+	position: relative;
+}
 .delivery-menu div{
 	border: 1px solid gray;
+	border-bottom: none;
+	padding: 5px 10px;
 }
-.delivery-info{
+.delivery-info{ 
+	padding: 10px;
 	border: 1px solid gray;
-	padding: 5px;
 }
+.name-box{
+	margin: 10px 0 8px 0; 
+}  
 .name-box input{
-	margin-left: 24px;
+	margin-left: 54px;
+}
+.phone-box input{
+	margin-left: 30px;
 }
 .address-box{
-	margin-top: 20px;
+	margin: 10px 0 20px 0;
+}
+.address-box input{
 }
 .zib-code input{
 	margin-left: 10px;
@@ -44,12 +57,15 @@
 	width: 100%;
 	margin-top: 5px;
 }
+
 /* 상품 정보 박스 */
 .order-info-box{
 	float: left;
 	width: 40%;
 	min-height: 300px;
-	border: 1px solid gray;
+}
+.info-text h1{
+	text-align: center;
 }
 .info-box{
 	padding: 10px;
@@ -151,14 +167,42 @@
 	margin: 20px 0;
 	padding: 10px 59px 10px 10px;
 }
+.coupon-cancel .cancel{
+	margin-right: 40px;  
+}  
 
 
+/* 배송지 목록 숨김창 */
+.delivery-menu .delivery-list{
+	position: absolute;
+	top: 0;
+	min-width: 600px;
+	min-height: 200px;
+	z-index: 20;
+	border: 1px solid gray;
+	background-color: white; 
+}
+.addressList-cancel{
+	float: right;
+	margin: 20px;
+}
+
+
+/* 공통 */
+.background-gray{
+	background-color: gray;
+}
 .display-none{
 	display: none;
 }
 </style>
 <script type="text/javascript">
-var discount;
+var discount; 
+var delevery_code = 0;
+var name = "${user.name}";
+var phone = "${user.phone}";
+var address = "${user.address}";
+
 $(document).ready(function(){
 	if($('#total_price').val() < 30000){
 		$('#delivery_price').val(3000);
@@ -179,20 +223,86 @@ $(document).ready(function(){
 	
 	$('.coupon-use').click(function(){
 		var t = $('#total_price').val();
-		var a = $(this).siblings('input[name=discount]').val();
+		var a = $(this).siblings('#coupon-discount').val();
 		if($('#total_price').val() < 30000){
 			$('#delivery_price').val(3000);
-			$('input[name=coupon_price]').val(parseInt(a));
+			$('#coupon_price').val(parseInt(a));
 			$('#last_price').val(parseInt(t)+3000-parseInt(a)); 
 			$('.hidden-contents').addClass('display-none');
 		}else{
 			$('#delivery_price').val(0);
-			$('input[name=coupon_price]').val(parseInt(a));
+			$('#coupon_price').val(parseInt(a));
 			$('#last_price').val(parseInt(t)-parseInt(a)); 
 			$('.hidden-contents').addClass('display-none');
 		}
 	});
 
+	$('.coupon-cancel .cancel').click(function(){
+		$('.hidden-contents').addClass('display-none');
+		if($('#total_price').val() < 30000){
+			$('#delivery_price').val(3000);
+			var t = $('#total_price').val();
+			$('#last_price').val(parseInt(t)+3000); 
+			$('#coupon_price').val("");
+		}else{
+			$('#delivery_price').val(0);
+			$('#last_price').val($('#total_price').val());
+			$('#coupon_price').val("");
+		}
+	});
+	
+
+	$('.delivery-menu .my').click(function(){
+		$('.name-box input').val(name);
+		$('.phone-box input').val(phone);
+		$('.address input[name=address]').val(address);
+		$(this).siblings().removeClass('background-gray');
+		$(this).addClass('background-gray');
+		delevery_code = 0;
+	});
+	
+	$('.delivery-menu .new').click(function(){
+		$('.name-box input').val("");
+		$('.phone-box input').val("");
+		$('.address input[name=address]').val("");
+		$(this).siblings().removeClass('background-gray');
+		$(this).addClass('background-gray');
+		delevery_code = 1;
+	});
+	
+	$('.delivery-menu .list').click(function(){
+		$('.delivery-list').removeClass('display-none');
+	});
+	
+	$('#addressList-cancel').click(function(){
+		$('.delivery-list').addClass('display-none');
+	});
+	
+	$('.address-select').click(function(){
+		var name = $(this).parent().siblings('.list-name').html();
+		var phone = $(this).parent().siblings('.list-phone').html();
+		var address = $(this).parent().siblings('.list-address').html();
+		$('.name-box input[name=name]').val(name);
+		$('.phone-box input[name=phone]').val(phone);
+		$('.address-box input[name=address]').val(address);
+		$('.delivery-list').addClass('display-none');
+		delevery_code = 0;
+	}); 
+	
+	$('#request-select').change(function(){
+		if($(this).val() == 0){
+			$('.message-box input[name=request]').val("요청 사항 없음");
+		}else if($(this).val() == 1){
+			$('.message-box input[name=request]').val("배송 전, 연락 바랍니다");
+		}else if($(this).val() == 2){
+			$('.message-box input[name=request]').val("부재 시, 경비실에 맡겨 주세요");
+		}else if($(this).val() == 3){
+			$('.message-box input[name=request]').val("부재 시, 문 앞에 놔주세요");
+		}else if($(this).val() == 4){
+			$('.message-box input[name=request]').val("");
+		}
+	});
+	
 });	//레디
 
 </script>
@@ -208,8 +318,8 @@ $(document).ready(function(){
 						<h1>배송지 선택</h1>
 					</div>
 					<div class="delivery-menu clearfix">
-						<div class="current float-left">
-							<h4>최근 배송지</h4>
+						<div class="my float-left background-gray">
+							<h4>내 배송지</h4>
 						</div>
 						<div class="new float-left">
 							<h4>새로운 배송지</h4>
@@ -217,39 +327,64 @@ $(document).ready(function(){
 						<div class="list float-left">
 							<h4>배송지 목록</h4>
 						</div>
+						<!-- 배송지 목록 창 -->  
+						<div class="delivery-list display-none">
+							<div class="delivery-list-box clearfix">
+								<table class="table" style="border:none;">
+									<tr class="table-title">
+										<th width="15%">이름</th>
+										<th width="25%">연락처</th>
+										<th width="45%">주소</th>
+										<th width="15%">선택</th>
+									</tr>
+									<c:forEach items="${addressList}" var="list">
+										<tr class="table-contents">
+											<input type="hidden" value="${list.no}" name="addressList_no">
+											<th class="list-name">${list.name}</th>
+											<th class="list-phone">${list.phone}</th>
+											<th class="list-address">${list.address}</th>
+											<th>
+												<button class="address-select">선택</button>
+											</th>
+										</tr> 
+									</c:forEach>
+								</table>
+								<button class="addressList-cancel" id="addressList-cancel">취소</button>
+							</div>
+						</div>
 					</div>
 					<div class="delivery-info">
 						<div class="name-box clearfix">
 							<h4 class="float-left">이름</h4>
-							<input class="float-left">
+							<input class="float-left" value="${user.name}" name="name">
 						</div>
 						<div class="phone-box clearfix">
 							<h4 class="float-left">연락처</h4>
-							<input class="float-left">							
+							<input class="float-left" value="${user.phone}" name="phone">							
 						</div>
 						<div class="address-box">
 							<h3>주소</h3>
-							<div class="zib-code clearfix">
+							<div class="zib-code clearfix display-none">
 								<h5 class="float-left">우편번호</h5>
 								<input class="float-left"> 
 							</div>
 							<div class="address">
 								<h5>상세 주소</h5>
-								<input  class="address-input">
+								<input  class="address-input" value="${user.address}" name="address">
 							</div>
 						</div>
 						<div class="request-box">
 							<h4>배송 시 요청 사항</h4>
-							<select>
-								<option>배송 시 요청 사항</option>
-								<option>배송 전, 연락 바랍니다</option>
-								<option>부재 시, 경비실에 맡겨 주세요</option>
-								<option>부재 시, 문 앞에 놔주세요</option>
-								<option>직접 입력</option>
+							<select id="request-select">
+								<option value="0">요청 사항 없음</option>
+								<option value="1">배송 전, 연락 바랍니다</option>
+								<option value="2">부재 시, 경비실에 맡겨 주세요</option>
+								<option value="3">부재 시, 문 앞에 놔주세요</option>
+								<option value="4">직접 입력</option>
 							</select>							
 						</div>
 						<div class="message-box">
-							<input>
+							<input name="request" value="요청 사항 없음">
 						</div>						
 					</div>
 				</div>
@@ -343,7 +478,7 @@ $(document).ready(function(){
 								<h5 class="float-right">배송비</h5>
 							</div>
 							<div class="coupon-price clearfix">
-								<input class="float-right" name="coupon_price">
+								<input class="float-right" id="coupon_price">
 								<button class="float-right">쿠폰</button>
 							</div> 
 							<div class="total-price clearfix" style="margin-top: 50px;">
@@ -361,7 +496,7 @@ $(document).ready(function(){
 				<!-- 쿠폰 창 -->
 				<div class="hidden-contents display-none">
 					<div class="hidden-box">
-						<input type="hidden" value="${user.id}" id="user_id">
+						<input type="hidden" value="${user.id}" id="user_id name="id">
 						<table class="table table-box">
 							<tr class="table table-title">
 								<th width="20%" class="order-date-border">쿠폰명</th>
@@ -377,13 +512,14 @@ $(document).ready(function(){
 									<th>
 										<input type="hidden" value="${coupon.no}" name="coupon_no">
 										<button class="coupon-use">사용</button>
-										<input type="hidden" value="${coupon.discount}" name="discount">
+										<input type="hidden" value="${coupon.discount}" id="coupon-discount">
 									</th>
 								</tr>
 							</c:forEach>
 						</table>
 						<div class="coupon-cancel clearfix">
-							<button class="float-right">취소</button>
+							<button class="float-right return">취소</button>
+							<button class="float-right cancel">쿠폰 적용 취소</button>							
 						</div>
 					</div>
 				</div>

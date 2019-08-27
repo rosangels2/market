@@ -25,4 +25,8 @@
 	select no from seller
 	where id = #{id}
 </select>
+<select id="selectAddressList" resultType="kr.green.market.vo.AddressListVO">
+	select * from addressList
+	where id = #{id}
+</select>
 </mapper>

@@ -1,5 +1,7 @@
 package kr.green.market.service;
 
+import java.util.ArrayList;
+
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.MemberDAO;
+import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.MemberVO;
 
 @Service
@@ -180,6 +183,14 @@ public class MemberServiceImp implements MemberService{
 			return null;
 		}
 		return memberDao.selectSellerNo(id);
+	}
+
+	@Override
+	public ArrayList<AddressListVO> getAddressList(String id) {
+		if(id == null){
+			return null;
+		}
+		return memberDao.selectAddressList(id);
 	}
 	
 }
