@@ -62,4 +62,15 @@
 	select * from coupon
 	where no = #{no}
 </select>
+<insert id="insertBuy">
+	insert into buy(id, item_no, option_no, buy.select, detail, buy.count, price, request)
+		values(#{bVo.id}, #{bVo.item_no}, #{bVo.option_no}, #{bVo.select}, #{bVo.detail}, #{bVo.count}, #{bVo.price}, #{bVo.request})
+</insert>
+<select id="selectMaxBuy" resultType="int">
+	select max(no) from buy
+</select>
+<select id="selectBuy" resultType="kr.green.market.vo.BuyVO">
+	select * from buy
+	where no = #{no}
+</select>
 </mapper>

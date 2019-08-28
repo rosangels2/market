@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.ItemDAO;
+import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
@@ -138,5 +139,14 @@ public class ItemServiceImp implements ItemService{
 			return null;
 		}
 		return itemDao.selectCoupon(coupon_no);
+	}
+	@Override
+	public BuyVO addBuy(BuyVO bVo) {
+		if(bVo == null){
+			return null;
+		}
+		itemDao.insertBuy(bVo);
+		int num = itemDao.selectMaxBuy();
+		return itemDao.selectBuy(num);
 	}
 }

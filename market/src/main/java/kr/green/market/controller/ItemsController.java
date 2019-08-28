@@ -30,6 +30,7 @@ import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.utils.UploadFileUtils;
 import kr.green.market.vo.AddressListVO;
+import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.FileVO;
@@ -144,13 +145,29 @@ public class ItemsController {
     @RequestMapping(value="/orderRequest", method=RequestMethod.POST)
     public String orderRequest(Integer item_no, Integer[] option_no, String[] select,
     String[] detail,  Integer[] count,  Integer[] price, Integer total_price, Integer delivery_price, Integer coupon_price,
-    Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no){
-    	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
+    Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no, String request){
+    	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);	//option 객체로 변환
+    	System.out.println("orderRequest orderList : " + orderList);
     	if(delivery_code == 0){
     		aVo.setNo(address_no);
     	}else if(delivery_code == 1){
     		Integer num = memberService.addAddress(aVo);	//배송지 등록
     		aVo.setNo(num);
+    	}
+    	BuyVO bVo = new BuyVO();
+    	System.out.println("orderRequest bVo : " + bVo);
+    	for(int i=0; i<orderList.size(); i++){
+    		bVo.setId(id);
+    		bVo.setItem_no(orderList.get(i).getItem_no());
+    		bVo.setOption_no(orderList.get(i).getNo());
+    		bVo.setSelect(orderList.get(i).getSelect());
+    		bVo.setDetail(orderList.get(i).getDetail());
+    		bVo.setCount(orderList.get(i).getStock());
+    		bVo.setPrice(orderList.get(i).getPrice());
+    		bVo.setRequest(request);
+    		System.out.println("orderRequest bVo : " + bVo);
+    		BuyVO bVo1 = itemService.addBuy(bVo);
+    		System.out.println("orderRequest addbVo1 : " + bVo1);
     	}
     	return "redirect:/myMenu";
     }

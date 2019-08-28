@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
@@ -41,5 +42,13 @@ public interface ItemDAO {
 	ArrayList selectCouponList(@Param("id")String id);
 
 	CouponVO selectCoupon(@Param("no")Integer coupon_no);
+
+	void insertBuy(@Param("bVo")BuyVO bVo);
+
+	int selectMaxBuy();
+
+	BuyVO selectBuy(@Param("no")int num);
+	
+	
 
 }
