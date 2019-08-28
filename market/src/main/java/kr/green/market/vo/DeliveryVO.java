@@ -6,6 +6,9 @@ public class DeliveryVO {
 
 	private Integer no;
 	private Integer buy_no;
+	private String seller_name;
+	private String contents;
+	private String request;
 	private String start;
 	private String end;
 	private String company;
@@ -16,6 +19,24 @@ public class DeliveryVO {
 	private String valid;
 	
 	
+	public String getSeller_name() {
+		return seller_name;
+	}
+	public void setSeller_name(String seller_name) {
+		this.seller_name = seller_name;
+	}
+	public String getContents() {
+		return contents;
+	}
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+	public String getRequest() {
+		return request;
+	}
+	public void setRequest(String request) {
+		this.request = request;
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -80,9 +101,10 @@ public class DeliveryVO {
 	
 	@Override
 	public String toString() {
-		return "DeliveryVO [no=" + no + ", buy_no=" + buy_no + ", start=" + start + ", end=" + end + ", company="
-				+ company + ", deliverer=" + deliverer + ", phone=" + phone + ", startTime=" + startTime + ", endTime="
-				+ endTime + ", valid=" + valid + "]";
+		return "DeliveryVO [no=" + no + ", buy_no=" + buy_no + ", seller_name=" + seller_name + ", contents=" + contents
+				+ ", request=" + request + ", start=" + start + ", end=" + end + ", company=" + company + ", deliverer="
+				+ deliverer + ", phone=" + phone + ", startTime=" + startTime + ", endTime=" + endTime + ", valid="
+				+ valid + "]";
 	}
-	
+
 }

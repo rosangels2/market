@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.MemberVO;
+import kr.green.market.vo.SellerVO;
 
 public interface MemberService {
 
@@ -36,5 +37,7 @@ public interface MemberService {
 	ArrayList<AddressListVO> getAddressList(String id);
 
 	Integer addAddress(AddressListVO aVo);
+
+	SellerVO getSeller(Integer item_no);
 
 }

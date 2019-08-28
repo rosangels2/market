@@ -33,6 +33,7 @@ import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
+import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
@@ -155,6 +156,7 @@ public class ItemsController {
     		aVo.setNo(num);
     	}
     	BuyVO bVo = new BuyVO();
+    	DeliveryVO dVo = new DeliveryVO();
     	System.out.println("orderRequest bVo : " + bVo);
     	for(int i=0; i<orderList.size(); i++){
     		bVo.setId(id);
@@ -166,8 +168,18 @@ public class ItemsController {
     		bVo.setPrice(orderList.get(i).getPrice());
     		bVo.setRequest(request);
     		System.out.println("orderRequest bVo : " + bVo);
-    		BuyVO bVo1 = itemService.addBuy(bVo);
-    		System.out.println("orderRequest addbVo1 : " + bVo1);
+    		BuyVO bVo1 = itemService.addBuy(bVo);				//구매 정보 등록하기
+    		System.out.println("orderRequest bVo1 : " + bVo1);
+        	SellerVO sVo = memberService.getSeller(orderList.get(i).getItem_no());	//판매자 정보 가져오기
+        	System.out.println("orderRequest sVo : " + sVo);	
+        	dVo.setBuy_no(bVo1.getNo());
+        	dVo.setRequest(request);
+        	dVo.setStart(sVo.getPlace());
+        	dVo.setEnd(aVo.getAddress());
+        	dVo.setSeller_name(sVo.getName());
+        	dVo.setContents("선택 상품 : " + orderList.get(i).getSelect()+" / 선택 옵션 : " + orderList.get(i).getDetail()+" / 수량 : "+orderList.get(i).getStock());
+        	DeliveryVO dVo1 = itemService.addDelivery(dVo);
+        	System.out.println("orderRequest dVo1 : " + dVo1);
     	}
     	return "redirect:/myMenu";
     }

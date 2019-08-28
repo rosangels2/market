@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
+import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
@@ -48,7 +49,13 @@ public interface ItemDAO {
 	int selectMaxBuy();
 
 	BuyVO selectBuy(@Param("no")int num);
-	
-	
+
+	ItemVO selectSeller(@Param("")Integer item_no);
+
+	void insertDelivery(@Param("dVo")DeliveryVO dVo);
+
+	int selectMaxDelivery();
+
+	DeliveryVO selectDelivery(@Param("no")int num);
 
 }

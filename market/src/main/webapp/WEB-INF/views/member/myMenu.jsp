@@ -602,7 +602,7 @@ function menuClick(selecter){
 						</div>			
 					</div>
 					<!-- 내 정보 수정 클릭 시 -->
-					<div class="info-modify">
+					<div class="info-modify display-none">
 						<div class="info-modify-contents">
 							<div class="container offset-3 col-6 signup-box">
 								<form method="post" action="<%=request.getContextPath()%>/modify" id="modify">

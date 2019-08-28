@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
+import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
@@ -40,5 +41,7 @@ public interface ItemService {
 	CouponVO getCoupon(Integer coupon_no);
 
 	BuyVO addBuy(BuyVO bVo);
+
+	DeliveryVO addDelivery(DeliveryVO dVo);
 
 }

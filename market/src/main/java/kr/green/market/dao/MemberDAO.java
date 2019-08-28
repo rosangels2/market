@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.MemberVO;
+import kr.green.market.vo.SellerVO;
 
 public interface MemberDAO {
 
@@ -24,5 +25,7 @@ public interface MemberDAO {
 	void insertAddress(@Param("aVo")AddressListVO aVo);
 
 	Integer selectInsertAddress();
+
+	SellerVO selectSeller(@Param("id")String seller_id);
 
 }

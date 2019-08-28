@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.green.market.dao.ItemDAO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
+import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
@@ -148,5 +149,14 @@ public class ItemServiceImp implements ItemService{
 		itemDao.insertBuy(bVo);
 		int num = itemDao.selectMaxBuy();
 		return itemDao.selectBuy(num);
+	}
+	@Override
+	public DeliveryVO addDelivery(DeliveryVO dVo) {
+		if(dVo == null) {
+			return null;
+		}
+		itemDao.insertDelivery(dVo);
+		int num = itemDao.selectMaxDelivery();
+		return itemDao.selectDelivery(num);
 	}
 }

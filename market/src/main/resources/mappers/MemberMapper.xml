@@ -36,4 +36,8 @@
 <select id="selectInsertAddress" resultType="int">
 	select max(no) from addressList
 </select>
+<select id="selectSeller" resultType="kr.green.market.vo.SellerVO">
+	select * from seller
+	where id = #{id}
+</select>
 </mapper>

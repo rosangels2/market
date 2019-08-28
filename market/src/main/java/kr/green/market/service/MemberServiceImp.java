@@ -12,15 +12,20 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import kr.green.market.dao.ItemDAO;
 import kr.green.market.dao.MemberDAO;
 import kr.green.market.vo.AddressListVO;
+import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.MemberVO;
+import kr.green.market.vo.SellerVO;
 
 @Service
 public class MemberServiceImp implements MemberService{
 
 	@Autowired
 	MemberDAO memberDao;
+	@Autowired
+	ItemDAO itemDao;
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	@Autowired
@@ -200,6 +205,15 @@ public class MemberServiceImp implements MemberService{
 		}
 		memberDao.insertAddress(aVo);
 		return memberDao.selectInsertAddress();
+	}
+
+	@Override
+	public SellerVO getSeller(Integer item_no) {
+		if(item_no == null) {
+			return null;
+		}
+		ItemVO iVo = itemDao.selectItem(item_no);
+		return memberDao.selectSeller(iVo.getSeller_id());
 	}
 	
 }

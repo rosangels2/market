@@ -73,4 +73,15 @@
 	select * from buy
 	where no = #{no}
 </select>
+<insert id="insertDelivery">
+	insert into delivery(buy_no, seller_name, contents, request, delivery.start, delivery.end)
+		values(#{dVo.buy_no}, #{dVo.seller_name}, #{dVo.contents}, #{dVo.request}, #{dVo.start}, #{dVo.end})
+</insert>
+<select id="selectMaxDelivery" resultType="int">
+	select max(no) from delivery
+</select>
+<select id="selectDelivery" resultType="kr.green.market.vo.DeliveryVO">
+	select * from delivery
+	where no = #{no}
+</select>
 </mapper>
