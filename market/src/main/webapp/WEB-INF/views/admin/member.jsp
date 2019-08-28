@@ -68,6 +68,7 @@
 										<option>등급 변경</option>
 										<option>회원</option>
 										<option>판매자</option>
+										<option>배송자</option>
 										<option>탈퇴</option>
 									</select>
 								</th>

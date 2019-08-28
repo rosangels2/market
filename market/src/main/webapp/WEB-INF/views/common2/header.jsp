@@ -35,7 +35,15 @@
 			      	<li class="nav-item">
 			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/coupon" style="color : white;">쿠폰 관리</a>
 			      	</li>    
-		      	</c:if>        			      	
+		      	</c:if>    
+		      	<c:if test="${user.grade eq 'deliverer'}">
+		      		<li class="nav-item">
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/delivery/register" style="color : white;">배송 등록</a>
+			      	</li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/delivery/finish" style="color : white;">배송 종료</a>
+			      	</li>
+		      	</c:if>
 	    	</ul>
 		</div> 
 		<c:if test="${user eq null}">
