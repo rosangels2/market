@@ -45,7 +45,14 @@
 }
 </style>
 <script type="text/javascript">
-
+$(document).ready(function(){
+	$('#register-button').click(function(){
+		if($('input[name=company]').val() == "" || $('input[name=delivery_no]').val() == ""){
+			return false;
+		}
+		$('#register').submit();
+	});
+});
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -56,12 +63,8 @@
 					<div class="title">
 						<h2>배송자 등록</h2>
 					</div>
-					<form method="post" id="register">
+					<form method="post" id="register" action="">
 						<div class="input-box clearfix">
-							<div class="company">
-								<h4>회사명</h4>
-								<input name="company">
-							</div>
 							<div class="deliverer">
 								<h4>배송자</h4>
 								<input name="deliverer" value="${user.name}">
@@ -70,12 +73,16 @@
 								<h4>연락처</h4>
 								<input name="phone" value="${user.phone}">
 							</div>
+							<div class="company">
+								<h4>회사명</h4>
+								<input name="company">
+							</div>
 							<div class="delivery_no">
 								<h4>배송번호</h4>
 								<input name="delivery_no">
 							</div>
 							<div class="button-box clearfix">
-								<button>등록하기</button>
+								<button type="button" id="register-button">등록하기</button>
 							</div>
 						</div>
 					</form>

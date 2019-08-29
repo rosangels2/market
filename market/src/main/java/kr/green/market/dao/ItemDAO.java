@@ -58,4 +58,6 @@ public interface ItemDAO {
 
 	DeliveryVO selectDelivery(@Param("no")int num);
 
+	void updateBuy(@Param("bVo")BuyVO bVo);
+
 }

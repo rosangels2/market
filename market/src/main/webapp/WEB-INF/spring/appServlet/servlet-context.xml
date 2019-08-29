@@ -82,6 +82,7 @@
 			       	<mapping path="/items/administration"/>
 			       	<mapping path="/items/order"/>
 			       	<mapping path="/myMenu"/>
+			       	<mapping path="/delivery/*"/>
 			     	<beans:ref bean="authInterceptor"/>		<!-- 위쪽 beans의 id와 일치해야 한다 -->
 			</interceptor>
 			

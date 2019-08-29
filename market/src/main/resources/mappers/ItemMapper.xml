@@ -84,4 +84,9 @@
 	select * from delivery
 	where no = #{no}
 </select>
+<update id="updateBuy">
+	update `buy`
+		set request = #{bVo.request}, state = #{bVo.state}, valid = #{bVo.valid}
+		where no = #{bVo.no}
+</update>
 </mapper>

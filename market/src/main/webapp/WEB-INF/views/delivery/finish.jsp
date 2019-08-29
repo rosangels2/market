@@ -45,7 +45,14 @@
 }
 </style>
 <script type="text/javascript">
-
+$(document).ready(function(){
+	$('#finish-button').click(function(){
+		if($('input[name=delivery_no]').val() == ""){
+			return false;
+		}
+		$('#finish').submit();
+	});
+});
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -56,7 +63,7 @@
 					<div class="title">
 						<h2>배송 완료 등록</h2>
 					</div>
-					<form method="post" id="register">
+					<form method="post" id="finish" action="">
 						<div class="input-box clearfix">
 							<div class="deliverer">
 								<h4>배송자</h4>
@@ -71,7 +78,7 @@
 								<input name="delivery_no">
 							</div>
 							<div class="button-box clearfix">
-								<button>배송 완료</button>
+								<button id="finish-button">배송 완료</button>
 							</div>
 						</div>
 					</form>

@@ -8,4 +8,10 @@ public interface DeliveryService {
 
 	ArrayList<DeliveryVO> getDeliveryListAll();
 
+	DeliveryVO getDelivery(Integer delivery_no);
+
+	boolean addDeliverer(DeliveryVO dVo);
+
+	boolean endDelivery(String deliverer, String phone, Integer delivery_no);
+
 }
