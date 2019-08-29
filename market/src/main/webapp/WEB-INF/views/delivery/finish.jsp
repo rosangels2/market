@@ -67,11 +67,11 @@ $(document).ready(function(){
 						<div class="input-box clearfix">
 							<div class="deliverer">
 								<h4>배송자</h4>
-								<input name="deliverer" value="${user.name}">
+								<input name="deliverer1" value="${user.name}">
 							</div>
 							<div class="phone">
 								<h4>연락처</h4>
-								<input name="phone" value="${user.phone}">
+								<input name="phone1" value="${user.phone}">
 							</div>
 							<div class="delivery_no">
 								<h4>배송번호</h4>
@@ -94,27 +94,15 @@ $(document).ready(function(){
 							<th width="20%">출발지</th>
 							<th width="20%">도착지</th>
 						</tr>
-						<tr class="table-contents">
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-							<th>5</th>
-						</tr>
-						<tr class="table-contents">
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-							<th>5</th>
-						</tr>
-						<tr class="table-contents">
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-							<th>5</th>
-						</tr>
+						<c:forEach items="${delivererList}" var="list">
+							<tr class="table-contents">
+								<th>${list.no}</th>
+								<th>${list.buy_no}</th>
+								<th>${list.contents}</th>
+								<th>${list.start}</th>
+								<th>${list.end}</th>
+							</tr>
+						</c:forEach>
 					</table>
 				</div>
 			</div>

@@ -14,4 +14,6 @@ public interface DeliveryService {
 
 	boolean endDelivery(String deliverer, String phone, Integer delivery_no);
 
+	ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone);
+
 }

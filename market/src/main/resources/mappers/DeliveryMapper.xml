@@ -5,7 +5,7 @@
 <mapper namespace="kr.green.market.dao.DeliveryDAO">	<!-- DAO 인터페이스가 있는 파일명 -->
 <select id="selectDeliveryListAll" resultType="kr.green.market.vo.DeliveryVO">
 	select * from delivery 
-	where company is null 
+	where deliverer is null 
 </select>
 <select id="selectDelivery" resultType="kr.green.market.vo.DeliveryVO">
 	select * from delivery
@@ -21,4 +21,8 @@
 		set endTime = now()
 		where no = #{dVo.no}
 </update>
+<select id="selectDelivererList" resultType="kr.green.market.vo.DeliveryVO">
+	select * from delivery
+	where deliverer = #{deliverer} and phone = #{phone} and endTime is null
+</select>
 </mapper>

@@ -16,4 +16,6 @@ public interface DeliveryDAO {
 
 	void updateEndDelivery(@Param("dVo")DeliveryVO dVo);
 
+	ArrayList<DeliveryVO> selectDelivererList(@Param("deliverer")String deliverer, @Param("phone")String phone);
+
 }

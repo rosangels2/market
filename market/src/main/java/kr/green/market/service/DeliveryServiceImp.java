@@ -59,4 +59,13 @@ public class DeliveryServiceImp implements DeliveryService{
 		return true;
 	}
 
+	@Override
+	public ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone) {
+		if(deliverer == null || phone == null) {
+			return null;
+		}
+		return deliveryDao.selectDelivererList(deliverer, phone);
+	}
+
+
 }

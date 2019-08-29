@@ -98,27 +98,15 @@ $(document).ready(function(){
 							<th width="20%">출발지</th>
 							<th width="20%">도착지</th>
 						</tr>
-						<tr class="table-contents">
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-							<th>5</th>
-						</tr>
-						<tr class="table-contents">
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-							<th>5</th>
-						</tr>
-						<tr class="table-contents">
-							<th>1</th>
-							<th>2</th>
-							<th>3</th>
-							<th>4</th>
-							<th>5</th>
-						</tr>
+						<c:forEach items="${deliveryList}" var="delivery">
+							<tr class="table-contents">
+								<th>${delivery.no}</th>
+								<th>${delivery.buy_no}</th>
+								<th>${delivery.contents}</th>
+								<th>${delivery.start}</th>
+								<th>${delivery.end}</th>
+							</tr>
+						</c:forEach>
 					</table>
 				</div>
 			</div>
