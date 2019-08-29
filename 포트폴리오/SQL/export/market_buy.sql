@@ -34,8 +34,9 @@ CREATE TABLE `buy` (
   `count` int(11) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `request` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `state` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `state` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '배송 대기',
   `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
   KEY `fk_buy_member1_idx` (`id`),
@@ -44,7 +45,7 @@ CREATE TABLE `buy` (
   CONSTRAINT `fk_buy_item1` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`),
   CONSTRAINT `fk_buy_member1` FOREIGN KEY (`id`) REFERENCES `member` (`ID`),
   CONSTRAINT `fk_buy_option1` FOREIGN KEY (`option_no`) REFERENCES `option` (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,6 +54,7 @@ CREATE TABLE `buy` (
 
 LOCK TABLES `buy` WRITE;
 /*!40000 ALTER TABLE `buy` DISABLE KEYS */;
+INSERT INTO `buy` VALUES (10,'z11111111',3,3,'로지텍g1','블랙',1,30000,'요청 사항 없음','/2019/08/23/5958a72a-148f-4f64-8320-9fde8740cbc9_market.jpg','2019-08-28 15:52:08','배송 완료','I'),(11,'z11111111',3,6,'로지텍g2','레드',2,100000,'요청 사항 없음','/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','2019-08-28 15:52:08','배송 완료','I'),(12,'z11111111',3,8,'로지텍g3','옐로',3,120000,'요청 사항 없음','/2019/08/23/7b15317c-6d35-4e04-a801-17237e4f8ef3_market.jpg','2019-08-28 15:52:08','배송 완료','I');
 /*!40000 ALTER TABLE `buy` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -65,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-27 17:19:24
+-- Dump completed on 2019-08-29 17:17:16

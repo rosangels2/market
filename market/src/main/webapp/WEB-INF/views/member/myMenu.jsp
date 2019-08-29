@@ -65,13 +65,16 @@
 	height: 25px;
 	padding: 0 10px 0 20px;
 }
+.item-info-right input{
+	border: none;
+}
 .item-count input{
-	margin-left: 11px;
+	margin-left: 10px;
 }
 .item-price input{
 	margin-left: 15px;
 }
-.order-num input{
+.order-detail input{
 	width: 250px;
 }
 .order-status-box{
@@ -419,138 +422,56 @@ function menuClick(selecter){
 										<th width="15%">확인/취소</th>
 									</tr>
 									<!-- 테이블 컨텐츠 -->
-									<tr class="table-contents">
-										<th class="order-date-box order-date-border">
-											<div class="order-date">
-												<h6>yyyy-mm-dd</h6>
-											</div>
-											<div class="detail-link">
-												<h6>주문 상세 보기</h6>
-											</div>
-										</th>
-										<th class="item-info-box item-info-border">
-											<div class="item-info-contents clearfix">
-												<div class="item-info-left float-left">
-													<img alt="" src="<%=request.getContextPath()%>/resources/images/광선검.png">
+									<c:forEach items="${buyList}" var="buy">
+										<tr class="table-contents">
+											<th class="order-date-box order-date-border">
+												<div class="order-date">
+													<h6>${buy.time}</h6>
 												</div>
-												<div class="item-info-right float-left">
-													<div class="item-count">수량 <input></div>
-													<div class="item-price">가격<input></div>
-													<div class="order-num-text">주문번호</div>
-													<div class="order-num">
-														<input>
+												<div class="detail-link">
+													<h6>주문 번호</h6><a href="<%=request.getContextPath()%>/items/myBuy?no=${buy.no}">${buy.no}</a>
+												</div>
+											</th>
+											<th class="item-info-box item-info-border">
+												<div class="item-info-contents clearfix">
+													<div class="item-info-left float-left">
+														<a href="<%=request.getContextPath()%>/items/detail?item_no=${buy.item_no}">
+															<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${buy.image}">
+														</a>
+													</div>
+													<div class="item-info-right float-left">
+														<div class="item-count">수량 <input value="${buy.count}" readonly></div>
+														<div class="item-price">가격<input value="${buy.price}" readonly></div>
+														<div class="order-detail-text">주문 상세</div>
+														<div class="order-detail">
+															<a href="<%=request.getContextPath()%>/items/detail?item_no=${buy.item_no}">
+																<input value="${buy.select} / ${buy.detail}" readonly>
+															</a>
+														</div>
 													</div>
 												</div>
-											</div>
-										</th>
-										<th class="order-status-box order-status-border">
-											<div class="now-text">
-												<h6>현재 상황</h6>
-											</div>
-											<div class="status-check">
-												<h6>진행 상황 조회</h6>
-											</div>
-										</th>
-										<th class="order-check-box">
-											<div class="buy-agree">
-												<h6>구매 확정</h6>
-											</div>
-											<div class="buy-cancel">
-												<h6>구매 취소</h6>
-											</div>
-											<div class="buy-return">
-												<h6>교환/반품</h6>
-											</div>
-										</th>
-									</tr>
-									<tr class="table-contents">
-										<th class="order-date-box order-date-border">
-											<div class="order-date">
-												<h6>yyyy-mm-dd</h6>
-											</div>
-											<div class="detail-link">
-												<h6>주문 상세 보기</h6>
-											</div>
-										</th>
-										<th class="item-info-box item-info-border">
-											<div class="item-info-contents clearfix">
-												<div class="item-info-left float-left">
-													<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
+											</th>
+											<th class="order-status-box order-status-border">
+												<div class="now-text">
+													<h6>현재 상황</h6>
 												</div>
-												<div class="item-info-right float-left">
-													<div class="item-count">수량 <input></div>
-													<div class="item-price">가격<input></div>
-													<div class="order-num-text">주문번호</div>
-													<div class="order-num">
-														<input>
-													</div>
+												<div class="status-check">
+													<h5>${buy.state}</h5>
 												</div>
-											</div>
-										</th>
-										<th class="order-status-box order-status-border">
-											<div class="now-text">
-												<h6>현재 상황</h6>
-											</div>
-											<div class="status-check">
-												<h6>진행 상황 조회</h6>
-											</div>
-										</th>
-										<th class="order-check-box">
-											<div class="buy-agree">
-												<h6>구매 확정</h6>
-											</div>
-											<div class="buy-cancel">
-												<h6>구매 취소</h6>
-											</div>
-											<div class="buy-return">
-												<h6>교환/반품</h6>
-											</div>
-										</th>
-									</tr>
-									<tr class="table-contents">
-										<th class="order-date-box order-date-border">
-											<div class="order-date">
-												<h6>yyyy-mm-dd</h6>
-											</div>
-											<div class="detail-link">
-												<h6>주문 상세 보기</h6>
-											</div>
-										</th>
-										<th class="item-info-box item-info-border">
-											<div class="item-info-contents clearfix">
-												<div class="item-info-left float-left">
-													<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
+											</th>
+											<th class="order-check-box">
+												<div class="buy-agree">
+													<h6>구매 확정</h6>
 												</div>
-												<div class="item-info-right float-left">
-													<div class="item-count">수량 <input></div>
-													<div class="item-price">가격<input></div>
-													<div class="order-num-text">주문번호</div>
-													<div class="order-num">
-														<input>
-													</div>
+												<div class="buy-cancel">
+													<h6>구매 취소</h6>
 												</div>
-											</div>
-										</th>
-										<th class="order-status-box order-status-border">
-											<div class="now-text">
-												<h6>현재 상황</h6>
-											</div>
-											<div class="status-check">
-												<h6>진행 상황 조회</h6>
-											</div>
-										</th>
-										<th class="order-check-box">
-											<div class="buy-agree">
-												<h6>구매 확정</h6>
-											</div>
-											<div class="buy-cancel">
-												<h6>구매 취소</h6>
-											</div>
-											<div class="buy-return">
-												<h6>교환/반품</h6>
-											</div>
-										</th>
-									</tr>
+												<div class="buy-return">
+													<h6>교환/반품</h6>
+												</div>
+											</th>
+										</tr>
+									</c:forEach>
 								</table>
 							</div>
 							<div class="bottom-contents"></div>
@@ -563,40 +484,40 @@ function menuClick(selecter){
 								<div class="offset-4"> <h1>내 정보</h1></div>
 								<div class="form-group">
 								<label for="usr">ID</label><br>
-									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id">
+									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" value="${user.id}" name="id" readonly>
 									<label id="id-error" class="offset-4 col-7" for="id"></label>
 								</div>
 								<div class="form-group">
 									<label for="email">email</label>
-									<input type="text" class="form-control" id="email" placeholder="email" name="email">
+									<input type="text" class="form-control" id="email" name="email" value="${user.email}" readonly>
 								</div>
 								<div class="form-group">
 									<label for="name">name</label>
-									<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
+									<input type="text" class="form-control col-6" id="name" name="name" value="${user.name}" readonly>
 								</div>
 								<div class="form-group">
 									<label for="phone">phone</label>
-									<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+									<input type="text" class="form-control" id="phone" name="phone" value="${user.phone}" readonly>
 								</div>
 								<div class="form-group">
 									<label for="address">address</label>
-									<input type="text" class="form-control" id="address" placeholder="address" name="address">
+									<input type="text" class="form-control" id="address" name="address" value="${user.address}" readonly>
 								</div>
 								<div class="form-group">
 									<label for="point">point</label>
-									<input type="text" class="form-control" id="point" placeholder="point" name="pont">
+									<input type="text" class="form-control" id="point" name="pont" value="${user.point}" readonly>
 								</div>
 								<div class="form-group">
 									<label for="bank">bank</label>
-									<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
+									<input type="text" class="form-control" id="bank" name="bank" value="${user.bank}" readonly>
 								</div>
 								<div class="form-group">
 									<label for="account">account</label>
-									<input type="text" class="form-control" id="account" placeholder="account" name="account">
+									<input type="text" class="form-control" id="account" name="account" value="${user.account}" readonly>
 								</div>
 								<div class="form-group">
 									<label for="grade">grade</label>
-									<input type="text" class="form-control" id="grade" placeholder="grade" name="grade">
+									<input type="text" class="form-control" id="grade" name="grade" value="${user.grade}" readonly>
 								</div>
 							</div>		
 						</div>			

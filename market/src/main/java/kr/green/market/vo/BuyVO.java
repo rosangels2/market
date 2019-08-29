@@ -1,5 +1,7 @@
 package kr.green.market.vo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BuyVO {
@@ -12,6 +14,7 @@ public class BuyVO {
 	private String detail;
 	private Integer count;
 	private Integer price;
+	private String image;
 	private String request;
 	private Date time;
 	private String state;
@@ -19,6 +22,12 @@ public class BuyVO {
 	
 	
 	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	public String getRequest() {
 		return request;
 	}
@@ -73,11 +82,17 @@ public class BuyVO {
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
-	public Date getTime() {
-		return time;
+	public String getTime() {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	//원하는 형식으로 시간을 보여주게 만드는 클래스
+		return f.format(time);	//변수 registered를 위의 형식으로 변환하여 반환
 	}
-	public void setTime(Date time) {
-		this.time = time;
+	public void setTime(String time) {
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		try {
+			this.time = transFormat.parse(time);
+		}catch(ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	public String getState() {
 		return state;
@@ -96,8 +111,7 @@ public class BuyVO {
 	@Override
 	public String toString() {
 		return "BuyVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", option_no=" + option_no + ", select="
-				+ select + ", detail=" + detail + ", count=" + count + ", price=" + price + ", request=" + request
-				+ ", time=" + time + ", state=" + state + ", valid=" + valid + "]";
+				+ select + ", detail=" + detail + ", count=" + count + ", price=" + price + ", image=" + image
+				+ ", request=" + request + ", time=" + time + ", state=" + state + ", valid=" + valid + "]";
 	}
-
 }

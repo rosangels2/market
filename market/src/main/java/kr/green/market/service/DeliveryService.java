@@ -16,4 +16,6 @@ public interface DeliveryService {
 
 	ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone);
 
+	DeliveryVO getDelivery1(Integer buy_no);
+
 }

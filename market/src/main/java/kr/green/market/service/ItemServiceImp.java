@@ -159,4 +159,18 @@ public class ItemServiceImp implements ItemService{
 		int num = itemDao.selectMaxDelivery();
 		return itemDao.selectDelivery(num);
 	}
+	@Override
+	public ArrayList<BuyVO> getBuyList(String id) {
+		if(id == null){
+			return null;
+		}
+		return itemDao.selectBuyList(id);
+	}
+	@Override
+	public BuyVO getBuy(Integer no) {
+		if(no == null){
+			return null;
+		}
+		return itemDao.selectBuy(no);
+	}
 }

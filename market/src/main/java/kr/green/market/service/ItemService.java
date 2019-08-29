@@ -44,4 +44,8 @@ public interface ItemService {
 
 	DeliveryVO addDelivery(DeliveryVO dVo);
 
+	ArrayList<BuyVO> getBuyList(String id);
+
+	BuyVO getBuy(Integer no);
+
 }

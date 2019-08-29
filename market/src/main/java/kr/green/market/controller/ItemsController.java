@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.market.service.DeliveryService;
 import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.utils.UploadFileUtils;
@@ -49,6 +50,8 @@ public class ItemsController {
 	ItemService itemService;
 	@Resource
 	private String uploadPath;
+	@Autowired
+	DeliveryService deliveryService;
 	
     @RequestMapping(value= "/list")
     public ModelAndView itemList(ModelAndView mv, Model model) throws Exception{
@@ -159,6 +162,8 @@ public class ItemsController {
     	DeliveryVO dVo = new DeliveryVO();
     	System.out.println("orderRequest bVo : " + bVo);
     	for(int i=0; i<orderList.size(); i++){
+    		ItemVO iVo = itemService.getItem(orderList.get(i).getItem_no());
+    		bVo.setImage(iVo.getFile());
     		bVo.setId(id);
     		bVo.setItem_no(orderList.get(i).getItem_no());
     		bVo.setOption_no(orderList.get(i).getNo());
@@ -242,6 +247,39 @@ public class ItemsController {
     @RequestMapping(value= "/modify")
     public ModelAndView itemModify(ModelAndView mv) throws Exception{
         mv.setViewName("/items/modify");		//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    } 
+    @RequestMapping(value= "/myBuy")
+    public ModelAndView myBuy(ModelAndView mv, Model model, Integer no) throws Exception{
+        mv.setViewName("/items/myBuy");		//타일즈를 통해 불러올 jsp 경로
+        System.out.println("myBuy no : " + no);
+        BuyVO bVo = itemService.getBuy(no);
+        System.out.println("myBuy bVo : " + bVo);
+        DeliveryVO dVo = deliveryService.getDelivery1(bVo.getNo());
+        if(dVo == null){
+        	dVo.setSeller_name("");
+        	dVo.setContents("");
+        	dVo.setStart("");
+        	dVo.setEnd("");
+        	dVo.setCompany("");
+        	dVo.setDeliverer("");
+        	dVo.setPhone("");
+        	dVo.setStartTime("");
+        	dVo.setEndTime("");
+        }
+        if(dVo.getCompany() == null){
+        	dVo.setCompany("");
+        	dVo.setDeliverer("");
+        	dVo.setPhone("");
+        	dVo.setStartTime("");
+        	dVo.setEndTime("");
+        }
+        if(dVo.getEndTime() == null){
+        	dVo.setEndTime("");
+        }
+        System.out.println("myBuy dVo : " + dVo);
+        model.addAttribute("dVo", dVo);
+        model.addAttribute("bVo", bVo);
         return mv;
     } 
 }

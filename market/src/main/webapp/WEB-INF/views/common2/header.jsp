@@ -52,7 +52,7 @@
 		</c:if>
 		<c:if test="${user ne null}">
 			<div class="nav-item" style="color: white; margin-right: 20px;">로그인 중 : ${user.id}</div>  		
-			<a href="<%=request.getContextPath()%>/myMenu" class="float-right" style="color : white; margin-right: 20px;">My Menu</a>		
+			<a href="<%=request.getContextPath()%>/myMenu?id=${user.id}" class="float-right" style="color : white; margin-right: 20px;">My Menu</a>		
 			<a href="<%=request.getContextPath()%>/signout" class="float-right" style="color : silver;">로그아웃</a>
 		</c:if>
 	</div> 

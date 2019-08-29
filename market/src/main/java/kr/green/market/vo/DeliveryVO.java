@@ -1,5 +1,7 @@
 package kr.green.market.vo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DeliveryVO {
@@ -79,17 +81,29 @@ public class DeliveryVO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public Date getStartTime() {
-		return startTime;
+	public String getStartTime() {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	//원하는 형식으로 시간을 보여주게 만드는 클래스
+		return f.format(startTime);	//변수 registered를 위의 형식으로 변환하여 반환
 	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String startTime) {
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		try {
+			this.startTime = transFormat.parse(startTime);
+		}catch(ParseException e) {
+			e.printStackTrace();
+		}
 	}
-	public Date getEndTime() {
-		return endTime;
+	public String getEndTime() {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	//원하는 형식으로 시간을 보여주게 만드는 클래스
+		return f.format(endTime);	//변수 registered를 위의 형식으로 변환하여 반환
 	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
+	public void setEndTime(String endTime) {
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		try {
+			this.endTime = transFormat.parse(endTime);
+		}catch(ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	public String getValid() {
 		return valid;

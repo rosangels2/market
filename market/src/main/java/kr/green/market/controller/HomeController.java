@@ -2,6 +2,7 @@ package kr.green.market.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
+import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.MemberVO;
 
 @Controller
@@ -29,6 +32,8 @@ public class HomeController {
 	MemberService memberService;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	ItemService itemService;
 	
     @RequestMapping(value= "/")
     public ModelAndView home(ModelAndView mv) throws Exception{
@@ -177,10 +182,17 @@ public class HomeController {
 		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
 	    return "redirect:/passwordFind";
 	}
-    @RequestMapping(value= "/myMenu")
-    public ModelAndView myMenu(ModelAndView mv) throws Exception{
+    @RequestMapping(value= "/myMenu", method = RequestMethod.GET)
+    public ModelAndView myMenuGet(ModelAndView mv, Model model, String id) throws Exception{
         mv.setViewName("/member/myMenu");		//타일즈를 통해 불러올 jsp 경로
+        ArrayList<BuyVO> bVoList = itemService.getBuyList(id);
+        System.out.println("myMenuGet bVoList : " + bVoList);
+        model.addAttribute("buyList", bVoList);
         return mv;
+    }
+    @RequestMapping(value= "/myMenu", method = RequestMethod.POST)
+    public String myMenuPost(){
+    	return "redirect:/member/myMenu";
     }
     @RequestMapping(value= "/modify")
     public String signout(Model model, MemberVO mVo, String oldPassword, HttpServletRequest r){
@@ -188,7 +200,7 @@ public class HomeController {
     	System.out.println("modify oldPassword : " + oldPassword);
     	MemberVO oVo = memberService.modify(mVo, oldPassword);
     	System.out.println("modify oVo : " + oVo);
-		boolean t = memberService.updateUserToSession(r,oVo);
+		boolean t = memberService.updateUserToSession(r, oVo);
 		model.addAttribute("success",t);
 		System.out.println("modify success : " + t);
     	return "redirect:/myMenu";

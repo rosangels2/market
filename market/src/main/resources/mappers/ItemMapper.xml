@@ -85,8 +85,12 @@
 	where no = #{no}
 </select>
 <update id="updateBuy">
-	update `buy`
+	update buy
 		set request = #{bVo.request}, state = #{bVo.state}, valid = #{bVo.valid}
 		where no = #{bVo.no}
 </update>
+<select id="selectBuyList" resultType="kr.green.market.vo.BuyVO">
+	select * from buy
+	where id = #{id}
+</select>
 </mapper>

@@ -60,4 +60,6 @@ public interface ItemDAO {
 
 	void updateBuy(@Param("bVo")BuyVO bVo);
 
+	ArrayList<BuyVO> selectBuyList(@Param("id")String id);
+
 }

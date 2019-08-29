@@ -18,4 +18,6 @@ public interface DeliveryDAO {
 
 	ArrayList<DeliveryVO> selectDelivererList(@Param("deliverer")String deliverer, @Param("phone")String phone);
 
+	DeliveryVO selectDelivery1(@Param("buy_no")Integer buy_no);
+
 }

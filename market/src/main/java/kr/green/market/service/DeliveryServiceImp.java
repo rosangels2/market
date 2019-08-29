@@ -67,5 +67,13 @@ public class DeliveryServiceImp implements DeliveryService{
 		return deliveryDao.selectDelivererList(deliverer, phone);
 	}
 
+	@Override
+	public DeliveryVO getDelivery1(Integer buy_no) {
+		if(buy_no == null) {
+			return null;
+		}
+		return deliveryDao.selectDelivery1(buy_no);
+	}
+
 
 }
