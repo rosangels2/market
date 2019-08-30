@@ -9,6 +9,7 @@ import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
 import kr.green.market.vo.SellerVO;
+import kr.green.market.vo.WishlistVO;
 
 public interface ItemService {
 
@@ -47,5 +48,11 @@ public interface ItemService {
 	ArrayList<BuyVO> getBuyList(String id);
 
 	BuyVO getBuy(Integer no);
+
+	boolean addWishlist(WishlistVO wVo);
+
+	ArrayList<WishlistVO> getWishlistList(String id);
+
+	boolean deleteWishlist(String id, Integer wishlist_no);
 
 }

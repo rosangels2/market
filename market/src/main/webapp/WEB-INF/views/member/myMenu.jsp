@@ -109,6 +109,7 @@
 .wishlist-box{
 	min-height: 150px;
 	border: 1px solid gray;
+	border-top: none;
 }
 .wishlist-box div{
 	text-align: center;
@@ -249,6 +250,7 @@
 }
 </style>
 <script type="text/javascript">
+
 $.validator.addMethod(
 	    "regex",
 	    function(value, element, regexp) {
@@ -270,6 +272,13 @@ $(document).ready(function(){
 	// /^\w*(\d[A-z]|[A-z]\d)\w*$/ 영어숫자 포함
 	$("form").validate({	
         rules: {
+        	oldPassword: {
+        		required : true,
+                minlength : 8,
+                maxlength : 12,
+                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
+                //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
+        	},
             password: {
                 required : true,
                 minlength : 8,
@@ -287,10 +296,16 @@ $(document).ready(function(){
             }
         },
         messages : {	//규칙체크 실패시 출력될 메시지
+        	oldPassword: {
+                required : "필수로 입력하세요",
+                minlength : "최소 8글자 이상이어야 합니다",
+                maxlength : "최대 12글자 이하여야 합니다",
+                regex : "영문과 숫자를 1개씩 포함해야 합니다."
+            },
             password: {
                 required : "필수로 입력하세요",
-                minlength : "최소 {8}글자 이상이어야 합니다",
-                maxlength : "최대 {12}글자 이하여야 합니다",
+                minlength : "최소 8글자 이상이어야 합니다",
+                maxlength : "최대 12글자 이하여야 합니다",
                 regex : "영문과 숫자를 1개씩 포함해야 합니다."
             },
             password1: {
@@ -359,7 +374,39 @@ $(document).ready(function(){
 		$('.info-contents .withdrawal').removeClass('display-none');
 	});
 	
-});	//레디
+	//내 정보 수정
+	$('#modify-ok').click(function(){
+		var test = $('#modify-ok').valid();
+		if(!test){
+			alert("가입 양식에 맞지 않습니다.");
+			return false;
+		}
+		return true;
+	});
+	
+	//위시리스트 삭제
+	$('.wishlist-delete').click(function(){
+		var box = $(this).parents('.wishlist-box');
+		var id = "${user.id}";
+		var no = $(this).siblings('input[name=wishlist_no]').val();
+		 $.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{"id": id, "no": no},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/items/deleteWishlist",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						box.remove();
+					}else{
+						alert("삭제 실패하였습니다.");
+					}
+		        }
+		 });
+	});
+	
+});		//레디
 
 function menuClick(selecter){
 	$('.nav-bar .'+selecter).click(function(){
@@ -569,7 +616,7 @@ function menuClick(selecter){
 										<label for="account">account</label>
 										<input type="text" class="form-control" id="account" name="account" value="${user.account}">
 									</div>
-									<button class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">입력완료</button>
+									<button class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="modify-ok">입력완료</button>
 								</form>							
 							</div>
 						</div>
@@ -577,54 +624,25 @@ function menuClick(selecter){
 					<!-- 위시리스트 클릭 시 -->
 					<div class="wishlist display-none">
 						<div class="wishlist-contents">
-							<div class="wishlist-box clearfix">
-								<div class="item-img-box">
-									<img alt="" src="<%=request.getContextPath()%>/resources/images/목걸이.jpg">
+							<c:forEach items="${wishlistList}" var="wish">
+								<div class="wishlist-box clearfix">
+									<div class="item-img-box">
+										<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${wish.image}">
+									</div>
+									<div class="item-name-box">
+										<h3>상품명</h3>
+			 							<input name="item_name" value="${wish.item_name}">
+									</div>
+									<div class="item-price-box">
+										<h3>가격</h3>
+										<input name="item_price" value="${wish.item_price}">
+									</div>
+									<div class="button-box">
+										<button class="wishlist-delete"><h3>삭제</h3></button>
+										<input type="hidden" value="${wish.no}" name="wishlist_no">
+									</div>
 								</div>
-								<div class="item-name-box">
-									<h3>상품명</h3>
-									<input>
-								</div>
-								<div class="item-price-box">
-									<h3>가격</h3>
-									<input>
-								</div>
-								<div class="button-box">
-									<button><h3>삭제</h3></button>
-								</div>
-							</div>
-							<div class="wishlist-box clearfix">
-								<div class="item-img-box">
-									<img alt="" src="<%=request.getContextPath()%>/resources/images/광선검.png">
-								</div>
-								<div class="item-name-box">
-									<h3>상품명</h3>
-									<input>
-								</div>
-								<div class="item-price-box">
-									<h3>가격</h3>
-									<input>
-								</div>
-								<div class="button-box">
-									<button><h3>삭제</h3></button>
-								</div>
-							</div>
-							<div class="wishlist-box clearfix">
-								<div class="item-img-box">
-									<img alt="" src="<%=request.getContextPath()%>/resources/images/호랑이 잠옷.jpg">
-								</div>
-								<div class="item-name-box">
-									<h3>상품명</h3>
-									<input>
-								</div>
-								<div class="item-price-box">
-									<h3>가격</h3>
-									<input>
-								</div>
-								<div class="button-box">
-									<button><h3>삭제</h3></button>
-								</div>
-							</div>
+							</c:forEach>
 						</div>
 					</div>
 					<!-- 장바구니 클릭 시 -->

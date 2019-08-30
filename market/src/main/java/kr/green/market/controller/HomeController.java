@@ -24,6 +24,7 @@ import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.MemberVO;
+import kr.green.market.vo.WishlistVO;
 
 @Controller
 public class HomeController {
@@ -182,20 +183,19 @@ public class HomeController {
 		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
 	    return "redirect:/passwordFind";
 	}
-    @RequestMapping(value= "/myMenu", method = RequestMethod.GET)
+    @RequestMapping(value= "/myMenu")
     public ModelAndView myMenuGet(ModelAndView mv, Model model, String id) throws Exception{
         mv.setViewName("/member/myMenu");		//타일즈를 통해 불러올 jsp 경로
-        ArrayList<BuyVO> bVoList = itemService.getBuyList(id);
+        ArrayList<BuyVO> bVoList = itemService.getBuyList(id);	//구매 내역 불러오기
         System.out.println("myMenuGet bVoList : " + bVoList);
+        ArrayList<WishlistVO> wVoList = itemService.getWishlistList(id);	//회원의 위시리스트 내역 불러오기
+        System.out.println("myMenu wVoList : " + wVoList);
+        model.addAttribute("wishlistList", wVoList);
         model.addAttribute("buyList", bVoList);
         return mv;
     }
-    @RequestMapping(value= "/myMenu", method = RequestMethod.POST)
-    public String myMenuPost(){
-    	return "redirect:/member/myMenu";
-    }
     @RequestMapping(value= "/modify")
-    public String signout(Model model, MemberVO mVo, String oldPassword, HttpServletRequest r){
+    public String modify(Model model, MemberVO mVo, String oldPassword, HttpServletRequest r){
     	System.out.println("modify mVo : " + mVo);
     	System.out.println("modify oldPassword : " + oldPassword);
     	MemberVO oVo = memberService.modify(mVo, oldPassword);
@@ -203,6 +203,7 @@ public class HomeController {
 		boolean t = memberService.updateUserToSession(r, oVo);
 		model.addAttribute("success",t);
 		System.out.println("modify success : " + t);
+		model.addAttribute("id", mVo.getId());
     	return "redirect:/myMenu";
     }
 }

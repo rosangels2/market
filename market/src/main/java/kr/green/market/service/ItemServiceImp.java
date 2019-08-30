@@ -13,6 +13,7 @@ import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
 import kr.green.market.vo.SellerVO;
+import kr.green.market.vo.WishlistVO;
 
 @Service
 public class ItemServiceImp implements ItemService{
@@ -172,5 +173,37 @@ public class ItemServiceImp implements ItemService{
 			return null;
 		}
 		return itemDao.selectBuy(no);
+	}
+	@Override
+	public boolean addWishlist(WishlistVO wVo) {
+		if(wVo == null) {
+			return false;
+		}
+		WishlistVO wVo1 = itemDao.selectWishlistAdd(wVo.getId(), wVo.getItem_no());	//wishlist 중복 검사를 위한 wishlist 불러오기
+		if(wVo1 != null) {
+			return false;
+		}
+		itemDao.insertWishlist(wVo);
+		return true;
+	}
+	@Override
+	public ArrayList<WishlistVO> getWishlistList(String id) {
+		if(id == null){
+			return null;
+		}
+		return itemDao.selectWishlistAll(id);
+	}
+	@Override
+	public boolean deleteWishlist(String id, Integer wishlist_no) {
+		if(id == null || wishlist_no == null) {
+			return false;
+		}
+		WishlistVO wVo = itemDao.selectWishlistDelete(wishlist_no);	//삭제를 위해 wishlist 불러오기
+		if(wVo == null || !wVo.getId().equals(id)){
+			return false;
+		}
+		wVo.setValid("D");
+		itemDao.updateWishlist(wVo);
+		return true;
 	}
 }

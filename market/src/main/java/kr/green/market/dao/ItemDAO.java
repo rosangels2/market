@@ -11,6 +11,7 @@ import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
 import kr.green.market.vo.SellerVO;
+import kr.green.market.vo.WishlistVO;
 
 public interface ItemDAO {
 
@@ -61,5 +62,15 @@ public interface ItemDAO {
 	void updateBuy(@Param("bVo")BuyVO bVo);
 
 	ArrayList<BuyVO> selectBuyList(@Param("id")String id);
+
+	void insertWishlist(@Param("wVo")WishlistVO wVo);
+
+	WishlistVO selectWishlistAdd(@Param("id")String id, @Param("item_no")Integer item_no);		//wishlist 중복 검사를 위한 wishlist 불러오기
+
+	ArrayList<WishlistVO> selectWishlistAll(@Param("id")String id);
+
+	WishlistVO selectWishlistDelete(@Param("no")Integer wishlist_no);		//삭제를 위해 wishlist 불러오기
+
+	void updateWishlist(@Param("wVo")WishlistVO wVo);
 
 }

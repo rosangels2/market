@@ -39,6 +39,7 @@ import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.OptionVO;
 import kr.green.market.vo.SellerVO;
+import kr.green.market.vo.WishlistVO;
 
 @Controller
 @RequestMapping(value= "/items")
@@ -147,7 +148,7 @@ public class ItemsController {
         return mv;
     }  
     @RequestMapping(value="/orderRequest", method=RequestMethod.POST)
-    public String orderRequest(Integer item_no, Integer[] option_no, String[] select,
+    public String orderRequest(Model model, Integer item_no, Integer[] option_no, String[] select,
     String[] detail,  Integer[] count,  Integer[] price, Integer total_price, Integer delivery_price, Integer coupon_price,
     Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no, String request){
     	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);	//option 객체로 변환
@@ -163,6 +164,7 @@ public class ItemsController {
     	System.out.println("orderRequest bVo : " + bVo);
     	for(int i=0; i<orderList.size(); i++){
     		ItemVO iVo = itemService.getItem(orderList.get(i).getItem_no());
+    		System.out.println("orderRequest iVO : " + iVo);
     		bVo.setImage(iVo.getFile());
     		bVo.setId(id);
     		bVo.setItem_no(orderList.get(i).getItem_no());
@@ -186,6 +188,7 @@ public class ItemsController {
         	DeliveryVO dVo1 = itemService.addDelivery(dVo);
         	System.out.println("orderRequest dVo1 : " + dVo1);
     	}
+    	model.addAttribute("id", id);
     	return "redirect:/myMenu";
     }
     @RequestMapping(value= "/register", method = RequestMethod.GET)
@@ -282,4 +285,50 @@ public class ItemsController {
         model.addAttribute("bVo", bVo);
         return mv;
     } 
+    @RequestMapping(value= "/addWishlist")	//위시리스트
+    public String addWishlist(Model model, String id, Integer item_no){
+    	if(id == null || id == ""){
+    		return "redirect:/items/list";
+    	}
+    	System.out.println("addWishlist id : " + id);
+    	System.out.println("addWishlist item_no : " + item_no);
+    	ItemVO iVo = itemService.getItem(item_no);		//아이템 정보 불러오기
+    	System.out.println("addWishlist iVo : " + iVo);
+    	WishlistVO wVo = new WishlistVO();
+    	wVo.setId(id);
+    	wVo.setImage(iVo.getFile());
+    	wVo.setItem_no(item_no);
+    	wVo.setItem_name(iVo.getTitle());
+    	wVo.setItem_price(iVo.getPrice());
+    	System.out.println("addWishlist wVo : " + wVo);
+    	itemService.addWishlist(wVo);
+    	model.addAttribute("item_no", item_no);
+    	return "redirect:/items/detail";
+    }
+    @RequestMapping(value= "/deleteWishlist")	//장바구니
+    @ResponseBody
+    public boolean deleteWishlist(@RequestBody String str){
+    	if(str == null){
+    		return false;
+    	}
+    	System.out.println("deleteWishlist str : " + str);
+    	String [] arr = str.split("&");	//전송된 정보를 &을 기준으로 구분하여 나눠 배열에 저장
+    	String id = arr[0];
+    	String no1 = arr[1];
+    	id = memberService.getVal(id);
+    	no1 = memberService.getVal(no1);
+    	System.out.println("deleteWishlist id : " + id);
+    	System.out.println("deleteWishlist no1 : " + no1);
+    	Integer wishlist_no = Integer.parseInt(no1);
+    	System.out.println("deleteWishlist wishlist_no : " + wishlist_no);
+    	itemService.deleteWishlist(id, wishlist_no);
+    	return true;
+    }
+    @RequestMapping(value= "/addBag")	//장바구니
+    public String addBag(Model model, String id, Integer item_no){
+    	System.out.println("addWishlist id : " + id);
+    	System.out.println("addWishlist item_no : " + item_no);
+    	model.addAttribute("item_no", item_no);
+    	return "redirect:/items/detail";
+    }
 }

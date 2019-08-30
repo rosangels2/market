@@ -10,7 +10,7 @@ public class ItemVO {
 	private Integer category_no;
 	private String seller_id;
 	private String title;
-	private String price;
+	private Integer price;
 	private String information;
 	private String file;
 	private Date time;
@@ -18,10 +18,10 @@ public class ItemVO {
 	private String valid;
 	
 	
-	public String getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 	public Integer getNo() {

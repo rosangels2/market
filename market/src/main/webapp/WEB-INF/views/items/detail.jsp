@@ -208,10 +208,24 @@ $(document).ready(function(){
 		  });
 	});
 	
+	//옵션 추가 버튼
 	$('.button-contents a').click(function(){
 		if($('.option-box input[name=total_price]').val() == 0){
 			return false;
 		}
+	});
+	
+	//위시리스트 버튼
+	$('#add-wishlist').click(function(){
+		location.href = "<%=request.getContextPath()%>/items/addWishlist?id=${user.id}&item_no=${item.no}";
+	});
+	
+	//장바구니 버튼
+	$('#add-bag').click(function(){
+		if($('.option-box input[name=total_price]').val() == 0){
+			return false;
+		}
+		location.href = "<%=request.getContextPath()%>/items/addBag?id=${user.id}&item_no=${item.no}";
 	});
 	
 });	//레디
@@ -296,8 +310,8 @@ $(document).ready(function(){
 			<div class="button">
 				<div class="button-contents clearfix">
 					<a href="<%=request.getContextPath()%>/items/order"><button class="buy-button"><h4>구매하기</h4></button></a>
-					<a><button type="button"><h4>장바구니 담기</h4></button></a>				
-					<a><button type="button"><h4>위시리스트 담기</h4></button></a>
+					<a><button type="button" id="add-bag"><h4>장바구니 담기</h4></button></a>				
+					<a><button type="button" id="add-wishlist"><h4>위시리스트 담기</h4></button></a>
 				</div>
 			</div>
 		</form>

@@ -63,8 +63,8 @@
 	where no = #{no}
 </select>
 <insert id="insertBuy">
-	insert into buy(id, item_no, option_no, buy.select, detail, buy.count, price, request)
-		values(#{bVo.id}, #{bVo.item_no}, #{bVo.option_no}, #{bVo.select}, #{bVo.detail}, #{bVo.count}, #{bVo.price}, #{bVo.request})
+	insert into buy(id, item_no, option_no, buy.select, detail, buy.count, price, request, image)
+		values(#{bVo.id}, #{bVo.item_no}, #{bVo.option_no}, #{bVo.select}, #{bVo.detail}, #{bVo.count}, #{bVo.price}, #{bVo.request}, #{bVo.image})
 </insert>
 <select id="selectMaxBuy" resultType="int">
 	select max(no) from buy
@@ -86,11 +86,32 @@
 </select>
 <update id="updateBuy">
 	update buy
-		set request = #{bVo.request}, state = #{bVo.state}, valid = #{bVo.valid}
+		set request = #{bVo.request}, state = #{bVo.state}, valid = #{bVo.valid} image = #{bVo.image}
 		where no = #{bVo.no}
 </update>
 <select id="selectBuyList" resultType="kr.green.market.vo.BuyVO">
 	select * from buy
 	where id = #{id}
 </select>
+<select id="selectWishlistAdd" resultType="kr.green.market.vo.WishlistVO">
+	select * from wishlist
+	where id = #{id} and item_no = #{item_no}
+</select>
+<insert id="insertWishlist">
+	insert into wishlist(id, item_no, image, item_name, item_price)
+		values(#{wVo.id}, #{wVo.item_no}, #{wVo.image}, #{wVo.item_name}, #{wVo.item_price})
+</insert>
+<select id="selectWishlistAll" resultType="kr.green.market.vo.WishlistVO">
+	select * from wishlist
+	where id = #{id} and valid = "I"
+</select>
+<select id="selectWishlistDelete" resultType="kr.green.market.vo.WishlistVO">
+	select * from wishlist
+	where no = #{no}
+</select>
+<update id="updateWishlist">
+	update wishlist
+		set image = #{wVo.image}, item_name = #{wVo.item_name}, item_price = #{wVo.item_price}, valid = #{wVo.valid}
+		where no = #{wVo.no}
+</update>
 </mapper>
