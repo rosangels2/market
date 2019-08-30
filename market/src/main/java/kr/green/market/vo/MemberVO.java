@@ -12,7 +12,15 @@ public class MemberVO {
 	private String bank;
 	private String account;
 	private String grade;
+	private String valid;
 
+	
+	public String getValid() {
+		return valid;
+	}
+	public void setValid(String valid) {
+		this.valid = valid;
+	}
 	public String getId() {
 		return id;
 	}
@@ -74,12 +82,12 @@ public class MemberVO {
 		this.grade = grade;
 	}
 	
+	
 	@Override
 	public String toString() {
-		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", phone=" + phone + ", email="
-				+ email + ", address=" + address + ", point=" + point + ", bank=" + bank + ", account=" + account
-				+ ", grade=" + grade + "]";
+		return "MemberVO [id=" + id + ", password=" + password + ", email=" + email + ", name=" + name + ", phone="
+				+ phone + ", address=" + address + ", point=" + point + ", bank=" + bank + ", account=" + account
+				+ ", grade=" + grade + ", valid=" + valid + "]";
 	}
-	
 	
 }

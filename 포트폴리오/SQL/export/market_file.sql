@@ -41,7 +41,7 @@ CREATE TABLE `file` (
 
 LOCK TABLES `file` WRITE;
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
-INSERT INTO `file` VALUES (3,1,'12345','I'),(5,2,'/2019/08/23/b9436073-c2ad-4428-a4da-52373acfab67_market.png','I'),(6,3,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.png','I'),(7,4,'/2019/08/23/2764898f-084c-4f48-8b41-414808288be5_market.png','I'),(8,5,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(9,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(10,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(11,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I'),(12,3,'/2019/08/23/cbb8aeb8-ea36-4268-a302-35ef959e4bbf_market.png','I');
+INSERT INTO `file` VALUES (3,1,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(5,2,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(6,3,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(7,4,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(8,5,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(9,3,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(10,3,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(11,3,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I'),(12,3,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','I');
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-29 17:17:21
+-- Dump completed on 2019-08-30 17:18:59

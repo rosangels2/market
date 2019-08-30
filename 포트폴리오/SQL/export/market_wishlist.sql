@@ -28,13 +28,16 @@ CREATE TABLE `wishlist` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `id` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `item_no` int(11) NOT NULL,
+  `image` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `item_name` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `item_price` int(11) DEFAULT NULL,
   `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
   KEY `fk_wishlist_member1_idx` (`id`),
   KEY `fk_wishlist_item1_idx` (`item_no`),
   CONSTRAINT `fk_wishlist_item1` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`),
   CONSTRAINT `fk_wishlist_member1` FOREIGN KEY (`id`) REFERENCES `member` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +46,7 @@ CREATE TABLE `wishlist` (
 
 LOCK TABLES `wishlist` WRITE;
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
+INSERT INTO `wishlist` VALUES (1,'z11111111',3,'/2019/08/23/5958a72a-148f-4f64-8320-9fde8740cbc9_market.jpg','로지텍 마우스',30000,'I'),(2,'z11111111',2,'/2019/08/23/202b5782-4ffc-41a4-a52f-bec098cde483_market.jpg','로지텍 마우스',30000,'I');
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-29 17:17:22
+-- Dump completed on 2019-08-30 17:18:59

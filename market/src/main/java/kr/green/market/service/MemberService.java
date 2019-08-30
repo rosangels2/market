@@ -40,4 +40,6 @@ public interface MemberService {
 
 	SellerVO getSeller(Integer item_no);
 
+	boolean deleteMember(String id, String password);
+
 }

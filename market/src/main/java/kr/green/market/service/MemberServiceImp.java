@@ -215,5 +215,22 @@ public class MemberServiceImp implements MemberService{
 		ItemVO iVo = itemDao.selectItem(item_no);
 		return memberDao.selectSeller(iVo.getSeller_id());
 	}
+
+	@Override
+	public boolean deleteMember(String id, String password) {
+		if(id == null || password == null){
+			return false;
+		}
+		MemberVO oVo = memberDao.selectMember(id);
+		if(oVo == null){
+			return false;
+		}
+		if(!passwordEncoder.matches(password, oVo.getPassword())){
+			return false;
+		}
+		oVo.setValid("D");
+		memberDao.updateMember(oVo);
+		return true;
+	}
 	
 }

@@ -319,6 +319,7 @@ $(document).ready(function(){
         }
 	});
 	
+	//메뉴 바
 	$('.nav-bar .order-list').click(function(){
 		$('.nav-bar .order-list').siblings().removeClass('background-gray');
 		$('.nav-bar .order-list').addClass('background-gray');
@@ -406,6 +407,16 @@ $(document).ready(function(){
 		 });
 	});
 	
+	
+	//회원 탈퇴
+	$('#withdrawal-ok').click(function(){
+		var result = confirm("정말로 탈퇴하시겠습니까?"); 
+		if(result){	//yes  
+			$('#withdrawal-form').submit();
+		}else{		//no
+			return false; 
+		}
+	});
 });		//레디
 
 function menuClick(selecter){
@@ -1027,19 +1038,21 @@ function menuClick(selecter){
 					<!-- 회원 탈퇴 클릭 시 -->
 					<div class="withdrawal display-none">
 						<div class="withdrawal-contents">
-							<div class="container offset-3 col-6 signup-box">
-								<div class="offset-3"> <h1 style="margin-top: 50px;">회원 탈퇴</h1></div>
-								<div class="form-group">
-								<label for="id">ID</label><br>
-									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id">
-									<label id="id-error" class="offset-4 col-7" for="id"></label>
-								</div>
-								<div class="form-group">
-									<label for="pw">password</label>
-									<input type="password" class="form-control col-7" id="pw" placeholder="password" name="pw">
-								</div>														
-								<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">탈퇴하기</button>							
-							</div>						
+							<form action="<%=request.getContextPath()%>/withdrawal" method="post" id="withdrawal-form">
+								<div class="container offset-3 col-6 signup-box">
+									<div class="offset-3"> <h1 style="margin-top: 50px;">회원 탈퇴</h1></div>
+									<div class="form-group">
+									<label for="id">ID</label><br>
+										<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" name="id" readonly value="${user.id}">
+										<label id="id-error" class="offset-4 col-7" for="id"></label>
+									</div>
+									<div class="form-group">
+										<label for="pw">password</label>
+										<input type="password" class="form-control col-7" id="password" placeholder="password" name="password">
+									</div>														
+									<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="withdrawal-ok">탈퇴하기</button>							
+								</div>	
+							</form>	
 						</div>
 					</div>
 				</div>

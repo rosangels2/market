@@ -5,7 +5,7 @@
 <mapper namespace="kr.green.market.dao.MemberDAO">	<!-- DAO 인터페이스가 있는 파일명 -->
 <select id="selectMember" resultType="kr.green.market.vo.MemberVO">
 	select * from member 
-	where id = #{id}
+	where id = #{id} and valid = 'I'
 </select>
 <insert id="insertMember">
 	insert into member(id, password, email, name, phone, address, bank, account)
@@ -14,20 +14,20 @@
 <update id="updateMember">
 	update member
 		set password = #{mVo.password}, email = #{mVo.email}, name = #{mVo.name}, phone = #{mVo.phone}, address = #{mVo.address},
-			bank = #{mVo.bank}, account = #{mVo.account}
+			bank = #{mVo.bank}, account = #{mVo.account}, valid = #{mVo.valid}
 		where id = #{mVo.id}
 </update>
 <select id="selectMemberFind" resultType="kr.green.market.vo.MemberVO">
 	select * from member 
-	where name = #{name} and email = #{email}
+	where name = #{name} and email = #{email} and valid = 'I'
 </select>
 <select id="selectSellerNo" resultType="int">
 	select no from seller
-	where id = #{id}
+	where id = #{id} and valid = 'I'
 </select>
 <select id="selectAddressList" resultType="kr.green.market.vo.AddressListVO">
 	select * from addressList
-	where id = #{id}
+	where id = #{id} and valid = 'I'
 </select>
 <insert id="insertAddress">
 	insert into addressList(id, `name`, phone, address)
@@ -38,6 +38,6 @@
 </select>
 <select id="selectSeller" resultType="kr.green.market.vo.SellerVO">
 	select * from seller
-	where id = #{id}
+	where id = #{id} and valid = 'I'
 </select>
 </mapper>

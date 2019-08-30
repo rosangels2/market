@@ -179,7 +179,7 @@ public class HomeController {
 		String newPw = memberService.createPw();	//랜덤한 임시 비밀번호를 생성하여 변수에 저장
 		memberService.modify(id,email,newPw);	//id, email, 임시 비밀번호를 사용하여 회원 정보를 수정 
 		String title = "변경된 비밀번호입니다.";
-		String contents = "변경된 비밀번호입니다.\n"+newPw+"\n";
+		String contents = "변경된 비밀번호는 \n"+newPw+"\n 입니다.";
 		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
 	    return "redirect:/passwordFind";
 	}
@@ -205,5 +205,16 @@ public class HomeController {
 		System.out.println("modify success : " + t);
 		model.addAttribute("id", mVo.getId());
     	return "redirect:/myMenu";
+    }
+    @RequestMapping(value= "/withdrawal")
+    public String withdrawal(MemberVO mVo){
+    	System.out.println("withdrawal mVo : " + mVo);
+    	if(mVo == null){
+    		return "redirect:/myMenu";
+    	}
+    	if(!memberService.deleteMember(mVo.getId(), mVo.getPassword())){
+    		return "redirect:/myMenu";
+    	}
+    	return "redirect:/signout";
     }
 }
