@@ -31,6 +31,7 @@ import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.utils.UploadFileUtils;
 import kr.green.market.vo.AddressListVO;
+import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
@@ -325,9 +326,23 @@ public class ItemsController {
     	return true;
     }
     @RequestMapping(value= "/addBag")	//장바구니
-    public String addBag(Model model, String id, Integer item_no){
-    	System.out.println("addWishlist id : " + id);
-    	System.out.println("addWishlist item_no : " + item_no);
+    public String addBag(Model model, Integer item_no,  Integer[] option_no, String[] select,
+        String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id){
+    	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
+    	System.out.println("addBag oVoList : " + oVoList);
+    	System.out.println("addBag id : " + id);
+    	BagVO bVo = new BagVO();
+    	for(int i=0; i<oVoList.size(); i++){
+    		bVo.setId(id);
+    		bVo.setItem_no(oVoList.get(i).getItem_no());
+    		bVo.setOption_no(oVoList.get(i).getNo());
+    		bVo.setSelect(oVoList.get(i).getSelect());
+    		bVo.setDetail(oVoList.get(i).getDetail());
+    		bVo.setCount(oVoList.get(i).getStock());
+    		bVo.setPrice(oVoList.get(i).getPrice());
+    		System.out.println("addBag bVo : " + bVo);
+    		itemService.addBag(bVo);
+    	}
     	model.addAttribute("item_no", item_no);
     	return "redirect:/items/detail";
     }

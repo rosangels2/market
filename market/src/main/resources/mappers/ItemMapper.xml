@@ -114,4 +114,8 @@
 		set image = #{wVo.image}, item_name = #{wVo.item_name}, item_price = #{wVo.item_price}, valid = #{wVo.valid}
 		where no = #{wVo.no}
 </update>
+<insert id="insertBag">
+	insert into bag(id, item_no, option_no, bag.select, detail, count, price)
+		values(${bVo.id}, ${bVo.item_no}, ${bVo.option_no}, ${bVo.select}, ${bVo.detail}, ${bVo.count}, ${bVo.price})
+</insert>
 </mapper>

@@ -5,11 +5,32 @@ public class BagVO {
 	private Integer no;
 	private String id;
 	private Integer item_no;
+	private Integer option_no;
+	private String select;
+	private String detail;
 	private Integer count;
 	private Integer price;
 	private String valid;
 	
 	
+	public Integer getOption_no() {
+		return option_no;
+	}
+	public void setOption_no(Integer option_no) {
+		this.option_no = option_no;
+	}
+	public String getSelect() {
+		return select;
+	}
+	public void setSelect(String select) {
+		this.select = select;
+	}
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -50,9 +71,8 @@ public class BagVO {
 	
 	@Override
 	public String toString() {
-		return "BagVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", count=" + count + ", price=" + price
-				+ ", valid=" + valid + "]";
+		return "BagVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", option_no=" + option_no + ", select="
+				+ select + ", detail=" + detail + ", count=" + count + ", price=" + price + ", valid=" + valid + "]";
 	}
-	
 	
 }

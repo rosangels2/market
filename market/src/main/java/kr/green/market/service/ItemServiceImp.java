@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.ItemDAO;
+import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -204,6 +205,14 @@ public class ItemServiceImp implements ItemService{
 		}
 		wVo.setValid("D");
 		itemDao.updateWishlist(wVo);
+		return true;
+	}
+	@Override
+	public boolean addBag(BagVO bVo) {
+		if(bVo == null){
+			return false;
+		}
+		itemDao.insertBag(bVo);
 		return true;
 	}
 }

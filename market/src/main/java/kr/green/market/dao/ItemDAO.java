@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -72,5 +73,7 @@ public interface ItemDAO {
 	WishlistVO selectWishlistDelete(@Param("no")Integer wishlist_no);		//삭제를 위해 wishlist 불러오기
 
 	void updateWishlist(@Param("wVo")WishlistVO wVo);
+
+	void insertBag(@Param("bVo")BagVO bVo);
 
 }

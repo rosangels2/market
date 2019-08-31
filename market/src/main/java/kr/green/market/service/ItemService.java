@@ -2,6 +2,7 @@ package kr.green.market.service;
 
 import java.util.ArrayList;
 
+import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -54,5 +55,7 @@ public interface ItemService {
 	ArrayList<WishlistVO> getWishlistList(String id);
 
 	boolean deleteWishlist(String id, Integer wishlist_no);
+
+	boolean addBag(BagVO bVo);
 
 }

@@ -155,7 +155,7 @@ $(document).ready(function(){
 			        contentType:"application/json; charset=UTF-8",
 			        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
 			        	 var str = "";
-			        	 str += '<option>세부 옵션 선택</option>';
+			        	 str += '<option value="0">세부 옵션 선택</option>';
 			        	 for(var i = 0; i<data.oVo.length; i++){
 			        	 	str += '<option value="'+data.oVo[i].no+'">'+data.oVo[i].detail+'</option>'
 			        	 }
@@ -183,6 +183,12 @@ $(document).ready(function(){
 	});
 
 	$('#stock-select').click(function(){
+		if($('#item-select').val() == 0){
+			return;
+		}
+		if($('#option-select').val() == 0){
+			return;
+		}
 		if($('#stock-count').val() < 1){
 			return;
 		}
@@ -215,6 +221,11 @@ $(document).ready(function(){
 		}
 	});
 	
+	//구매 버튼
+	$('.buy-button').click(function(){
+		
+	});
+	
 	//위시리스트 버튼
 	$('#add-wishlist').click(function(){
 		location.href = "<%=request.getContextPath()%>/items/addWishlist?id=${user.id}&item_no=${item.no}";
@@ -225,7 +236,8 @@ $(document).ready(function(){
 		if($('.option-box input[name=total_price]').val() == 0){
 			return false;
 		}
-		location.href = "<%=request.getContextPath()%>/items/addBag?id=${user.id}&item_no=${item.no}";
+		$('#option-form').attr("action", "<%=request.getContextPath()%>/items/addBag");
+		$('#option-form').submit();
 	});
 	
 });	//레디
@@ -269,7 +281,7 @@ $(document).ready(function(){
 					<div class="item-option">
 						<h4>세부 옵션</h4>
 						<select id="option-select">
-							<option>세부 옵션 선택</option>
+							<option value="0">세부 옵션 선택</option>
 						</select>  
 					</div>				
 					<div class="delivery-price">
@@ -295,7 +307,7 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<!-- 선택 옵션 정보 -->
-		<form action="<%=request.getContextPath()%>/items/order" method="post">
+		<form action="<%=request.getContextPath()%>/items/order" method="post" id="option-form">
 			<input type="hidden" name="id" value="${user.id}">
 			<input type="hidden" name="item_no" value="${item.no}">
 			<div class="option-info">
@@ -309,7 +321,7 @@ $(document).ready(function(){
 			<!-- 버튼 박스 -->
 			<div class="button">
 				<div class="button-contents clearfix">
-					<a href="<%=request.getContextPath()%>/items/order"><button class="buy-button"><h4>구매하기</h4></button></a>
+					<a><button class="buy-button"><h4>구매하기</h4></button></a>
 					<a><button type="button" id="add-bag"><h4>장바구니 담기</h4></button></a>				
 					<a><button type="button" id="add-wishlist"><h4>위시리스트 담기</h4></button></a>
 				</div>
