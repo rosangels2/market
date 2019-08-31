@@ -224,6 +224,7 @@ $(document).ready(function(){
 	$('.coupon-use').click(function(){
 		var t = $('#total_price').val();
 		var a = $(this).siblings('#coupon-discount').val();
+		$('input[name=coupon_no]').val($(this).siblings('.coupon_no').val());
 		if($('#total_price').val() < 30000){
 			$('#delivery_price').val(3000);
 			$('#coupon_price').val(parseInt(a));
@@ -523,6 +524,7 @@ $(document).ready(function(){
 					</div>
 					<!-- 쿠폰 창 -->
 					<div class="hidden-contents display-none">
+						<input type="hidden" value="" name="coupon_no">
 						<div class="hidden-box">
 							<table class="table table-box">
 								<tr class="table table-title">
@@ -537,7 +539,7 @@ $(document).ready(function(){
 										<th>${coupon.discount}</th>
 										<th>${coupon.period}</th>
 										<th>
-											<input type="hidden" value="${coupon.no}" name="coupon_no">
+											<input type="hidden" value="${coupon.no}" class="coupon_no">
 											<button type="button" class="coupon-use">사용</button>
 											<input type="hidden" value="${coupon.discount}" id="coupon-discount">
 										</th>

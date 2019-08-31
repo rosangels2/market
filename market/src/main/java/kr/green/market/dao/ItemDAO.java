@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
@@ -77,5 +78,19 @@ public interface ItemDAO {
 	void insertBag(@Param("bVo")BagVO bVo);
 
 	ArrayList<BagVO> selectBagList(@Param("id")String id);
+
+	CouponBagVO selectCouponBag(@Param("id")String id, @Param("coupon_no")Integer coupon_no);
+
+	void modifyCouponBag(@Param("cVo")CouponBagVO cVo);
+
+	ArrayList<CouponBagVO> selectCouponBagList(@Param("id")String id);
+
+	ArrayList<CouponVO> selectCouponAll();
+
+	void insertCouponBag(@Param("id")String id, @Param("coupon_no")Integer coupon_no);
+
+	int selectMaxCouponBag();
+
+	CouponBagVO selectCouponBag1(@Param("no")int no);
 
 }

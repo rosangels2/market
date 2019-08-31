@@ -11,7 +11,7 @@ public class BagVO {
 	private Integer count;
 	private Integer price;
 	private String image;
-	private String valid;	
+	private String valid;
 	
 	
 	public String getImage() {

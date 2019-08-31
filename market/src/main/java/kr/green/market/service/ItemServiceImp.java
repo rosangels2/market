@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.green.market.dao.ItemDAO;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
@@ -222,5 +223,45 @@ public class ItemServiceImp implements ItemService{
 		}
 		
 		return itemDao.selectBagList(id);
+	}
+	@Override
+	public boolean useCoupon(String id, Integer coupon_no) {
+		if(id == null || coupon_no == null) {
+			return false;
+		}
+		CouponBagVO cVo = itemDao.selectCouponBag(id, coupon_no);
+		if(cVo == null) {
+			return false;
+		}
+		cVo.setValid("D");
+		itemDao.modifyCouponBag(cVo);
+		return true;
+	}
+	@Override
+	public ArrayList<CouponBagVO> getCouponBagList(String id) {
+		if(id == null) {
+			return null;
+		}
+		return itemDao.selectCouponBagList(id);
+	}
+	@Override
+	public ArrayList<CouponVO> getCouponAll() {
+		return itemDao.selectCouponAll();
+	}
+	@Override
+	public CouponBagVO getCouponBag(String id, Integer coupon_no) {
+		if(id == null || coupon_no == null) {
+			return null;
+		}
+		return itemDao.selectCouponBag(id, coupon_no);
+	}
+	@Override
+	public CouponBagVO getCoupon(String id, Integer coupon_no) {
+		if(id == null || coupon_no == null) {
+			return null;
+		}
+		itemDao.insertCouponBag(id, coupon_no);
+		int no = itemDao.selectMaxCouponBag();
+		return itemDao.selectCouponBag1(no);
 	}
 }

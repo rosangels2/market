@@ -431,6 +431,31 @@ $(document).ready(function(){
 		return true;
 	});
 	
+	//쿠폰 받기
+	$('.get-coupon').click(function(){
+		var box = $(this).parents()
+		var coupon_no = $(this).siblings('.coupon_no').val();
+		var id = '${user.id}';
+		$.ajax({
+	        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:{"id": id, "coupon_no": coupon_no},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/items/couponGet",
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	        	alert(data);
+				if(data != null){
+					$(this).parents('.coupon-list-text').remove();
+					var str = '<tr class="coupon-list-text"><th>'+${data.cVo.title}+'<input type="hidden" value="'+${data.cVo.no}+'"></th><th>$'+{data.cVo.discount}+'원</th><th>'+${data.cVo.period}+'</th><th>'+${data.cVo.state}+'</th></tr>';
+					$('#coupon-table').append(str);
+				}else{
+					alert("쿠폰 받기에 실패하였습니다.");
+				}
+	        }
+	 	});
+	});
+	
 	//회원 탈퇴
 	$('#withdrawal-ok').click(function(){
 		var result = confirm("정말로 탈퇴하시겠습니까?"); 
@@ -741,21 +766,24 @@ function menuClick(selecter){
 										<th width="15%">쿠폰 받기</th>
 									</tr>
 									<!-- 테이블 컨텐츠 -->
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>
-											<a>받기</a>
-										</th>
-									</tr>
+									<c:forEach items="${cList}" var="coupon1">
+										<tr class="coupon-list-text">
+											<th>${coupon1.title}</th>
+											<th>${coupon1.discount}원</th>
+											<th>${coupon1.period}</th>
+											<th>
+												<input type="hidden" value="${coupon1.no}" class="coupon_no">
+												<a class="get-coupon">받기</a>
+											</th>
+										</tr>
+									</c:forEach>
 								</table>
 							</div>
 							<div class="use-text">
 								<h2>사용 가능한 쿠폰</h2>
 							</div>
 							<div class="use-coupon-list">
-								<table class="table">
+								<table class="table" id="coupon-table">
 									<!-- 테이블 타이틀 -->
 									<tr class="table-title">
 										<th width="20%" class="">쿠폰명</th>
@@ -764,37 +792,14 @@ function menuClick(selecter){
 										<th width="15%">상태</th>
 									</tr>
 									<!-- 테이블 컨텐츠 -->
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-										</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
-									<tr class="coupon-list-text">
-										<th>놓칠 수 없는 기회</th>
-										<th>5000원</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>기간 만료</th>
-									</tr>
+									<c:forEach items="${couponList}" var="coupon">
+										<tr class="coupon-list-text">
+											<th>${coupon.title}<input type="hidden" value="${coupon.no}"></th>
+											<th>${coupon.discount}원</th>
+											<th>${coupon.period}</th>
+											<th>${coupon.state}</th>
+										</tr>
+									</c:forEach>
 								</table>
 							</div>
 						</div>

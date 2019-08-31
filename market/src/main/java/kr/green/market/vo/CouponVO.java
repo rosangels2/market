@@ -6,9 +6,16 @@ public class CouponVO {
 	private String title;
 	private double discount;
 	private String period;
+	private String state;
 	private String valid;
 	
 	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -43,8 +50,8 @@ public class CouponVO {
 	
 	@Override
 	public String toString() {
-		return "CouponVO [no=" + no + ", title=" + title + ", discount=" + discount + ", period=" + period + ", valid="
-				+ valid + "]";
+		return "CouponVO [no=" + no + ", title=" + title + ", discount=" + discount + ", period=" + period + ", state="
+				+ state + ", valid=" + valid + "]";
 	}
 	
 }

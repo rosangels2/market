@@ -122,4 +122,32 @@
 	select * from bag
 	where id = #{id} and valid = 'I'
 </select>
+<update id="modifyCouponBag">
+	update couponbag
+		set valid = #{cVo.valid}
+		where coupon_no = #{cVo.coupon_no} and id = #{cVo.id}
+</update>
+<select id="selectCouponBag" resultType="kr.green.market.vo.CouponBagVO">
+	select * from couponbag
+	where coupon_no = #{coupon_no} and id = #{id}
+</select>
+<select id="selectCouponBagList" resultType="kr.green.market.vo.CouponBagVO">
+	select * from couponbag
+	where id = #{id} and valid = 'I'
+</select>
+<select id="selectCouponAll" resultType="kr.green.market.vo.CouponVO">
+	select * from coupon
+	where valid = 'I'
+</select>
+<insert id="insertCouponBag">
+	insert into couponbag(id, coupon_no)
+		values(#{id}, #{coupon_no})
+</insert>
+<select id="selectMaxCouponBag" resultType="int">
+	select max(no) from couponbag
+</select>
+<select id="selectCouponBag1" resultType="kr.green.market.vo.CouponBagVO">
+	select * from couponbag
+	where no = #{no}
+</select>
 </mapper>

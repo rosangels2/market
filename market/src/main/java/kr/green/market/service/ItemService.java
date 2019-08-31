@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
@@ -59,5 +60,15 @@ public interface ItemService {
 	boolean addBag(BagVO bVo);
 
 	ArrayList<BagVO> getBagList(String id);
+
+	boolean useCoupon(String id, Integer coupon_no);
+
+	ArrayList<CouponBagVO> getCouponBagList(String id);
+
+	ArrayList<CouponVO> getCouponAll();
+
+	CouponBagVO getCouponBag(String id, Integer coupon_no);
+
+	CouponBagVO getCoupon(String id, Integer coupon_no);
 
 }

@@ -151,7 +151,7 @@ public class ItemsController {
     @RequestMapping(value="/orderRequest", method=RequestMethod.POST)
     public String orderRequest(Model model, Integer item_no, Integer[] option_no, String[] select,
     String[] detail,  Integer[] count,  Integer[] price, Integer total_price, Integer delivery_price, Integer coupon_price,
-    Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no, String request){
+    Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no, String request, Integer coupon_no){
     	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);	//option 객체로 변환
     	System.out.println("orderRequest orderList : " + orderList);
     	if(delivery_code == 0){
@@ -188,6 +188,10 @@ public class ItemsController {
         	dVo.setContents("선택 상품 : " + orderList.get(i).getSelect()+" / 선택 옵션 : " + orderList.get(i).getDetail()+" / 수량 : "+orderList.get(i).getStock());
         	DeliveryVO dVo1 = itemService.addDelivery(dVo);
         	System.out.println("orderRequest dVo1 : " + dVo1);
+    	}
+    	System.out.println("orderRequest coupon_no : " + coupon_no);
+    	if(coupon_no != null) {
+    		itemService.useCoupon(id, coupon_no);	//사용한 쿠폰 삭제하기
     	}
     	model.addAttribute("id", id);
     	return "redirect:/myMenu";
@@ -345,5 +349,25 @@ public class ItemsController {
     	}
     	model.addAttribute("item_no", item_no);
     	return "redirect:/items/detail";
+    }
+    @RequestMapping(value= "/couponGet", method = RequestMethod.POST)	//쿠폰함
+    @ResponseBody
+    public Map<Object, Object> couponGet(@RequestBody String str) {
+    	Map<Object, Object> map = new HashMap<Object, Object>();
+    	System.out.println("couponGet str : " + str);
+    	String[] arr= str.split("&");
+    	String id = arr[0];
+    	String coupon_no1 = arr[1];
+    	id = memberService.getVal(id);
+    	coupon_no1 = memberService.getVal(coupon_no1);
+    	int coupon_no2 = Integer.parseInt(coupon_no1);
+    	Integer coupon_no = coupon_no2;
+    	System.out.println("couponGet id : " + id);
+    	System.out.println("couponGet coupon_no : " + coupon_no);
+    	CouponBagVO cbVO = itemService.getCoupon(id, coupon_no);
+    	CouponVO cVo = itemService.getCoupon(cbVO.getCoupon_no());
+    	System.out.println("couponGet cVo : " + cVo);
+    	map.put("cVo", cVo);
+    	return map;
     }
 }
