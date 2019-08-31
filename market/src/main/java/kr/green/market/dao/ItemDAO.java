@@ -76,4 +76,6 @@ public interface ItemDAO {
 
 	void insertBag(@Param("bVo")BagVO bVo);
 
+	ArrayList<BagVO> selectBagList(@Param("id")String id);
+
 }

@@ -127,7 +127,7 @@ public class ItemsController {
 	}
     @RequestMapping(value= "/order")
     public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,
-    	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id) throws Exception{
+    	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id, Integer bag_no) throws Exception{
     	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
         Integer orderCount = select.length;
         model.addAttribute("orderCount", orderCount);
@@ -260,28 +260,25 @@ public class ItemsController {
         BuyVO bVo = itemService.getBuy(no);
         System.out.println("myBuy bVo : " + bVo);
         DeliveryVO dVo = deliveryService.getDelivery1(bVo.getNo());
-        if(dVo == null){
-        	dVo.setSeller_name("");
-        	dVo.setContents("");
-        	dVo.setStart("");
-        	dVo.setEnd("");
-        	dVo.setCompany("");
-        	dVo.setDeliverer("");
-        	dVo.setPhone("");
-        	dVo.setStartTime("");
-        	dVo.setEndTime("");
+        String start = "정보 없음";
+        String end = "정보 없음";
+        if(bVo.getState().equals("배송 대기")) {
+        	dVo.setCompany("정보 없음");
+        	dVo.setDeliverer("정보 없음");
+        	dVo.setPhone("정보 없음");
         }
-        if(dVo.getCompany() == null){
-        	dVo.setCompany("");
-        	dVo.setDeliverer("");
-        	dVo.setPhone("");
-        	dVo.setStartTime("");
-        	dVo.setEndTime("");
+        if(bVo.getState().equals("배송중")) {
+        	start = dVo.getStartTime();
         }
-        if(dVo.getEndTime() == null){
-        	dVo.setEndTime("");
+        if(bVo.getState().equals("배송 완료")) {
+        	start = dVo.getStartTime();
+        	end = dVo.getEndTime();
         }
         System.out.println("myBuy dVo : " + dVo);
+        System.out.println("myBuy start : " + start);
+        System.out.println("myBuy end : " + end);
+        model.addAttribute("start", start);
+        model.addAttribute("end", end);
         model.addAttribute("dVo", dVo);
         model.addAttribute("bVo", bVo);
         return mv;
@@ -333,6 +330,9 @@ public class ItemsController {
     	System.out.println("addBag id : " + id);
     	BagVO bVo = new BagVO();
     	for(int i=0; i<oVoList.size(); i++){
+    		ItemVO iVo = itemService.getItem(oVoList.get(i).getItem_no());
+    		System.out.println("addBag iVo : " + iVo);
+    		bVo.setImage(iVo.getFile());
     		bVo.setId(id);
     		bVo.setItem_no(oVoList.get(i).getItem_no());
     		bVo.setOption_no(oVoList.get(i).getNo());

@@ -53,43 +53,60 @@
 			<div class="info-contents">
 				<div class="info-box">
 					<div>
-						<h4>주문 번호</h4><input readonly value="${bVo.no}">
+						<h4>주문 번호</h4>
+						<input readonly value="${bVo.no}">
 					</div>
 					<div>
-						<h4>주문 시간</h4><input readonly value="${bVo.time}">
+						<h4>현재 주문 상태</h4>
+						<input readonly value="${bVo.state}">
+					</div>					
+					<div>
+						<h4>주문 시간</h4>
+						<input readonly value="${bVo.time}">
 					</div>
 					<div>
-						<h4>판매자명</h4><input readonly value="${dVo.seller_name}">
+						<h4>판매자명</h4>
+						<input readonly value="${dVo.seller_name}">
 					</div>
 					<div>
-						<h4>주문 내용</h4><input readonly value="${dVo.contents}">
+						<h4>주문 내용</h4>
+						<input readonly value="${dVo.contents}">
 					</div>
 					<div>
-						<h4>주문 가격</h4><input readonly value="${bVo.price}">
+						<h4>주문 가격</h4>
+						<input readonly value="${bVo.price}">
 					</div>
 					<div>
-						<h4>배송 시 요청 사항</h4><input readonly value="${bVo.request}">
+						<h4>배송 시 요청 사항</h4>
+						<input readonly value="${bVo.request}">
 					</div>
 					<div>
-						<h4>배송 출발지</h4><input readonly value="${dVo.start}">
+						<h4>배송 출발지</h4>
+						<input readonly value="${dVo.start}">
 					</div>
 					<div>
-						<h4>배송 도착지</h4><input readonly value="${dVo.end}">
+						<h4>배송 도착지</h4>
+						<input readonly value="${dVo.end}">
 					</div>
 					<div>
-						<h4>택배 회사명</h4><input readonly value="${dVo.company}">
+						<h4>택배 회사명</h4>
+						<input readonly value="${dVo.company}">
 					</div>
 					<div>
-						<h4>배송자</h4><input readonly value="${dVo.deliverer}">
+						<h4>배송자</h4>
+						<input readonly value="${dVo.deliverer}">
 					</div>
 					<div>
-						<h4>배송자 연락처</h4><input readonly value="${dVo.phone}">
+						<h4>배송자 연락처</h4>
+						<input readonly value="${dVo.phone}">
 					</div>
 					<div>
-						<h4>배송 시작 시간</h4><input readonly value="${dVo.startTime}">
+						<h4>배송 시작 시간</h4>
+						<input readonly value="${start}">
 					</div>
 					<div>
-						<h4>배송 종료 시간</h4><input readonly value="${dVo.endTime}">
+						<h4>배송 종료 시간</h4>
+						<input readonly value="${end}">
 					</div>
 				</div>
 			</div>

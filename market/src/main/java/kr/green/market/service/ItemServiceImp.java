@@ -215,4 +215,12 @@ public class ItemServiceImp implements ItemService{
 		itemDao.insertBag(bVo);
 		return true;
 	}
+	@Override
+	public ArrayList<BagVO> getBagList(String id) {
+		if(id == null) {
+			return null;
+		}
+		
+		return itemDao.selectBagList(id);
+	}
 }

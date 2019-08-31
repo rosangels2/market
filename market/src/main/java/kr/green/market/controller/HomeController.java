@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
+import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.WishlistVO;
@@ -190,6 +191,15 @@ public class HomeController {
         System.out.println("myMenuGet bVoList : " + bVoList);
         ArrayList<WishlistVO> wVoList = itemService.getWishlistList(id);	//회원의 위시리스트 내역 불러오기
         System.out.println("myMenu wVoList : " + wVoList);
+        ArrayList<BagVO> bagList = itemService.getBagList(id);		//회원의 장바구니 내역 불러오기
+        System.out.println("myMenu bagList : " + bagList);
+        int total_price = 0;	//장바구니 합계 계산용 변수
+        for(int i=0; i<bagList.size(); i++) {
+        	total_price += bagList.get(i).getPrice();        	
+        }
+        System.out.println("myMenu total_price : " + total_price);
+        model.addAttribute("total_price", total_price);
+        model.addAttribute("bagList", bagList);
         model.addAttribute("wishlistList", wVoList);
         model.addAttribute("buyList", bVoList);
         return mv;

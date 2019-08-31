@@ -154,7 +154,6 @@
 	float: right;
 	width: 950px;
 	min-height: 1000px;
-	border: 1px solid gray;
 }
 .bag-img-box div{
 	float: left;
@@ -164,7 +163,23 @@
 	margin-top: 15px;
 }
 .bag-box{
- border-bottom: 1px solid gray;
+ border: 1px solid gray;
+ border-top: none;
+}
+.bag-box input{
+	border: none;
+	text-align: center; 
+}
+.bag-info-box input{
+	width: 300px; 
+}
+.bag-price-box{
+	padding-right: 50px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+} 
+.bag-price-box input{
+	width: 200px;
 }
 .price-set{
 	padding: 5px;
@@ -174,7 +189,8 @@
 	margin: 0 10px;
 }
 .order-box{
-	padding: 15px 10px 20px 10px;
+	padding: 15px 10px 20px 300px;
+	margin-top: 20px;
 }
 .order-box button{
 	width: 150px;
@@ -183,7 +199,7 @@
 .order-price-box{
 	height: 70px;
 	float: left;
-	padding: 10px;
+	padding: 20px 10px;
 }
 .order-price-box input{
 	float: left;
@@ -407,6 +423,13 @@ $(document).ready(function(){
 		 });
 	});
 	
+	//장바구니 주문
+	$('#bag-form').submit(function(){
+		if($('input[name=total_price]').val() == 0){
+			return false;
+		}
+		return true;
+	});
 	
 	//회원 탈퇴
 	$('#withdrawal-ok').click(function(){
@@ -659,105 +682,47 @@ function menuClick(selecter){
 					<!-- 장바구니 클릭 시 -->
 					<div class="bag display-none">
 						<div class="bag-contents">
-							<div class="bag-box">
-								<div class="bag-img-box clearfix">
-									<div class="item-img-box">
-										<img alt="" src="<%=request.getContextPath()%>/resources/images/목걸이.jpg">
+							<form method="post" action="<%=request.getContextPath()%>/items/order" id="bag-form">
+								<input type="hidden" value="${user.id}" name="id">
+								<c:forEach items="${bagList}" var="bag">
+									<div class="bag-box">
+										<input type="hidden" name="bag_no" value="${bag.no}">
+										<input type="hidden" name="item_no" value="${bag.item_no}">
+										<input type="hidden" name="option_no" value="${bag.option_no}">
+										<div class="bag-img-box clearfix">
+											<div class="item-img-box">
+												<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${bag.image}">
+											</div>
+										</div>
+										<div class="bag-info-box">
+											<div class="price-set clearfix">
+												<h4 class="float-left" style="margin: 0 10px;">선택 상품</h4><input readonly name="select" value="${bag.select}">
+												<h4 class="float-left">세부 옵션</h4><input readonly name="detail" value="${bag.detail}">
+											</div>
+										</div>
+										<div class="bag-price-box">
+											<div class="price-set clearfix">
+												<h4 class="float-left" style="margin: 0 10px;">선택 수량</h4><input style="border:1px solid gray;" name="count" value="${bag.count}">
+												<h4 class="float-left">총 가격</h4><input readonly name="price" value="${bag.price}">
+												<button type="button" class="float-right" id="bag-delete">
+													<h5>삭제하기</h5>
+												</button>
+												<button type="button" class="float-right" style="margin-right: 30px;" id="bag-modify">
+													<h5>수정하기</h5>
+												</button>
+											</div>
+										</div>
 									</div>
-									<div class="item-name-box">
-										<h3>상품명</h3>
-										<input>
+								</c:forEach>
+								<!-- 장바구니 주문 창 -->
+								<div class="order-box clearfix">
+									<div class="order-price-box clearfix">
+										<h4 class="float-left" style="margin: 0 10px;">상품 가격 합계</h4>
+										<input name="total_price" value="${total_price}" readonly style="text-align: center;">
 									</div>
-									<div class="item-price-box">
-										<h3>가격</h3>
-										<input>
-									</div>
-									<div class="button-box">
-										<button><h3>삭제</h3></button>
-									</div>
+									<button style="margin: 10px 44px 0 0;"><h3>주문하기</h3></button>
 								</div>
-								<div class="bag-price-box">
-									<div class="price-set clearfix">
-										<h4 class="float-left" style="margin: 0 10px;">상품 가격</h4><input><h4 class="float-left">배송비</h4><input><h4 class="float-left" style="margin: 0 10px;">=</h4><input>
-									</div>
-								</div>
-							</div>
-							<div class="bag-box">
-								<div class="bag-img-box clearfix">
-									<div class="item-img-box">
-										<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
-									</div>
-									<div class="item-name-box">
-										<h3>상품명</h3>
-										<input>
-									</div>
-									<div class="item-price-box">
-										<h3>가격</h3>
-										<input>
-									</div>
-									<div class="button-box">
-										<button><h3>삭제</h3></button>
-									</div>
-								</div>
-								<div class="bag-price-box">
-									<div class="price-set clearfix">
-										<h4 class="float-left" style="margin: 0 10px;">상품 가격</h4><input><h4 class="float-left">배송비</h4><input><h4 class="float-left" style="margin: 0 10px;">=</h4><input>
-									</div>
-								</div>
-							</div>
-							<div class="bag-box">
-								<div class="bag-img-box clearfix">
-									<div class="item-img-box">
-										<img alt="" src="<%=request.getContextPath()%>/resources/images/큐티 권총.jpg">
-									</div>
-									<div class="item-name-box">
-										<h3>상품명</h3>
-										<input>
-									</div>
-									<div class="item-price-box">
-										<h3>가격</h3>
-										<input>
-									</div>
-									<div class="button-box">
-										<button><h3>삭제</h3></button>
-									</div>
-								</div>
-								<div class="bag-price-box">
-									<div class="price-set clearfix">
-										<h4 class="float-left" style="margin: 0 10px;">상품 가격</h4><input><h4 class="float-left">배송비</h4><input><h4 class="float-left" style="margin: 0 10px;">=</h4><input>
-									</div>
-								</div>
-							</div>
-							<div class="bag-box">
-								<div class="bag-img-box clearfix">
-									<div class="item-img-box">
-										<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-									</div>
-									<div class="item-name-box">
-										<h3>상품명</h3>
-										<input>
-									</div>
-									<div class="item-price-box">
-										<h3>가격</h3>
-										<input>
-									</div>
-									<div class="button-box">
-										<button><h3>삭제</h3></button>
-									</div>
-								</div>
-								<div class="bag-price-box">
-									<div class="price-set clearfix">
-										<h4 class="float-left" style="margin: 0 10px;">상품 가격</h4><input><h4 class="float-left">배송비</h4><input><h4 class="float-left" style="margin: 0 10px;">=</h4><input>
-									</div>
-								</div>
-							</div>
-							<!-- 장바구니 주문 창 -->
-							<div class="order-box clearfix">
-								<div class="order-price-box clearfix">
-									<h5 class="float-left" style="margin: 0 10px;">상품 가격 합계</h5><input><h5 class="float-left">배송비 합계</h5><input><h5 class="float-left" style="margin: 0 10px;">=</h5><input>
-								</div>
-								<button style="margin: 10px 44px 0 0;"><h3>주문하기</h3></button>
-							</div>
+							</form>
 						</div>
 					</div>
 					<!-- 쿠폰함 클릭 시 -->

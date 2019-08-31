@@ -86,7 +86,7 @@
 </select>
 <update id="updateBuy">
 	update buy
-		set request = #{bVo.request}, state = #{bVo.state}, valid = #{bVo.valid} image = #{bVo.image}
+		set request = #{bVo.request}, state = #{bVo.state}, valid = #{bVo.valid}, image = #{bVo.image}
 		where no = #{bVo.no}
 </update>
 <select id="selectBuyList" resultType="kr.green.market.vo.BuyVO">
@@ -115,7 +115,11 @@
 		where no = #{wVo.no}
 </update>
 <insert id="insertBag">
-	insert into bag(id, item_no, option_no, bag.select, detail, count, price)
-		values(${bVo.id}, ${bVo.item_no}, ${bVo.option_no}, ${bVo.select}, ${bVo.detail}, ${bVo.count}, ${bVo.price})
+	insert into market.bag(id, item_no, option_no, `select`, detail, `count`, price, image)
+		values(#{bVo.id}, #{bVo.item_no}, #{bVo.option_no}, #{bVo.select}, #{bVo.detail}, #{bVo.count}, #{bVo.price}, #{bVo.image})
 </insert>
+<select id="selectBagList" resultType="kr.green.market.vo.BagVO">
+	select * from bag
+	where id = #{id} and valid = 'I'
+</select>
 </mapper>

@@ -58,4 +58,6 @@ public interface ItemService {
 
 	boolean addBag(BagVO bVo);
 
+	ArrayList<BagVO> getBagList(String id);
+
 }
