@@ -241,10 +241,25 @@ $(document).ready(function(){
 	});
 	
 	//상품 정보 메뉴 클릭 시
+	$('.item-info-menu').click(function(){
+		$('#contents').removeClass('display-none');
+		$('#ask').addClass('display-none');
+		$('#comment').addClass('display-none');
+	});
 	
 	//문의/답변 메뉴 클릭 시
+	$('.ask-menu').click(function(){
+		$('#ask').removeClass('display-none');
+		$('#contents').addClass('display-none');
+		$('#comment').addClass('display-none');
+	});
 	
 	//댓글 메뉴 클릭 시
+	$('.comment-menu').click(function(){
+		$('#comment').removeClass('display-none');
+		$('#contents').addClass('display-none');
+		$('#ask').addClass('display-none');
+	});
 	
 });	//레디
 
@@ -363,7 +378,7 @@ $(document).ready(function(){
 			<div class="menu-info-contents">
 				<div class="menu-info-box">
 					<!-- 상품 상세 정보 -->
-					<div class="item-info">
+					<div class="item-info" id="contents">
 						<div class="info-box">
 							<c:forEach var="files" items="${itemFiles}">
 								<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${files.route}">
@@ -376,7 +391,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<!-- 문의/답변 -->
-					<div class="ask display-none">
+					<div class="ask display-none" id="ask">
 						<div class="ask-box">
 							<div class="search-box clearfix">
 								<div class="search-select">
@@ -430,7 +445,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 					<!-- 댓글 -->
-					<div class="comment display-none">
+					<div class="comment display-none" id="comment">
 						<div class="comment-contents">
 							<!-- 댓글 게시판 -->
 							<div class="comment-board">

@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -9,7 +9,7 @@ USE `market`;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,22 +23,18 @@ USE `market`;
 
 DROP TABLE IF EXISTS `board`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `board` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
-  `category_no` int(11) NOT NULL,
-  `item_no` int(11) DEFAULT NULL,
+  `category` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `board_no` int(11) DEFAULT NULL,
   `writer` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `title` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `contents` longtext CHARACTER SET utf8 COLLATE utf8_bin,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
-  KEY `fk_board_category1_idx` (`category_no`),
-  KEY `fk_board_item1_idx` (`item_no`),
   KEY `fk_board_member1_idx` (`writer`),
-  CONSTRAINT `fk_board_category1` FOREIGN KEY (`category_no`) REFERENCES `category` (`no`),
-  CONSTRAINT `fk_board_item1` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`),
   CONSTRAINT `fk_board_member1` FOREIGN KEY (`writer`) REFERENCES `member` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -61,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-01  4:15:46
+-- Dump completed on 2019-09-01 22:06:26
