@@ -433,7 +433,7 @@ $(document).ready(function(){
 	
 	//쿠폰 받기
 	$('.get-coupon').click(function(){
-		var box = $(this).parents()
+		var box = $(this).parents('.coupon-list-text')
 		var coupon_no = $(this).siblings('.coupon_no').val();
 		var id = '${user.id}';
 		$.ajax({
@@ -444,10 +444,10 @@ $(document).ready(function(){
 	        dataType:"json",
 	        contentType:"application/json; charset=UTF-8",
 	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
-	        	alert(data);
-				if(data != null){
-					$(this).parents('.coupon-list-text').remove();
-					var str = '<tr class="coupon-list-text"><th>'+${data.cVo.title}+'<input type="hidden" value="'+${data.cVo.no}+'"></th><th>$'+{data.cVo.discount}+'원</th><th>'+${data.cVo.period}+'</th><th>'+${data.cVo.state}+'</th></tr>';
+	        	alert(data.cVo);
+				if(data.cVo != null){
+					box.remove();
+					var str = '<tr class="coupon-list-text"><th>'+data.cVo.title+'<input type="hidden" value="'+data.cVo.no+'"></th><th>'+data.cVo.discount+'원</th><th>'+data.cVo.period+'</th><th>'+data.cVo.state+'</th></tr>';
 					$('#coupon-table').append(str);
 				}else{
 					alert("쿠폰 받기에 실패하였습니다.");

@@ -240,6 +240,12 @@ $(document).ready(function(){
 		$('#option-form').submit();
 	});
 	
+	//상품 정보 메뉴 클릭 시
+	
+	//문의/답변 메뉴 클릭 시
+	
+	//댓글 메뉴 클릭 시
+	
 });	//레디
 
 </script>
