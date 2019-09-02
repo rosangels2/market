@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `comment`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `comment` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
-  `category` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `category` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `board_no` int(11) DEFAULT NULL,
   `to` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `writer` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`no`),
   KEY `fk_comment_member1_idx` (`to`),
   CONSTRAINT `fk_comment_member1` FOREIGN KEY (`to`) REFERENCES `member` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +45,7 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (1,'댓글',3,NULL,'z11111111','안녕하세요','2019-09-02 16:54:16','I'),(2,'댓글',3,NULL,'z111111111','배고파','2019-09-02 16:54:16','I'),(3,'댓글',3,NULL,'z1111111111','비 오네','2019-09-02 16:54:16','I');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-01 22:06:23
+-- Dump completed on 2019-09-02 17:17:14
