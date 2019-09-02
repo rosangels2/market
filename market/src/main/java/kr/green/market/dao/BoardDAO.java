@@ -9,7 +9,7 @@ import kr.green.market.vo.CommentVO;
 
 public interface BoardDAO {
 
-	void insertBoard(@Param("category")String category, @Param("board_no")Integer board_no, @Param("writer")String writer, @Param("title")String title, @Param("contents")String contents);
+	void insertBoard(@Param("category")String category, @Param("board_no")Integer board_no, @Param("writer")String writer, @Param("title")String title, @Param("contents")String contents, @Param("state")String state);
 
 	int selectMaxBoard();
 

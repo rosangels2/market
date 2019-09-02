@@ -20,7 +20,8 @@ public class BoardServiceImp implements BoardService{
 		if(category == null || board_no == null || writer == null || title == null || contents == null){
 			return null;
 		}
-		boardDao.insertBoard(category, board_no, writer, title, contents);
+		String state = "답변 대기";
+		boardDao.insertBoard(category, board_no, writer, title, contents, state);
 		int no = boardDao.selectMaxBoard();
 		return boardDao.selectBoard(no);
 	}

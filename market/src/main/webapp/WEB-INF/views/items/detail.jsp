@@ -366,9 +366,11 @@ $(document).ready(function(){
 	        	$('#ask-form input[name=title]').val("");
         		$('#ask-form input[name=contents]').val("");
 	        	if(data.bVo != null){	//등록한 게시글을 bVo에 담아 반환
-	        		alert("문의글 등록에 성공하였습니다.");
+	        		alert("문의글이 등록 되었습니다.");
 	        		$('#ask-form input[name=title]').val("");
 	        		$('#ask-form input[name=contents]').val("");
+	        		var str = '<div class="board-set"><div class="set-top clearfix"><div style="width: 10%;">'+data.bVo.no+'</div><div style="width: 10%;">'+data.bVo.category+'</div><div class="ask-title" style="width: 30%;">'+data.bVo.title+'</div><div style="width: 15%;">'+data.bVo.writer+'</div><div style="width: 25%;">'+data.bVo.time+'</div><div class="ask-state" style="width: 10%; border-right: none;">'+data.bVo.state+'</div></div><div class="set-bottom display-none">'+data.bVo.contents+'</div><div class="reply-box display-none"><h5>답변 내용</h5></div></div>';
+	        		$('.board-box .ask-title1').after(str);
 	        	}else{
 	        		alert("문의글 등록에 실패하였습니다.");
 	        	}
@@ -425,7 +427,7 @@ $(document).ready(function(){
 	        dataType:"json",
 	        contentType:"application/json; charset=UTF-8",
 	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
-	        	alert(data.comment); 
+	  			alert("댓글이 등록 되었습니다.");
 	        	var to = $('.comment-regiser-box input[name=to]').val("");
 	    		var contents = $('.comment-regiser-box input[name=contents]').val("");
 	        	var str = '<tr class="table-contents"><th>'+data.comment.writer+'</th><th>'+data.comment.contents+'</th><th>'+data.comment.time+'</th><th>작성하기</th><th><select><option>수정/삭제</option><option>수정</option><option>삭제</option></select></th></tr>';
@@ -621,7 +623,7 @@ $(document).ready(function(){
 							<div class="board-box">
 								<!-- 전체 문의 보기 -->
 								<div class="board-box-contents">
-									<div class="board-set" style="border-top: 1px solid gray;">
+									<div class="board-set ask-title1" style="border-top: 1px solid gray;" id="ask-title">
 										<div class="set-top clearfix">
 											<div style="width: 10%;">문의 번호</div>
 											<div style="width: 10%;">문의 유형</div>
@@ -654,7 +656,7 @@ $(document).ready(function(){
 								</div>
 								<!-- 내 문의 보기 -->
 								<div class="board-box-contents-my display-none">
-									<div class="board-set" style="border-top: 1px solid gray;">
+									<div class="board-set ask-title1" style="border-top: 1px solid gray;" id="ask-title1">
 										<div class="set-top clearfix">
 											<div style="width: 10%;">문의 번호</div>
 											<div style="width: 10%;">문의 유형</div>
