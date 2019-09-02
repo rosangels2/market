@@ -407,7 +407,32 @@ $(document).ready(function(){
 		$('.board-box-contents').removeClass('display-none');
 	});
 	
-	
+	//댓글 등록 클릭 시
+	$('#comment-add').click(function(){
+		if($('input[name=id]').val() == ""){
+			location.href = '<%=request.getContextPath()%>/signin';
+		}
+		var category = $('.comment-regiser-box input[name=category]').val();
+		var board_no = $('.comment-regiser-box input[name=board_no]').val();
+		var writer = $('input[name=id]').val();
+		var to = $('.comment-regiser-box input[name=to]').val();
+		var contents = $('.comment-regiser-box input[name=contents]').val();
+		$.ajax({ 
+	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:{"category": category, "board_no": board_no, "writer": writer, "to": to, "contents": contents},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/board/addComment",
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	        	alert(data.comment); 
+	        	var to = $('.comment-regiser-box input[name=to]').val("");
+	    		var contents = $('.comment-regiser-box input[name=contents]').val("");
+	        	var str = '<tr class="table-contents"><th>'+data.comment.writer+'</th><th>'+data.comment.contents+'</th><th>'+data.comment.time+'</th><th>작성하기</th><th><select><option>수정/삭제</option><option>수정</option><option>삭제</option></select></th></tr>';
+	        	$('#comment-title').after(str);
+	        }
+		});
+	});
 	
 	//댓글 메뉴 클릭 시
 	$('.comment-menu').click(function(){
@@ -669,7 +694,7 @@ $(document).ready(function(){
 							<!-- 댓글 게시판 -->
 							<div class="comment-board">
 								<table class="table">
-									<tr class="table-title">
+									<tr class="table-title" id="comment-title">
 										<th width="15%">작성자</th>
 										<th width="40%">내용</th>
 										<th width="25%">등록일</th>
@@ -699,16 +724,18 @@ $(document).ready(function(){
 							</div>
 							<!-- 댓글 등록창 -->
 							<div class="comment-regiser-box">
+								<input type="hidden" name="category" value="댓글">
+								<input type="hidden" name="board_no" value="${item.no}">
 								<div class="text-box clearfix">
 									<h3 style="float: left;">내용</h3>
-									<input value="" style="float: right; margin-left: 10px;">
+									<input value="" style="float: right; margin-left: 10px;" name="to">
 									<h5 style="float: right;">답글 대상</h5>
 								</div>
 								<div class="contents-box">
-									<input>
+									<input name="contents">
 								</div>
 								<div class="button-box clearfix">
-									<button>
+									<button type="button" id="comment-add">
 										<h4>등록하기</h4>
 									</button>
 								</div>

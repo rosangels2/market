@@ -27,5 +27,17 @@
 <select id="selectCommentList" resultType="kr.green.market.vo.CommentVO">
 	select * from comment
 	where board_no = #{board_no}
+	order by no desc
+</select>
+<insert id="insertComment">
+	insert into `comment`(category, board_no, writer, `to`, contents)
+		values(#{category}, #{board_no}, #{writer}, #{to}, #{contents})
+</insert>
+<select id="selectMaxComment" resultType="int">
+	select max(no) from `comment`
+</select>
+<select id="selectComment" resultType="kr.green.market.vo.CommentVO">
+	select * from `comment`
+	where no = #{no}
 </select>
 </mapper>

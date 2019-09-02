@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.green.market.service.BoardService;
 import kr.green.market.service.MemberService;
 import kr.green.market.vo.BoardVO;
+import kr.green.market.vo.CommentVO;
 
 @Controller
 @RequestMapping(value= "/board")
@@ -36,7 +37,7 @@ public class BoardController {
         mv.setViewName("/board/display");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
-    @RequestMapping(value="/ask", method = RequestMethod.POST)	//쿠폰함
+    @RequestMapping(value="/ask")	//쿠폰함
     @ResponseBody
     public Map<Object, Object> ask(@RequestBody String str) {
     	Map<Object, Object> map = new HashMap<Object, Object>();
@@ -62,6 +63,37 @@ public class BoardController {
     	BoardVO bVo = boardService.registerAsk(category, board_no, writer, title, contents);
     	System.out.println("boardAsk bVo : " + bVo);
     	map.put("bVo", bVo);
+    	return map;
+    }
+    @RequestMapping(value="/addComment")	//쿠폰함
+    @ResponseBody
+    public Map<Object, Object> addComment(@RequestBody String str) {
+    	Map<Object, Object> map = new HashMap<Object, Object>();
+    	try {
+			str=URLDecoder.decode(str, "UTF-8");	//인코딩 돼 깨진 email값을 decode 메서드로 복원
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+    	System.out.println("addComment str : " + str);
+    	String[] arr = str.split("&");
+    	String category = memberService.getVal(arr[0]);   	
+    	String board_no1 = memberService.getVal(arr[1]); 
+    	int board_no2 = Integer.parseInt(board_no1);
+    	Integer board_no = board_no2;   	
+    	String writer = memberService.getVal(arr[2]);  
+    	String to = memberService.getVal(arr[3]);
+    	if(to == "") {
+    		to = null;
+    	}
+    	String contents = memberService.getVal(arr[4]);
+    	System.out.println("addComment category : " + category);
+    	System.out.println("addComment board_no : " + board_no);
+    	System.out.println("addComment writer : " + writer);
+    	System.out.println("addComment to : " + to);
+    	System.out.println("addComment contents : " + contents);
+    	CommentVO cVo = boardService.registerComment(category, board_no, writer, to, contents);
+    	System.out.println("addComment cVo : " + cVo);
+    	map.put("comment", cVo);
     	return map;
     }
 }

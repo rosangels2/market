@@ -21,4 +21,10 @@ public interface BoardDAO {
 
 	ArrayList<CommentVO> selectCommentList(@Param("board_no")Integer item_no);
 
+	void insertComment(@Param("category")String category, @Param("board_no")Integer board_no, @Param("writer")String writer, @Param("to")String to, @Param("contents")String contents);
+
+	int selectMaxComment();
+
+	CommentVO selectComment(@Param("no")int no);
+
 }

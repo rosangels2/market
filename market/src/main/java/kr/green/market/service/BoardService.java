@@ -15,4 +15,6 @@ public interface BoardService {
 
 	ArrayList<CommentVO> getCommentList(Integer item_no);
 
+	CommentVO registerComment(String category, Integer board_no, String writer, String to, String contents);
+
 }

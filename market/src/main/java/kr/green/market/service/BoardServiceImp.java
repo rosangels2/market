@@ -45,4 +45,15 @@ public class BoardServiceImp implements BoardService{
 		}
 		return boardDao.selectCommentList(item_no);
 	}
+
+	@Override
+	public CommentVO registerComment(String category, Integer board_no, String writer, String to, String contents) {
+		if(category == "" || board_no == null || writer == "" || contents == "") {
+			return null;
+		}
+		boardDao.insertComment(category, board_no, writer, to, contents);
+		int no = boardDao.selectMaxComment();
+		System.out.println("selectMaxComment no : " + no);
+		return boardDao.selectComment(no);
+	}
 }
