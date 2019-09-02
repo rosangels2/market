@@ -26,12 +26,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.market.service.BoardService;
 import kr.green.market.service.DeliveryService;
 import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.utils.UploadFileUtils;
 import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.BagVO;
+import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
@@ -48,6 +50,8 @@ public class ItemsController {
 
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	BoardService boardService;
 	@Autowired
 	ItemService itemService;
 	@Resource
@@ -77,6 +81,9 @@ public class ItemsController {
     	ArrayList<OptionVO> options = itemService.getItemOptions(item_no);
     	System.out.println("itemDetail Options : " + options);
     	model.addAttribute("options", options);
+    	ArrayList<BoardVO> askList = boardService.getAskListAll();
+    	System.out.println("itemDetail askList : " + askList);
+    	model.addAttribute("askList", askList);
         mv.setViewName("/items/detail");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
@@ -350,7 +357,7 @@ public class ItemsController {
     	model.addAttribute("item_no", item_no);
     	return "redirect:/items/detail";
     }
-    @RequestMapping(value= "/couponGet", method = RequestMethod.POST)	//쿠폰함
+    @RequestMapping(value="/couponGet", method = RequestMethod.POST)	//쿠폰함
     @ResponseBody
     public Map<Object, Object> couponGet(@RequestBody String str) {
     	Map<Object, Object> map = new HashMap<Object, Object>();

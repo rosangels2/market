@@ -76,8 +76,11 @@
 	width: 150px;
 }
 /* 메뉴 선택 박스 */
+.menu{
+	margin: 100px 0 0 0;
+}
 .menu-box{
-	margin: 20px 0 0 0;
+	position: relative; 
 }
 .menu-box .menu-box-left{
 	float: left;
@@ -90,11 +93,49 @@
 	border: 1px solid gray;
 	text-align: center;
 	padding: 5px;
-	/* 문의 선택 메뉴 숨김 */
-	display: none;
 }
 .menu-box h2{
 	margin: 0;
+}
+/* 문의하기 창 */
+.request-contents{
+	position:absolute;
+	z-index: 10;
+}
+.request-box{
+	background-color: white;
+	min-width: 600px;
+	min-height: 400px;
+	top: 50px;
+	border: 1px solid gray;
+}
+.request-box .category{
+	min-height: 30px;
+	border-bottom: 1px solid gray;
+	padding: 5px 0;
+}
+.request-box .category select{
+	margin-left: 15px;
+}
+.request-box .title{
+	min-height: 50px;
+	border-bottom: 1px solid gray;
+}
+.ask-title{
+	width: 598px;
+}
+.ask-contents{
+	width: 598px;
+	min-height: 220px;
+}
+.request-box .contents{
+	min-height: 250px;
+	border-bottom: 1px solid gray;
+}
+.request-box .button{
+	padding: 5px;
+	min-height: 50px;
+	border-bottom: 1px solid gray;
 }
 /* 상품 정보 선택*/
 .menu-info-box{
@@ -111,11 +152,35 @@
 	min-height: 150px;
 }
 /* 문의/답변 선택 */
-.search-box{
-	
+.ask-box .search-box{
+	margin: 20px 0 ;
 }
 .search-box div{
 	float: left;
+}
+.board-box-contents{
+	min-height: 200px;
+}
+.board-set{
+	border: 1px solid gray;
+	border-top: none;
+}
+.board-set .set-top div{
+	float: left;
+	text-align: center;
+	border-right: 1px solid gray;
+	border-bottom: none;
+	height: 30px;
+}
+.board-set .set-bottom{ 
+	min-height: 50px;
+	border-top: 1px solid gray;
+	padding: 5px;
+}
+.board-set .reply-box{
+	min-height: 100px;
+	border-top: 1px solid gray;
+	padding: 5px;
 }
 /* 댓글창 */
 .comment-regiser-box{
@@ -130,6 +195,11 @@
 }
 .comment-regiser-box .button-box button{
 	float: right;
+}
+
+/* 하단 */
+.bottom-box{
+	min-height: 150px;
 }
 
 
@@ -245,6 +315,7 @@ $(document).ready(function(){
 		$('#contents').removeClass('display-none');
 		$('#ask').addClass('display-none');
 		$('#comment').addClass('display-none');
+		$('.menu-box-right').addClass('display-none');
 	});
 	
 	//문의/답변 메뉴 클릭 시
@@ -252,6 +323,57 @@ $(document).ready(function(){
 		$('#ask').removeClass('display-none');
 		$('#contents').addClass('display-none');
 		$('#comment').addClass('display-none');
+		$('.menu-box-right').removeClass('display-none');
+	});
+	//문의하기 클릭 시
+	$('#ask-request').click(function(){
+		$('.request-contents').removeClass('display-none');
+	});
+	//문의하기 취소 시
+	$('#ask-cancel').click(function(){
+		$('.request-contents').addClass('display-none');
+	});
+	//문의 요청 시
+	$('#ask-button').click(function(){ 
+		$('.request-contents').addClass('display-none');
+		if($('#ask-form input[name=title]').val() == "" || $('#ask-form input[name=contents]').val() == ""){
+			alert("내용을 입력해 주세요.");
+			return false;
+		}
+		var writer = $('#ask-form input[name=writer]').val();
+		var board_no = $('#ask-form input[name=board_no]').val();
+		var category = $('#ask-select').val();
+		var title = $('#ask-form input[name=title]').val();
+		var contents = $('#ask-form input[name=contents]').val();
+		$.ajax({ 
+	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:{"writer": writer, "board_no": board_no, "category": category, "title": title, "contents": contents},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/board/ask",
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	        	$('#ask-form input[name=title]').val("");
+        		$('#ask-form input[name=contents]').val("");
+	        	if(data.bVo != null){	//등록한 게시글을 bVo에 담아 반환
+	        		alert("문의글 등록에 성공하였습니다.");
+	        	}else{
+	        		alert("문의글 등록에 실패하였습니다.");
+	        	}
+	        	
+	        }
+	  });
+		return false;
+	});
+	
+	//문의글 제목 클릭 시
+	$('.board-set .ask-title').click(function(){
+		$(this).parent().siblings('.set-bottom').toggleClass('display-none');
+	});
+	
+	//답변 보기 클릭 시
+	$('.board-set .ask-state').click(function(){
+		$(this).parent().siblings('.reply-box').toggleClass('display-none');
 	});
 	
 	//댓글 메뉴 클릭 시
@@ -259,6 +381,7 @@ $(document).ready(function(){
 		$('#comment').removeClass('display-none');
 		$('#contents').addClass('display-none');
 		$('#ask').addClass('display-none');
+		$('.menu-box-right').addClass('display-none');
 	});
 	
 });	//레디
@@ -361,14 +484,43 @@ $(document).ready(function(){
 					<div class="comment-menu menu-box-left">
 						<h2>댓글</h2>
 					</div>
-					<div class="menu-box-right">
+					<div class="menu-box-right display-none" id="ask-all">
 						<h2>전체 문의 보기</h2>
 					</div>
-					<div class="menu-box-right">
+					<div class="menu-box-right display-none" id="ask-my">
 						<h2>내 문의 보기</h2>
 					</div>
-					<div class="menu-box-right">
+					<div class="menu-box-right display-none" id="ask-request">
 						<h2>문의하기</h2>
+					</div>
+					<!-- 문의 하기 창 -->
+					<div class="request-contents display-none">
+						<div class="request-box">
+							<form action="" method="post" id="ask-form">
+								<input type="hidden" name="writer" value="${user.id}">
+								<input type="hidden" name="board_no" value="${item.no}">
+								<div class="category clearfix">
+									<h5 style="float: left; margin:0;">문의 유형</h5>
+									<select id="ask-select" style="float: left;" name="category">
+										<option selected value="상품문의">상품 문의</option>
+										<option value="배송문의">배송 문의</option>
+										<option value="교환문의">교환 문의</option>
+									</select>
+								</div>
+								<div class="title clearfix">
+									<h5>제목</h5>
+									<input name="title" class="ask-title">
+								</div>
+								<div class="contents clearfix">
+									<h5>내용</h5>
+									<input name="contents" class="ask-contents">
+								</div>
+								<div class="button clearfix">
+									<button type="button" style="float: right;" id="ask-cancel"><h4>취소</h4></button>
+									<button type="button" style="float: right; margin-right: 15px;" id="ask-button"><h4>문의하기</h4></button>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -393,6 +545,7 @@ $(document).ready(function(){
 					<!-- 문의/답변 -->
 					<div class="ask display-none" id="ask">
 						<div class="ask-box">
+							<!-- 검색 창 -->
 							<div class="search-box clearfix">
 								<div class="search-select">
 									<select>
@@ -406,41 +559,38 @@ $(document).ready(function(){
 									<i class="fas fa-search img" style="font-size: 30px;"></i>
 								</div>
 							</div>
+							<!-- 게시글 목록 창 -->
 							<div class="board-box">
-								<table class="table">
-									<tr>
-										<th width="10%">번호</th>		<!-- width를 통해 가로를 지정 -->
-										<th width="20%">문의 종류</th>
-										<th width="20%">제목</th>
-										<th width="20%">작성자</th>
-										<th width="10%">등록일</th>
-										<th width="10%">답변 상태</th>	
-									</tr>
-									<tr>
-										<th>1</th>	<!-- list의 값이 추가된 변수 board의 getter 호출 -->
-										<th>교환</th>
-										<th>문의</th>
-										<th>roasdlldal</th>
-										<th>2019-09-02</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr>
-										<th>1</th>	<!-- list의 값이 추가된 변수 board의 getter 호출 -->
-										<th>교환</th>
-										<th>문의</th>
-										<th>roasdlldal</th>
-										<th>2019-09-02</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr>
-										<th>1</th>	<!-- list의 값이 추가된 변수 board의 getter 호출 -->
-										<th>교환</th>
-										<th>문의</th>
-										<th>roasdlldal</th>
-										<th>2019-09-02</th>
-										<th>답변 대기</th>
-									</tr>
-								</table>							
+								<div class="board-box-contents">
+									<div class="board-set" style="border-top: 1px solid gray;">
+										<div class="set-top clearfix">
+											<div style="width: 10%;">문의 번호</div>
+											<div style="width: 10%;">문의 유형</div>
+											<div style="width: 30%;">제목</div>
+											<div style="width: 15%;">작성자</div>
+											<div style="width: 25%;">작성일</div>
+											<div style="width: 10%; border-right: none;">상태</div>
+										</div>
+									</div>
+									<c:forEach items="${askList}" var="ask">
+										<div class="board-set">
+											<div class="set-top clearfix">
+												<div style="width: 10%;">${ask.no}</div>
+												<div style="width: 10%;">${ask.category}</div>
+												<div class="ask-title" style="width: 30%;">${ask.title}</div>
+												<div style="width: 15%;">${ask.writer}</div>
+												<div style="width: 25%;">${ask.time}</div>
+												<div class="ask-state" style="width: 10%; border-right: none;">${ask.state}</div>
+											</div>
+											<div class="set-bottom display-none">
+												${ask.contents}
+											</div>
+											<div class="reply-box display-none">
+												<h5>답변 내용</h5>
+											</div>
+										</div>
+									</c:forEach>
+								</div>					
 							</div>
 						</div>
 					</div>
@@ -517,6 +667,13 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page-bottom">
+		<div class="bottom-contents">
+			<div class="bottom-box">
+			
 			</div>
 		</div>
 	</div>

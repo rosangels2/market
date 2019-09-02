@@ -230,14 +230,14 @@ $(document).ready(function(){
 					<c:forEach var="item" items="${itemList}">
 						<div class="item-contents clearfix">
 							<div class="item-img">
-								<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
+								<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}&id=${user.id}">
 									<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
 								</a>
 							</div>
 							<div class="item-info">
 								<div><h3>상품명</h3></div>
 								<div class="item-link">
-									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}&id=${user.id}">
 										<h3>${item.title}</h3>
 									</a>
 								</div>

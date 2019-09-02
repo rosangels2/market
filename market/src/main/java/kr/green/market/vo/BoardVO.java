@@ -7,32 +7,39 @@ import java.util.Date;
 public class BoardVO {
 	
 	private Integer no;
-	private Integer category_no;
-	private Integer item_no;
+	private String category;
+	private Integer board_no;
 	private String writer;
 	private String title;
 	private String contents;
 	private Date time;
+	private String state;
 	private String valid;
 	
-
+	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public Integer getNo() {
 		return no;
 	}
 	public void setNo(Integer no) {
 		this.no = no;
 	}
-	public Integer getCategory_no() {
-		return category_no;
+	public String getCategory() {
+		return category;
 	}
-	public void setCategory_no(Integer category_no) {
-		this.category_no = category_no;
+	public void setCategory(String category) {
+		this.category = category;
 	}
-	public Integer getItem_no() {
-		return item_no;
+	public Integer getBoard_no() {
+		return board_no;
 	}
-	public void setItem_no(Integer item_no) {
-		this.item_no = item_no;
+	public void setBoard_no(Integer board_no) {
+		this.board_no = board_no;
 	}
 	public String getWriter() {
 		return writer;
@@ -71,11 +78,11 @@ public class BoardVO {
 		this.valid = valid;
 	}
 	
-
+	
 	@Override
 	public String toString() {
-		return "BoardVO [no=" + no + ", category_no=" + category_no + ", item_no=" + item_no + ", writer=" + writer
-				+ ", title=" + title + ", contents=" + contents + ", time=" + time + ", valid=" + valid + "]";
+		return "BoardVO [no=" + no + ", category=" + category + ", board_no=" + board_no + ", writer=" + writer
+				+ ", title=" + title + ", contents=" + contents + ", time=" + time + ", state=" + state + ", valid="
+				+ valid + "]";
 	}
-	
 }

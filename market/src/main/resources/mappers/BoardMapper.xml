@@ -3,5 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.green.market.dao.BoardDAO">	<!-- DAO 인터페이스가 있는 파일명 -->
-
+<insert id="insertBoard">
+	insert into board(category, board_no, writer, title, contents)
+		values(#{category}, #{board_no}, #{writer}, #{title}, #{contents})
+</insert>
+<select id="selectMaxBoard" resultType="int">
+	select max(no) from board
+</select>
+<select id="selectBoard" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+	where no = #{no}
+</select>
+<select id="selectAskListAll" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+	where category like '%문의'
+	order by no desc
+</select>
 </mapper>
