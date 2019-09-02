@@ -25,8 +25,15 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public ArrayList<BoardVO> getAskListAll() {
-		return boardDao.selectAskListAll();
+	public ArrayList<BoardVO> getAskListAll(Integer item_no) {
+		return boardDao.selectAskListAll(item_no);
 	}
 
+	@Override
+	public ArrayList<BoardVO> getMyAskList(Integer item_no, String id) {
+		if(item_no == null || id == null){
+			return null;
+		}
+		return boardDao.selectMyAskList(item_no, id);
+	}
 }

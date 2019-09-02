@@ -376,6 +376,23 @@ $(document).ready(function(){
 		$(this).parent().siblings('.reply-box').toggleClass('display-none');
 	});
 	
+	//내 문의 보기 클릭 시
+	$('#ask-my').click(function(){
+		if($('input[name=id]').val() == ""){
+			location.href = '<%=request.getContextPath()%>/signin';
+		}
+		$('.board-box-contents').addClass('display-none');
+		$('.board-box-contents-my').removeClass('display-none');
+	});
+	
+	//전체 문의 보기 클릭 시
+	$('#ask-all').click(function(){
+		$('.board-box-contents-my').addClass('display-none');
+		$('.board-box-contents').removeClass('display-none');
+	});
+	
+	
+	
 	//댓글 메뉴 클릭 시
 	$('.comment-menu').click(function(){
 		$('#comment').removeClass('display-none');
@@ -561,6 +578,7 @@ $(document).ready(function(){
 							</div>
 							<!-- 게시글 목록 창 -->
 							<div class="board-box">
+								<!-- 전체 문의 보기 -->
 								<div class="board-box-contents">
 									<div class="board-set" style="border-top: 1px solid gray;">
 										<div class="set-top clearfix">
@@ -590,7 +608,40 @@ $(document).ready(function(){
 											</div>
 										</div>
 									</c:forEach>
-								</div>					
+								</div>
+								<!-- 내 문의 보기 -->
+								<div class="board-box-contents-my display-none">
+									<div class="board-set" style="border-top: 1px solid gray;">
+										<div class="set-top clearfix">
+											<div style="width: 10%;">문의 번호</div>
+											<div style="width: 10%;">문의 유형</div>
+											<div style="width: 30%;">제목</div>
+											<div style="width: 15%;">작성자</div>
+											<div style="width: 25%;">작성일</div>
+											<div style="width: 10%; border-right: none;">상태</div>
+										</div>
+									</div>
+									<c:if test="${user ne null}">
+										<c:forEach items="${myAskList}" var="myAsk">
+											<div class="board-set">
+												<div class="set-top clearfix">
+													<div style="width: 10%;">${myAsk.no}</div>
+													<div style="width: 10%;">${myAsk.category}</div>
+													<div class="ask-title" style="width: 30%;">${myAsk.title}</div>
+													<div style="width: 15%;">${myAsk.writer}</div>
+													<div style="width: 25%;">${myAsk.time}</div>
+													<div class="ask-state" style="width: 10%; border-right: none;">${myAsk.state}</div>
+												</div>
+												<div class="set-bottom display-none">
+													${myAsk.contents}
+												</div>
+												<div class="reply-box display-none">
+													<h5>답변 내용</h5>
+												</div>
+											</div>
+										</c:forEach>
+									</c:if>
+								</div>				
 							</div>
 						</div>
 					</div>

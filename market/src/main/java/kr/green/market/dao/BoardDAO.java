@@ -14,6 +14,8 @@ public interface BoardDAO {
 
 	BoardVO selectBoard(@Param("no")int no);
 
-	ArrayList<BoardVO> selectAskListAll();
+	ArrayList<BoardVO> selectAskListAll(@Param("board_no")Integer item_no);
+
+	ArrayList<BoardVO> selectMyAskList(@Param("board_no")Integer item_no, @Param("writer")String id);
 
 }
