@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.BoardDAO;
 import kr.green.market.vo.BoardVO;
+import kr.green.market.vo.CommentVO;
 
 @Service
 public class BoardServiceImp implements BoardService{
@@ -35,5 +36,13 @@ public class BoardServiceImp implements BoardService{
 			return null;
 		}
 		return boardDao.selectMyAskList(item_no, id);
+	}
+
+	@Override
+	public ArrayList<CommentVO> getCommentList(Integer item_no) {
+		if(item_no == null) {
+			return null;
+		}
+		return boardDao.selectCommentList(item_no);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.green.market.vo.BoardVO;
+import kr.green.market.vo.CommentVO;
 
 public interface BoardDAO {
 
@@ -17,5 +18,7 @@ public interface BoardDAO {
 	ArrayList<BoardVO> selectAskListAll(@Param("board_no")Integer item_no);
 
 	ArrayList<BoardVO> selectMyAskList(@Param("board_no")Integer item_no, @Param("writer")String id);
+
+	ArrayList<CommentVO> selectCommentList(@Param("board_no")Integer item_no);
 
 }

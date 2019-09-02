@@ -24,4 +24,8 @@
 	where category like '%문의' and board_no = #{board_no} and writer = #{writer}
 	order by no desc
 </select>
+<select id="selectCommentList" resultType="kr.green.market.vo.CommentVO">
+	select * from comment
+	where board_no = #{board_no}
+</select>
 </mapper>

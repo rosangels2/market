@@ -190,11 +190,17 @@
 }
 .comment-regiser-box .contents-box{
 	min-height: 150px;
-	border: 1px solid gray;
-	margin-bottom: 10px;
+	position: relative;
+}
+.comment-regiser-box .contents-box input{
+	width: 100%;
+	min-height: 150px;
 }
 .comment-regiser-box .button-box button{
 	float: right;
+}
+.comment-board th{
+	text-align: center;
 }
 
 /* 하단 */
@@ -328,10 +334,14 @@ $(document).ready(function(){
 	//문의하기 클릭 시
 	$('#ask-request').click(function(){
 		$('.request-contents').removeClass('display-none');
+		$('#ask-form input[name=title]').val("");
+		$('#ask-form input[name=contents]').val("");
 	});
 	//문의하기 취소 시
 	$('#ask-cancel').click(function(){
 		$('.request-contents').addClass('display-none');
+		$('#ask-form input[name=title]').val("");
+		$('#ask-form input[name=contents]').val("");
 	});
 	//문의 요청 시
 	$('#ask-button').click(function(){ 
@@ -357,6 +367,8 @@ $(document).ready(function(){
         		$('#ask-form input[name=contents]').val("");
 	        	if(data.bVo != null){	//등록한 게시글을 bVo에 담아 반환
 	        		alert("문의글 등록에 성공하였습니다.");
+	        		$('#ask-form input[name=title]').val("");
+	        		$('#ask-form input[name=contents]').val("");
 	        	}else{
 	        		alert("문의글 등록에 실패하였습니다.");
 	        	}
@@ -382,12 +394,16 @@ $(document).ready(function(){
 			location.href = '<%=request.getContextPath()%>/signin';
 		}
 		$('.board-box-contents').addClass('display-none');
+		$('.board-box-contents .set-bottom').addClass('display-none');
+		$('.board-box-contents .reply-box').addClass('display-none');
 		$('.board-box-contents-my').removeClass('display-none');
 	});
 	
 	//전체 문의 보기 클릭 시
 	$('#ask-all').click(function(){
 		$('.board-box-contents-my').addClass('display-none');
+		$('.board-box-contents-my .set-bottom').addClass('display-none');
+		$('.board-box-contents-my .reply-box').addClass('display-none');
 		$('.board-box-contents').removeClass('display-none');
 	});
 	
@@ -590,24 +606,26 @@ $(document).ready(function(){
 											<div style="width: 10%; border-right: none;">상태</div>
 										</div>
 									</div>
-									<c:forEach items="${askList}" var="ask">
-										<div class="board-set">
-											<div class="set-top clearfix">
-												<div style="width: 10%;">${ask.no}</div>
-												<div style="width: 10%;">${ask.category}</div>
-												<div class="ask-title" style="width: 30%;">${ask.title}</div>
-												<div style="width: 15%;">${ask.writer}</div>
-												<div style="width: 25%;">${ask.time}</div>
-												<div class="ask-state" style="width: 10%; border-right: none;">${ask.state}</div>
+									<c:if test="${askList ne null}">
+										<c:forEach items="${askList}" var="ask">
+											<div class="board-set">
+												<div class="set-top clearfix">
+													<div style="width: 10%;">${ask.no}</div>
+													<div style="width: 10%;">${ask.category}</div>
+													<div class="ask-title" style="width: 30%;">${ask.title}</div>
+													<div style="width: 15%;">${ask.writer}</div>
+													<div style="width: 25%;">${ask.time}</div>
+													<div class="ask-state" style="width: 10%; border-right: none;">${ask.state}</div>
+												</div>
+												<div class="set-bottom display-none">
+													${ask.contents}
+												</div>
+												<div class="reply-box display-none">
+													<h5>답변 내용</h5>
+												</div>
 											</div>
-											<div class="set-bottom display-none">
-												${ask.contents}
-											</div>
-											<div class="reply-box display-none">
-												<h5>답변 내용</h5>
-											</div>
-										</div>
-									</c:forEach>
+										</c:forEach>
+									</c:if>
 								</div>
 								<!-- 내 문의 보기 -->
 								<div class="board-box-contents-my display-none">
@@ -645,69 +663,49 @@ $(document).ready(function(){
 							</div>
 						</div>
 					</div>
-					<!-- 댓글 -->
+					<!-- 댓글 메뉴 -->
 					<div class="comment display-none" id="comment">
 						<div class="comment-contents">
 							<!-- 댓글 게시판 -->
 							<div class="comment-board">
 								<table class="table">
-									<tr>
-										<th width="20%">작성자</th>
+									<tr class="table-title">
+										<th width="15%">작성자</th>
 										<th width="40%">내용</th>
-										<th width="15%">등록일</th>
+										<th width="25%">등록일</th>
 										<th width="10%">답글</th>
 										<th width="10%">수정/삭제</th>	
 									</tr>
-									<tr>
-										<th>sdfsadfs</th>
-										<th>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</th>
-										<th>2019-09-02</th>
-										<th>작성하기</th>										
-										<th>
-											<select>
-												<option>수정/삭제</option>
-												<option>수정</option>
-												<option>삭제</option>
-											</select>
-										</th>
-									</tr>
-									<tr>
-										<th>asdfsaf</th>
-										<th>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</th>
-										<th>2019-09-02</th>
-										<th>작성하기</th>		
-										<th>
-											<select>
-												<option>수정/삭제</option>
-												<option>수정</option>
-												<option>삭제</option>
-											</select>
-										</th>
-									</tr>
-									<tr>
-										<th>safdasdfsd</th>
-										<th>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</th>
-										<th>2019-09-02</th>
-										<th>작성하기</th>		
-										<th>
-											<select>
-												<option>수정/삭제</option>
-												<option>수정</option>
-												<option>삭제</option>
-											</select>
-										</th>
-									</tr>
+									<c:if test="${commentList ne null}">
+										<c:forEach items="${commentList}" var="comment">
+											<tr class="table-contents">
+												<th>${comment.writer}</th>
+												<th>${comment.contents}</th>
+												<th>${comment.time}</th>
+												<th>작성하기</th>										
+												<th>
+													<c:if test="${user.id eq comment.writer}">
+														<select>
+															<option>수정/삭제</option>
+															<option>수정</option>
+															<option>삭제</option>
+														</select>
+													</c:if>
+												</th>
+											</tr>
+										</c:forEach>
+									</c:if>
 								</table>								
 							</div>
 							<!-- 댓글 등록창 -->
 							<div class="comment-regiser-box">
 								<div class="text-box clearfix">
 									<h3 style="float: left;">내용</h3>
-									<input readonly value="asdlalffdfd" style="float: right; margin-left: 10px;">
-									<h5 style="float: right;">댓글 대상</h5>
+									<input value="" style="float: right; margin-left: 10px;">
+									<h5 style="float: right;">답글 대상</h5>
 								</div>
 								<div class="contents-box">
-									<h5>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</h5>
+									<input>
 								</div>
 								<div class="button-box clearfix">
 									<button>

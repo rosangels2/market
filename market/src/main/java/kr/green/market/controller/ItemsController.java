@@ -35,6 +35,7 @@ import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -88,6 +89,8 @@ public class ItemsController {
     		ArrayList<BoardVO> myAskList = boardService.getMyAskList(item_no, id);	//내 문의글 목록 불러오기
     		model.addAttribute("myAskList", myAskList);
     	}
+    	ArrayList<CommentVO> cVoList = boardService.getCommentList(item_no);	//댓글 목록 가져오기
+    	model.addAttribute("commentList", cVoList);
         mv.setViewName("/items/detail");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
