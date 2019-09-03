@@ -267,6 +267,8 @@
 </style>
 <script type="text/javascript">
 
+var isChecked = -1;
+
 $.validator.addMethod(
 	    "regex",
 	    function(value, element, regexp) {
@@ -277,63 +279,6 @@ $.validator.addMethod(
 );
 
 $(document).ready(function(){
-	
-	$('#modify').submit(function(){
-		if(!$('#modify').valid()){
-			return false;
-		}
-		return true;
-	});
-
-	// /^\w*(\d[A-z]|[A-z]\d)\w*$/ 영어숫자 포함
-	$("form").validate({	
-        rules: {
-        	oldPassword: {
-        		required : true,
-                minlength : 8,
-                maxlength : 12,
-                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
-                //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
-        	},
-            password: {
-                required : true,
-                minlength : 8,
-                maxlength : 12,
-                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
-                //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
-            },
-            password1: {
-                required : true,
-                equalTo : password
-            },
-            email: {
-                required : true,
-                email : true	//email 형식에 맞는지 여부
-            }
-        },
-        messages : {	//규칙체크 실패시 출력될 메시지
-        	oldPassword: {
-                required : "필수로 입력하세요",
-                minlength : "최소 8글자 이상이어야 합니다",
-                maxlength : "최대 12글자 이하여야 합니다",
-                regex : "영문과 숫자를 1개씩 포함해야 합니다."
-            },
-            password: {
-                required : "필수로 입력하세요",
-                minlength : "최소 8글자 이상이어야 합니다",
-                maxlength : "최대 12글자 이하여야 합니다",
-                regex : "영문과 숫자를 1개씩 포함해야 합니다."
-            },
-            password1: {
-                required : "필수로 입력하세요",
-                equalTo : "비밀번호와 비밀번호 확인이 일치하지 않습니다."
-            },
-            email: {
-                required : "필수로 입력하세요",
-                email : "메일 규칙에 어긋납니다"
-            }
-        }
-	});
 	
 	//메뉴 바
 	$('.nav-bar .order-list').click(function(){
@@ -391,14 +336,99 @@ $(document).ready(function(){
 		$('.info-contents .withdrawal').removeClass('display-none');
 	});
 	
+	// /^\w*(\d[A-z]|[A-z]\d)\w*$/ 영어숫자 포함
+	$("#modify").validate({
+        rules: {
+        	oldPassword: {
+        		required : true,
+                minlength : 8,
+                maxlength : 12,
+                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
+                //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
+        	},
+            password: {
+                required : true,
+                minlength : 8,
+                maxlength : 12,
+                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
+                //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
+            },
+            password1: {
+                required : true,
+                equalTo : password
+            },
+            email: {
+                required : true,
+                email : true	//email 형식에 맞는지 여부
+            }
+        },
+        messages : {	//규칙체크 실패시 출력될 메시지
+        	oldPassword: {
+                required : "필수로 입력하세요",
+                minlength : "최소 8글자 이상이어야 합니다",
+                maxlength : "최대 12글자 이하여야 합니다",
+                regex : "영문과 숫자를 1개씩 포함해야 합니다."
+            },
+            password: {
+                required : "필수로 입력하세요",
+                minlength : "최소 8글자 이상이어야 합니다",
+                maxlength : "최대 12글자 이하여야 합니다",
+                regex : "영문과 숫자를 1개씩 포함해야 합니다."
+            },
+            password1: {
+                required : "필수로 입력하세요",
+                equalTo : "비밀번호와 비밀번호 확인이 일치하지 않습니다."
+            },
+            email: {
+                required : "필수로 입력하세요",
+                email : "메일 규칙에 어긋납니다"
+            }
+        }
+	});
+	
+	//내 정보 수정 비밀번호 검사
+	$('#oldPassword').focus(function(){
+		$('#oPwCheck').text("");
+	});
+	$('#oldPassword').change(function(){
+		var test = $('#oldPassword').valid();
+		if(!test){
+			return;
+		}
+		var id = '${user.id}';
+		var password = $('#oldPassword').val();
+		$.ajax({
+	        async:false,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:{"id": id, "password": password},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/oldPasswordCheck",
+	        dataType:"json",
+	        //contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+				if(!data){
+					$('#oPwCheck').text("비밀번호가 일치하지 않습니다.");
+					isChecked = -1;
+				}else{
+					$('#oPwCheck').text("");
+					isChecked = 0;
+				}
+	        }
+	    });
+	});
+	
 	//내 정보 수정
 	$('#modify-ok').click(function(){
-		var test = $('#modify-ok').valid();
+		var test = $('#modify').valid();
 		if(!test){
 			alert("가입 양식에 맞지 않습니다.");
 			return false;
 		}
-		return true;
+		if(isChecked == -1){
+			alert("비밀번호를 확인해 주세요.");
+			return false;
+		}
+		$('#modify').submit();
+		isChecked = -1;
 	});
 	
 	//위시리스트 삭제
@@ -455,6 +485,109 @@ $(document).ready(function(){
 	        }
 	 	});
 	});
+	
+	
+	$("#seller-form").validate({	
+        rules: {
+        	license: {
+        		required : true
+        	},
+        	password: {
+        		required : true,
+        		minlength : 8,
+                maxlength : 12,
+                regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
+                //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
+        	},
+        	name: {
+        		required : true
+        	},
+        	phone: {
+        		required : true
+        	},
+        	bank: {
+        		required : true
+        	},
+        	account: {
+        		required : true
+        	},
+        	place: {
+        		required : true
+        	}
+        },
+        messages : {	//규칙체크 실패시 출력될 메시지
+        	license: {
+                required : "필수로 입력하세요"
+            },
+            password: {
+                required : "필수로 입력하세요",
+                minlength : "최소 8글자 이상이어야 합니다",
+                maxlength : "최대 12글자 이하여야 합니다",
+                regex : "영문과 숫자를 1개씩 포함해야 합니다."
+            },
+            name: {
+                required : "필수로 입력하세요"
+            },
+            phone: {
+                required : "필수로 입력하세요"
+            },
+            bank: {
+                required : "필수로 입력하세요"
+            },
+            account: {
+                required : "필수로 입력하세요"
+            },
+            place: {
+                required : "필수로 입력하세요"
+            }
+        }
+	});
+	
+	//판매자 신청 비밀번호 변경 시
+	$('#sPassword').focus(function(){
+		$('#sPwCheck').text("");
+	});
+	$('#sPassword').change(function(){
+		var test = $('#sPassword').valid();
+		if(!test){
+			return;
+		}
+		var id = '${user.id}';
+		var password = $('#sPassword').val();
+		$.ajax({
+	        async:false,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:{"id": id, "password": password},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/oldPasswordCheck",
+	        dataType:"json",
+	        //contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+				if(!data){
+					$('#sPwCheck').text("비밀번호가 일치하지 않습니다.");
+					isChecked = -1;
+				}else{
+					$('#sPwCheck').text("");
+					isChecked = 0;
+				}
+	        }
+	    });
+	});
+	
+	
+	//판매자 신청 클릭 시
+	$('#request-seller').click(function(){
+		if(!$('#seller-form').valid()){
+			return false;
+		}
+		if(isChecked == -1){
+			alert("비밀번호를 확인해 주세요.");
+			return false;
+		}
+		$('#seller-form').submit();
+		alert("판매자 신청에 성공하였습니다.");
+		isChecked = -1;
+	});
+	
 	
 	//회원 탈퇴
 	$('#withdrawal-ok').click(function(){
@@ -642,7 +775,8 @@ function menuClick(selecter){
 									<div class="form-group">
 										<label for="oldPassword">old password</label>
 										<input type="password" class="form-control col-7" id="oldPassword" placeholder="old password" name="oldPassword">
-									</div>							
+										<div id="oPwCheck"></div>
+									</div>
 									<div class="form-group">
 										<label for="password">new password</label>
 										<input type="password" class="form-control col-7" id="password" placeholder="new password" name="password">
@@ -957,52 +1091,47 @@ function menuClick(selecter){
 					<!-- 판매자 신청 클릭 시 -->
 					<div class="seller-request display-none">
 						<div class="seller-request-contents">
-							<div class="container offset-3 col-6 signup-box">
-								<div class="offset-4"> <h1>판매자 신청</h1></div>
-								<div class="form-group">
-								<label for="id">ID</label><br>
-									<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" placeholder="ID" name="id" readonly>
-									<label id="id-error" class="offset-4 col-7" for="id"></label>
-								</div>
-								<div class="form-group">
-								<label for="licensee">licensee</label><br>
-									<input type="text" class="form-control col-6 float-left" id="licensee" style="display: inline-block;" placeholder="licensee" name="licensee">
-									<label id="id-error" class="offset-4 col-7" for="licensee"></label>
-								</div>								
-								<div class="form-group">
-									<label for="pw">password</label>
-									<input type="password" class="form-control col-7" id="pw" placeholder="password" name="pw">
-								</div>
-								<div class="form-group">
-									<label for="name">name</label>
-									<input type="text" class="form-control col-6" id="name" placeholder="name" name="name">
-								</div>								
-								<div class="form-group">
-									<label for="email">email</label>
-									<input type="text" class="form-control" id="email" placeholder="email" name="email">
-								</div>
-								<div class="form-group">
-									<label for="phone">phone</label>
-									<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
-								</div>
-								<div class="form-group">
-									<label for="bank">bank</label>
-									<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
-								</div>
-								<div class="form-group">
-									<label for="account">account</label>
-									<input type="text" class="form-control" id="account" placeholder="account" name="account">
-								</div>
-								<div class="form-group">
-									<label for="address">address</label>
-									<input type="text" class="form-control" id="address" placeholder="address" name="address">
-								</div>
-								<div class="form-group">
-									<label for="business-address">business-address</label>
-									<input type="text" class="form-control" id="business-address" placeholder="business-address" name="business-address">
-								</div>																
-								<button type="button" class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="ok" name="ok">신청하기</button>							
-							</div>						
+							<form method="post" action="<%=request.getContextPath()%>/requestSeller" id="seller-form">
+								<div class="container offset-3 col-6 signup-box">
+									<div class="offset-4"> <h1>판매자 신청</h1></div>
+									<div class="form-group">
+									<label for="id">ID</label><br>
+										<input type="text" class="form-control col-6 float-left" id="id" style="display: inline-block;" value="${user.id}" name="id" readonly>
+										<label id="id-error" class="offset-4 col-7" for="id"></label>
+									</div>
+									<div class="form-group">
+										<label for="pw">password</label>
+										<input type="password" class="form-control col-7" id="sPassword" placeholder="password" name="password">
+										<div id="sPwCheck"></div>
+									</div>
+									<div class="form-group">
+									<label for="licensee">license</label><br>
+										<input type="text" class="form-control col-6 float-left" id="license" style="display: inline-block;" placeholder="license" name="license">
+										<label id="id-error" class="offset-4 col-7" for="license"></label>
+									</div>		
+									<div class="form-group">
+										<label for="name">seller name</label>
+										<input type="text" class="form-control col-6" id="name" placeholder="seller name" name="name">
+									</div>
+									<div class="form-group">
+										<label for="phone">phone</label>
+										<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+									</div>
+									<div class="form-group">
+										<label for="bank">bank</label>
+										<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
+									</div>
+									<div class="form-group">
+										<label for="account">account</label>
+										<input type="text" class="form-control" id="account" placeholder="account" name="account">
+									</div>
+									<div class="form-group">
+										<label for="address">place</label>
+										<input type="text" class="form-control" id="place" placeholder="place" name="place">
+									</div>
+									<button type="button" class="btn btn-dark float-right" style="margin-top: 10px;" id="request-seller">신청하기</button>							
+								</div>	
+							</form>					
 						</div>
 					</div>
 					<!-- 회원 탈퇴 클릭 시 -->

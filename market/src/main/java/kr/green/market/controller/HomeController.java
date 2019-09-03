@@ -27,6 +27,7 @@ import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
+import kr.green.market.vo.SellerVO;
 import kr.green.market.vo.WishlistVO;
 
 @Controller
@@ -113,10 +114,11 @@ public class HomeController {
 	    System.out.println("idFind name = " + name);
 	    System.out.println("idFind email = " + email);
 	    MemberVO mVo = memberService.idFind(name, email);
-	    if(mVo != null)
+	    if(mVo != null) {
 	    	map.put("id", mVo.getId());
-	    else
+	    }else {
 	    	map.put("id", null);
+	    }
 	    return map;
 	}    
     @RequestMapping(value= "/passwordFind", method=RequestMethod.GET)
@@ -225,6 +227,17 @@ public class HomeController {
         model.addAttribute("couponList", couponList);
         return mv;
     }
+    @RequestMapping(value ="/oldPasswordCheck")
+	@ResponseBody
+	public boolean oldPasswordCheck(MemberVO mVo){
+	    System.out.println("oldPasswordCheck mVo : " + mVo);
+	    MemberVO mVo1 = memberService.signin(mVo);
+	    System.out.println("oldPasswordCheck mVo1 : " + mVo1);
+	    if(mVo1 != null) {
+	    	return true;
+	    }
+	    return false;
+    }
     @RequestMapping(value= "/modify")
     public String modify(Model model, MemberVO mVo, String oldPassword, HttpServletRequest r){
     	System.out.println("modify mVo : " + mVo);
@@ -246,6 +259,11 @@ public class HomeController {
     	if(!memberService.deleteMember(mVo.getId(), mVo.getPassword())){
     		return "redirect:/myMenu";
     	}
+    	return "redirect:/signout";
+    }
+    @RequestMapping(value= "/requestSeller")
+    public String requestSeller(SellerVO sVo){
+    	System.out.println("requestSeller sVo : " + sVo);
     	return "redirect:/signout";
     }
 }

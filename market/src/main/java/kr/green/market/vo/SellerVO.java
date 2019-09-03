@@ -10,9 +10,16 @@ public class SellerVO {
 	private String bank;
 	private String account;
 	private String place;
+	private String state;
 	private String valid;
 	
 	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -72,7 +79,8 @@ public class SellerVO {
 	@Override
 	public String toString() {
 		return "SellerVO [no=" + no + ", id=" + id + ", code=" + code + ", name=" + name + ", phone=" + phone
-				+ ", bank=" + bank + ", account=" + account + ", place=" + place + ", valid=" + valid + "]";
+				+ ", bank=" + bank + ", account=" + account + ", place=" + place + ", state=" + state + ", valid="
+				+ valid + "]";
 	}
 	
 }

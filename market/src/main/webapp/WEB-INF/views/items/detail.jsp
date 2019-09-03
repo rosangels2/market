@@ -374,7 +374,6 @@ $(document).ready(function(){
 	        	}else{
 	        		alert("문의글 등록에 실패하였습니다.");
 	        	}
-	        	
 	        }
 	  });
 		return false;
