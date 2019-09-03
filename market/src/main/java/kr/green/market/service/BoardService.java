@@ -17,4 +17,6 @@ public interface BoardService {
 
 	CommentVO registerComment(String category, Integer board_no, String writer, String to, String contents);
 
+	BoardVO getBoard(Integer board_no);
+
 }

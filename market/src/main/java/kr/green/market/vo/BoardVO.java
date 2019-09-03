@@ -14,9 +14,16 @@ public class BoardVO {
 	private String contents;
 	private Date time;
 	private String state;
+	private Integer views;
 	private String valid;
 	
 	
+	public Integer getViews() {
+		return views;
+	}
+	public void setViews(Integer views) {
+		this.views = views;
+	}
 	public String getState() {
 		return state;
 	}
@@ -82,7 +89,8 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [no=" + no + ", category=" + category + ", board_no=" + board_no + ", writer=" + writer
-				+ ", title=" + title + ", contents=" + contents + ", time=" + time + ", state=" + state + ", valid="
-				+ valid + "]";
+				+ ", title=" + title + ", contents=" + contents + ", time=" + time + ", state=" + state + ", views="
+				+ views + ", valid=" + valid + "]";
 	}
+	
 }

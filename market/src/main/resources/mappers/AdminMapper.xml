@@ -37,5 +37,13 @@
 	select * from coupon
 		where no = #{no}
 </select>
-
+<insert id="insertBoard">
+	insert into board(`category`, `writer`, `title`, `contents`)
+		values(#{bVo.category}, #{bVo.writer}, #{bVo.title}, #{bVo.contents})
+</insert>
+<select id="selectBoardListAll" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+		where category = '공지사항'
+		order by no desc
+</select>
 </mapper>

@@ -39,27 +39,23 @@
 				<div class="contents-box">
 					<div class="title-box clearfix">
 						<h3 class="float-left">제목</h3>
-						<input class="float-left">
+						<input type="hidden" name="category" value="공지사항">
+						<input class="float-left" name="title" value="${bVo.title}" readonly>
 					</div>
 					<div class="writer-box clearfix">
 						<h3 class="float-left">작성자</h3>
-						<input class="float-left">
+						<input class="float-left" name="writer" value="${bVo.writer}" readonly>
 					</div>
-					<div class="register-date-box clearfix">
-						<h3 class="float-left">작성일</h3>
-						<input class="float-left">
-					</div>
-					<div class="view-count-box clearfix">
-						<h3 class="float-left">조회수</h3>
-						<input class="float-left">
-					</div>
-					<div class="contents">
+					<div class="board-contents">
 						<h3>내용</h3>
-						<div class="box"></div>
+						<div class="board-contents-box">
+							<input name="contents" value="${bVo.contents}">
+						</div>
 					</div>
-					<div class="file-box clearfix">
-						<h3 class="float-left">첨부파일</h3>
-						<input class="float-left">
+					<div class="button-box clearfix">
+						<button>
+							<h4>게시글 수정</h4>
+						</button>
 					</div>
 				</div>
 			</div>

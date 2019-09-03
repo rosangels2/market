@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.market.service.AdminService;
 import kr.green.market.service.MemberService;
+import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
@@ -32,8 +34,19 @@ public class AdminController {
         mv.setViewName("/admin/board");	//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
+    @RequestMapping(value= "/boardRegister", method = RequestMethod.GET)
+    public ModelAndView BoardRegisterGet(ModelAndView mv, Model model) throws Exception{
+        mv.setViewName("/admin/boardRegister");	//타일즈를 통해 불러올 jsp 경로
+        return mv;
+    } 
+    @RequestMapping(value= "/boardRegister", method = RequestMethod.POST)
+    public String BoardRegisterPost(BoardVO bVo){
+    	System.out.println("BoardRegisterPost bVo : " + bVo);
+    	adminService.registerBoard(bVo);
+        return "redirect:/board/list";
+    } 
     @RequestMapping(value= "/boardModify")
-    public ModelAndView adminBoardModify(ModelAndView mv) throws Exception{
+    public ModelAndView BoardModify(ModelAndView mv) throws Exception{
         mv.setViewName("/admin/boardModify");	//타일즈를 통해 불러올 jsp 경로
         return mv;
     } 
@@ -66,11 +79,6 @@ public class AdminController {
 	    }
 	    return false;
 	}
-    @RequestMapping(value= "/requestDisplay")
-    public ModelAndView adminRequestDisplay(ModelAndView mv) throws Exception{
-        mv.setViewName("/admin/requestDisplay");	//타일즈를 통해 불러올 jsp 경로
-        return mv;
-    }
     @RequestMapping(value= "/coupon")
     public ModelAndView adminCoupon(ModelAndView mv, Model model) throws Exception{
         mv.setViewName("/admin/coupon");	//타일즈를 통해 불러올 jsp 경로

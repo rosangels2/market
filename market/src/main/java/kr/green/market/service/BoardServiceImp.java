@@ -57,4 +57,16 @@ public class BoardServiceImp implements BoardService{
 		System.out.println("selectMaxComment no : " + no);
 		return boardDao.selectComment(no);
 	}
+
+	@Override
+	public BoardVO getBoard(Integer board_no) {
+		if(board_no == null) {
+			return null;
+		}
+		BoardVO bVo = boardDao.selectBoard(board_no);
+		if(bVo == null) {
+			return null;
+		}
+		return bVo;
+	}
 }

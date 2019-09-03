@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.green.market.dao.AdminDAO;
 import kr.green.market.dao.ItemDAO;
 import kr.green.market.dao.MemberDAO;
+import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
@@ -92,6 +93,20 @@ public class AdminServiceImp implements AdminService{
 		adminDao.insertCoupon(cVo);
 		int no = adminDao.selectMaxCouponNo();
 		return adminDao.selectCoupon(no);
+	}
+
+	@Override
+	public boolean registerBoard(BoardVO bVo) {
+		if(bVo == null) {
+			return false;
+		}
+		adminDao.insertBoard(bVo);
+		return true;
+	}
+
+	@Override
+	public ArrayList<BoardVO> getBoardListAll() {
+		return adminDao.selectBoardListAll();
 	}
 
 }

@@ -2,17 +2,19 @@ package kr.green.market.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.market.service.AdminService;
 import kr.green.market.service.BoardService;
 import kr.green.market.service.MemberService;
 import kr.green.market.vo.BoardVO;
@@ -26,15 +28,24 @@ public class BoardController {
 	MemberService memberService;
 	@Autowired
 	BoardService boardService;
+	@Autowired
+	AdminService adminService;
 
     @RequestMapping(value= "/list")
-    public ModelAndView boardList(ModelAndView mv) throws Exception{
+    public ModelAndView boardList(ModelAndView mv, Model model) throws Exception{
         mv.setViewName("/board/list");		//타일즈를 통해 불러올 jsp 경로
+        ArrayList<BoardVO> boardList = adminService.getBoardListAll();
+        System.out.println("BoardRegisterGet boardList : " + boardList);
+        model.addAttribute("boardList", boardList);
         return mv;
     }    
     @RequestMapping(value= "/display")
-    public ModelAndView boardDisplay(ModelAndView mv) throws Exception{
+    public ModelAndView boardDisplay(ModelAndView mv, Model model, Integer board_no) throws Exception{
         mv.setViewName("/board/display");		//타일즈를 통해 불러올 jsp 경로
+        System.out.println("boardDisplay board_no : " + board_no);
+        BoardVO bVo = boardService.getBoard(board_no);
+        System.out.println("boardDisplay bVo : " + bVo);
+        model.addAttribute("bVo", bVo);
         return mv;
     }
     @RequestMapping(value="/ask")	//쿠폰함

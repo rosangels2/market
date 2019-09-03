@@ -62,10 +62,6 @@
 						<h3>내용</h3>
 						<div class="box"></div>
 					</div>
-					<div class="file-box clearfix">
-						<h3 class="float-left">첨부파일</h3>
-						<input class="float-left">
-					</div>
 					<div class="button-box clearfix">
 						<button>
 							<h4>수정하기</h4>

@@ -17,7 +17,7 @@
 	float: left;
 	border: 1px solid gray;
 	width: 130px;
-	height: 80vh;
+	min-height: 400px;
 }
 .nav-box{
 	height: calc( 100% / 9 );
@@ -636,9 +636,11 @@ function menuClick(selecter){
 				<div class="nav-box ask" value="ask">
 					<h6>문의 내역</h6>
 				</div>
-				<div class="nav-box seller-request" value="seller-request">
-					<h6>판매자 신청</h6>
-				</div>
+				<c:if test="${user.grade ne 'admin'}"> 
+					<div class="nav-box seller-request" value="seller-request">
+						<h6>판매자 신청</h6>
+					</div>
+				</c:if>
 				<div class="nav-box withdrawal" style="border-bottom: none;" value="withdrawal">
 					<h6>회원 탈퇴</h6>
 				</div>
