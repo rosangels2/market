@@ -232,5 +232,42 @@ public class MemberServiceImp implements MemberService{
 		memberDao.updateMember(oVo);
 		return true;
 	}
+
+	@Override
+	public SellerVO getSeller(String id) {
+		if(id == null) {
+			return null;
+		}
+		return memberDao.selectSeller(id);
+	}
+
+	@Override
+	public SellerVO addSeller(SellerVO sVo) {
+		if(sVo == null) {
+			return null;
+		}
+		memberDao.insertSeller(sVo);
+		int no = memberDao.selectMaxSellerNo();
+		return memberDao.selectSeller1(no);
+	}
+
+	@Override
+	public SellerVO modifySeller(SellerVO sVo) {
+		if(sVo == null) {
+			return null;
+		}
+		SellerVO sVo1 = memberDao.selectSeller(sVo.getId());
+		if(sVo1 == null) {
+			return null;
+		}
+		sVo1.setLicense(sVo.getLicense());
+		sVo1.setName(sVo.getName());
+		sVo1.setPhone(sVo.getPhone());
+		sVo1.setBank(sVo.getBank());
+		sVo1.setAccount(sVo.getAccount());
+		sVo1.setPlace(sVo.getPlace());
+		memberDao.updateSeller(sVo1);
+		return memberDao.selectSeller(sVo1.getId());
+	}
 	
 }

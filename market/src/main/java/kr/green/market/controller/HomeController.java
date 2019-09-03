@@ -225,6 +225,10 @@ public class HomeController {
         }
         System.out.println("myMenu couponList : " + couponList);
         model.addAttribute("couponList", couponList);
+        
+        SellerVO sVo = memberService.getSeller(id);		//판매자 정보 가져오기
+        System.out.println("myMenu sVo : " + sVo);
+        model.addAttribute("seller", sVo);
         return mv;
     }
     @RequestMapping(value ="/oldPasswordCheck")
@@ -262,8 +266,15 @@ public class HomeController {
     	return "redirect:/signout";
     }
     @RequestMapping(value= "/requestSeller")
-    public String requestSeller(SellerVO sVo){
+    public String requestSeller(Model model, SellerVO sVo){
     	System.out.println("requestSeller sVo : " + sVo);
-    	return "redirect:/signout";
+    	SellerVO s = memberService.getSeller(sVo.getId());
+    	if(s == null) {		//판매자 등록
+    		SellerVO newSeller = memberService.addSeller(sVo);
+    	}else {		//판매자 수정
+    		SellerVO modifySeller = memberService.modifySeller(sVo);
+    	}
+    	model.addAttribute("id", sVo.getId());
+    	return "redirect:/myMenu";
     }
 }

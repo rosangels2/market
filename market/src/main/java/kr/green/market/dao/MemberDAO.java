@@ -28,4 +28,12 @@ public interface MemberDAO {
 
 	SellerVO selectSeller(@Param("id")String seller_id);
 
+	void insertSeller(@Param("sVo")SellerVO sVo);
+
+	int selectMaxSellerNo();
+
+	SellerVO selectSeller1(@Param("no")int no);
+
+	void updateSeller(@Param("sVo")SellerVO sVo1);
+
 }

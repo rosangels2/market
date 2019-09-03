@@ -3,5 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.green.market.dao.AdminDAO">	<!-- DAO 인터페이스가 있는 파일명 -->
-
+<select id="selectAllMemberList" resultType="kr.green.market.vo.MemberVO">
+	select * from member 
+		where grade != 'admin'
+</select>
+<select id="selectRequestSellerList" resultType="kr.green.market.vo.SellerVO">
+	select * from seller
+		where state = '승인대기'
+</select>
+<update id="updateAgreeSeller">
+	update seller
+		set state = #{sVo.state}, valid = #{sVo.valid}
+		where id = #{sVo.id}
+</update>
 </mapper>

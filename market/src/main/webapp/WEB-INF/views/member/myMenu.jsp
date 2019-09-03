@@ -1104,32 +1104,61 @@ function menuClick(selecter){
 										<input type="password" class="form-control col-7" id="sPassword" placeholder="password" name="password">
 										<div id="sPwCheck"></div>
 									</div>
-									<div class="form-group">
-									<label for="licensee">license</label><br>
-										<input type="text" class="form-control col-6 float-left" id="license" style="display: inline-block;" placeholder="license" name="license">
-										<label id="id-error" class="offset-4 col-7" for="license"></label>
-									</div>		
-									<div class="form-group">
-										<label for="name">seller name</label>
-										<input type="text" class="form-control col-6" id="name" placeholder="seller name" name="name">
-									</div>
-									<div class="form-group">
-										<label for="phone">phone</label>
-										<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
-									</div>
-									<div class="form-group">
-										<label for="bank">bank</label>
-										<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
-									</div>
-									<div class="form-group">
-										<label for="account">account</label>
-										<input type="text" class="form-control" id="account" placeholder="account" name="account">
-									</div>
-									<div class="form-group">
-										<label for="address">place</label>
-										<input type="text" class="form-control" id="place" placeholder="place" name="place">
-									</div>
-									<button type="button" class="btn btn-dark float-right" style="margin-top: 10px;" id="request-seller">신청하기</button>							
+									<c:if test="${seller ne null}">
+										<div class="form-group">
+										<label for="licensee">license</label><br>
+											<input type="text" class="form-control col-6 float-left" id="license" style="display: inline-block;" value="${seller.license}" name="license">
+											<label id="id-error" class="offset-4 col-7" for="license"></label>
+										</div>		
+										<div class="form-group">
+											<label for="name">seller name</label>
+											<input type="text" class="form-control col-6" id="name" value="${seller.name}" name="name">
+										</div>
+										<div class="form-group">
+											<label for="phone">phone</label>
+											<input type="text" class="form-control" id="phone" value="${seller.phone}" name="phone">
+										</div>
+										<div class="form-group">
+											<label for="bank">bank</label>
+											<input type="text" class="form-control" id="bank" value="${seller.bank}" name="bank">
+										</div>
+										<div class="form-group">
+											<label for="account">account</label>
+											<input type="text" class="form-control" id="account" value="${seller.account}" name="account">
+										</div>
+										<div class="form-group">
+											<label for="address">place</label>
+											<input type="text" class="form-control" id="place" value="${seller.place}" name="place">
+										</div>
+									</c:if>
+									<c:if test="${seller eq null}">
+										<div class="form-group">
+										<label for="licensee">license</label><br>
+											<input type="text" class="form-control col-6 float-left" id="license" style="display: inline-block;" placeholder="license" name="license">
+											<label id="id-error" class="offset-4 col-7" for="license"></label>
+										</div>		
+										<div class="form-group">
+											<label for="name">seller name</label>
+											<input type="text" class="form-control col-6" id="name" placeholder="seller name" name="name">
+										</div>
+										<div class="form-group">
+											<label for="phone">phone</label>
+											<input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+										</div>
+										<div class="form-group">
+											<label for="bank">bank</label>
+											<input type="text" class="form-control" id="bank" placeholder="bank" name="bank">
+										</div>
+										<div class="form-group">
+											<label for="account">account</label>
+											<input type="text" class="form-control" id="account" placeholder="account" name="account">
+										</div>
+										<div class="form-group">
+											<label for="address">place</label>
+											<input type="text" class="form-control" id="place" placeholder="place" name="place">
+										</div>
+									</c:if>
+									<button type="button" class="btn btn-dark float-right" style="margin-top: 10px;" id="request-seller">신청/수정</button>							
 								</div>	
 							</form>					
 						</div>

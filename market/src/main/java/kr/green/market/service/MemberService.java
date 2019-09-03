@@ -42,4 +42,10 @@ public interface MemberService {
 
 	boolean deleteMember(String id, String password);
 
+	SellerVO getSeller(String id);
+
+	SellerVO addSeller(SellerVO sVo);
+
+	SellerVO modifySeller(SellerVO sVo);
+
 }

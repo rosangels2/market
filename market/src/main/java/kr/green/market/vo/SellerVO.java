@@ -4,7 +4,7 @@ public class SellerVO {
 
 	private Integer no;
 	private String id;
-	private String code;
+	private String license;
 	private String name;
 	private String phone;
 	private String bank;
@@ -14,6 +14,12 @@ public class SellerVO {
 	private String valid;
 	
 	
+	public String getLicense() {
+		return license;
+	}
+	public void setLicense(String license) {
+		this.license = license;
+	}
 	public String getState() {
 		return state;
 	}
@@ -31,12 +37,6 @@ public class SellerVO {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
 	}
 	public String getName() {
 		return name;
@@ -78,9 +78,9 @@ public class SellerVO {
 	
 	@Override
 	public String toString() {
-		return "SellerVO [no=" + no + ", id=" + id + ", code=" + code + ", name=" + name + ", phone=" + phone
+		return "SellerVO [no=" + no + ", id=" + id + ", license=" + license + ", name=" + name + ", phone=" + phone
 				+ ", bank=" + bank + ", account=" + account + ", place=" + place + ", state=" + state + ", valid="
 				+ valid + "]";
 	}
-	
+		
 }
