@@ -14,8 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.market.service.AdminService;
 import kr.green.market.service.MemberService;
+import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
-import kr.green.market.vo.OptionVO;
 import kr.green.market.vo.SellerVO;
 
 @Controller
@@ -51,7 +51,6 @@ public class AdminController {
     @RequestMapping(value="/changeGrade")	//멤버 등급 변경
 	@ResponseBody
 	public boolean changeGrade(MemberVO mVo){
-	    Map<Object, Object> map = new HashMap<Object, Object>();
 	    System.out.println("changeGrade id : " + mVo);
 	    if(adminService.changeMemberGrade(mVo.getId(), mVo.getGrade())) {
 	    	return true;
@@ -61,7 +60,6 @@ public class AdminController {
     @RequestMapping(value="/agreeSeller")	//판매자 신청 승인
 	@ResponseBody
 	public boolean agreeSeller(@RequestBody String id){
-	    Map<Object, Object> map = new HashMap<Object, Object>();
 	    System.out.println("agreeSeller id : " + id);
 	    if(adminService.agreeSeller(id)){
 	    	return true;
@@ -74,8 +72,32 @@ public class AdminController {
         return mv;
     }
     @RequestMapping(value= "/coupon")
-    public ModelAndView adminCoupon(ModelAndView mv) throws Exception{
+    public ModelAndView adminCoupon(ModelAndView mv, Model model) throws Exception{
         mv.setViewName("/admin/coupon");	//타일즈를 통해 불러올 jsp 경로
+        ArrayList<CouponVO> couponList = adminService.getCouponList();
+        System.out.println("adminCoupon couponLisst : " + couponList);
+        model.addAttribute("couponList", couponList);
         return mv;
     }
+    @RequestMapping(value="/deleteCoupon")	//쿠폰 삭제
+	@ResponseBody
+	public boolean deleteCoupon(@RequestBody String no){
+	    System.out.println("deleteCoupon no : " + no);
+	    int no1 = Integer.parseInt(no);
+	    Integer coupon_no = no1;
+	    if(adminService.deleteCoupon(coupon_no)) {
+	    	return true;
+	    }
+	    return false;
+	}
+    @RequestMapping(value="/addCoupon")	//쿠폰 등록
+	@ResponseBody
+	public Map<Object, Object> addCoupon(CouponVO cVo){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("addCoupon cVo : " + cVo);
+	    CouponVO newcVo = adminService.addCoupon(cVo);
+	    System.out.println("addCoupon newcVo : " + newcVo);
+	    map.put("coupon", newcVo);
+	    return map;
+	}
 }

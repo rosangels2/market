@@ -4,7 +4,7 @@ public class CouponVO {
 
 	private Integer no;
 	private String title;
-	private double discount;
+	private Integer discount;
 	private String period;
 	private String state;
 	private String valid;
@@ -28,10 +28,10 @@ public class CouponVO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public double getDiscount() {
+	public Integer getDiscount() {
 		return discount;
 	}
-	public void setDiscount(double discount) {
+	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}
 	public String getPeriod() {

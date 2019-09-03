@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.AdminDAO;
+import kr.green.market.dao.ItemDAO;
 import kr.green.market.dao.MemberDAO;
+import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
 
@@ -17,6 +19,8 @@ public class AdminServiceImp implements AdminService{
 	AdminDAO adminDao;
 	@Autowired
 	MemberDAO memberDao;
+	@Autowired
+	ItemDAO itemDao;
 	
 	@Override
 	public ArrayList<MemberVO> getAllMemberList() {
@@ -57,6 +61,37 @@ public class AdminServiceImp implements AdminService{
 		System.out.println("changeMemberGradeSMP : " + mVo);
 		memberDao.updateMember(mVo);
 		return true;
+	}
+
+	@Override
+	public ArrayList<CouponVO> getCouponList() {
+		return adminDao.selectCouponList();
+	}
+
+	@Override
+	public boolean deleteCoupon(Integer coupon_no) {
+		if(coupon_no == null) {
+			return false;
+		}
+		CouponVO cVo = itemDao.selectCoupon(coupon_no);
+		System.out.println("deleteCouponSMP cVo : " + cVo);
+		if(cVo == null) {
+			return false;
+		}
+		cVo.setState("만료");
+		cVo.setValid("D");
+		adminDao.modifyCoupon(cVo);
+		return true;
+	}
+
+	@Override
+	public CouponVO addCoupon(CouponVO cVo) {
+		if(cVo == null) {
+			return null;
+		}
+		adminDao.insertCoupon(cVo);
+		int no = adminDao.selectMaxCouponNo();
+		return adminDao.selectCoupon(no);
 	}
 
 }

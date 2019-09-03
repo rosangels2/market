@@ -2,6 +2,7 @@ package kr.green.market.service;
 
 import java.util.ArrayList;
 
+import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
 
@@ -14,5 +15,11 @@ public interface AdminService {
 	boolean agreeSeller(String id);
 
 	boolean changeMemberGrade(String id, String grade);
+
+	ArrayList<CouponVO> getCouponList();
+
+	boolean deleteCoupon(Integer coupon_no);
+
+	CouponVO addCoupon(CouponVO cVo);
 
 }
