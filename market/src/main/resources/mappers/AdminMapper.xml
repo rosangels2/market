@@ -21,7 +21,7 @@
 		where valid = 'I'
 		order by no desc
 </select>
-<update id="modifyCoupon">
+<update id="updateCoupon">
 	update coupon
 		set title = #{cVo.title}, discount = #{cVo.discount}, period = #{cVo.period}, state = #{cVo.state}, valid = #{cVo.valid}
 		where no = #{cVo.no}
@@ -46,4 +46,9 @@
 		where category = '공지사항'
 		order by no desc
 </select>
+<update id="updateBoard">
+	update board
+		set category = #{bVo.category}, board_no = #{bVo.board_no}, title = #{bVo.title}, contents = #{bVo.contents}, state = #{bVo.state}, views = #{bVo.views}, valid = #{bVo.valid}
+		where no = #{bVo.no}
+</update>
 </mapper>

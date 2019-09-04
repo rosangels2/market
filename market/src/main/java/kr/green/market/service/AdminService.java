@@ -27,4 +27,6 @@ public interface AdminService {
 
 	ArrayList<BoardVO> getBoardListAll();
 
+	BoardVO modifyBoard(BoardVO bVo);
+
 }

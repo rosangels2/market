@@ -74,9 +74,11 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<div class="button-box clearfix">
+						<c:if test="${user.grade eq 'admin'}">
 							<button>
 								<h4>등록하기</h4>
 							</button>
+						</c:if>
 						</div>
 					</div>
 				</form>

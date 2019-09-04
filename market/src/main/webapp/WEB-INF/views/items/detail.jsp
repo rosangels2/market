@@ -178,10 +178,24 @@
 	padding: 5px;
 }
 .board-set .reply-box{
+	position: relative;
 	min-height: 100px;
 	border-top: 1px solid gray;
-	padding: 5px;
 }
+.reply-box input{
+	min-height: 100px;
+	width: 100%;
+	border: none;
+}
+/* 문의 답변하기 창 */
+.reply-contents-box{
+	margin: 100px 0;
+}
+.reply-contents-box .reply-top{
+	margin-bottom: 20px;
+}
+
+
 /* 댓글창 */
 .comment-regiser-box{
 	margin-top: 20px;
@@ -386,6 +400,9 @@ $(document).ready(function(){
 	
 	//답변 보기 클릭 시
 	$('.board-set .ask-state').click(function(){
+		if($(this).text() == "답변대기"){
+			return false;
+		}
 		$(this).parent().siblings('.reply-box').toggleClass('display-none');
 	});
 	
@@ -407,6 +424,36 @@ $(document).ready(function(){
 		$('.board-box-contents-my .reply-box').addClass('display-none');
 		$('.board-box-contents').removeClass('display-none');
 	});
+	
+	//문의 답변 버튼 클릭 시
+	$('#reply-button').click(function(){
+		var category = $('.reply-contents-box input[name=category]').val();
+		var board_no = $('.reply-contents-box input[name=ask_no]').val();
+		var writer = $('.reply-contents-box input[name=seller_id]').val();
+		var contents = $('.reply-contents-box input[name=contents]').val();
+		$.ajax({ 
+	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:{"category": category, "board_no": board_no, "writer": writer, "contents": contents},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/board/askReply",
+	        dataType:"json",
+	        //contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	        	if(data.reply != null){		//답변을 가져오면
+	        		$('.set-top').each(function(){
+	        			var t = $(this).children('div').first().text();
+	        			if(t == data.reply.board_no){
+	        				$(this).children('.ask-state').html("답변완료");
+	        				$(this).siblings('.reply-box').append(data.reply.contents);
+	        			}
+	        		});
+	        	}else{		//답변을 가져오지 못하면
+	        		alert("요청이 실패 하였습니다.");
+	        	}
+	        }
+		});
+	});
+	
 	
 	//댓글 등록 클릭 시
 	$('#comment-add').click(function(){
@@ -442,7 +489,7 @@ $(document).ready(function(){
 		$('#ask').addClass('display-none');
 		$('.menu-box-right').addClass('display-none');
 	});
-	
+
 });	//레디
 
 </script>
@@ -685,7 +732,29 @@ $(document).ready(function(){
 											</div>
 										</c:forEach>
 									</c:if>
-								</div>				
+								</div>
+								<!-- 문의 답변 창 -->	
+								<c:if test="${item.seller_id eq user.id}">
+									<div class="reply">
+										<div class="reply-contents">
+											<div class="reply-contents-box">
+												<div class="reply-top clearfix">
+													<h4 class="float-left">문의 번호</h4>
+													<input class="float-left ml-4" name="ask_no">
+												</div>
+												<div class="reply-bottom">
+													<h4>답변 내용</h4>
+													<input name="contents" style="width: 1090px; min-height: 150px;">
+												</div>
+												<div class="reply-button-box clearfix">
+													<input type="hidden" name="category" value="문의답변">
+													<input type="hidden" name="seller_id" value="${item.seller_id}">
+													<button class="float-right" style="margin-top: 20px;" id="reply-button">답변 등록/수정</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</c:if>			
 							</div>
 						</div>
 					</div>

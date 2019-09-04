@@ -34,7 +34,7 @@ CREATE TABLE `couponbag` (
   KEY `fk_couponBag_coupon1_idx` (`coupon_no`),
   CONSTRAINT `fk_couponBag_coupon1` FOREIGN KEY (`coupon_no`) REFERENCES `coupon` (`no`),
   CONSTRAINT `fk_couponBag_member1` FOREIGN KEY (`id`) REFERENCES `member` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `couponbag` (
 
 LOCK TABLES `couponbag` WRITE;
 /*!40000 ALTER TABLE `couponbag` DISABLE KEYS */;
-INSERT INTO `couponbag` VALUES (1,'z11111111',1,'D'),(2,'z11111111',2,'I'),(6,'z11111111',3,'I');
+INSERT INTO `couponbag` VALUES (1,'z11111111',1,'D'),(2,'z11111111',2,'I'),(6,'z11111111',3,'I'),(7,'z1111111',6,'I'),(8,'z1111111',5,'I'),(9,'z1111111',4,'I'),(10,'z1111111',3,'I'),(11,'z1111111',2,'I');
 /*!40000 ALTER TABLE `couponbag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-03 19:09:11
+-- Dump completed on 2019-09-04 17:16:42

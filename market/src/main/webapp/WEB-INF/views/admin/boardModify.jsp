@@ -27,6 +27,14 @@
 	min-height: 200px;
 	border: 1px solid gray;
 }
+.board-contents-box{
+	position: relative;
+}
+.board-contents-box input{
+	margin: 0;
+	width: 100%;
+	min-height: 200px; 
+}
 .button-box button{
 	width:150px;
 	text-align: center;
@@ -41,33 +49,33 @@
 	<div class="board-display">
 		<div class="display-contents">
 			<div class="display-box">
-				<div class="contents-box">
-					<div class="title-box clearfix">
-						<h3 class="float-left">제목</h3>
-						<input class="float-left">
+				<form action="<%=request.getContextPath()%>/admin/boardModify" method="post" id="modify-form">
+					<div class="contents-box">
+						<div class="title-box clearfix">
+							<h3 class="float-left">제목</h3>
+							<input type="hidden" value="${bVo.no}" name="no"> 
+							<input type="hidden" name="category" value="공지사항">
+							<input class="float-left" name="title" value="${bVo.title}" >
+						</div>
+						<div class="writer-box clearfix">
+							<h3 class="float-left">작성자</h3>
+							<input class="float-left" name="writer" value="${bVo.writer}" readonly>
+						</div>
+						<div class="board-contents">
+							<h3>내용</h3>
+							<div class="board-contents-box">
+								<input name="contents" value="${bVo.contents}" >
+							</div>
+						</div>
+						<div class="button-box clearfix">
+						<c:if test="${user.grade eq 'admin'}">
+							<button>
+									<h4>수정 완료</h4>
+							</button>
+						</c:if>
+						</div>
 					</div>
-					<div class="writer-box clearfix">
-						<h3 class="float-left">작성자</h3>
-						<input class="float-left">
-					</div>
-					<div class="register-date-box clearfix">
-						<h3 class="float-left">작성일</h3>
-						<input class="float-left">
-					</div>
-					<div class="view-count-box clearfix">
-						<h3 class="float-left">조회수</h3>
-						<input class="float-left">
-					</div>
-					<div class="contents">
-						<h3>내용</h3>
-						<div class="box"></div>
-					</div>
-					<div class="button-box clearfix">
-						<button>
-							<h4>수정하기</h4>
-						</button>
-					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>

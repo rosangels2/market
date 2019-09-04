@@ -59,9 +59,11 @@
 			</table>
 			<div class="button-contents">
 				<div class="button-contents-box clearfix">
-					<a href="<%=request.getContextPath()%>/admin/boardRegister">
-						<button class="register-button">게시글 등록</button>
-					</a>
+					<c:if test="${user.grade eq 'admin'}">
+						<a href="<%=request.getContextPath()%>/admin/boardRegister">
+							<button class="register-button">게시글 등록</button>
+						</a>
+					</c:if>
 				</div>
 			</div>
 		</div>

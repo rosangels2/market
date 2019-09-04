@@ -27,4 +27,10 @@ public interface BoardDAO {
 
 	CommentVO selectComment(@Param("no")int no);
 
+	void updateBoardState(@Param("no")Integer board_no, @Param("state")String string);
+
+	BoardVO selectReply(@Param("board_no")Integer board_no);
+
+	void updateReply(@Param("bVo")BoardVO bVo);
+
 }

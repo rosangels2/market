@@ -19,4 +19,8 @@ public interface BoardService {
 
 	BoardVO getBoard(Integer board_no);
 
+	boolean addViews(Integer no);
+
+	BoardVO registerReply(BoardVO bVo);
+
 }

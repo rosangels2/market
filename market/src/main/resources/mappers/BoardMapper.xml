@@ -40,4 +40,18 @@
 	select * from `comment`
 	where no = #{no}
 </select>
+<update id="updateBoardState">
+	update board
+		set state = #{state}
+		where no = #{no}
+</update>
+<select id="selectReply" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+		where board_no = #{board_no} and category = '문의답변'
+</select>
+<update id="updateReply">
+	update board
+		set contents = ${bVo.contents}, time = now()
+		where board_no = #{bVo.board_no} and category = '문의답변'
+</update>
 </mapper>

@@ -44,6 +44,7 @@ public class BoardController {
         mv.setViewName("/board/display");		//타일즈를 통해 불러올 jsp 경로
         System.out.println("boardDisplay board_no : " + board_no);
         BoardVO bVo = boardService.getBoard(board_no);
+        boardService.addViews(bVo.getNo());
         System.out.println("boardDisplay bVo : " + bVo);
         model.addAttribute("bVo", bVo);
         return mv;
@@ -105,6 +106,16 @@ public class BoardController {
     	CommentVO cVo = boardService.registerComment(category, board_no, writer, to, contents);
     	System.out.println("addComment cVo : " + cVo);
     	map.put("comment", cVo);
+    	return map;
+    }
+    @RequestMapping(value="/askReply")	//문의 답변
+    @ResponseBody
+    public Map<Object, Object> askReply(BoardVO bVo) {
+    	Map<Object, Object> map = new HashMap<Object, Object>();
+    	System.out.println("askReply bVo : " + bVo);
+    	BoardVO reply = boardService.registerReply(bVo);
+    	System.out.println("askReply reply : " + reply);
+    	map.put("reply", reply);
     	return map;
     }
 }

@@ -19,7 +19,7 @@ public interface AdminDAO {
 
 	ArrayList<CouponVO> selectCouponList();
 
-	void modifyCoupon(@Param("cVo")CouponVO cVo);
+	void updateCoupon(@Param("cVo")CouponVO cVo);
 
 	void insertCoupon(@Param("cVo")CouponVO cVo);
 
@@ -30,4 +30,6 @@ public interface AdminDAO {
 	void insertBoard(@Param("bVo")BoardVO bVo);
 
 	ArrayList<BoardVO> selectBoardListAll();
+
+	void updateBoard(@Param("bVo")BoardVO bVo1);
 }

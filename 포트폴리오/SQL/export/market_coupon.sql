@@ -41,7 +41,7 @@ CREATE TABLE `coupon` (
 
 LOCK TABLES `coupon` WRITE;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
-INSERT INTO `coupon` VALUES (1,'여름맞이 할인 대행사',5000,'2019-08-29','만료','D'),(2,'가을맞이 할인',4000,'2019-09-30','만료','I'),(3,'본격 가을 행사',6000,'2019-10-10','만료','I'),(4,'겨울 대비 깜짝 할인',5000,'2019-10-30','사용가능','I'),(5,'이번 해 마지막 할인',3000,'2019-11-05','사용가능','I'),(6,'기분 좋아서 한 번 더 할인',4000,'2019-11-10','사용가능','I');
+INSERT INTO `coupon` VALUES (1,'여름맞이 할인 대행사',5000,'2019-08-29','만료','D'),(2,'가을맞이 할인',4000,'2019-09-30','사용가능','D'),(3,'본격 가을 행사',6000,'2019-10-10','사용가능','I'),(4,'겨울 대비 깜짝 할인',5000,'2019-10-30','사용가능','I'),(5,'이번 해 마지막 할인',3000,'2019-11-05','사용가능','I'),(6,'기분 좋아서 한 번 더 할인',4000,'2019-11-10','사용가능','I');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-03 19:09:12
+-- Dump completed on 2019-09-04 17:16:42

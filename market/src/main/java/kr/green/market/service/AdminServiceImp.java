@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.AdminDAO;
+import kr.green.market.dao.BoardDAO;
 import kr.green.market.dao.ItemDAO;
 import kr.green.market.dao.MemberDAO;
 import kr.green.market.vo.BoardVO;
@@ -22,6 +23,8 @@ public class AdminServiceImp implements AdminService{
 	MemberDAO memberDao;
 	@Autowired
 	ItemDAO itemDao;
+	@Autowired
+	BoardDAO boardDao;
 	
 	@Override
 	public ArrayList<MemberVO> getAllMemberList() {
@@ -81,7 +84,7 @@ public class AdminServiceImp implements AdminService{
 		}
 		cVo.setState("만료");
 		cVo.setValid("D");
-		adminDao.modifyCoupon(cVo);
+		adminDao.updateCoupon(cVo);
 		return true;
 	}
 
@@ -107,6 +110,22 @@ public class AdminServiceImp implements AdminService{
 	@Override
 	public ArrayList<BoardVO> getBoardListAll() {
 		return adminDao.selectBoardListAll();
+	}
+
+	@Override
+	public BoardVO modifyBoard(BoardVO bVo) {
+		if(bVo == null) {
+			return null;
+		}
+		BoardVO bVo1 = boardDao.selectBoard(bVo.getNo());
+		if(bVo1 == null){
+			return null;
+		}
+		bVo1.setTitle(bVo.getTitle());
+		bVo1.setContents(bVo.getContents());
+		bVo1.setViews(bVo1.getViews()-1);
+		adminDao.updateBoard(bVo1);
+		return bVo1;
 	}
 
 }

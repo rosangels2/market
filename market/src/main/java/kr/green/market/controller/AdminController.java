@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.market.service.AdminService;
+import kr.green.market.service.BoardService;
 import kr.green.market.service.MemberService;
 import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.CouponVO;
@@ -28,6 +29,8 @@ public class AdminController {
 	MemberService memberService;
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	BoardService boardService;
 	
     @RequestMapping(value= "/board")
     public ModelAndView adminBoard(ModelAndView mv) throws Exception{
@@ -45,11 +48,20 @@ public class AdminController {
     	adminService.registerBoard(bVo);
         return "redirect:/board/list";
     } 
-    @RequestMapping(value= "/boardModify")
-    public ModelAndView BoardModify(ModelAndView mv) throws Exception{
+    @RequestMapping(value= "/boardModify", method = RequestMethod.GET)
+    public ModelAndView BoardModifyGet(ModelAndView mv, Model model, Integer board_no) throws Exception{
         mv.setViewName("/admin/boardModify");	//타일즈를 통해 불러올 jsp 경로
+        BoardVO bVo = boardService.getBoard(board_no);	//게시글 내용 불러오기
+        model.addAttribute("bVo", bVo);
         return mv;
     } 
+    @RequestMapping(value= "/boardModify", method = RequestMethod.POST)
+    public String BoardModifyPost(Model model, BoardVO bVo) {
+    	System.out.println("BoardModifyPost bVo : " + bVo);
+    	BoardVO bVo1 = adminService.modifyBoard(bVo);
+    	model.addAttribute("board_no", bVo.getNo());
+    	return "redirect:/board/display";
+    }
     @RequestMapping(value= "/member")
     public ModelAndView adminMember(ModelAndView mv, Model model) throws Exception{
         mv.setViewName("/admin/member");	//타일즈를 통해 불러올 jsp 경로
