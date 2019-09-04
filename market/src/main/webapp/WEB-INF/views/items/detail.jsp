@@ -429,12 +429,13 @@ $(document).ready(function(){
 	$('#reply-button').click(function(){
 		var category = $('.reply-contents-box input[name=category]').val();
 		var board_no = $('.reply-contents-box input[name=ask_no]').val();
+		var item_no = $('input[name=item_no]').val();
 		var writer = $('.reply-contents-box input[name=seller_id]').val();
 		var contents = $('.reply-contents-box input[name=contents]').val();
 		$.ajax({ 
 	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
 	        type:'POST',	//POST방식으로 전송
-	        data:{"category": category, "board_no": board_no, "writer": writer, "contents": contents},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        data:{"category": category, "board_no": board_no, "item_no": item_no, "writer": writer, "contents": contents},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
 	        url:"<%=request.getContextPath()%>/board/askReply",
 	        dataType:"json",
 	        //contentType:"application/json; charset=UTF-8",
@@ -443,8 +444,9 @@ $(document).ready(function(){
 	        		$('.set-top').each(function(){
 	        			var t = $(this).children('div').first().text();
 	        			if(t == data.reply.board_no){
+	        				alert("문의 답변이 등록 되었습니다.");
 	        				$(this).children('.ask-state').html("답변완료");
-	        				$(this).siblings('.reply-box').append(data.reply.contents);
+	        				$(this).siblings('.reply-box').html('<h5>답변 내용</h5>'+data.reply.contents);
 	        			}
 	        		});
 	        	}else{		//답변을 가져오지 못하면
@@ -694,7 +696,12 @@ $(document).ready(function(){
 													${ask.contents}
 												</div>
 												<div class="reply-box display-none">
-													<h5>답변 내용</h5>
+												<c:forEach items="${replyList}" var="reply">
+													<c:if test="${ask.no eq reply.board_no}">
+														<h5>답변 내용</h5>
+														${reply.contents}
+													</c:if>
+												</c:forEach>
 												</div>
 											</div>
 										</c:forEach>

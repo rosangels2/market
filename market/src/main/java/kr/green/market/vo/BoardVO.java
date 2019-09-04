@@ -9,6 +9,7 @@ public class BoardVO {
 	private Integer no;
 	private String category;
 	private Integer board_no;
+	private Integer item_no;
 	private String writer;
 	private String title;
 	private String contents;
@@ -18,6 +19,12 @@ public class BoardVO {
 	private String valid;
 	
 	
+	public Integer getItem_no() {
+		return item_no;
+	}
+	public void setItem_no(Integer item_no) {
+		this.item_no = item_no;
+	}
 	public Integer getViews() {
 		return views;
 	}
@@ -88,9 +95,9 @@ public class BoardVO {
 	
 	@Override
 	public String toString() {
-		return "BoardVO [no=" + no + ", category=" + category + ", board_no=" + board_no + ", writer=" + writer
-				+ ", title=" + title + ", contents=" + contents + ", time=" + time + ", state=" + state + ", views="
-				+ views + ", valid=" + valid + "]";
+		return "BoardVO [no=" + no + ", category=" + category + ", board_no=" + board_no + ", item_no=" + item_no
+				+ ", writer=" + writer + ", title=" + title + ", contents=" + contents + ", time=" + time + ", state="
+				+ state + ", views=" + views + ", valid=" + valid + "]";
 	}
 	
 }

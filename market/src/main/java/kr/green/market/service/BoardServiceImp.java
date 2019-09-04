@@ -24,7 +24,8 @@ public class BoardServiceImp implements BoardService{
 			return null;
 		}
 		String state = "답변 대기";
-		boardDao.insertBoard(category, board_no, writer, title, contents, state);
+		Integer item_no = null;
+		boardDao.insertBoard(category, board_no, item_no, writer, title, contents, state);
 		int no = boardDao.selectMaxBoard();
 		return boardDao.selectBoard(no);
 	}
@@ -94,11 +95,19 @@ public class BoardServiceImp implements BoardService{
 		}
 		BoardVO bVo1 = boardDao.selectReply(bVo.getBoard_no());
 		if(bVo1 == null){	//답변이 없다면
-			boardDao.insertBoard(bVo.getCategory(), bVo.getBoard_no(), bVo.getWriter(), bVo.getTitle(), bVo.getContents(), bVo.getState());
+			boardDao.insertBoard(bVo.getCategory(), bVo.getBoard_no(), bVo.getItem_no(), bVo.getWriter(), bVo.getTitle(), bVo.getContents(), bVo.getState());
 		}else {		//답변이 있다면
 			boardDao.updateReply(bVo);
 		}
 		boardDao.updateBoardState(bVo.getBoard_no(), "답변완료");
 		return boardDao.selectReply(bVo.getBoard_no());
+	}
+
+	@Override
+	public ArrayList<BoardVO> getReplyList(Integer item_no) {
+		if(item_no == null) {
+			return null;
+		}
+		return boardDao.selectReplyList(item_no);
 	}
 }

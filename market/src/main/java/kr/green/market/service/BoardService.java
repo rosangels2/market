@@ -23,4 +23,6 @@ public interface BoardService {
 
 	BoardVO registerReply(BoardVO bVo);
 
+	ArrayList<BoardVO> getReplyList(Integer item_no);
+
 }

@@ -89,6 +89,9 @@ public class ItemsController {
     		ArrayList<BoardVO> myAskList = boardService.getMyAskList(item_no, id);	//내 문의글 목록 불러오기
     		model.addAttribute("myAskList", myAskList);
     	}
+    	ArrayList<BoardVO> replyList = boardService.getReplyList(item_no);	//문의 답변 목록 불러오기
+    	System.out.println("itemDetail replyList : " + replyList);
+    	model.addAttribute("replyList", replyList);
     	ArrayList<CommentVO> cVoList = boardService.getCommentList(item_no);	//댓글 목록 가져오기
     	model.addAttribute("commentList", cVoList);
         mv.setViewName("/items/detail");		//타일즈를 통해 불러올 jsp 경로
