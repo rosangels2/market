@@ -8,6 +8,7 @@ public class CommentVO {
 
 	private Integer no;
 	private Integer board_no;
+	private String category;
 	private String to;
 	private String writer;
 	private String contents;
@@ -15,6 +16,12 @@ public class CommentVO {
 	private String valid;
 	
 	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -67,8 +74,8 @@ public class CommentVO {
 	
 	@Override
 	public String toString() {
-		return "CommentVO [no=" + no + ", board_no=" + board_no + ", to=" + to + ", writer=" + writer + ", contents="
-				+ contents + ", time=" + time + ", valid=" + valid + "]";
+		return "CommentVO [no=" + no + ", board_no=" + board_no + ", category=" + category + ", to=" + to + ", writer="
+				+ writer + ", contents=" + contents + ", time=" + time + ", valid=" + valid + "]";
 	}
 	
 }

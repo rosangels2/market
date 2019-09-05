@@ -37,11 +37,126 @@
 }
 
 /* 공통 */
+.background-gray{
+	background-color: gray;
+}
 .display-none{
 	display: none;
 }
 </style>
 <script type="text/javascript">
+$(document).ready(function(){
+	
+	//댓글 목록 클릭 시
+	$('#comment-menu').click(function(){
+		$('.comment-board').removeClass('display-none');
+		$('.ask-board').addClass('display-none');
+		$('.reply-board').addClass('display-none');
+		$(this).addClass('background-gray');
+		$('#ask-menu').removeClass('background-gray');
+		$('#reply-menu').removeClass('background-gray');
+		
+	});
+	
+	//상품문의 목록 클릭 시
+	$('#ask-menu').click(function(){
+		$('.ask-board').removeClass('display-none');
+		$('.comment-board').addClass('display-none');
+		$('.reply-board').addClass('display-none');
+		$(this).addClass('background-gray');
+		$('#comment-menu').removeClass('background-gray');
+		$('#reply-menu').removeClass('background-gray');
+	});
+	
+	//문의 답변 목록 클릭 시
+	$('#reply-menu').click(function(){
+		$('.reply-board').removeClass('display-none');
+		$('.comment-board').addClass('display-none');
+		$('.ask-board').addClass('display-none');
+		$(this).addClass('background-gray');
+		$('#comment-menu').removeClass('background-gray');
+		$('#ask-menu').removeClass('background-gray');
+	});
+	
+	//댓글 삭제 클릭 시
+	$('.comment-delete').click(function(){
+		var box = $(this).parent();
+		var no = $(this).siblings().first().text();
+		var test = confirm('정말로 삭제하시겠습니까?');
+		if(!test){
+			return;
+		}else{		//삭제 확인 시
+			$.ajax({ 
+		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:no,
+		        url:"<%=request.getContextPath()%>/admin/deleteComment",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+		        	if(data){
+		        		box.remove();
+		        	}else{
+		        		alert("요청이 실패했습니다.");
+		        	}
+		        }
+		  });
+		}
+	});
+	
+	//상품 문의 삭제 클릭 시
+	$('.ask-delete').click(function(){
+		var box = $(this).parent();
+		var no = $(this).siblings().first().text();
+		var test = confirm('정말로 삭제하시겠습니까?');
+		if(!test){
+			return;
+		}else{		//삭제 확인 시
+			$.ajax({ 
+		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:no,
+		        url:"<%=request.getContextPath()%>/admin/deleteAsk",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+		        	if(data){
+		        		box.remove();
+		        	}else{
+		        		alert("요청이 실패했습니다.");
+		        	}
+		        }
+		  });
+		}
+	});
+	 
+	//문의 답변 삭제 클릭 시
+	$('.reply-delete').click(function(){
+		var box = $(this).parent();
+		var no = $(this).siblings().first().text();
+		var test = confirm('정말로 삭제하시겠습니까?');
+		if(!test){
+			return;
+		}else{		//삭제 확인 시
+			$.ajax({ 
+		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:no,
+		        url:"<%=request.getContextPath()%>/admin/deleteReply",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+		        	if(data){
+		        		box.remove();
+		        	}else{
+		        		alert("요청이 실패했습니다.");
+		        	}
+		        }
+		  });
+		}
+	});
+	
+});		//레디
 
 </script>
 </head>
@@ -51,56 +166,19 @@
 			<!-- 메뉴 -->
 			<div class="menu-box">
 				<div class="menu-contents clearfix">
-					<div class="notice-board">
-						<h4>공지사항 게시판</h4>
+					<div class="background-gray" id="comment-menu">
+						<h4>댓글 목록</h4>
 					</div>
-					<div class="comment-board">
-						<h4>댓글 게시판</h4>
+					<div class="" id="ask-menu">
+						<h4>문의사항 목록</h4>
 					</div>
-					<div class="ask-board">
-						<h4>문의사항 게시판</h4>
+					<div class="" id="reply-menu">
+						<h4>문의답변 목록</h4>
 					</div>
 				</div>
 			</div>
-			<!-- 공지사항 게시판 -->
-			<div class="notice-board">
-				<div class="search-box clearfix">
-					<div class="search-img float-right">
-						<i class="fas fa-search img" style="font-size: 30px;"></i>
-					</div>
-					<div class="search-input float-right"><input></div>
-					<div class="search-select float-right">
-						<select>
-							<option>제목</option>
-							<option>내용</option>
-						</select>
-					</div>  
-				</div>				
-				<table class="table">
-					<tr class="table-title">
-						<th width="10%">번호</th>
-						<th width="40%">제목</th>
-						<th width="25%">작성일</th>
-						<th width="10%">조회수</th>
-						<th width="15%" class="th-last">수정/삭제</th>
-					</tr>
-					<tr class="table-contents">
-						<th>52543</th>
-						<th>공지사항 게시글</th>
-						<th>yyyy-mm-dd</th>
-						<th>533</th>
-						<th>
-							<select>
-								<option>수정/삭제</option>
-								<option>수정</option>
-								<option>삭제</option>
-							</select>
-						</th>
-					</tr>
-				</table>
-			</div>
-			<!-- 댓글 게시판 관리 -->
-			<div class="comment-board display-none">
+			<!-- 댓글 관리 -->
+			<div class="comment-board">
 				<div class="comment-contents">
 					<div class="search-box clearfix">
 					<div class="search-img float-right">
@@ -116,61 +194,102 @@
 				</div>
 					<table class="table">
 						<tr class="table-title">
-							<th width="20%">작성자</th>
-							<th width="40%">내용</th>
-							<th width="25%">등록일</th>
-							<th width="20%">댓글 관리</th>	
+							<th width="10%">번호</th>
+							<th width="10%">작성자</th>
+							<th width="50%">내용</th>
+							<th width="20%">등록일</th>
+							<th width="10%">관리</th>	
 						</tr>
-						<tr class="table-contents">
-							<th>sdfsadfs</th>
-							<th>ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</th>
-							<th>2019-09-02</th>								
-							<th>
-								<a>삭제하기</a>
-							</th>
-						</tr>
+						<c:forEach items="${commentList}" var="comment">
+							<tr class="table-contents">
+								<th>${comment.no}</th>
+								<th>${comment.writer}</th>
+								<th>${comment.contents}</th>							
+								<th>${comment.time}</th>
+								<th class="comment-delete">삭제</th>
+							</tr>
+						</c:forEach>
 					</table>								
 				</div>				
-				</div>
 			</div>
-			<!-- 문의글 게시판 관리 -->
+			<!-- 문의글 관리 -->
 			<div class="ask-board display-none">
 				<div class="ask-contents">
 					<div class="search-box clearfix">
-					<div class="search-img float-right">
-						<i class="fas fa-search img" style="font-size: 30px;"></i>
-					</div>
-					<div class="search-input float-right"><input></div>
-					<div class="search-select float-right">
-						<select>
-							<option>제목</option>
-							<option>내용</option>
-						</select>
-					</div>  
-				</div> 
+						<div class="search-img float-right">
+							<i class="fas fa-search img" style="font-size: 30px;"></i>
+						</div>
+						<div class="search-input float-right"><input></div>
+						<div class="search-select float-right">
+							<select>
+								<option>제목</option>
+								<option>내용</option>
+							</select>
+						</div>  
+					</div> 
 					<div class="board-box">
 						<table class="table">
 							<tr class="table-title">
 								<th width="10%">번호</th>		<!-- width를 통해 가로를 지정 -->
-								<th width="20%">문의 종류</th>
-								<th width="20%">제목</th>
-								<th width="20%">작성자</th>
-								<th width="10%">등록일</th>
-								<th width="10%">답변 상태</th>	
+								<th width="10%">작성자</th>
+								<th width="15%">제목</th>
+								<th width="35%">내용</th>
+								<th width="20%">등록일</th>
+								<th width="10%">관리</th>	
+								
 							</tr>
-							<tr class="table-contents">
-								<th>1</th>	<!-- list의 값이 추가된 변수 board의 getter 호출 -->
-								<th>교환</th>
-								<th>문의</th>
-								<th>roasdlldal</th>
-								<th>2019-09-02</th>
-								<th>답변 대기</th>
-							</tr>
+							<c:forEach items="${askList}" var="ask">
+								<tr class="table-contents">
+									<th>${ask.no}</th>
+									<th>${ask.writer}</th>
+									<th>${ask.title}</th>
+									<th>${ask.contents}</th>
+									<th>${ask.time}</th>
+									<th class="ask-delete">삭제</th>
+								</tr>
+							</c:forEach>
 						</table>							
 					</div>					
 				</div>
 			</div>
-		</div>	<!-- board-contents 끝 -->
+			<!-- 문의 답변글 관리 -->
+			<div class="reply-board display-none">
+				<div class="reply-contents">
+					<div class="search-box clearfix">
+						<div class="search-img float-right">
+							<i class="fas fa-search img" style="font-size: 30px;"></i>
+						</div>
+						<div class="search-input float-right"><input></div>
+						<div class="search-select float-right">
+							<select>
+								<option>제목</option>
+								<option>내용</option>
+							</select>
+						</div>  
+					</div> 
+					<div class="board-box">
+						<table class="table">
+							<tr class="table-title">
+								<th width="10%">번호</th>		<!-- width를 통해 가로를 지정 -->
+								<th width="10%">작성자</th>
+								<th width="50%">내용</th>
+								<th width="20%">등록일</th>
+								<th width="10%">관리</th>	
+							</tr>
+							<c:forEach items="${replyList}" var="reply">
+								<tr class="table-contents">
+									<th>${reply.no}</th>
+									<th>${reply.writer}</th>
+									<th>${reply.contents}</th>
+									<th>${reply.time}</th>
+									<th class="reply-delete">삭제</th>
+								</tr>
+							</c:forEach>
+						</table>							
+					</div>					
+				</div>
+			</div>
+		</div>	<!-- 보드 컨텐츠 끝 -->
 		<!-- 하단  -->
 		<div class="bottom">
 			<div class="bottom-box">

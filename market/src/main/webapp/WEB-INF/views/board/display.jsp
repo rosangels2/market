@@ -40,12 +40,31 @@
 	text-align: center;
 	float: right;
 }
+.board-delete{
+	margin-left: 20px;
+}
+
+/* 공통 */
 .border-none{
 	border:none;
 }
+.display-none{
+	display: none;
+}
 </style>
 <script type="text/javascript">
-
+$(document).ready(function(){
+	
+	//게시글 삭제 클릭 시
+	$('.board-delete').click(function(){
+		var s = confirm('정말로 삭제 하시겠습니까?');
+		if(!s){
+			return;
+		}
+		location.href = '<%=request.getContextPath()%>/admin/boardDelete?board_no=${bVo.no}&user=${user.grade}';
+	});
+	
+});		//레디
 </script>
 </head>
 <div style="min-height: 1000px;">
@@ -78,11 +97,14 @@
 					</div>
 					<div class="button-box clearfix">
 					<c:if test="${user.grade eq 'admin'}">
+						<button class="board-delete">
+								<h4>게시글 삭제</h4>
+						</button>
 						<button>
 							<a href="<%=request.getContextPath()%>/admin/boardModify?board_no=${bVo.no}" style="text-decoration: none; color: black;">
 								<h4>게시글 수정</h4>
 							</a>
-						</button>
+						</button>						
 					</c:if>
 					</div>
 				</div>

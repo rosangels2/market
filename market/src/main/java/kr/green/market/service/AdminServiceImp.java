@@ -10,6 +10,7 @@ import kr.green.market.dao.BoardDAO;
 import kr.green.market.dao.ItemDAO;
 import kr.green.market.dao.MemberDAO;
 import kr.green.market.vo.BoardVO;
+import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
@@ -126,6 +127,61 @@ public class AdminServiceImp implements AdminService{
 		bVo1.setViews(bVo1.getViews()-1);
 		adminDao.updateBoard(bVo1);
 		return bVo1;
+	}
+
+	@Override
+	public void deleteBoard(Integer board_no) {
+		if(board_no == null) {
+			return;
+		}
+		BoardVO bVo = boardDao.selectBoard(board_no);
+		if(bVo == null) {
+			return;
+		}
+		bVo.setValid("D");
+		adminDao.updateBoard(bVo);
+	}
+
+	@Override
+	public ArrayList<BoardVO> getAskListAll() {
+		return adminDao.selectAskListAll();
+	}
+
+	@Override
+	public ArrayList<CommentVO> getCommentListAll() {
+		return adminDao.selectCommentListAll();
+	}
+
+	@Override
+	public ArrayList<BoardVO> getReplyListAll() {
+		return adminDao.selectReplyListAll();
+	}
+
+	@Override
+	public boolean deleteComment(Integer no) {
+		if(no == null) {
+			return false;
+		}
+		adminDao.deleteComment(no);
+		return true;
+	}
+
+	@Override
+	public boolean deleteAsk(Integer no) {
+		if(no == null) {
+			return false;
+		}
+		adminDao.deleteBoard(no);
+		return true;
+	}
+
+	@Override
+	public boolean deleteReply(Integer no) {
+		if(no == null) {
+			return false;
+		}
+		adminDao.deleteBoard(no);
+		return true;
 	}
 
 }

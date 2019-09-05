@@ -17,6 +17,7 @@ import kr.green.market.service.AdminService;
 import kr.green.market.service.BoardService;
 import kr.green.market.service.MemberService;
 import kr.green.market.vo.BoardVO;
+import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
@@ -33,8 +34,17 @@ public class AdminController {
 	BoardService boardService;
 	
     @RequestMapping(value= "/board")
-    public ModelAndView adminBoard(ModelAndView mv) throws Exception{
+    public ModelAndView adminBoard(ModelAndView mv, Model model) throws Exception{
         mv.setViewName("/admin/board");	//타일즈를 통해 불러올 jsp 경로
+        ArrayList<BoardVO> askList = adminService.getAskListAll();	//상품 문의 목록 불러오기
+        System.out.println("adminBoard askList : " + askList);
+        ArrayList<BoardVO> replyList = adminService.getReplyListAll();	//문의답변 목록 불러오기
+        System.out.println("adminBoard replyList : " + replyList);
+        ArrayList<CommentVO> commentList = adminService.getCommentListAll();	//댓글 목록 불러오기
+        System.out.println("adminBoard commentList : " + commentList);
+        model.addAttribute("askList", askList);
+        model.addAttribute("replyList", replyList);
+        model.addAttribute("commentList", commentList);
         return mv;
     }
     @RequestMapping(value= "/boardRegister", method = RequestMethod.GET)
@@ -119,5 +129,36 @@ public class AdminController {
 	    System.out.println("addCoupon newcVo : " + newcVo);
 	    map.put("coupon", newcVo);
 	    return map;
+	}
+    @RequestMapping(value= "/boardDelete")
+    public String adminboardDelete(Integer board_no, String user) throws Exception{
+    	if(user.equals("admin")){
+    		adminService.deleteBoard(board_no);
+    	}
+        return "redirect:/board/list";
+    }
+    @RequestMapping(value="/deleteComment")	//댓글 삭제
+	@ResponseBody
+	public boolean deleteComment(@RequestBody Integer no){
+	    if(adminService.deleteComment(no)) {
+	    	return true;
+	    }
+	    return false;
+	}
+    @RequestMapping(value="/deleteAsk")	//상품 문의글 삭제
+	@ResponseBody
+	public boolean deleteAsk(@RequestBody Integer no){
+    	if(adminService.deleteAsk(no)) {
+	    	return true;
+	    }
+	    return false;
+	}
+    @RequestMapping(value="/deleteReply")	//문의 답변글 삭제
+	@ResponseBody
+	public boolean deleteReply(@RequestBody Integer no){
+    	if(adminService.deleteReply(no)) {
+	    	return true;
+	    }
+	    return false;
 	}
 }

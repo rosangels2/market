@@ -43,12 +43,37 @@
 </insert>
 <select id="selectBoardListAll" resultType="kr.green.market.vo.BoardVO">
 	select * from board
-		where category = '공지사항'
+		where category = '공지사항' and valid = 'I'
 		order by no desc
 </select>
 <update id="updateBoard">
 	update board
 		set category = #{bVo.category}, board_no = #{bVo.board_no}, title = #{bVo.title}, contents = #{bVo.contents}, state = #{bVo.state}, views = #{bVo.views}, valid = #{bVo.valid}
 		where no = #{bVo.no}
+</update>
+<select id="selectAskListAll" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+		where category like '%문의' and valid = 'I'
+		order by no desc
+</select>
+<select id="selectCommentListAll" resultType="kr.green.market.vo.CommentVO">
+	select * from comment
+		where category = '댓글' and valid = 'I'
+		order by no desc
+</select>
+<select id="selectReplyListAll" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+		where category = '문의답변' and valid = 'I'
+		order by no desc
+</select>
+<update id="deleteComment">
+	update comment
+		set valid = "D"
+		where no = #{no}
+</update>
+<update id="deleteBoard">
+	update board
+		set valid = "D"
+		where no = #{no}
 </update>
 </mapper>

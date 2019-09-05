@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.green.market.vo.BoardVO;
+import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
@@ -32,4 +33,14 @@ public interface AdminDAO {
 	ArrayList<BoardVO> selectBoardListAll();
 
 	void updateBoard(@Param("bVo")BoardVO bVo1);
+
+	ArrayList<BoardVO> selectAskListAll();
+
+	ArrayList<CommentVO> selectCommentListAll();
+
+	ArrayList<BoardVO> selectReplyListAll();
+
+	void deleteComment(@Param("no")Integer no);
+
+	void deleteBoard(@Param("no")Integer no);
 }
