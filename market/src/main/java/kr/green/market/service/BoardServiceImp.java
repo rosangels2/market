@@ -23,7 +23,7 @@ public class BoardServiceImp implements BoardService{
 		if(category == null || board_no == null || writer == null || title == null || contents == null){
 			return null;
 		}
-		String state = "답변 대기";
+		String state = "답변대기";
 		Integer item_no = null;
 		boardDao.insertBoard(category, board_no, item_no, writer, title, contents, state);
 		int no = boardDao.selectMaxBoard();
@@ -91,6 +91,10 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public BoardVO registerReply(BoardVO bVo) {
 		if(bVo == null) {
+			return null;
+		}
+		BoardVO oVo = boardDao.selectBoard(bVo.getBoard_no());
+		if(oVo == null || oVo.getBoard_no() != bVo.getItem_no()) {	//답변할 글의 상품 번호와 답변의 상품 번호가 다르다면
 			return null;
 		}
 		BoardVO bVo1 = boardDao.selectReply(bVo.getBoard_no());

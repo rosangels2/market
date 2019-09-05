@@ -347,6 +347,9 @@ $(document).ready(function(){
 	});
 	//문의하기 클릭 시
 	$('#ask-request').click(function(){
+		if($('input[name=id]').val() == ""){
+			location.href = '<%=request.getContextPath()%>/signin';
+		}
 		$('.request-contents').removeClass('display-none');
 		$('#ask-form input[name=title]').val("");
 		$('#ask-form input[name=contents]').val("");
@@ -379,12 +382,13 @@ $(document).ready(function(){
 	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
 	        	$('#ask-form input[name=title]').val("");
         		$('#ask-form input[name=contents]').val("");
-	        	if(data.bVo != null){	//등록한 게시글을 bVo에 담아 반환
+	        	if(data.bVo != null){	//등록한 게시글을 bVo에 담아 반환  
 	        		alert("문의글이 등록 되었습니다.");
 	        		$('#ask-form input[name=title]').val("");
 	        		$('#ask-form input[name=contents]').val("");
-	        		var str = '<div class="board-set"><div class="set-top clearfix"><div style="width: 10%;">'+data.bVo.no+'</div><div style="width: 10%;">'+data.bVo.category+'</div><div class="ask-title" style="width: 30%;">'+data.bVo.title+'</div><div style="width: 15%;">'+data.bVo.writer+'</div><div style="width: 25%;">'+data.bVo.time+'</div><div class="ask-state" style="width: 10%; border-right: none;">'+data.bVo.state+'</div></div><div class="set-bottom display-none">'+data.bVo.contents+'</div><div class="reply-box display-none"><h5>답변 내용</h5></div></div>';
+	        		var str = '<div class="board-set"><div class="set-top clearfix"><div style="width: 10%;">'+data.bVo.no+'</div><div style="width: 10%;">'+data.bVo.category+'</div><div class="ask-title" style="width: 30%;" onclick="">'+data.bVo.title+'</div><div style="width: 15%;">'+data.bVo.writer+'</div><div style="width: 25%;">'+data.bVo.time+'</div><div class="ask-state" style="width: 10%; border-right: none;">'+data.bVo.state+'</div></div><div class="set-bottom display-none">'+data.bVo.contents+'</div><div class="reply-box display-none"><h5>답변 내용</h5></div></div>';
 	        		$('.board-box .ask-title1').after(str);
+	        		askTitleClick();
 	        	}else{
 	        		alert("문의글 등록에 실패하였습니다.");
 	        	}
@@ -396,14 +400,9 @@ $(document).ready(function(){
 	//문의글 제목 클릭 시
 	$('.board-set .ask-title').click(function(){
 		$(this).parent().siblings('.set-bottom').toggleClass('display-none');
-	});
-	
-	//답변 보기 클릭 시
-	$('.board-set .ask-state').click(function(){
-		if($(this).text() == "답변대기"){
-			return false;
+		if($(this).siblings('.ask-state').text() == '답변완료'){
+			$(this).parent().siblings('.reply-box').toggleClass('display-none');	
 		}
-		$(this).parent().siblings('.reply-box').toggleClass('display-none');
 	});
 	
 	//내 문의 보기 클릭 시
@@ -444,7 +443,6 @@ $(document).ready(function(){
 	        		$('.set-top').each(function(){
 	        			var t = $(this).children('div').first().text();
 	        			if(t == data.reply.board_no){
-	        				alert("문의 답변이 등록 되었습니다.");
 	        				$(this).children('.ask-state').html("답변완료");
 	        				$(this).siblings('.reply-box').html('<h5>답변 내용</h5>'+data.reply.contents);
 	        			}
@@ -493,6 +491,15 @@ $(document).ready(function(){
 	});
 
 });	//레디
+
+function askTitleClick(){
+	$('.board-set .ask-title').first().click(function(){
+		$(this).parent().siblings('.set-bottom').toggleClass('display-none');
+		if($(this).siblings('.ask-state').text() == '답변완료'){
+			$(this).parent().siblings('.reply-box').toggleClass('display-none');	
+		}
+	});
+};
 
 </script>
 </head>
