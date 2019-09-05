@@ -31,7 +31,7 @@ public class BoardController {
 	@Autowired
 	AdminService adminService;
 
-    @RequestMapping(value= "/list")
+    @RequestMapping(value= "/list")		//공지사항 목록
     public ModelAndView boardList(ModelAndView mv, Model model) throws Exception{
         mv.setViewName("/board/list");		//타일즈를 통해 불러올 jsp 경로
         ArrayList<BoardVO> boardList = adminService.getBoardListAll();
@@ -39,7 +39,7 @@ public class BoardController {
         model.addAttribute("boardList", boardList);
         return mv;
     }    
-    @RequestMapping(value= "/display")
+    @RequestMapping(value= "/display")	//공지사항 내용
     public ModelAndView boardDisplay(ModelAndView mv, Model model, Integer board_no) throws Exception{
         mv.setViewName("/board/display");		//타일즈를 통해 불러올 jsp 경로
         System.out.println("boardDisplay board_no : " + board_no);
@@ -49,7 +49,7 @@ public class BoardController {
         model.addAttribute("bVo", bVo);
         return mv;
     }
-    @RequestMapping(value="/ask")	//쿠폰함
+    @RequestMapping(value="/ask")	//문의 요청
     @ResponseBody
     public Map<Object, Object> ask(@RequestBody String str) {
     	Map<Object, Object> map = new HashMap<Object, Object>();
@@ -77,7 +77,7 @@ public class BoardController {
     	map.put("bVo", bVo);
     	return map;
     }
-    @RequestMapping(value="/addComment")	//쿠폰함
+    @RequestMapping(value="/addComment")	//댓글 등록
     @ResponseBody
     public Map<Object, Object> addComment(@RequestBody String str) {
     	Map<Object, Object> map = new HashMap<Object, Object>();
@@ -107,6 +107,16 @@ public class BoardController {
     	System.out.println("addComment cVo : " + cVo);
     	map.put("comment", cVo);
     	return map;
+    }
+    @RequestMapping(value="/deleteComment")	//댓글 삭제
+    @ResponseBody
+    public boolean deleteComment(CommentVO cVo) {
+    	Map<Object, Object> map = new HashMap<Object, Object>();
+    	System.out.println("deleteComment cVo : " + cVo);
+    	if(boardService.deleteComment(cVo)) {
+    		return true;
+    	}
+    	return false;
     }
     @RequestMapping(value="/askReply")	//문의 답변
     @ResponseBody

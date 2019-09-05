@@ -476,8 +476,30 @@ $(document).ready(function(){
 	  			alert("댓글이 등록 되었습니다.");
 	        	var to = $('.comment-regiser-box input[name=to]').val("");
 	    		var contents = $('.comment-regiser-box input[name=contents]').val("");
-	        	var str = '<tr class="table-contents"><th>'+data.comment.writer+'</th><th>'+data.comment.contents+'</th><th>'+data.comment.time+'</th><th>작성하기</th><th><select><option>수정/삭제</option><option>수정</option><option>삭제</option></select></th></tr>';
+	        	var str = '<tr class="table-contents"><th>'+data.comment.writer+'</th><th>'+data.comment.contents+'</th><th>'+data.comment.time+'</th><th><button class="comment-delete-button">삭제</button></th></tr>';
 	        	$('#comment-title').after(str);
+	        }
+		});
+	});
+	
+	//댓글 삭제 클릭 시
+	$('.comment-delete-button').click(function(){
+		$(this).parents('.table-contents').remove();
+		var writer = $('input[name=id]').val()
+		var no = $(this).siblings('input[name=comment_no]').val();
+		$.ajax({ 
+	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data: {"writer": writer, "no": no},
+	        url:"<%=request.getContextPath()%>/board/deleteComment",
+	        dataType:"json",
+	       	//contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	        	if(data){
+	        		alert("댓글이 삭제 되었습니다.");
+	        	}else{
+	        		alert("요청이 실패했습니다.");
+	        	}
 	        }
 		});
 	});
@@ -782,23 +804,18 @@ function askTitleClick(){
 										<th width="15%">작성자</th>
 										<th width="40%">내용</th>
 										<th width="25%">등록일</th>
-										<th width="10%">답글</th>
-										<th width="10%">수정/삭제</th>	
+										<th width="10%">관리</th>	
 									</tr>
 									<c:if test="${commentList ne null}">
 										<c:forEach items="${commentList}" var="comment">
 											<tr class="table-contents">
 												<th>${comment.writer}</th>
 												<th>${comment.contents}</th>
-												<th>${comment.time}</th>
-												<th>작성하기</th>										
+												<th>${comment.time}</th>						
 												<th>
+													<input type="hidden" value="${comment.no}" name="comment_no">
 													<c:if test="${user.id eq comment.writer}">
-														<select>
-															<option>수정/삭제</option>
-															<option>수정</option>
-															<option>삭제</option>
-														</select>
+														<button class="comment-delete-button">삭제</button>
 													</c:if>
 												</th>
 											</tr>
@@ -812,8 +829,8 @@ function askTitleClick(){
 								<input type="hidden" name="board_no" value="${item.no}">
 								<div class="text-box clearfix">
 									<h3 style="float: left;">내용</h3>
-									<input value="" style="float: right; margin-left: 10px;" name="to">
-									<h5 style="float: right;">답글 대상</h5>
+									<input type="hidden" value="" style="float: right; margin-left: 10px;" name="to">
+									<h5 style="float: right;" class="display-none">답글 대상</h5>
 								</div>
 								<div class="contents-box">
 									<input name="contents">

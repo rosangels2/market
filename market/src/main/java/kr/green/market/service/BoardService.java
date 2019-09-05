@@ -25,4 +25,6 @@ public interface BoardService {
 
 	ArrayList<BoardVO> getReplyList(Integer item_no);
 
+	boolean deleteComment(CommentVO cVo);
+
 }

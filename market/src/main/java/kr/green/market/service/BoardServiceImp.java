@@ -114,4 +114,18 @@ public class BoardServiceImp implements BoardService{
 		}
 		return boardDao.selectReplyList(item_no);
 	}
+
+	@Override
+	public boolean deleteComment(CommentVO cVo) {
+		if(cVo == null) {
+			return false;
+		}
+		CommentVO cVo1 = boardDao.selectComment(cVo.getNo());
+		if(cVo1 == null || !cVo1.getWriter().equals(cVo.getWriter())) {
+			return false;
+		}
+		cVo1.setValid("D");
+		boardDao.updateComment(cVo1);
+		return true;
+	}
 }

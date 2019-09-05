@@ -35,4 +35,6 @@ public interface BoardDAO {
 
 	ArrayList<BoardVO> selectReplyList(@Param("item_no")Integer item_no);
 
+	void updateComment(@Param("cVo")CommentVO cVo1);
+
 }

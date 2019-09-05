@@ -26,7 +26,7 @@
 </select>
 <select id="selectCommentList" resultType="kr.green.market.vo.CommentVO">
 	select * from comment
-	where board_no = #{board_no}
+	where board_no = #{board_no} and valid = 'I'
 	order by no desc
 </select>
 <insert id="insertComment">
@@ -58,4 +58,9 @@
 	select * from board
 		where item_no = #{item_no} and category = '문의답변'
 </select>
+<update id="updateComment">
+	update comment
+		set contents = #{cVo.contents}, valid = #{cVo.valid}
+		where no = #{cVo.no}
+</update>
 </mapper>
