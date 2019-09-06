@@ -129,161 +129,43 @@ $(document).ready(function(){
 			<!-- 상품 목록창 -->
 			<div class="item-list">
 				<div class="item-list-contents">
-					<div class="item-contents clearfix">
-						<div class="item-img">
-							<a href="#">
-								<img alt="" src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-							</a>
-						</div>
-						<div class="item-info">
-							<div><h3>상품명</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
+					<c:forEach items="${itemList}" var="item">
+						<div class="item-contents clearfix">
+							<div class="item-img">
+								<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
+									<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
 								</a>
 							</div>
-						</div>
-						<div class="item-info">
-							<div><h3>가격</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>					
-						</div>
-						<div class="item-info" style="float: right">
-							<div>
-								<button>수정</button>
+							<div class="item-info">
+								<div><h3>상품명</h3></div>
+								<div class="item-link">
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
+										<h3>${item.title}</h3>
+									</a>
+								</div>
 							</div>
-							<div>
-								<button>삭제</button>
-							</div>		
-						</div>
-					</div>
-					<div class="item-contents clearfix">
-						<div class="item-img">
-							<a href="#">
-								<img alt="" src="<%=request.getContextPath()%>/resources/images/광선검.png">
-							</a>
-						</div>
-						<div class="item-info">
-							<div><h3>상품명</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
+							<div class="item-info">
+								<div><h3>가격</h3></div>
+								<div class="item-link">
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
+										<h3>${item.price}</h3>
+									</a>
+								</div>					
 							</div>
-						</div>
-						<div class="item-info">
-							<div><h3>가격</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>				
-						</div>
-						<div class="item-info" style="float: right">
-							<div>
-								<button>수정</button>
+							<div class="item-info" style="float: right">
+								<div>
+									<button>수정</button>
+									<input type="hidden" name="item_no" value="${item.no}">
+									<input type="hidden" name="seller_id" value="${item.seller_id}">
+								</div>
+								<div>
+									<button>삭제</button>
+									<input type="hidden" name="item_no" value="${item.no}">
+									<input type="hidden" name="seller_id" value="${item.seller_id}">
+								</div>		
 							</div>
-							<div>
-								<button>삭제</button>
-							</div>					
-						</div>				
-					</div>
-					<div class="item-contents clearfix">
-						<div class="item-img">
-							<a href="#">
-								<img alt="" src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
-							</a>
-						</div>
-						<div class="item-info">
-							<div><h3>상품명</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item-info">
-							<div><h3>가격</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>					
-						</div>
-						<div class="item-info" style="float: right">
-							<div>
-								<button>수정</button>
-							</div>
-							<div>
-								<button>삭제</button>
-							</div>					
-						</div>				
-					</div>
-					<div class="item-contents clearfix">
-						<div class="item-img">
-							<a href="#">
-								<img alt="" src="<%=request.getContextPath()%>/resources/images/목걸이.jpg">
-							</a>
-						</div>
-						<div class="item-info">
-							<div><h3>상품명</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item-info">
-							<div><h3>가격</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>				
-						</div>
-						<div class="item-info" style="float: right">
-							<div>
-								<button>수정</button>
-							</div>
-							<div>
-								<button>삭제</button>
-							</div>					
-						</div>					
-					</div>
-					<div class="item-contents clearfix">
-						<div class="item-img">
-							<a href="#">
-								<img alt="" src="<%=request.getContextPath()%>/resources/images/호랑이 잠옷.jpg">
-							</a>
-						</div>
-						<div class="item-info">
-							<div><h3>상품명</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>
-						</div>
-						<div class="item-info">
-							<div><h3>가격</h3></div>
-							<div class="item-link">
-								<a href="#">
-									<h3>xxxxxxx</h3>
-								</a>
-							</div>						
-						</div>
-						<div class="item-info" style="float: right">
-							<div>
-								<button>수정</button>
-							</div>
-							<div>
-								<button>삭제</button>
-							</div>					
-						</div>				
-					</div>																				
+						</div>	
+					</c:forEach>																			
 				</div>
 			</div>
 			<div class="more-img-box" style="text-align: center;">

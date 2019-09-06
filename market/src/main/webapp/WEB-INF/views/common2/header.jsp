@@ -19,10 +19,10 @@
 		      	</li>
 		      	<c:if test="${user.grade eq 'seller'}">
 			      	<li class="nav-item">
-			        	<a class="nav-link" href="<%=request.getContextPath()%>/items/register" style="color : white;">상품 등록</a>
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/items/register?id=${user.id}" style="color : white;">상품 등록</a>
 			      	</li>
 			      	<li class="nav-item">
-		        	<a class="nav-link" href="<%=request.getContextPath()%>/items/administration" style="color : white;">상품 관리</a>
+		        	<a class="nav-link" href="<%=request.getContextPath()%>/items/administration?id=${user.id}" style="color : white;">상품 관리</a>
 		      	</li>      	
 		      	</c:if>      	
 		      	<c:if test="${user.grade eq 'admin'}">

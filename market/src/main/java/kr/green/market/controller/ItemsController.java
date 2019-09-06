@@ -265,8 +265,12 @@ public class ItemsController {
 	    return entity;
 	}
     @RequestMapping(value= "/administration")
-    public ModelAndView itemAdministration(ModelAndView mv) throws Exception{
+    public ModelAndView itemAdministration(ModelAndView mv, Model model, String id) throws Exception{
         mv.setViewName("/items/administration");	//타일즈를 통해 불러올 jsp 경로
+        System.out.println("itemAdministration id : " + id);
+        ArrayList<ItemVO> itemList = itemService.getMyItemList(id);
+        System.out.println("itemAdministration itemList : " + itemList);
+        model.addAttribute("itemList", itemList);
         return mv;
     }
     @RequestMapping(value= "/modify")

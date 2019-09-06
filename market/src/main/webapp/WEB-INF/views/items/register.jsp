@@ -132,7 +132,7 @@ function addOptionEvent(){
 }
 function addInputEvent(){
 	$('input[name=file2]').change(function(){
-		var str = '<input type="file" class="form-control" name="file2" value="">'
+		var str = '<input type="file" class="form-control" name="file2" value="">';
 		$(this).after(str);
 		addInputEvent();
 	});

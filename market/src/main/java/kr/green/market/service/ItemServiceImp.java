@@ -264,4 +264,11 @@ public class ItemServiceImp implements ItemService{
 		int no = itemDao.selectMaxCouponBag();
 		return itemDao.selectCouponBag1(no);
 	}
+	@Override
+	public ArrayList<ItemVO> getMyItemList(String id) {
+		if(id == null) {
+			return null;
+		}
+		return itemDao.selectMyItemList(id);
+	}
 }

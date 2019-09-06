@@ -93,4 +93,6 @@ public interface ItemDAO {
 
 	CouponBagVO selectCouponBag1(@Param("no")int no);
 
+	ArrayList<ItemVO> selectMyItemList(@Param("id")String id);
+
 }

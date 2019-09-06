@@ -71,4 +71,6 @@ public interface ItemService {
 
 	CouponBagVO getCoupon(String id, Integer coupon_no);
 
+	ArrayList<ItemVO> getMyItemList(String id);
+
 }
