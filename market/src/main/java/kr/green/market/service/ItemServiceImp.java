@@ -271,4 +271,24 @@ public class ItemServiceImp implements ItemService{
 		}
 		return itemDao.selectMyItemList(id);
 	}
+	@Override
+	public boolean deleteItem(Integer no, String seller_id) {
+		if(no == null || seller_id == null){
+			return false;
+		}
+		ItemVO iVo = itemDao.selectItem(no);
+		if(iVo == null || !iVo.getSeller_id().equals(seller_id)) {
+			return false;
+		}
+		iVo.setValid("D");
+		itemDao.modifyItem(iVo);
+		return true;
+	}
+	@Override
+	public ArrayList<OptionVO> getOptions(Integer item_no) {
+		if(item_no == null) {
+			return null;
+		}
+		return itemDao.selectOptions(item_no);
+	}
 }

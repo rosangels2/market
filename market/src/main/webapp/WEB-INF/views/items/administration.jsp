@@ -100,14 +100,42 @@ ul{
 }
 </style>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('.item-link').click(function(){
-		location.href="<%=request.getContextPath()%>/items/detail";
+$(document).ready(function(){	
+	
+	//삭제 버튼 클릭 시
+	$('.delete-button').click(function(){
+		var s = confirm('정말로 삭제하시겠습니까?');
+		var box = $(this).parents('.item-contents');
+		if(!s){
+			return;
+		}else{
+			var id = $('input[name=id]').val();
+			var item_no = $(this).siblings('input[name=item_no]').val();
+			$.ajax({ 
+		        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{"seller_id": id, "no": item_no},
+		        url:"<%=request.getContextPath()%>/items/deleteItem",
+		        dataType:"json",
+		        //contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+		        	if(data){
+		        		box.remove();
+		        		alert("상품이 삭제 되었습니다.");
+		        	}else{
+		        		alert("요청이 실패하였습니다.");	
+		        	}
+		        }
+		  });
+		}
 	});
-	$('.item-img').click(function(){
-		location.href="<%=request.getContextPath()%>/items/detail";
+	
+	//수정 버튼 클릭 시
+	$('.modify-button').click(function(){
+		
 	});
-});
+	
+});	//레디
 </script>
 </head>
 	<div style="min-height: 1000px; position: relative;">
@@ -129,6 +157,7 @@ $(document).ready(function(){
 			<!-- 상품 목록창 -->
 			<div class="item-list">
 				<div class="item-list-contents">
+					<input type="hidden" name="id" value="${user.id}">
 					<c:forEach items="${itemList}" var="item">
 						<div class="item-contents clearfix">
 							<div class="item-img">
@@ -154,14 +183,14 @@ $(document).ready(function(){
 							</div>
 							<div class="item-info" style="float: right">
 								<div>
-									<button>수정</button>
+									<a href="<%=request.getContextPath()%>/items/modify?item_no=${item.no}&id=${user.id}">
+										<button class="modify-button">수정</button>
+									</a>
 									<input type="hidden" name="item_no" value="${item.no}">
-									<input type="hidden" name="seller_id" value="${item.seller_id}">
 								</div>
 								<div>
-									<button>삭제</button>
+									<button class="delete-button">삭제</button>
 									<input type="hidden" name="item_no" value="${item.no}">
-									<input type="hidden" name="seller_id" value="${item.seller_id}">
 								</div>		
 							</div>
 						</div>	

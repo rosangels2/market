@@ -152,6 +152,11 @@
 </select>
 <select id="selectMyItemList" resultType="kr.green.market.vo.ItemVO">
 	select * from `item`
-		where seller_id = #{id}
+		where seller_id = #{id} and valid = 'I'
 </select>
+<update id="modifyItem">
+	update `item`
+		set category_no = #{iVo.category_no}, title = #{iVo.title}, price = #{iVo.price}, information = #{iVo.information}, file = #{iVo.file}, commend = #{iVo.commend}, valid = #{iVo.valid}
+		where no = #{iVo.no}
+</update>
 </mapper>

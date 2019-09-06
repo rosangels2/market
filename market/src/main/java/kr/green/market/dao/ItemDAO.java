@@ -95,4 +95,6 @@ public interface ItemDAO {
 
 	ArrayList<ItemVO> selectMyItemList(@Param("id")String id);
 
+	void modifyItem(@Param("iVo")ItemVO iVo);
+
 }

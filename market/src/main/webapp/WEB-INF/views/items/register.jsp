@@ -52,6 +52,7 @@
 }
 
 /* 옵션 텍스트 */
+
 /* 옵션 상세 내용 */
 .option-info-contents{
 	border: 1px solid gray;
@@ -66,7 +67,9 @@
 .info-box img{
 	margin-bottom: 20px;
 }
-
+.option-delete{
+	margin: 20px 20px 0 0;
+}
 /* 상품 정보*/
 .contents-text,
 .option-text-contents{
@@ -74,7 +77,6 @@
 }
 .menu-info-box{
 	min-height: 200px;
-	border: 1px solid gray;
 	padding: 30px;
 	margin-bottom: 40px;
 	position: relative;
@@ -115,10 +117,15 @@
 $(document).ready(function(){
 	addOptionEvent();
 	addInputEvent();
+	
+	//옵션 삭제 클릭 시
+	$('.option-delete').click(function(){
+		$(this).parent().remove();
+	});
 });	//레디
 function addOptionEvent(){
 	$('#add-option').click(function(){
-		var str = '<div class="info-box clearfix"><input placeholder="선택 옵션" name="select" readonly><input placeholder="세부 옵션" name="detail" readonly><input placeholder="상품 재고" name="stock" readonly><input placeholder="가격" name="price" readonly></div>'
+		var str = '<div class="info-box clearfix"><input placeholder="선택 옵션" name="select" readonly><input placeholder="세부 옵션" name="detail" readonly><input placeholder="상품 재고" name="stock" readonly><input placeholder="가격" name="price" readonly><button class="float-right option-delete">삭제</button></div>'
 		$('.option-info-contents').append(str);
 		$('input[name=select]').last().val($('#item-select').val());
 		$('input[name=detail]').last().val($('#item-detail').val());

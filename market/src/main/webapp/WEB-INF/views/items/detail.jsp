@@ -235,6 +235,7 @@ var data3;
 $(document).ready(function(){
 	
 	$('#item-select').change(function(){
+		$('#item-price').val("");
 			 var option = $(this).val();
 			 $.ajax({ 
 			        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
@@ -554,8 +555,8 @@ function askTitleClick(){
 						<h4>상품 선택</h4>
 						<select id="item-select">
 							<option value="0">상품 선택</option>
-						<c:forEach var="itemOption" items="${options}">
-							<option value="item_no=${itemOption.item_no}&select=${itemOption.select}">${itemOption.select}</option>
+						<c:forEach var="select" items="${selects}">
+							<option value="item_no=${item.no}&select=${select}">${select}</option>
 						</c:forEach>
 						</select>
 					</div>			

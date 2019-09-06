@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -79,9 +81,16 @@ public class ItemsController {
     	SellerVO sVo = itemService.getSellerName(iVo.getSeller_id());	//판매자 정보 불러오기
     	System.out.println("itemDetail sVo : " + sVo);
     	model.addAttribute("seller", sVo);
-    	ArrayList<OptionVO> options = itemService.getItemOptions(item_no);
+    	
+    	ArrayList<OptionVO> options = itemService.getItemOptions(item_no);	//선택 상품 불러오기
     	System.out.println("itemDetail Options : " + options);
-    	model.addAttribute("options", options);
+    	Set<String> select = new HashSet<String>();
+    	for(int i=0; i<options.size(); i++) {		//중복 제거
+    		select.add(options.get(i).getSelect());
+    	}
+    	System.out.println("itemDetail selects : " + select);
+    	model.addAttribute("selects", select);
+    	
     	ArrayList<BoardVO> askList = boardService.getAskListAll(item_no);	//전체 문의글 목록 불러오기
     	System.out.println("itemDetail askList : " + askList);
     	model.addAttribute("askList", askList);
@@ -273,9 +282,20 @@ public class ItemsController {
         model.addAttribute("itemList", itemList);
         return mv;
     }
-    @RequestMapping(value= "/modify")
-    public ModelAndView itemModify(ModelAndView mv) throws Exception{
-        mv.setViewName("/items/modify");		//타일즈를 통해 불러올 jsp 경로
+    @RequestMapping(value= "/modify")	//상품 수정
+    public ModelAndView itemModify(ModelAndView mv, Model model, Integer item_no, String id) throws Exception{
+        mv.setViewName("/items/modify");
+        ItemVO iVo = itemService.getItem(item_no);	//아이템 정보 불렁괴
+        if(!iVo.getSeller_id().equals(id)) {
+        	return mv;
+        }
+        model.addAttribute("item", iVo);
+        ArrayList<OptionVO> optionList = itemService.getOptions(item_no);	//옵션 목록 불러오기
+        System.out.println("itemModify optionList : " + optionList);
+        model.addAttribute("optionList", optionList);
+        ArrayList<FileVO> fileList = itemService.getFiles(item_no);		//파일 목록 불러오기
+        System.out.println("itemModify fileList : " + fileList);
+        model.addAttribute("fileList", fileList);
         return mv;
     } 
     @RequestMapping(value= "/myBuy")
@@ -389,6 +409,16 @@ public class ItemsController {
     	CouponVO cVo = itemService.getCoupon(cbVO.getCoupon_no());
     	System.out.println("couponGet cVo : " + cVo);
     	map.put("cVo", cVo);
+    	return map;
+    }
+    @RequestMapping(value="/deleteItem", method = RequestMethod.POST)	//쿠폰함
+    @ResponseBody
+    public Map<Object, Object> deleteItem(ItemVO iVo) {
+    	Map<Object, Object> map = new HashMap<Object, Object>();
+    	System.out.println("deleteItem iVo : " + iVo);
+    	if(itemService.deleteItem(iVo.getNo(), iVo.getSeller_id())) {
+    		
+    	}
     	return map;
     }
 }

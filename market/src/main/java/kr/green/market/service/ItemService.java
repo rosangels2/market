@@ -73,4 +73,8 @@ public interface ItemService {
 
 	ArrayList<ItemVO> getMyItemList(String id);
 
+	boolean deleteItem(Integer no, String seller_id);
+
+	ArrayList<OptionVO> getOptions(Integer item_no);
+
 }
