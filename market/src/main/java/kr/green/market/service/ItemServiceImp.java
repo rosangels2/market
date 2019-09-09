@@ -292,14 +292,6 @@ public class ItemServiceImp implements ItemService{
 		return itemDao.selectOptions(item_no);
 	}
 	@Override
-	public boolean modifyForemostImage(ItemVO iVo) {
-		if(iVo == null) {
-			return false;
-		}
-		itemDao.updateItem(iVo);
-		return true;
-	}
-	@Override
 	public boolean deleteOptions(Integer item_no, Integer[] option_no) {
 		if(item_no == null || option_no == null) {
 			return false;
@@ -347,6 +339,27 @@ public class ItemServiceImp implements ItemService{
 		itemDao.updateBuyImage(item_no, foremost_image);	//장바구니 이미지 변경
 		itemDao.updateBagImage(item_no, foremost_image);	//주문 이미지 변경
 		itemDao.updateWishlistImage(item_no, foremost_image);	//위시리스트 이미지 변경
+		return true;
+	}
+	@Override
+	public boolean modifyForemostImage(ItemVO iVo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean modifyItem(ItemVO iVo) {
+		if(iVo == null) {
+			return false;
+		}
+		itemDao.updateItem(iVo);
+		return true;
+	}
+	@Override
+	public boolean modifyOption(OptionVO oVo1) {
+		if(oVo1 == null) {
+			return false;
+		}
+		itemDao.updateOption(oVo1);
 		return true;
 	}
 }

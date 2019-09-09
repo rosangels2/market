@@ -179,4 +179,9 @@
 		set image = #{image}
 		where item_no = #{item_no}
 </update>
+<update id="updateOption">
+	update `option`
+		set item_no = #{oVo.item_no}, item_title = #{oVo.item_title}, `select` = #{oVo.select}, `detail` = #{oVo.detail}, `stock` = #{oVo.stock}, `price` = #{oVo.price}, valid = #{oVo.valid}
+		where no = #{oVo.no}
+</update>
 </mapper>

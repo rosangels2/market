@@ -4,6 +4,7 @@ public class OptionVO {
 
 	private Integer no;
 	private Integer item_no;
+	private String item_title;
 	private String select;
 	private String detail;
 	private Integer stock;
@@ -14,6 +15,7 @@ public class OptionVO {
 	public OptionVO(){
 		no = 0;
 		item_no = 0;
+		item_title = "";
 		select = "";
 		detail = "";
 		price = 0;
@@ -23,13 +25,19 @@ public class OptionVO {
 	public OptionVO(OptionVO oVo){
 		this.no = oVo.getNo();
 		this.item_no = oVo.getItem_no();
+		this.item_title = oVo.getItem_title();
 		this.select = oVo.getSelect();
 		this.detail = oVo.getDetail();
 		this.stock = oVo.getStock();
 		this.price = oVo.getPrice();
 		this.valid = oVo.getValid();
 	}
-	
+	public String getItem_title() {
+		return item_title;
+	}
+	public void setItem_title(String item_title) {
+		this.item_title = item_title;
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -76,8 +84,8 @@ public class OptionVO {
 	
 	@Override
 	public String toString() {
-		return "OptionVO [no=" + no + ", item_no=" + item_no + ", select=" + select + ", detail=" + detail + ", price="
-				+ price + ", stock=" + stock + ", valid=" + valid + "]";
+		return "OptionVO [no=" + no + ", item_no=" + item_no + ", item_title=" + item_title + ", select=" + select
+				+ ", detail=" + detail + ", stock=" + stock + ", price=" + price + ", valid=" + valid + "]";
 	}
 	
 }

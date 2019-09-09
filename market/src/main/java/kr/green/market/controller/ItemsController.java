@@ -240,6 +240,7 @@ public class ItemsController {
 		itemService.registerFile(itemNo);	//첫번째 파일을 대표 파일로 등록
         OptionVO oVo = new OptionVO();
         oVo.setItem_no(itemNo);
+        oVo.setItem_title(title);
         itemService.registerOption(oVo, select, detail, stock, price);	//옵션 등록
         return "redirect:/items/list";
         
@@ -299,8 +300,9 @@ public class ItemsController {
         return mv;
     } 
     @RequestMapping(value= "/modify", method=RequestMethod.POST)	//상품 수정하기
-    public String itemModifyPost(Model model, Integer item_no, String id, Integer[] option_no, Integer[] file_no, String foremost_image,
-    		String[] select,  String[] detail,  Integer[] stock,  Integer[] price, MultipartFile[] file2) throws Exception{
+    public String itemModifyPost(Model model, Integer item_no, String id, String title, Integer price1, Integer[] option_no, Integer[] file_no, String foremost_image,
+    		String[] select,  String[] detail,  Integer[] stock,  Integer[] price, MultipartFile[] file2,
+    		String[] modify_select,  String[] modify_detail,  Integer[] modify_stock,  Integer[] modify_price) throws Exception{
         System.out.println("itemModifyPost item_no : " + item_no);
         System.out.println("itemModifyPost id : " + id);
         System.out.println("itemModifyPost foremost_image : " + foremost_image);
@@ -310,7 +312,9 @@ public class ItemsController {
         	return "redirect:/items/administration";
         }
         iVo.setFile(foremost_image);			
-        itemService.modifyForemostImage(iVo);				//대표 이미지 수정
+        iVo.setTitle(title);
+        iVo.setPrice(price1);
+        itemService.modifyItem(iVo);						//아이템 정보 수정
         itemService.modifyImages(item_no, foremost_image);	//위시리스트, 장바구니, 주문 이미지 변경
         itemService.deleteOptions(item_no, option_no);		//옵션 삭제
         itemService.deleteFiles(item_no, file_no);			//파일 삭제
@@ -322,7 +326,20 @@ public class ItemsController {
 		}
         OptionVO oVo = new OptionVO();
         oVo.setItem_no(item_no);
+        oVo.setItem_title(title);
         itemService.registerOption(oVo, select, detail, stock, price);	//옵션 등록
+        for(int i=0; i<modify_select.length; i++) {
+        	OptionVO oVo1 = new OptionVO();
+        	oVo1.setItem_no(item_no);
+        	oVo1.setItem_title(title);
+        	oVo1.setNo(option_no[i]);
+        	oVo1.setSelect(modify_select[i]);
+        	oVo1.setDetail(modify_detail[i]);
+        	oVo1.setStock(modify_stock[i]);
+        	oVo1.setPrice(modify_price[i]);
+        	System.out.println("itemModifyPost oVo1 : " + oVo1);
+        	itemService.modifyOption(oVo1);		//옵션 수정
+        }
     	return "redirect:/items/administration";
     }
     @RequestMapping(value= "/myBuy")

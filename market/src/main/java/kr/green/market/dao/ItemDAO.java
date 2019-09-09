@@ -104,5 +104,7 @@ public interface ItemDAO {
 	void updateBagImage(@Param("item_no")Integer item_no, @Param("image")String foremost_image);
 	
 	void updateWishlistImage(@Param("item_no")Integer item_no, @Param("image")String foremost_image);
+
+	void updateOption(@Param("oVo")OptionVO oVo1);
 	
 }

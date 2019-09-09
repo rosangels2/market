@@ -192,7 +192,7 @@ function addInputEvent(){
 					<div class="input-box">
 						<div class="item-category" style="margin-top: 0;">
 							<h4>카테고리</h4>
-							<select>
+							<select id="category-select">
 								<option>카테고리</option>
 								<option>01</option>
 								<option>02</option>
@@ -246,10 +246,10 @@ function addInputEvent(){
 				  <c:forEach items="${optionList}" var="option">
 					  	<div class="info-box clearfix">
 					  		<input type="hidden" name="option_no" value="${option.no}"> 
-					  		<input placeholder="선택 옵션"  readonly value="${option.select}">
-					  		<input placeholder="세부 옵션"  readonly value="${option.detail}">
-					  		<input placeholder="상품 재고"  readonly value="${option.stock}">
-					  		<input placeholder="가격" readonly value="${option.price}">
+					  		<input placeholder="선택 옵션" name="modify_select" value="${option.select}">
+					  		<input placeholder="세부 옵션" name="modify_detail" value="${option.detail}">
+					  		<input placeholder="상품 재고" name="modify_stock" value="${option.stock}">
+					  		<input placeholder="가격" name="modify_price" value="${option.price}">
 					  		<button type="button" class="float-right option-delete">삭제</button>
 					  	</div>
 					</c:forEach>

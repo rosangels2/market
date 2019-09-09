@@ -85,4 +85,8 @@ public interface ItemService {
 
 	boolean modifyImages(Integer item_no, String foremost_image);
 
+	boolean modifyItem(ItemVO iVo);
+
+	boolean modifyOption(OptionVO oVo1);
+
 }

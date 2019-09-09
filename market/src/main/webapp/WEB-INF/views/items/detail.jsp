@@ -269,18 +269,26 @@ $(document).ready(function(){
 		        	console.log("data3.select : " + data3.select);
 		        	console.log("data.oVo.detail : " + data.oVo.detail);
 					$('#item-price').val(data.oVo.price);
+					$('#stock').val(data.oVo.stock);
 		        }
 		  });
 	});
 
 	$('#stock-select').click(function(){
 		if($('#item-select').val() == 0){
+			alert('상품을 선택해 주세요');
 			return;
 		}
 		if($('#option-select').val() == 0){
+			alert('옵션을 선택해 주세요');
 			return;
 		}
 		if($('#stock-count').val() < 1){
+			alert('수량을 입력해 주세요');
+			return;
+		}
+		if($('#stock').val() < $('#stock-count').val){
+			alert("재고가 부족합니다.");
 			return;
 		}
 		var str = '<div class="info-box clearfix"><input type="hidden" name="option_no"><input readonly name="select" placeholder="선택 옵션"><input readonly name="detail" placeholder="세부 옵션"><input readonly name="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
@@ -573,6 +581,10 @@ function askTitleClick(){
 					<div class="item-price">
 						<h4>가격</h4>
 						<input readonly style="width: 80px;" id="item-price">원
+					</div>
+					<div class="stock">
+						<h4>재고</h4>
+						<input readonly style="width: 80px;" id="stock">개
 					</div>
 					<div class="item-stock">
 						<h4>선택 수량</h4> 
