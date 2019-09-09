@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.market.pagination.Criteria;
+import kr.green.market.pagination.PageMaker;
 import kr.green.market.service.BoardService;
 import kr.green.market.service.DeliveryService;
 import kr.green.market.service.ItemService;
@@ -63,9 +65,16 @@ public class ItemsController {
 	DeliveryService deliveryService;
 	
     @RequestMapping(value= "/list")
-    public ModelAndView itemList(ModelAndView mv, Model model) throws Exception{
-    	ArrayList<ItemVO> itemList = itemService.getItemList();
+    public ModelAndView itemList(ModelAndView mv, Model model, Criteria cri) throws Exception{
+    	cri.setPerPageNum(1);
+    	PageMaker pM = new PageMaker();	//pageMaker 객체를 생성 후 복사
+	    pM.setCriteria(cri);			//보여줄 게시글들의 설정을 수정
+	    pM.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)
+	    int totalCount = itemService.getTotalCount(cri);	//총 게시글 수를 계산하여 변수에 저장하는 인터페이스를 호출
+	    pM.setTotalCount(totalCount);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
+    	ArrayList<ItemVO> itemList = itemService.getItemList(cri);
     	model.addAttribute("itemList", itemList);
+    	model.addAttribute("pageMaker", pM);	//pageMaker의 객체를 model의 변수에 저장
         mv.setViewName("/items/list");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }

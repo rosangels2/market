@@ -11,8 +11,8 @@
 	select max(no) from market.item
 </select>
 <insert id="insertOption">
-	insert into market.option(item_no, option.select, detail, stock, price)
-		values(#{oVo.item_no}, #{oVo.select}, #{oVo.detail}, #{oVo.stock}, #{oVo.price})
+	insert into market.option(item_no, item_title, option.select, detail, stock, price)
+		values(#{oVo.item_no}, #{oVo.item_title}, #{oVo.select}, #{oVo.detail}, #{oVo.stock}, #{oVo.price})
 </insert>
 <insert id="insertFile">
 	insert into market.file(item_no,route)
@@ -32,7 +32,10 @@
 		where no = #{iVo.no}
 </update>
 <select id="selectItemList" resultType="kr.green.market.vo.ItemVO">
-	select * from market.item;
+	select * from market.item
+		where valid = 'I'
+		order by no desc	<!-- 게시글들을 내림차순으로 정렬(최신글부터 보여주기 위해) -->
+  		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
 </select>
 <select id="selectFiles" resultType="kr.green.market.vo.FileVO">
 	select * from market.file
@@ -184,4 +187,8 @@
 		set item_no = #{oVo.item_no}, item_title = #{oVo.item_title}, `select` = #{oVo.select}, `detail` = #{oVo.detail}, `stock` = #{oVo.stock}, `price` = #{oVo.price}, valid = #{oVo.valid}
 		where no = #{oVo.no}
 </update>
+<select id="getTotalCount" resultType="int">
+		select count(*) from `item` 
+			where valid = 'I'	<!-- 총 개시글 수를 계산하여 정수로 반환 -->
+	 </select>
 </mapper>

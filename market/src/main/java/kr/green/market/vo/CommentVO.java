@@ -53,6 +53,9 @@ public class CommentVO {
 		this.contents = contents;
 	}
 	public String getTime() {
+		if(time == null) {
+			return "";
+		}
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	//원하는 형식으로 시간을 보여주게 만드는 클래스
 		return f.format(time);	//변수 registered를 위의 형식으로 변환하여 반환
 	}

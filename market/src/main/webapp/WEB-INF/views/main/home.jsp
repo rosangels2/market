@@ -101,14 +101,6 @@ ul{
 	width: 368px;
 	height: 160px;
 }
-/* 더보기 버튼 */
-.more-img-box{
-	height: 60px;
-}
-.more-img-box .more-img{
-	font-size: 60px;
-	left: 500px;
-}
 /* 히든 숨김 페이지 */
 .hidden-page{
 	z-index: 10;
@@ -238,9 +230,6 @@ ul{
 								</a>					
 							</li>	
 						</ul>
-					</div>
-					<div class="more-img-box" style="text-align: center;">
-						<i class="fas fa-plus-square more-img"></i>
 					</div>
 				</div>
 			</div>

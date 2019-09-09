@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
@@ -31,7 +32,7 @@ public interface ItemDAO {
 
 	void updateItem(@Param("iVo")ItemVO iVo);
 
-	ArrayList<ItemVO> selectItemList();
+	ArrayList<ItemVO> selectItemList(@Param("cri")Criteria cri);
 
 	ArrayList<FileVO> selectFiles(@Param("item_no")Integer no);
 
@@ -106,5 +107,7 @@ public interface ItemDAO {
 	void updateWishlistImage(@Param("item_no")Integer item_no, @Param("image")String foremost_image);
 
 	void updateOption(@Param("oVo")OptionVO oVo1);
+
+	int getTotalCount(@Param("cri")Criteria cri);
 	
 }

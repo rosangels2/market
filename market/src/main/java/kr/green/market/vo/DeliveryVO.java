@@ -82,6 +82,9 @@ public class DeliveryVO {
 		this.phone = phone;
 	}
 	public String getStartTime() {
+		if(startTime == null) {
+			return "";
+		}
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	//원하는 형식으로 시간을 보여주게 만드는 클래스
 		return f.format(startTime);	//변수 registered를 위의 형식으로 변환하여 반환
 	}
@@ -94,6 +97,9 @@ public class DeliveryVO {
 		}
 	}
 	public String getEndTime() {
+		if(endTime == null) {
+			return "";
+		}
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	//원하는 형식으로 시간을 보여주게 만드는 클래스
 		return f.format(endTime);	//변수 registered를 위의 형식으로 변환하여 반환
 	}

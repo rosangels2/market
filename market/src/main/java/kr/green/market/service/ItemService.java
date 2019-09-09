@@ -2,6 +2,7 @@ package kr.green.market.service;
 
 import java.util.ArrayList;
 
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
@@ -23,7 +24,7 @@ public interface ItemService {
 
 	void registerFile(int itemNo);
 
-	ArrayList<ItemVO> getItemList();
+	ArrayList<ItemVO> getItemList(Criteria cri);
 
 	ItemVO getItem(Integer no);
 
@@ -88,5 +89,7 @@ public interface ItemService {
 	boolean modifyItem(ItemVO iVo);
 
 	boolean modifyOption(OptionVO oVo1);
+
+	int getTotalCount(Criteria cri);
 
 }

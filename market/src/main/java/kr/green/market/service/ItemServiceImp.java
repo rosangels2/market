@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.ItemDAO;
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
@@ -59,8 +60,8 @@ public class ItemServiceImp implements ItemService{
 		itemDao.updateItem(iVo);
 	}
 	@Override
-	public ArrayList<ItemVO> getItemList() {
-		return itemDao.selectItemList();
+	public ArrayList<ItemVO> getItemList(Criteria cri) {
+		return itemDao.selectItemList(cri);
 	}
 	@Override
 	public ItemVO getItem(Integer no) {
@@ -361,5 +362,10 @@ public class ItemServiceImp implements ItemService{
 		}
 		itemDao.updateOption(oVo1);
 		return true;
+	}
+	@Override
+	public int getTotalCount(Criteria cri) {
+		
+		return itemDao.getTotalCount(cri);
 	}
 }

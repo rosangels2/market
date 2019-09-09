@@ -41,7 +41,7 @@ ul{
 }
 /* 카테고리창 */
 .category{
-	border: 1px solid gray;
+
 }
 .category .category-contents{
 	position: relative;
@@ -86,11 +86,10 @@ ul{
 	font-size: 50px;
 	top: 0;
 	right: 0;
-}
+} 
 /* 페이지 선택창 */
 .page-select-contents{
 	height: 50px;
-	border: 1px solid gray;
 	position: relative;
 }
 .list-select-box{
@@ -116,7 +115,6 @@ ul{
 /* 상품 리스트 */
 .item-list-contents{
 	min-height : 600px;
-	border: 1px solid gray;
 }
 .item-contents{
 	height: 150px;
@@ -153,15 +151,7 @@ ul{
 	width: 300px;
 	height: 130px;
 }
-/* 더보기 버튼 */
-.more-img-box{
-	margin-top: 50px;
-	height: 60px;
-}
-.more-img-box .more-img{
-	font-size: 60px;
-	left: 500px;
-}
+
 /* 하단 페이지 */
 .bottom-contents{
 	height: 200px;
@@ -269,10 +259,31 @@ $(document).ready(function(){
 						</div>	
 					</c:forEach>																		
 				</div>
-			</div>
-			<div class="more-img-box" style="text-align: center;">
-				<i class="fas fa-plus-square more-img"></i>
-			</div>			
+				<ul class="pagination" style="justify-content: center;">
+				    <c:if test="${pageMaker.prev}">
+				        <li class="page-item">
+				            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.startPage-1}">Previous</a>
+				        </li>
+				    </c:if>
+				    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">
+				       <c:if test="${pageMaker.criteria.page == index}">
+				        <li class="page-item active">	<!-- 부트스트랩 active 클래스를 호출하여 css를 적용 -->
+				            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}">${index}</a>
+				        </li>
+				       </c:if>
+				       <c:if test="${pageMaker.criteria.page != index}">
+				        <li class="page-item">	
+				            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}">${index}</a>
+				        </li>
+				       </c:if>
+				    </c:forEach>
+				    <c:if test="${pageMaker.next}">
+				        <li class="page-item">
+				            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.endPage+1}">Next</a>
+				        </li>
+				    </c:if>
+				</ul>
+			</div>	
 			<div class="page-bottom">
 				<div class="bottom-contents">
 					
