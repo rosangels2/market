@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS `option`;
 CREATE TABLE `option` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `item_no` int(11) NOT NULL,
+  `item_title` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `select` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `detail` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `stock` int(11) DEFAULT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE `option` (
   PRIMARY KEY (`no`),
   KEY `fk_option_item1_idx` (`item_no`),
   CONSTRAINT `fk_option_item1` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +45,7 @@ CREATE TABLE `option` (
 
 LOCK TABLES `option` WRITE;
 /*!40000 ALTER TABLE `option` DISABLE KEYS */;
-INSERT INTO `option` VALUES (1,1,NULL,NULL,NULL,NULL,'I'),(2,1,'1','1',1,1,'I'),(3,3,'로지텍g1','블랙',393,30000,'I'),(4,3,'로지텍g1','레드(+10000)',394,40000,'I'),(5,3,'로지텍g2','블랙',384,30000,'I'),(6,3,'로지텍g2','레드+(20000)',384,50000,'I'),(7,3,'로지텍g3','그레이',444,30000,'I'),(8,3,'로지텍g3','옐로+(10000)',398,40000,'I'),(9,14,'1','1',1,1,'I'),(10,14,'2','2',2,2,'I'),(11,15,'','',NULL,NULL,'I'),(12,15,'','',NULL,NULL,'I'),(13,16,'1','1',1,1,'I'),(14,5,'g1','black',304,30000,'I'),(15,5,'g1','gray',858,30000,'I');
+INSERT INTO `option` VALUES (3,3,'로지텍 마우스','로지텍g1','블랙',393,30000,'I'),(4,3,'로지텍 마우스','로지텍g1','레드(+10000)',394,40000,'I'),(5,3,'로지텍 마우스','로지텍g2','블랙',384,30000,'I'),(6,3,'로지텍 마우스','로지텍g2','레드+(20000)',384,50000,'I'),(7,3,'로지텍 마우스','로지텍g3','그레이',444,30000,'I'),(8,3,'로지텍 마우스','로지텍g3','옐로+(10000)',398,40000,'I'),(16,3,'로지텍 마우스','로지텍g4','레인보우(+20000)',222,50000,'I'),(17,3,'로지텍 마우스','로지텍g4','화이트(+10000)',933,40000,'I');
 /*!40000 ALTER TABLE `option` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-06 17:23:19
+-- Dump completed on 2019-09-09 17:14:56

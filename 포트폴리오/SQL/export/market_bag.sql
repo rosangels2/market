@@ -33,6 +33,7 @@ CREATE TABLE `bag` (
   `detail` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`),
   KEY `fk_bag_member1_idx` (`id`),
@@ -62,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-06 17:23:17
+-- Dump completed on 2019-09-09 17:14:54
