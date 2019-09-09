@@ -95,6 +95,14 @@ public interface ItemDAO {
 
 	ArrayList<ItemVO> selectMyItemList(@Param("id")String id);
 
-	void modifyItem(@Param("iVo")ItemVO iVo);
+	void deleteOption(@Param("no")Integer no);
 
+	void deleteFile(@Param("no")Integer no);
+
+	void updateBuyImage(@Param("item_no")Integer item_no, @Param("image")String foremost_image);
+	
+	void updateBagImage(@Param("item_no")Integer item_no, @Param("image")String foremost_image);
+	
+	void updateWishlistImage(@Param("item_no")Integer item_no, @Param("image")String foremost_image);
+	
 }

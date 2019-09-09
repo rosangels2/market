@@ -281,7 +281,7 @@ public class ItemServiceImp implements ItemService{
 			return false;
 		}
 		iVo.setValid("D");
-		itemDao.modifyItem(iVo);
+		itemDao.updateItem(iVo);
 		return true;
 	}
 	@Override
@@ -290,5 +290,63 @@ public class ItemServiceImp implements ItemService{
 			return null;
 		}
 		return itemDao.selectOptions(item_no);
+	}
+	@Override
+	public boolean modifyForemostImage(ItemVO iVo) {
+		if(iVo == null) {
+			return false;
+		}
+		itemDao.updateItem(iVo);
+		return true;
+	}
+	@Override
+	public boolean deleteOptions(Integer item_no, Integer[] option_no) {
+		if(item_no == null || option_no == null) {
+			return false;
+		}
+		ArrayList<OptionVO> options = itemDao.selectOptions(item_no);
+		System.out.println("deleteOptions options : " + options);
+		for(int i=0; i<options.size(); i++) {
+			int count = 0;
+			for(int j=0; j<option_no.length; j++) {
+				if(options.get(i).getNo() == option_no[j]){
+					count = 1;
+				}
+			}
+			if(count == 0) {
+				itemDao.deleteOption(options.get(i).getNo());
+			}
+		}
+		return true;
+	}
+	@Override
+	public boolean deleteFiles(Integer item_no, Integer[] file_no) {
+		if(item_no == null || file_no == null) {
+			return false;
+		}
+		ArrayList<FileVO> files = itemDao.selectFiles(item_no);
+		System.out.println("deletefiles files : " + files);
+		for(int i=0; i<files.size(); i++) {
+			int count = 0;
+			for(int j=0; j<file_no.length; j++) {
+				if(files.get(i).getNo() == file_no[j]){
+					count = 1;
+				}
+			}
+			if(count == 0) {
+				itemDao.deleteFile(files.get(i).getNo());
+			}
+		}
+		return true;
+	}
+	@Override
+	public boolean modifyImages(Integer item_no, String foremost_image) {
+		if(item_no == null || foremost_image == "") {
+			return false;
+		}
+		itemDao.updateBuyImage(item_no, foremost_image);	//장바구니 이미지 변경
+		itemDao.updateBagImage(item_no, foremost_image);	//주문 이미지 변경
+		itemDao.updateWishlistImage(item_no, foremost_image);	//위시리스트 이미지 변경
+		return true;
 	}
 }

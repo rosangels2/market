@@ -237,7 +237,7 @@ public class ItemsController {
 				itemService.addFile(file, itemNo);	//파일 등록
 			}
 		}
-		itemService.registerFile(itemNo);	//파일명 등록
+		itemService.registerFile(itemNo);	//첫번째 파일을 대표 파일로 등록
         OptionVO oVo = new OptionVO();
         oVo.setItem_no(itemNo);
         itemService.registerOption(oVo, select, detail, stock, price);	//옵션 등록
@@ -282,10 +282,10 @@ public class ItemsController {
         model.addAttribute("itemList", itemList);
         return mv;
     }
-    @RequestMapping(value= "/modify")	//상품 수정
-    public ModelAndView itemModify(ModelAndView mv, Model model, Integer item_no, String id) throws Exception{
+    @RequestMapping(value= "/modify", method=RequestMethod.GET)	//상품 수정하기 페이지
+    public ModelAndView itemModifyGet(ModelAndView mv, Model model, Integer item_no, String id) throws Exception{
         mv.setViewName("/items/modify");
-        ItemVO iVo = itemService.getItem(item_no);	//아이템 정보 불렁괴
+        ItemVO iVo = itemService.getItem(item_no);	//아이템 정보 불러오기
         if(!iVo.getSeller_id().equals(id)) {
         	return mv;
         }
@@ -298,6 +298,33 @@ public class ItemsController {
         model.addAttribute("fileList", fileList);
         return mv;
     } 
+    @RequestMapping(value= "/modify", method=RequestMethod.POST)	//상품 수정하기
+    public String itemModifyPost(Model model, Integer item_no, String id, Integer[] option_no, Integer[] file_no, String foremost_image,
+    		String[] select,  String[] detail,  Integer[] stock,  Integer[] price, MultipartFile[] file2) throws Exception{
+        System.out.println("itemModifyPost item_no : " + item_no);
+        System.out.println("itemModifyPost id : " + id);
+        System.out.println("itemModifyPost foremost_image : " + foremost_image);
+    	model.addAttribute("id", id);
+    	ItemVO iVo = itemService.getItem(item_no);	//아이템 정보 불러오기
+        if(!iVo.getSeller_id().equals(id)) {		//판매자와 접속자가 일치하지 않을 경우 돌아가기
+        	return "redirect:/items/administration";
+        }
+        iVo.setFile(foremost_image);			
+        itemService.modifyForemostImage(iVo);				//대표 이미지 수정
+        itemService.modifyImages(item_no, foremost_image);	//위시리스트, 장바구니, 주문 이미지 변경
+        itemService.deleteOptions(item_no, option_no);		//옵션 삭제
+        itemService.deleteFiles(item_no, file_no);			//파일 삭제
+        for(MultipartFile tmp : file2){
+			if(tmp.getOriginalFilename().length() != 0) {
+				String file = UploadFileUtils.uploadFile(uploadPath, tmp.getOriginalFilename(),tmp.getBytes());
+				itemService.addFile(file, item_no);	//파일 등록
+			}
+		}
+        OptionVO oVo = new OptionVO();
+        oVo.setItem_no(item_no);
+        itemService.registerOption(oVo, select, detail, stock, price);	//옵션 등록
+    	return "redirect:/items/administration";
+    }
     @RequestMapping(value= "/myBuy")
     public ModelAndView myBuy(ModelAndView mv, Model model, Integer no) throws Exception{
         mv.setViewName("/items/myBuy");		//타일즈를 통해 불러올 jsp 경로

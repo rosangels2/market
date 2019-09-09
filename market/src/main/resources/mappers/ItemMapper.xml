@@ -28,8 +28,8 @@
 </select>
 <update id="updateItem">
 	update market.item
-		set category_no = #{iVo.category_no}, item.title = #{iVo.title}, item.file = #{iVo.file}, commend = #{iVo.commend}
-		where item.no = #{iVo.no}
+		set category_no = #{iVo.category_no}, title = #{iVo.title}, price = #{iVo.price}, information = #{iVo.information}, file = #{iVo.file}, commend = #{iVo.commend}, valid = #{iVo.valid}
+		where no = #{iVo.no}
 </update>
 <select id="selectItemList" resultType="kr.green.market.vo.ItemVO">
 	select * from market.item;
@@ -44,7 +44,7 @@
 </select>
 <select id="selectOptions" resultType="kr.green.market.vo.OptionVO">
 	select * from `option`
-		where item_no = #{item_no}
+		where item_no = #{item_no} and valid = 'I'
 </select>
 <select id="selectDetails" resultType="kr.green.market.vo.OptionVO">
 	select * from `option`
@@ -52,7 +52,7 @@
 </select>
 <select id="selectOption" resultType="kr.green.market.vo.OptionVO">
 	select * from `option`
-		where no = #{no}
+		where no = #{no} and valid = 'I'
 </select>
 <select id="selectCouponList" resultType="kr.green.market.vo.CouponBagVO">
 	select * from couponBag
@@ -60,7 +60,7 @@
 </select>
 <select id="selectCoupon" resultType="kr.green.market.vo.CouponVO">
 	select * from coupon
-		where no = #{no}
+		where no = #{no} and valid = 'I'
 </select>
 <insert id="insertBuy">
 	insert into buy(id, item_no, option_no, buy.select, detail, buy.count, price, request, image)
@@ -71,7 +71,7 @@
 </select>
 <select id="selectBuy" resultType="kr.green.market.vo.BuyVO">
 	select * from buy
-		where no = #{no}
+		where no = #{no} and valid = 'I'
 </select>
 <insert id="insertDelivery">
 	insert into delivery(buy_no, seller_name, contents, request, delivery.start, delivery.end)
@@ -82,7 +82,7 @@
 </select>
 <select id="selectDelivery" resultType="kr.green.market.vo.DeliveryVO">
 	select * from delivery
-		where no = #{no}
+		where no = #{no} and valid = 'I'
 </select>
 <update id="updateBuy">
 	update buy
@@ -91,7 +91,7 @@
 </update>
 <select id="selectBuyList" resultType="kr.green.market.vo.BuyVO">
 	select * from buy
-		where id = #{id}
+		where id = #{id} and valid = 'I'
 </select>
 <select id="selectWishlistAdd" resultType="kr.green.market.vo.WishlistVO">
 	select * from wishlist
@@ -129,7 +129,7 @@
 </update>
 <select id="selectCouponBag" resultType="kr.green.market.vo.CouponBagVO">
 	select * from couponbag
-		where coupon_no = #{coupon_no} and id = #{id}
+		where coupon_no = #{coupon_no} and id = #{id} and valid = 'I'
 </select>
 <select id="selectCouponBagList" resultType="kr.green.market.vo.CouponBagVO">
 	select * from couponbag
@@ -154,9 +154,29 @@
 	select * from `item`
 		where seller_id = #{id} and valid = 'I'
 </select>
-<update id="modifyItem">
-	update `item`
-		set category_no = #{iVo.category_no}, title = #{iVo.title}, price = #{iVo.price}, information = #{iVo.information}, file = #{iVo.file}, commend = #{iVo.commend}, valid = #{iVo.valid}
-		where no = #{iVo.no}
+<update id="deleteOption">
+	update `option`
+		set valid = 'D'
+		where no = #{no}
+</update>
+<update id="deleteFile">
+	update `file`
+		set valid = 'D'
+		where no = #{no}
+</update>
+<update id="updateBuyImage">
+	update buy
+		set image = #{image}
+		where item_no = #{item_no}
+</update>
+<update id="updateBagImage">
+	update bag
+		set image = #{image}
+		where item_no = #{item_no}
+</update>
+<update id="updateWishlistImage">
+	update wishlist
+		set image = #{image}
+		where item_no = #{item_no}
 </update>
 </mapper>

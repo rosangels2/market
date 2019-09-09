@@ -93,12 +93,27 @@
 	width: 200px;
 	padding: 5px;
 }
-
+.file-box input{
+	min-width: 300px;
+	margin-right: 30px;
+}
+.file-delete{
+	margin-right: 30px;
+}
+.foremost-image{
+	padding: 0 10px;
+}
+.foremost-image:hover{
+	cursor: pointer;
+}
 /* 하단 박스 */
 .bottom-box{
 	min-height: 100px;
 }
 /* 공통 적용 */
+.background-gray{
+	background-color: gray;
+}
 .display-none{
 	display: none;
 }
@@ -112,6 +127,31 @@ $(document).ready(function(){
 	$('.option-delete').click(function(){
 		$(this).parent().remove();
 	});
+	
+	//파일 삭제 클릭 시
+	$('.file-delete').click(function(){
+		var t = $('#foremost_image_backup').val();
+		var s = $(this).siblings('.file_route').val();
+		if($('input[name=foremost_image]').val() == s){
+			$('input[name=foremost_image]').val(t);
+		}
+		$(this).parent().remove();
+	});
+	
+	//대표 이미지 설정 클릭 시
+	$('.foremost-image').click(function(){
+		$('.foremost-image').removeClass('background-gray');
+		$(this).addClass('background-gray'); 
+		var s = $(this).siblings('.file_route').val();
+		$('input[name=foremost_image]').val(s);
+	});
+	
+	//등록하기 버튼 클릭 시
+	$('#register').click(function(){
+		$('#modify-form').submit();
+	});
+	
+	
 });	//레디
 function addOptionEvent(){
 	$('#add-option').click(function(){
@@ -137,9 +177,10 @@ function addInputEvent(){
 </script>
 </head>
 <div style="min-height: 1000px;">
-	<div class="views-page">
-		<input type="hidden" name="item_no" value="${item.no}">
-		<form method="post" action="<%=request.getContextPath()%>/items/register" enctype="multipart/form-data">
+	<div class="views-page">	
+		<form method="post" action="<%=request.getContextPath()%>/items/modify" enctype="multipart/form-data" id="modify-form">
+			<input type="hidden" name="item_no" value="${item.no}">
+			<input type="hidden" name="id" value="${user.id}">
 			<!-- 이미지 박스 -->
 			<div class="img-info">
 				<div class="img-info-contents clearfix">
@@ -204,12 +245,12 @@ function addInputEvent(){
 				<div class="option-info-contents">
 				  <c:forEach items="${optionList}" var="option">
 					  	<div class="info-box clearfix">
-					  		<input type="hidden" name="no" value="${option.no}"> 
-					  		<input placeholder="선택 옵션" name="select" readonly value="${option.select}">
-					  		<input placeholder="세부 옵션" name="detail" readonly value="${option.detail}">
-					  		<input placeholder="상품 재고" name="stock" readonly value="${option.stock}">
-					  		<input placeholder="가격" name="price" readonly value="${option.price}">
-					  		<button class="float-right option-delete">삭제</button>
+					  		<input type="hidden" name="option_no" value="${option.no}"> 
+					  		<input placeholder="선택 옵션"  readonly value="${option.select}">
+					  		<input placeholder="세부 옵션"  readonly value="${option.detail}">
+					  		<input placeholder="상품 재고"  readonly value="${option.stock}">
+					  		<input placeholder="가격" readonly value="${option.price}">
+					  		<button type="button" class="float-right option-delete">삭제</button>
 					  	</div>
 					</c:forEach>
 				</div>
@@ -240,17 +281,26 @@ function addInputEvent(){
 			</div>
 			<div class="form-group">
 			  <label style="font-size:30px;">첨부파일</label>
+			  <input type="hidden" name="foremost_image" value="${item.file}">
+			  <input type="hidden" id="foremost_image_backup" value="${item.file}">
 			  <c:forEach items="${fileList}" var="file">
-			  	<div class="file-box">
-			  		<input name="file" value="${file.fileName}">
-			  		<input type="hidden" name="file_route" value="${file.route}">
+			  	<div class="file-box clearfix">
+			  		<input value="${file.fileName}" class="float-left">
+			  		<button type="button" class="file-delete float-left">삭제</button>
+			  		<div class="float-left foremost-image">대표 이미지 설정</div>
+			  		<input type="hidden" class="file_route" value="${file.route}">
 			  		<input type="hidden" name="file_no" value="${file.no}">
 			  	</div>
 			  </c:forEach>
 			  <input type="file" class="form-control" name="file2" value="${file.fileName}">
 			</div>		
 			<div class="button-box clearfix">
-				<button><h3>등록하기</h3></button>
+				<a href="<%=request.getContextPath()%>/items/administration?id=${user.id}">
+					<button type="button" class="float-right" style="margin-left: 30px;" id="cancel">
+						<h3>취소</h3>
+					</button>
+				</a>
+				<button type="button" class="float-right" id="register"><h3>등록하기</h3></button>
 			</div>
 			<div class="bottom-box">
 				<div class="bottom-contents">

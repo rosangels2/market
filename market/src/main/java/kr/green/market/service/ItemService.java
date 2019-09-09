@@ -77,4 +77,12 @@ public interface ItemService {
 
 	ArrayList<OptionVO> getOptions(Integer item_no);
 
+	boolean modifyForemostImage(ItemVO iVo);
+
+	boolean deleteOptions(Integer item_no, Integer[] option_no);
+
+	boolean deleteFiles(Integer item_no, Integer[] file_no);
+
+	boolean modifyImages(Integer item_no, String foremost_image);
+
 }
