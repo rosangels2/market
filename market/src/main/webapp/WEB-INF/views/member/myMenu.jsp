@@ -175,8 +175,6 @@
 }
 .bag-price-box{
 	padding-right: 50px;
-	margin-top: 20px;
-	margin-bottom: 20px;
 } 
 .bag-price-box input{
 	width: 200px;

@@ -39,6 +39,7 @@ import kr.green.market.vo.AddressListVO;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CategoryVO;
 import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
@@ -66,6 +67,7 @@ public class ItemsController {
 	
     @RequestMapping(value= "/list")
     public ModelAndView itemList(ModelAndView mv, Model model, Criteria cri) throws Exception{
+    	mv.setViewName("/items/list");		//타일즈를 통해 불러올 jsp 경로
     	System.out.println("itemsList cri : " + cri);
     	cri.setPerPageNum(5);	//한 페이지에 보여줄 개수글 설정
     	PageMaker pM = new PageMaker();	//pageMaker 객체를 생성 후 복사
@@ -76,7 +78,15 @@ public class ItemsController {
     	ArrayList<ItemVO> itemList = itemService.getItemList(cri);
     	model.addAttribute("itemList", itemList);
     	model.addAttribute("pageMaker", pM);	//pageMaker의 객체를 model의 변수에 저장
-        mv.setViewName("/items/list");		//타일즈를 통해 불러올 jsp 경로
+        
+        ArrayList<CategoryVO> categoryList = itemService.getCategoryListAll();	//카테고리 목록 불러오기
+    	model.addAttribute("categoryList", categoryList);
+    	Set<String> categoryKind = new HashSet<String>();
+    	for(int i=0; i<categoryList.size(); i++) {			
+    		categoryKind.add(categoryList.get(i).getKind());	//카테고리 분류명 중복 제거
+    	}
+    	System.out.println("itemsList categoryKind : " + categoryKind);
+    	model.addAttribute("categoryKind", categoryKind);
         return mv;
     }
     @RequestMapping(value= "/detail")

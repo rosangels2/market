@@ -73,22 +73,24 @@ ul{
 }
 .selected-category-box{
 	position: relative;
-	width: 250px;
+	min-width: 250px;
 	height: 50px;
 	padding: 10px 10px;
-	/* 선택된 카테고리창 숨김 */
-	display: none;
 }
 .selected-category-box .category-text{
 	margin: 0;
-	width: 200px;
+	padding: 5px 0 0 20px;
+	min-width: 200px;
 }
 .selected-category-box i{
 	position: absolute;
-	font-size: 50px;
-	top: 0;
-	right: 0;
+	top: 7px;
+	right: -40px;
+	font-size: 40px;
 } 
+.selected-category-box i:hover{
+	cursor: pointer;
+}
 /* 페이지 선택창 */
 .page-select-contents{
 	height: 50px;
@@ -157,14 +159,51 @@ ul{
 .pagination{
 	margin-top: 15px;
 }
+/* 카테고리 히든 페이지 */
+.hidden-page{
+	z-index: 10;
+	min-height: 300px; 
+	position: absolute; 
+	width: 100%;
+	background-color: white;
+	top : 152px;
+	padding-left: 10px;
+}
+.hidden-page .hidden-li{
+	float:left;
+	width : calc( 100% / 5);
+	height : 200px; 
+	border : 1px solid gray;
+}
+.category-ul .category-li{
+	text-align: center;
+}
+.category-li a{
+	color: black;
+}
 
 /* 하단 페이지 */
 .bottom-contents{
 	height: 200px;
 }
+
+/* 공통 */
+.display-none{
+	display: none;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	//카테고리 내림 아이콘 클릭 시
+	$('.down-arrow').click(function(){
+		$('.hidden-page').toggleClass('display-none');
+	});
+	
+	//카테고리 취소 클릭 시
+	$('#category-cancel').click(function(){
+		$('#selected-category').addClass('display-none');
+	});
 	
 	//검색 아이콘 클릭 시
 	$('#search-icon').click(function(){
@@ -207,9 +246,13 @@ $(document).ready(function(){
 							<h3 class="category-text">전체 카테고리</h3>
 							<i class="fas fa-chevron-down down-arrow"></i>
 						</div>
-						<div class="selected-category-box float-left">
-							<h3 class="category-text">현재 카테고리</h3>
-							<i class="fas fa-times float-right"></i>
+						<div class="selected-category-box float-left clearfix" id="selected-category">
+							<c:forEach items="${categoryList}" var="category">
+								<c:if test="${pageMaker.criteria.category eq category.no}">
+									<h5 class="category-text">${category.kind}/${category.detail}</h5>
+									<i class="fas fa-times float-right" id="category-cancel"></i>
+								</c:if>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
@@ -312,6 +355,30 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</form>
+		</div>
+		<!-- 카테고리 숨김 페이지 -->
+		<div class="hidden-page clearfix display-none">
+			<div class="hidden-contents clearfix">
+				<ul class="clearfix" style="margin: 0;">
+					<c:forEach items="${categoryKind}" var="kind">
+						<li class="hidden-li">
+							<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
+								<h4 style="text-align: center; margin : 0;">${kind}</h3>
+							</div>
+							<ul class="category-ul">
+								<c:forEach items="${categoryList}" var="category">
+									<c:if test="${category.kind eq kind}">
+										<li class="category-li">
+											<input type="hidden" name="category_no" value="${category.no}">
+											<a href="<%=request.getContextPath()%>/items/list?category=${category.no}">${category.detail}</a>
+										</li>
+									</c:if>
+								</c:forEach>
+							</ul>
+						</li>				
+					</c:forEach>							
+				</ul>
+			</div>
 		</div>
 	</div>
 </html>

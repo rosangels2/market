@@ -49,7 +49,7 @@ public class HomeController {
     	mv.setViewName("/main/home");		//타일즈를 통해 불러올 jsp 경로
     	ArrayList<ItemVO> itemList = itemService.getItemListAll();	//메인화면 아이템 목록 불러오기
     	model.addAttribute("itemList", itemList);
-    	ArrayList<CategoryVO> categoryList = itemService.getCategoryListAll();
+    	ArrayList<CategoryVO> categoryList = itemService.getCategoryListAll();	//카테고리 목록 불러오기
     	model.addAttribute("categoryList", categoryList);
     	Set<String> categoryKind = new HashSet<String>();
     	for(int i=0; i<categoryList.size(); i++) {			
