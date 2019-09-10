@@ -15,9 +15,16 @@ public class ItemVO {
 	private String file;
 	private Date time;
 	private Integer commend;
+	private Integer comment;
 	private String valid;
 	
 	
+	public Integer getComment() {
+		return comment;
+	}
+	public void setComment(Integer comment) {
+		this.comment = comment;
+	}
 	public Integer getPrice() {
 		return price;
 	}
@@ -97,13 +104,12 @@ public class ItemVO {
 		}
 		return file.substring(index+1);	// _ 다음 위치의 문자열을 서브스트링으로 변환하여 반환
 	}
-
+	
 	
 	@Override
 	public String toString() {
 		return "ItemVO [no=" + no + ", category_no=" + category_no + ", seller_id=" + seller_id + ", title=" + title
 				+ ", price=" + price + ", information=" + information + ", file=" + file + ", time=" + time
-				+ ", commend=" + commend + ", valid=" + valid + "]";
+				+ ", commend=" + commend + ", comment=" + comment + ", valid=" + valid + "]";
 	}
-
 }

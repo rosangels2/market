@@ -92,4 +92,6 @@ public interface ItemService {
 
 	int getTotalCount(Criteria cri);
 
+	ArrayList<ItemVO> getItemListAll();
+
 }

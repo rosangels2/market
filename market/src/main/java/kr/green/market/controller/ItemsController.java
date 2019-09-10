@@ -66,7 +66,8 @@ public class ItemsController {
 	
     @RequestMapping(value= "/list")
     public ModelAndView itemList(ModelAndView mv, Model model, Criteria cri) throws Exception{
-    	cri.setPerPageNum(1);
+    	System.out.println("itemsList cri : " + cri);
+    	cri.setPerPageNum(5);	//한 페이지에 보여줄 개수글 설정
     	PageMaker pM = new PageMaker();	//pageMaker 객체를 생성 후 복사
 	    pM.setCriteria(cri);			//보여줄 게시글들의 설정을 수정
 	    pM.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)

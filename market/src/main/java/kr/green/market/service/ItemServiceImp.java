@@ -368,4 +368,8 @@ public class ItemServiceImp implements ItemService{
 		
 		return itemDao.getTotalCount(cri);
 	}
+	@Override
+	public ArrayList<ItemVO> getItemListAll() {
+		return itemDao.selectItemListAll();
+	}
 }

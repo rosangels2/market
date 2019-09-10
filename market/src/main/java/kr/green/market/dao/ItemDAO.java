@@ -109,5 +109,7 @@ public interface ItemDAO {
 	void updateOption(@Param("oVo")OptionVO oVo1);
 
 	int getTotalCount(@Param("cri")Criteria cri);
+
+	ArrayList<ItemVO> selectItemListAll();
 	
 }

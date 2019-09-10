@@ -26,6 +26,7 @@ import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
+import kr.green.market.vo.ItemVO;
 import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.SellerVO;
 import kr.green.market.vo.WishlistVO;
@@ -41,8 +42,11 @@ public class HomeController {
 	ItemService itemService;
 	
     @RequestMapping(value= "/")
-    public ModelAndView home(ModelAndView mv) throws Exception{
-        mv.setViewName("/main/home");		//타일즈를 통해 불러올 jsp 경로
+    public ModelAndView home(ModelAndView mv, Model model) throws Exception{
+    	mv.setViewName("/main/home");		//타일즈를 통해 불러올 jsp 경로
+    	ArrayList<ItemVO> itemList = itemService.getItemListAll();
+    	System.out.println("home itemList : " + itemList);
+    	model.addAttribute("itemList", itemList);
         return mv;
     }
     @RequestMapping(value= "/signup", method = RequestMethod.GET)

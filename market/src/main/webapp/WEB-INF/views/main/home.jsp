@@ -12,6 +12,9 @@ ul{
 	list-style: none;
 	display: block;
 }
+.views-page{
+
+}
 /* 검색창 */
 .search-contents{
 	position: relative;
@@ -49,7 +52,6 @@ ul{
 }
 .category-contents .category-box{
 	position : relative;
-	border: 1px solid gray;
 	width: 300px;
 	height: 50px;
 	padding-top: 5px;
@@ -61,13 +63,16 @@ ul{
 }
 .category-box .category-text{
 	position: absolute;
-	left: 65px;
+	left: 55px;
 	margin: 4px 0 0 0;
 }
 .category-box .down-arrow{
 	position: absolute;
 	left: 260px;
 	font-size: 40px;
+}  
+.down-arrow:hover{
+	cursor: pointer;
 }
 /* 상품정보 */
 .items{
@@ -91,7 +96,6 @@ ul{
 }
 .items-li .img-box{
 	height: 160px;
-	border-bottom: 1px solid gray;
 }
 .items-li h5{
 	margin: 5px 0 0 5px;
@@ -101,6 +105,10 @@ ul{
 	width: 368px;
 	height: 160px;
 }
+/* 하단 */
+.page-bottom{
+	min-height: 100px;
+}
 /* 히든 숨김 페이지 */
 .hidden-page{
 	z-index: 10;
@@ -109,8 +117,6 @@ ul{
 	width: 100%;
 	background-color: white;
 	top : 152px;
-	/* 전체 카테고리 창 숨김 */
- 	display: none; 
 }
 .hidden-page .hidden-li{
 	float:left;
@@ -124,21 +130,53 @@ ul{
 .category-li a{
 	color: black;
 }
+
+/* 공통 */
+.display-none{
+	display: none;
+}
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	//카테고리 내림 아이콘 클릭 시
+	$('.down-arrow').click(function(){
+		$('.hidden-page').toggleClass('display-none');
+	});
+	
+	//검색 아이콘 클릭 시
+	$('#search-icon').click(function(){
+		if($('#search').val() == ""){
+			alert('검색값을 입력해 주세요.');
+			return false;
+		}
+		$('#search-form').submit();
+	});
+	
+});		//레디
+</script>
 </head>
 	<div style="min-height: 1000px; position: relative;">
 		<div class="views-page">
 			<div class="search">
 				<div class="search-contents">
-					<div class="search-text"><img src="<%=request.getContextPath()%>/resources/images/search-text.jpg"></div>
-					<div class="search-input"><input class="input"></div>
-					<div class="search-img"><i class="fas fa-search img" style="font-size: 40px;"></i></div>
+					<form method="get" action="<%=request.getContextPath()%>/items/list" id="search-form">
+						<div class="search-text">
+							<img src="<%=request.getContextPath()%>/resources/images/search-text.jpg">
+						</div>
+						<div class="search-input">
+							<input type="hidden" name="type" value="1">
+							<input class="input" name="search" id="search" value="${pageMaker.criteria.search}">
+						</div>
+						<div class="search-img">
+							<i class="fas fa-search img" style="font-size: 40px;" id="search-icon"></i>
+						</div>
+					</form>
 				</div>
 			</div>
 			<div class="category">
 				<div class="category-contents">
 					<div class="category-box">
-						<i class="fas fa-bars category-menu"></i>
 						<h3 class="category-text">전체 카테고리</h3>
 						<i class="fas fa-chevron-down down-arrow"></i>
 					</div>
@@ -148,87 +186,17 @@ ul{
 				<div class="items-contents">
 					<div class="items-box">
 						<ul class="items-ul clearfix">
-							<li class="items-li">
-								<div class="img-box">
-									<img src="<%=request.getContextPath()%>/resources/images/광선검.png">
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">광선검</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									<img src="<%=request.getContextPath()%>/resources/images/남자 면티.jpg">
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">남자 면티</h5>
-									<h5 style="float: right;">20000원</h5>
-								</a>
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									<img src="<%=request.getContextPath()%>/resources/images/목걸이.jpg">
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">목걸이</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>						
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									<img src="<%=request.getContextPath()%>/resources/images/블라우스.jpg">
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">블라우스</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>						
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									<img src="<%=request.getContextPath()%>/resources/images/큐티 권총.jpg">
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">큐티 권총</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>						
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									<img src="<%=request.getContextPath()%>/resources/images/호랑이 잠옷.jpg">
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">호랑이 잠옷</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>					
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">블라우스</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>						
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">큐티 권총</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>						
-							</li>
-							<li class="items-li">
-								<div class="img-box">
-									
-								</div>
-								<a href="#">
-									<h5 style="display: inline-block;">호랑이 잠옷</h5>
-									<h5 style="float: right;">30000원</h5>
-								</a>					
-							</li>	
+							<c:forEach items="${itemList}" var="item">
+								<li class="items-li">
+									<div class="img-box">
+										<img src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
+									</div>
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
+										<h5 style="display: inline-block;">${item.title}</h5>
+										<h5 style="float: right;">${item.price}원</h5>
+									</a>
+								</li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
@@ -238,7 +206,7 @@ ul{
 			</div>
 		</div>
 		<!-- 히든 숨김 페이지 -->
-		<div class="hidden-page">
+		<div class="hidden-page display-none">
 			<div class="hidden-contents">
 				<ul class="clearfix" style="margin: 0;">
 					<li class="hidden-li">
@@ -251,106 +219,7 @@ ul{
 							<li class="category-li"><a href="#">카테고리 상세</a></li>
 							<li class="category-li"><a href="#">카테고리 상세</a></li>
 						</ul>
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>					
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>					
-					</li>														
+					</li>													
 				</ul>
 			</div>
 		</div>

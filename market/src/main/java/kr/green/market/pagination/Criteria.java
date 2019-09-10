@@ -4,12 +4,28 @@ public class Criteria {
 
 	private int page;		//현재 페이지를 저장할 멤버변수
 	private int perPageNum;	//한 페이지에 보여줄 개시글 개수를 정하는 멤버변수
+	private int type;		//검색 카테고리 값을 저장할 멤버변수
+	private String search;	//검색창에 입력된 값을 저장할 멤버변수
 	
 	public Criteria() {	//기본 생성자
 		this.page = 1;
 		this.perPageNum = 10;
+		this.type = 0;
+		this.search = "";
 	}
 
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
 	public int getPage() {
 		return page;
 	}
@@ -33,11 +49,11 @@ public class Criteria {
 
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + "]";
+		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", type=" + type + ", search=" + search + "]";
 	}
 
 	public int getPageStart() {
 		return (this.page -1) * perPageNum;	//getBoardList에서 limit을 통해 보여줄 개시글 수를 제한할 때 사용될 getter
 	}	//쿼리문에선 멤버변수를 호출하는 게 아니라 멤버변수의 getter를 호출하기 때문에 생성하지 않은 멤버변수여도 getter를 생성해서 호출 가능(기존 멤버변수로 계산이 가능하기 때문)
-
+	
 }

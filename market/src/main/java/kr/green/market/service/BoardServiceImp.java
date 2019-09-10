@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.AdminDAO;
 import kr.green.market.dao.BoardDAO;
+import kr.green.market.dao.ItemDAO;
 import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.CommentVO;
+import kr.green.market.vo.ItemVO;
 
 @Service
 public class BoardServiceImp implements BoardService{
@@ -17,6 +19,8 @@ public class BoardServiceImp implements BoardService{
 	BoardDAO boardDao;
 	@Autowired
 	AdminDAO adminDao;
+	@Autowired
+	ItemDAO itemDao;
 	
 	@Override
 	public BoardVO registerAsk(String category, Integer board_no, String writer, String title, String contents) {
@@ -56,9 +60,13 @@ public class BoardServiceImp implements BoardService{
 		if(category == "" || board_no == null || writer == "" || contents == "") {
 			return null;
 		}
-		boardDao.insertComment(category, board_no, writer, to, contents);
-		int no = boardDao.selectMaxComment();
-		System.out.println("selectMaxComment no : " + no);
+		boardDao.insertComment(category, board_no, writer, to, contents);	//댓글 등록
+		int no = boardDao.selectMaxComment();	//등록한 댓글 번호 가져오기
+		ItemVO iVo = itemDao.selectItem(board_no);
+		if(iVo != null){
+			iVo.setComment(iVo.getComment()+1);		//댓글 수 증가
+			itemDao.updateItem(iVo);
+		}
 		return boardDao.selectComment(no);
 	}
 

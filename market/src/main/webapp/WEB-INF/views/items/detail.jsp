@@ -287,7 +287,9 @@ $(document).ready(function(){
 			alert('수량을 입력해 주세요');
 			return;
 		}
-		if($('#stock').val() < $('#stock-count').val){
+		var s = $('#stock').val();
+		var t = $('#stock-count').val();
+		if(parseInt(s) < parseInt(t)){
 			alert("재고가 부족합니다.");
 			return;
 		}
