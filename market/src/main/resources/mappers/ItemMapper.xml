@@ -34,6 +34,7 @@
 <select id="selectItemList" resultType="kr.green.market.vo.ItemVO">
 	select * from market.item
 		where valid = 'I'
+		<if test="cri.category != 0">and category_no = #{cri.category}</if>
 		<choose>
 			<when test="cri.type == 1">and title like concat('%', #{cri.search}, '%') order by no desc</when>
 			<when test="cri.type == 2">and title like concat('%', #{cri.search}, '%') order by commend desc</when>
@@ -196,6 +197,7 @@
 </update>
 <select id="getTotalCount" resultType="int">
 		select count(*) from `item` where valid = 'I'	<!-- 총 개시글 수를 계산하여 정수로 반환 -->
+		<if test="cri.category != 0">and category_no = #{cri.category}</if>
 		<choose>
 			<when test="cri.type == 1">and title like concat('%', #{cri.search}, '%') order by no desc</when>
 			<when test="cri.type == 2">and title like concat('%', #{cri.search}, '%') order by commend desc</when>

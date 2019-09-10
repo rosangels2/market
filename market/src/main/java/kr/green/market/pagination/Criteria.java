@@ -5,13 +5,23 @@ public class Criteria {
 	private int page;		//현재 페이지를 저장할 멤버변수
 	private int perPageNum;	//한 페이지에 보여줄 개시글 개수를 정하는 멤버변수
 	private int type;		//검색 카테고리 값을 저장할 멤버변수
+	private int category;
 	private String search;	//검색창에 입력된 값을 저장할 멤버변수
 	
 	public Criteria() {	//기본 생성자
 		this.page = 1;
 		this.perPageNum = 10;
 		this.type = 0;
+		this.category = 0;
 		this.search = "";
+	}
+	
+	public int getCategory() {
+		return category;
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
 	}
 
 	public int getType() {
@@ -49,7 +59,8 @@ public class Criteria {
 
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", type=" + type + ", search=" + search + "]";
+		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", type=" + type + ", category=" + category
+				+ ", search=" + search + "]";
 	}
 
 	public int getPageStart() {

@@ -192,6 +192,7 @@ $(document).ready(function(){
 						<div class="search-text"><img src="<%=request.getContextPath()%>/resources/images/search-text.jpg"></div>
 						<div class="search-input">
 							<input class="input" name="search" id="search" value="${pageMaker.criteria.search}">
+							<input type="hidden" name="category" id="category" value="${pageMaker.criteria.category}">
 						</div>
 						<div class="search-img">
 							<i class="fas fa-search img" style="font-size: 40px;" id="search-icon"></i>
@@ -283,24 +284,24 @@ $(document).ready(function(){
 					<ul class="pagination" style="justify-content: center;">
 					    <c:if test="${pageMaker.prev}">
 					        <li class="page-item">
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}">Previous</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">Previous</a>
 					        </li>
 					    </c:if>
 					    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">
 					       <c:if test="${pageMaker.criteria.page == index}">
 					        <li class="page-item active">	<!-- 부트스트랩 active 클래스를 호출하여 css를 적용 -->
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}">${index}</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">${index}</a>
 					        </li>
 					       </c:if>
 					       <c:if test="${pageMaker.criteria.page != index}">
 					        <li class="page-item">	
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}">${index}</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">${index}</a>
 					        </li>
 					       </c:if>
 					    </c:forEach>
 					    <c:if test="${pageMaker.next}">
 					        <li class="page-item">
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}">Next</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">Next</a>
 					        </li>
 					    </c:if>
 					</ul>

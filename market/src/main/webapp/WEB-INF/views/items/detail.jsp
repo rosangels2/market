@@ -582,7 +582,7 @@ function askTitleClick(){
 					</div>
 					<div class="item-price">
 						<h4>가격</h4>
-						<input readonly style="width: 80px;" id="item-price">원
+						<input readonly style="width: 80px;" id="item-price" value="${item.price}">원
 					</div>
 					<div class="stock">
 						<h4>재고</h4>

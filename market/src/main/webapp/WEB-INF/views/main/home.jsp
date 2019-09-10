@@ -220,7 +220,7 @@ $(document).ready(function(){
 									<c:if test="${category.kind eq kind}">
 										<li class="category-li">
 											<input type="hidden" name="category_no" value="${category.no}">
-											<a href="#">${category.detail}</a>
+											<a href="<%=request.getContextPath()%>/items/list?category=${category.no}">${category.detail}</a>
 										</li>
 									</c:if>
 								</c:forEach>
