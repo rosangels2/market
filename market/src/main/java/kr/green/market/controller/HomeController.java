@@ -4,7 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CategoryVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.ItemVO;
@@ -44,9 +47,16 @@ public class HomeController {
     @RequestMapping(value= "/")
     public ModelAndView home(ModelAndView mv, Model model) throws Exception{
     	mv.setViewName("/main/home");		//타일즈를 통해 불러올 jsp 경로
-    	ArrayList<ItemVO> itemList = itemService.getItemListAll();
-    	System.out.println("home itemList : " + itemList);
+    	ArrayList<ItemVO> itemList = itemService.getItemListAll();	//메인화면 아이템 목록 불러오기
     	model.addAttribute("itemList", itemList);
+    	ArrayList<CategoryVO> categoryList = itemService.getCategoryListAll();
+    	model.addAttribute("categoryList", categoryList);
+    	Set<String> categoryKind = new HashSet<String>();
+    	for(int i=0; i<categoryList.size(); i++) {			
+    		categoryKind.add(categoryList.get(i).getKind());	//카테고리 분류명 중복 제거
+    	}
+    	System.out.println("home categoryKind : " + categoryKind);
+    	model.addAttribute("categoryKind", categoryKind);
         return mv;
     }
     @RequestMapping(value= "/signup", method = RequestMethod.GET)

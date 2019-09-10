@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CategoryVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -93,5 +94,7 @@ public interface ItemService {
 	int getTotalCount(Criteria cri);
 
 	ArrayList<ItemVO> getItemListAll();
+
+	ArrayList<CategoryVO> getCategoryListAll();
 
 }

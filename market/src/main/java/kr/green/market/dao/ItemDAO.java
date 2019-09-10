@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CategoryVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -111,5 +112,7 @@ public interface ItemDAO {
 	int getTotalCount(@Param("cri")Criteria cri);
 
 	ArrayList<ItemVO> selectItemListAll();
+
+	ArrayList<CategoryVO> selectCategoryListAll();
 	
 }

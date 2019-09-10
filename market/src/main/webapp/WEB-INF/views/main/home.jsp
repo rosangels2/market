@@ -55,6 +55,7 @@ ul{
 	width: 300px;
 	height: 50px;
 	padding-top: 5px;
+	border-right: 1px solid gray;
 }
 .category-box .category-menu{
 	position: absolute;
@@ -121,7 +122,7 @@ ul{
 .hidden-page .hidden-li{
 	float:left;
 	width : calc( 100% / 5);
-	height : 150px;
+	height : 200px; 
 	border : 1px solid gray;
 }
 .category-ul .category-li{
@@ -206,20 +207,26 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<!-- 히든 숨김 페이지 -->
-		<div class="hidden-page display-none">
-			<div class="hidden-contents">
+		<div class="hidden-page clearfix display-none">
+			<div class="hidden-contents clearfix">
 				<ul class="clearfix" style="margin: 0;">
-					<li class="hidden-li">
-						<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
-							<h4 style="text-align: center; margin : 0;">카테고리 분류</h3>
-						</div>
-						<ul class="category-ul">
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-							<li class="category-li"><a href="#">카테고리 상세</a></li>
-						</ul>
-					</li>													
+					<c:forEach items="${categoryKind}" var="kind">
+						<li class="hidden-li">
+							<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
+								<h4 style="text-align: center; margin : 0;">${kind}</h3>
+							</div>
+							<ul class="category-ul">
+								<c:forEach items="${categoryList}" var="category">
+									<c:if test="${category.kind eq kind}">
+										<li class="category-li">
+											<input type="hidden" name="category_no" value="${category.no}">
+											<a href="#">${category.detail}</a>
+										</li>
+									</c:if>
+								</c:forEach>
+							</ul>
+						</li>				
+					</c:forEach>							
 				</ul>
 			</div>
 		</div>

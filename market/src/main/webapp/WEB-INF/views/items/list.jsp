@@ -135,7 +135,6 @@ ul{
 .item-contents .item-info{
 	width: 180px;
 	height: 130px;
-	border: 1px solid gray;
 	position: relative;
 }
 .item-info div{

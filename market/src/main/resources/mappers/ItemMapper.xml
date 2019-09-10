@@ -196,12 +196,23 @@
 </update>
 <select id="getTotalCount" resultType="int">
 		select count(*) from `item` where valid = 'I'	<!-- 총 개시글 수를 계산하여 정수로 반환 -->
-		<if test="cri.type == 1">and title like concat('%', #{cri.search}, '%')</if>
+		<choose>
+			<when test="cri.type == 1">and title like concat('%', #{cri.search}, '%') order by no desc</when>
+			<when test="cri.type == 2">and title like concat('%', #{cri.search}, '%') order by commend desc</when>
+			<when test="cri.type == 3">and title like concat('%', #{cri.search}, '%') order by price asc</when>
+			<when test="cri.type == 4">and title like concat('%', #{cri.search}, '%') order by price desc</when>
+			<when test="cri.type == 5">and title like concat('%', #{cri.search}, '%') order by comment desc</when>
+			<otherwise>order by no desc</otherwise>
+		</choose>
 </select>
 <select id="selectItemListAll" resultType="kr.green.market.vo.ItemVO">
 	select * from `item` 
 		where valid = 'I'
 		order by no desc
 		limit 0, 30
+</select>
+<select id="selectCategoryListAll" resultType="kr.green.market.vo.CategoryVO">
+	select * from `category`
+		where valid = 'I'
 </select>
 </mapper>

@@ -9,6 +9,7 @@ import kr.green.market.dao.ItemDAO;
 import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
+import kr.green.market.vo.CategoryVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -371,5 +372,9 @@ public class ItemServiceImp implements ItemService{
 	@Override
 	public ArrayList<ItemVO> getItemListAll() {
 		return itemDao.selectItemListAll();
+	}
+	@Override
+	public ArrayList<CategoryVO> getCategoryListAll() {
+		return itemDao.selectCategoryListAll();
 	}
 }
