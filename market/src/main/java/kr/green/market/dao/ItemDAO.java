@@ -114,5 +114,9 @@ public interface ItemDAO {
 	ArrayList<ItemVO> selectItemListAll();
 
 	ArrayList<CategoryVO> selectCategoryListAll();
+
+	BagVO selectBag(@Param("no")Integer no);
+
+	void updateBag(@Param("bVo")BagVO bVo);
 	
 }

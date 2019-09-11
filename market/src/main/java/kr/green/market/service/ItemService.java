@@ -97,4 +97,6 @@ public interface ItemService {
 
 	ArrayList<CategoryVO> getCategoryListAll();
 
+	boolean deleteBag(Integer no, String id);
+
 }

@@ -23,7 +23,10 @@
 	height: calc( 100% / 9 );
 	border-bottom: 1px solid gray;
 	text-align: center;
-	padding-top: 20px;
+	padding: 15px 0 10px 0;
+}
+.nav-box:hover{
+	cursor: pointer;
 }
 /* 주문 내역 보기 */
 .list-contents{
@@ -136,18 +139,11 @@
 	padding: 10px;
 }
 .button-box{
-	width: 15%;
-	height: 150px;
-	float: left;
-	padding: 10px;
+	padding: 7px 10px 0 10px;
 }
 .item-img-box img{
 	width: 264px;
 	height: 130px;
-}
-.button-box button{
-	margin-top: 40px;
-	width: 100px;
 }
 /* 장바구니 클릭 시 */
 .bag-contents{
@@ -170,8 +166,15 @@
 	border: none;
 	text-align: center; 
 }
-.bag-info-box input{
-	width: 300px; 
+.bag-info-box{
+	position: relative;
+	height: 150px;
+	width: 634px; 
+	padding: 10px;
+}
+.bag-info-box div{
+	width: 100%;
+	height: calc( 100% / 3 );
 }
 .bag-price-box{
 	padding-right: 50px;
@@ -202,6 +205,13 @@
 .order-price-box input{
 	float: left;
 	margin: 0 10px;
+}
+.checkbox-box{
+	padding: 60px 0 0 10px;
+}
+.bag-checkbox{
+	width: 20px;
+	height: 20px;
 }
 /* 쿠폰함 클릭 시 */
 .coupon-bag-contents{
@@ -457,6 +467,53 @@ $(document).ready(function(){
 			return false;
 		}
 		return true;
+	});
+	
+	//장바구니 삭제 시
+	$('.bag-delete').click(function(){
+		var parents = $(this).parents('.bag-box');
+		var s = confirm('정말로 삭제하시곘습니까?');
+		var no = $(this).siblings('input[name=bag_no]').val();
+		var id = $('input[name=id]').val();
+		if(s){
+			$.ajax({
+		        async:false,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{"no": no, "id": id},
+		        url:"<%=request.getContextPath()%>/deleteBag",
+		        dataType:"json",
+		       //contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						alert("장바구니를 삭제합니다.");
+						parents.remove();
+					}else{
+						alert("요청에 실패했습니다.");
+					}
+		        }
+		    });
+		}
+	});
+	
+	//장바구니 수정 시
+	$('.bag-modify').click(function(){
+		var q = $(this).parents('.bag-box').find('input[name=price]').val();	//기존 가격
+		var a = $(this).parents('.bag-box').find('input[name=count]').val();	//바뀐 수량
+		var s = $(this).parents('.bag-box').find('input[name=original_price]').val();	//개당 가격
+		var d = parseInt(a*s);	//수량 * 개당 가격
+		var f = parseInt(d-q);	//바뀐 가격 - 원래 가격
+		var g = parseInt($('input[name=total_price]').val());		//최종 가격
+		$(this).parents('.bag-box').find('input[name=price]').val(parseInt(a*s));
+		$('input[name=total_price]').val(g+f);
+	});
+	
+	//장바구니 체크 해제 시
+	$('.bag-checkbox').change(function(){
+		if($(this).prop("checked")){	//체크한 경우
+			alert("체크");
+		}else{	//체크를 해제한 경우
+			alert("체크해제");
+		}
 	});
 	
 	//쿠폰 받기
@@ -844,31 +901,32 @@ function menuClick(selecter){
 							<form method="post" action="<%=request.getContextPath()%>/items/order" id="bag-form">
 								<input type="hidden" value="${user.id}" name="id">
 								<c:forEach items="${bagList}" var="bag">
-									<div class="bag-box">
+									<div class="bag-box clearfix">
 										<input type="hidden" name="bag_no" value="${bag.no}">
 										<input type="hidden" name="item_no" value="${bag.item_no}">
 										<input type="hidden" name="option_no" value="${bag.option_no}">
-										<div class="bag-img-box clearfix">
-											<div class="item-img-box">
+										<div class="checkbox-box clearfix float-left">
+											<input type="checkbox" class="bag-checkbox" checked>
+										</div>
+										<div class="bag-img-box float-left clearfix">
+											<div class="item-img-box clearfix">
 												<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${bag.image}">
 											</div>
 										</div>
-										<div class="bag-info-box">
-											<div class="price-set clearfix">
-												<h4 class="float-left" style="margin: 0 10px;">선택 상품</h4><input readonly name="select" value="${bag.select}">
-												<h4 class="float-left">세부 옵션</h4><input readonly name="detail" value="${bag.detail}">
+										<div class="bag-info-box float-left clearfix">
+											<div class="info">
+												상품명<input readonly name="select" value="${bag.select}" style="width:250px;">
+												옵션명<input readonly name="detail" value="${bag.detail}" style="width:250px;">
 											</div>
-										</div>
-										<div class="bag-price-box">
-											<div class="price-set clearfix">
-												<h4 class="float-left" style="margin: 0 10px;">선택 수량</h4><input style="border:1px solid gray;" name="count" value="${bag.count}">
-												<h4 class="float-left">총 가격</h4><input readonly name="price" value="${bag.price}">
-												<button type="button" class="float-right" id="bag-delete">
-													<h5>삭제하기</h5>
-												</button>
-												<button type="button" class="float-right" style="margin-right: 30px;" id="bag-modify">
-													<h5>수정하기</h5>
-												</button>
+											<div class="count">
+												수량<input name="count" value="${bag.count}" style="margin: 0 100px 0 20px; border: 1px solid gray;">
+												가격<input readonly name="price" value="${bag.price}">
+												<input type="hidden" name="original_price" value="${bag.price}">
+											</div>
+											<div class="button-box clearfix">
+												<input name="bag_no" value="${bag.no}" type="hidden">
+												<button type="button" class="bag-delete" style="float:right">삭제하기</button>
+												<button type="button" class="bag-modify" style="float:right; margin-right: 20px;">수정하기</button>
 											</div>
 										</div>
 									</div>
@@ -952,132 +1010,6 @@ function menuClick(selecter){
 										<th width="15%">상태</th>
 									</tr>
 									<!-- 테이블 컨텐츠 -->
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
 									<tr class="table-contents">
 										<th>175</th>
 										<th>배송 언제 되나요</th>

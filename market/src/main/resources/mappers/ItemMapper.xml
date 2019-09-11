@@ -217,4 +217,13 @@
 	select * from `category`
 		where valid = 'I'
 </select>
+<select id="selectBag" resultType="kr.green.market.vo.BagVO">
+	select * from bag
+		where no = #{no} and valid = 'I'
+</select>
+<update id="updateBag">
+	update bag
+		set `count` = #{bVo.count}, price = #{bVo.price}, image = #{bVo.image}, valid = #{bVo.valid}
+		where no = #{bVo.no}
+</update>
 </mapper>

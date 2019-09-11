@@ -291,4 +291,9 @@ public class HomeController {
     	model.addAttribute("id", sVo.getId());
     	return "redirect:/myMenu";
     }
+    @RequestMapping(value ="/deleteBag")
+	@ResponseBody
+	public boolean deleteBag(BagVO bVo){   
+	    return itemService.deleteBag(bVo.getNo(), bVo.getId());	
+	}
 }

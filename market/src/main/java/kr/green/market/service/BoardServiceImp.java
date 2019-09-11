@@ -133,7 +133,12 @@ public class BoardServiceImp implements BoardService{
 			return false;
 		}
 		cVo1.setValid("D");
-		boardDao.updateComment(cVo1);
+		boardDao.updateComment(cVo1);	//댓글 삭제
+		ItemVO iVo = itemDao.selectItem(cVo1.getBoard_no());
+		if(iVo != null){
+			iVo.setComment(iVo.getComment()-1);		//댓글 수 감소
+			itemDao.updateItem(iVo);
+		}
 		return true;
 	}
 }

@@ -377,4 +377,16 @@ public class ItemServiceImp implements ItemService{
 	public ArrayList<CategoryVO> getCategoryListAll() {
 		return itemDao.selectCategoryListAll();
 	}
+	@Override
+	public boolean deleteBag(Integer no, String id) {
+		if(no == null || id == "") {
+			return false;
+		}
+		BagVO bVo = itemDao.selectBag(no);
+		if(bVo != null && bVo.getId().equals(id)){
+			bVo.setValid("D");
+			itemDao.updateBag(bVo);
+		}
+		return true;
+	}
 }

@@ -203,6 +203,8 @@ $(document).ready(function(){
 	//카테고리 취소 클릭 시
 	$('#category-cancel').click(function(){
 		$('#selected-category').addClass('display-none');
+		$('#category').val(0);
+		$('#search-form').submit();
 	});
 	
 	//검색 아이콘 클릭 시
