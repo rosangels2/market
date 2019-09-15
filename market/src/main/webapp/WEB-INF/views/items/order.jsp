@@ -333,6 +333,11 @@ $(document).ready(function(){
 <div style="min-height: 1000px;">
 	<div class="view-page">
 		<form method="post" action="<%=request.getContextPath()%>/items/orderRequest" id="order-form">
+			<c:if test="${bagNoList ne null}">
+				<c:forEach items="${bagNoList}" var="bagNo">
+					<input type="hidden" name="bag_no" value="${bagNo}">
+				</c:forEach>
+			</c:if>
 			<!-- 상단 박스 -->
 			<div class="up-contents">
 				<div class="up-box clearfix">

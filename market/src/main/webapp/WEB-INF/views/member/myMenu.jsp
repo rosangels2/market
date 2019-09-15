@@ -479,7 +479,7 @@ $(document).ready(function(){
 	$('.bag-delete').click(function(){
 		var parents = $(this).parents('.bag-box');
 		var s = confirm('정말로 삭제하시곘습니까?');
-		var no = $(this).siblings('input[name=bag_no]').val();
+		var no = $(this).parents('.bag-box').find('input[name=bag_no]').val();
 		var id = $('input[name=id]').val();
 		if(s){
 			$.ajax({
@@ -966,7 +966,6 @@ function menuClick(selecter){
 												<input type="hidden" name="original_price" value="${bag.price/bag.count}">
 											</div>
 											<div class="button-box clearfix">
-												<input name="bag_no" value="${bag.no}" type="hidden">
 												<button type="button" class="bag-delete" style="float:right">삭제하기</button>
 												<button type="button" class="bag-modify" style="float:right; margin-right: 20px;">수정하기</button>
 											</div>

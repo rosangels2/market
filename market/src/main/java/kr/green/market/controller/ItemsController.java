@@ -173,15 +173,34 @@ public class ItemsController {
 	}
     @RequestMapping(value= "/order")
     public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,
-    	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id, Integer[] bag_no) throws Exception{
+    	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id, Integer[] bag_no, Integer[] bag_check) throws Exception{
     	//System.out.println("order : " + );
     	System.out.println("order item_no : " + item_no);
     	System.out.println("order total_price: " + total_price);
     	System.out.println("order id : " + id);
-    	System.out.println("order bag_no : " + bag_no);
+    	ArrayList<Integer> bag_no1 = new ArrayList<Integer>();
+    	if(bag_no != null && bag_check != null) {
+    		for(int i=0; i < bag_no.length; i++) {
+    			if(bag_check[i] == 1) {
+    				bag_no1.add(bag_no[i]);		//삭제할 장바구니 번호 추출
+    			}
+    		}
+    	}
+    	if(bag_no1 != null){
+    		System.out.println("order bag_no1 : " + bag_no1);
+    		model.addAttribute("bagNoList", bag_no1);
+    	}
     	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
     	System.out.println("order oVoList : " + oVoList);
-        Integer orderCount = select.length;
+    	if(bag_no != null && bag_check != null) {
+    		for(int i=bag_check.length-1; i >= 0; i--) {
+    			if(bag_check[i] == 0) {
+    				oVoList.remove(i);	//체크 해제한 장바구니 옵션들을 주문 페이지에서 제거
+    			}
+    		}
+    	}
+    	System.out.println("order oVoList : " + oVoList);
+        Integer orderCount = oVoList.size();
         model.addAttribute("orderCount", orderCount);
         model.addAttribute("optionList", oVoList);
         model.addAttribute("total_price", total_price);
@@ -210,7 +229,13 @@ public class ItemsController {
     @RequestMapping(value="/orderRequest", method=RequestMethod.POST)
     public String orderRequest(Model model, Integer item_no, Integer[] option_no, String[] select,
     String[] detail,  Integer[] count,  Integer[] price, Integer total_price, Integer delivery_price, Integer coupon_price,
-    Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no, String request, Integer coupon_no){
+    Integer last_Price, String id, AddressListVO aVo, Integer delivery_code, Integer address_no, String request, Integer coupon_no, Integer[] bag_no){
+    	if(bag_no != null && bag_no.length > 0) {
+    		for(int i=0; i<bag_no.length; i++) {
+    			System.out.println("orderRequest bag_no "+i+"번지 : " + bag_no[i]);
+    			itemService.deleteBag(bag_no[i], id);
+    		}
+    	}
     	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);	//option 객체로 변환
     	System.out.println("orderRequest orderList : " + orderList);
     	if(delivery_code == 0){
