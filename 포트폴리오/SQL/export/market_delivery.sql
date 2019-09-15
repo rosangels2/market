@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -9,7 +9,7 @@ USE `market`;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8 ;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `market`;
 
 DROP TABLE IF EXISTS `delivery`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `delivery` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `buy_no` int(11) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `delivery` (
   PRIMARY KEY (`no`),
   KEY `fk_delivery_buy1_idx` (`buy_no`),
   CONSTRAINT `fk_delivery_buy1` FOREIGN KEY (`buy_no`) REFERENCES `buy` (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `delivery` (
 
 LOCK TABLES `delivery` WRITE;
 /*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
-INSERT INTO `delivery` VALUES (7,10,'로지텍공식판매점','선택 상품 : 로지텍g1 / 선택 옵션 : 블랙 / 수량 : 1','요청 사항 없음','지구 어딘가','서울시 강변대로','현대택배','임꺽정','010-5633-3822','2019-08-29 10:16:14','2019-08-29 10:34:40','I'),(8,11,'로지텍공식판매점','선택 상품 : 로지텍g2 / 선택 옵션 : 레드 / 수량 : 2','요청 사항 없음','지구 어딘가','서울시 강변대로','대한통운','임꺽정','010-5633-3822','2019-08-29 10:57:02','2019-08-29 11:14:24','I'),(9,12,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 옐로 / 수량 : 3','요청 사항 없음','지구 어딘가','서울시 강변대로','CJ택배','임꺽정','010-5633-3822','2019-08-29 11:15:15','2019-08-29 11:15:29','I'),(10,13,'로지텍공식판매점','선택 상품 : 로지텍g1 / 선택 옵션 : 레드 / 수량 : 1','부재 시, 경비실에 맡겨 주세요','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(11,14,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 그레이 / 수량 : 2','부재 시, 경비실에 맡겨 주세요','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(12,15,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 그레이 / 수량 : 3','조심히 가져다 주세요','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I');
+INSERT INTO `delivery` VALUES (7,10,'로지텍공식판매점','선택 상품 : 로지텍g1 / 선택 옵션 : 블랙 / 수량 : 1','요청 사항 없음','지구 어딘가','서울시 강변대로','현대택배','임꺽정','010-5633-3822','2019-08-29 10:16:14','2019-08-29 10:34:40','I'),(8,11,'로지텍공식판매점','선택 상품 : 로지텍g2 / 선택 옵션 : 레드 / 수량 : 2','요청 사항 없음','지구 어딘가','서울시 강변대로','대한통운','임꺽정','010-5633-3822','2019-08-29 10:57:02','2019-08-29 11:14:24','I'),(9,12,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 옐로 / 수량 : 3','요청 사항 없음','지구 어딘가','서울시 강변대로','CJ택배','임꺽정','010-5633-3822','2019-08-29 11:15:15','2019-08-29 11:15:29','I'),(10,13,'로지텍공식판매점','선택 상품 : 로지텍g1 / 선택 옵션 : 레드 / 수량 : 1','부재 시, 경비실에 맡겨 주세요','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(11,14,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 그레이 / 수량 : 2','부재 시, 경비실에 맡겨 주세요','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(12,15,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 그레이 / 수량 : 3','조심히 가져다 주세요','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(13,16,'로지텍공식판매점','선택 상품 : 로지텍g2 / 선택 옵션 : 레드(+20000) / 수량 : 1','안전하게 가져다 주세요','지구 어딘가','부산시 남구',NULL,NULL,NULL,NULL,NULL,'I'),(14,17,'로지텍공식판매점','선택 상품 : 로지텍g1 / 선택 옵션 : 블랙 / 수량 : 1','안전하게 가져다 주세요','지구 어딘가','부산시 남구','쿠팡','임꺽정','010-5633-3822','2019-09-15 19:55:46','2019-09-15 19:57:20','I'),(15,18,'로지텍공식판매점','선택 상품 : 로지텍g2 / 선택 옵션 : 레드+(20000) / 수량 : 1','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(16,19,'로지텍공식판매점','선택 상품 : 로지텍g4 / 선택 옵션 : 레인보우(+20000) / 수량 : 1','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(17,20,'로지텍공식판매점','선택 상품 : 로지텍g4 / 선택 옵션 : 화이트(+10000) / 수량 : 2','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(18,21,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 옐로(+10000) / 수량 : 3','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(19,22,'로지텍공식판매점','선택 상품 : 로지텍g4 / 선택 옵션 : 레인보우(+20000) / 수량 : 1','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(20,23,'로지텍공식판매점','선택 상품 : 로지텍g2 / 선택 옵션 : 레드+(20000) / 수량 : 1','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(21,24,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 옐로(+10000) / 수량 : 3','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(22,25,'로지텍공식판매점','선택 상품 : 로지텍g2 / 선택 옵션 : 레드+(20000) / 수량 : 1','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(23,26,'로지텍공식판매점','선택 상품 : 로지텍g4 / 선택 옵션 : 레인보우(+20000) / 수량 : 3','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I'),(24,27,'로지텍공식판매점','선택 상품 : 로지텍g3 / 선택 옵션 : 옐로(+10000) / 수량 : 2','요청 사항 없음','지구 어딘가','충북 청주시 상당구 신선로 209',NULL,NULL,NULL,NULL,NULL,'I');
 /*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-11 17:18:23
+-- Dump completed on 2019-09-15 23:14:01
