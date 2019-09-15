@@ -173,7 +173,7 @@ public class ItemsController {
 	}
     @RequestMapping(value= "/order")
     public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,
-    	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id, Integer bag_no) throws Exception{
+    	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id, Integer[] bag_no) throws Exception{
     	//System.out.println("order : " + );
     	System.out.println("order item_no : " + item_no);
     	System.out.println("order total_price: " + total_price);
@@ -191,8 +191,8 @@ public class ItemsController {
 	    ArrayList<CouponVO> cVo = new ArrayList<CouponVO>();
 	    for(int i=0; i<couponList.size(); i++){	
 	    	CouponVO cVo1 = itemService.getCoupon(couponList.get(i).getCoupon_no());
+	    	System.out.println("order cVo1 : " + cVo1);
 	    	if(cVo1 != null){
-	    		System.out.println("order cVo1 : " + cVo1);
 		    	int discount = Integer.parseInt(String.valueOf(Math.round(cVo1.getDiscount())));	//double 반올림 > String 형변환 > int 형변환
 		    	cVo1.setDiscount(discount);
 		    	cVo.add(cVo1);

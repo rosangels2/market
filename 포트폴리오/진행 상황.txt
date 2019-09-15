@@ -42,5 +42,7 @@
 
 
 
-order bag_no : null
-order cVo1 : null
+
+예외 처리
+쿠폰 - nullPointerException 발생 / 처리 완료
+장바구니 - 주문

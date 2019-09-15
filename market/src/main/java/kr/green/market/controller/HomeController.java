@@ -235,7 +235,10 @@ public class HomeController {
         System.out.println("myMenu cVoList : " + cVoList);
         ArrayList<CouponVO> couponList = new ArrayList<CouponVO>();
         for(int i=0; i<cVoList.size(); i++) {
-        	couponList.add(itemService.getCoupon(cVoList.get(i).getCoupon_no()));	//보유중인 쿠폰 정보 가져오기
+        	CouponVO cVo = itemService.getCoupon(cVoList.get(i).getCoupon_no());
+        	if(cVo != null){
+        		couponList.add(cVo);	//보유중인 쿠폰 정보 가져오기
+        	}
         }
         System.out.println("myMenu couponList : " + couponList);
         model.addAttribute("couponList", couponList);

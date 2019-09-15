@@ -103,6 +103,7 @@
 <select id="selectBuyList" resultType="kr.green.market.vo.BuyVO">
 	select * from buy
 		where id = #{id} and valid = 'I'
+		order by no desc
 </select>
 <select id="selectWishlistAdd" resultType="kr.green.market.vo.WishlistVO">
 	select * from wishlist
@@ -140,7 +141,7 @@
 </update>
 <select id="selectCouponBag" resultType="kr.green.market.vo.CouponBagVO">
 	select * from couponbag
-		where coupon_no = #{coupon_no} and id = #{id} and valid = 'I'
+		where coupon_no = #{coupon_no} and id = #{id}	<!-- 받을 수 있는 쿠폰 목록 불러오기이므로 사용한 쿠폰이라도 다시 받을 수 없게 확인 -->
 </select>
 <select id="selectCouponBagList" resultType="kr.green.market.vo.CouponBagVO">
 	select * from couponbag

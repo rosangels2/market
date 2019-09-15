@@ -190,7 +190,7 @@
 	margin: 0 10px;
 }
 .order-box{
-	padding: 15px 10px 20px 300px;
+	padding: 15px 10px 20px 10px;
 	margin-top: 20px;
 }
 .order-box button{
@@ -198,6 +198,7 @@
 	float: right;
 } 
 .order-price-box{
+	margin-left: 200px;
 	height: 70px;
 	float: left;
 	padding: 20px 10px;
@@ -212,6 +213,11 @@
 .bag-checkbox{
 	width: 20px;
 	height: 20px;
+}
+#bag-checkAll{
+	margin: 20px 20px 20px 0;
+	width: 25px;
+	height: 25px;
 }
 /* 쿠폰함 클릭 시 */
 .coupon-bag-contents{
@@ -504,15 +510,51 @@ $(document).ready(function(){
 		var f = parseInt(d-q);	//바뀐 가격 - 원래 가격
 		var g = parseInt($('input[name=total_price]').val());		//최종 가격
 		$(this).parents('.bag-box').find('input[name=price]').val(parseInt(a*s));
-		$('input[name=total_price]').val(g+f);
+		if($(this).parents('.bag-box').find('.bag-checkbox').prop("checked")){
+			$('input[name=total_price]').val(g+f);
+		}
 	});
 	
-	//장바구니 체크 해제 시
+	//장바구니 체크 시
 	$('.bag-checkbox').change(function(){
 		if($(this).prop("checked")){	//체크한 경우
-			alert("체크");
+			$(this).parents('.bag-box').find('input[name=bag_check]').val(1);
 		}else{	//체크를 해제한 경우
-			alert("체크해제");
+			$(this).parents('.bag-box').find('input[name=bag_check]').val(0);
+		}
+		var delivery = parseInt(2500);
+		var total = 0;
+		$('.bag-box').each(function(){
+			if($(this).find('.bag-checkbox').prop("checked")){
+				var s = parseInt($(this).find('input[name=price]').val());
+				total += s;
+			}
+		});
+		if(total > 0 && total < 30000){
+			total += delivery;
+		}
+		$('input[name=total_price]').val(total);
+	});
+	
+	//장바구니 전체 선택 시
+	$('#bag-checkAll').click(function(){
+		var delivery = parseInt(2500);
+		if($(this).prop("checked")){	//체크한 경우
+			$('.bag-checkbox').prop("checked", true);
+			$('.bag-box').find('input[name=bag_check]').val(1);
+			var total = 0;
+			$('.bag-box').each(function(){
+				var s = parseInt($(this).find('input[name=price]').val());
+				total += s;
+			});
+			if(total > 0 && total < 30000){
+				total += delivery;
+			}
+			$('input[name=total_price]').val(total);
+		}else{	//체크를 해제한 경우
+			$('.bag-checkbox').prop("checked", false);
+			$('.bag-box').find('input[name=bag_check]').val(0);
+			$('input[name=total_price]').val(0);
 		}
 	});
 	
@@ -529,7 +571,6 @@ $(document).ready(function(){
 	        dataType:"json",
 	        contentType:"application/json; charset=UTF-8",
 	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
-	        	alert(data.cVo);
 				if(data.cVo != null){
 					box.remove();
 					var str = '<tr class="coupon-list-text"><th>'+data.cVo.title+'<input type="hidden" value="'+data.cVo.no+'"></th><th>'+data.cVo.discount+'원</th><th>'+data.cVo.period+'</th><th>'+data.cVo.state+'</th></tr>';
@@ -902,6 +943,7 @@ function menuClick(selecter){
 								<input type="hidden" value="${user.id}" name="id">
 								<c:forEach items="${bagList}" var="bag">
 									<div class="bag-box clearfix">
+										<input type="hidden" name="bag_check" value="1">
 										<input type="hidden" name="bag_no" value="${bag.no}">
 										<input type="hidden" name="item_no" value="${bag.item_no}">
 										<input type="hidden" name="option_no" value="${bag.option_no}">
@@ -921,7 +963,7 @@ function menuClick(selecter){
 											<div class="count">
 												수량<input name="count" value="${bag.count}" style="margin: 0 100px 0 20px; border: 1px solid gray;">
 												가격<input readonly name="price" value="${bag.price}">
-												<input type="hidden" name="original_price" value="${bag.price}">
+												<input type="hidden" name="original_price" value="${bag.price/bag.count}">
 											</div>
 											<div class="button-box clearfix">
 												<input name="bag_no" value="${bag.no}" type="hidden">
@@ -933,6 +975,7 @@ function menuClick(selecter){
 								</c:forEach>
 								<!-- 장바구니 주문 창 -->
 								<div class="order-box clearfix">
+									<input type="checkbox" id="bag-checkAll" class="float-left" checked>
 									<div class="order-price-box clearfix">
 										<h4 class="float-left" style="margin: 0 10px;">상품 가격 합계</h4>
 										<input name="total_price" value="${total_price}" readonly style="text-align: center;">
