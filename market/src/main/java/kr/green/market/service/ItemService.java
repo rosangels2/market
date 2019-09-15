@@ -41,7 +41,7 @@ public interface ItemService {
 
 	ArrayList<OptionVO> getOderOptions(Integer item_no, Integer[] option_no, String[] select, String[] detail, Integer[] count, Integer[] price);
 
-	ArrayList getCouponList(String id);
+	ArrayList<CouponBagVO> getCouponList(String id);
 
 	CouponVO getCoupon(Integer coupon_no);
 

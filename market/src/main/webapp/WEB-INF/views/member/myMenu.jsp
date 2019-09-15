@@ -985,12 +985,14 @@ function menuClick(selecter){
 									</tr>
 									<!-- 테이블 컨텐츠 -->
 									<c:forEach items="${couponList}" var="coupon">
-										<tr class="coupon-list-text">
-											<th>${coupon.title}<input type="hidden" value="${coupon.no}"></th>
-											<th>${coupon.discount}원</th>
-											<th>${coupon.period}</th>
-											<th>${coupon.state}</th>
-										</tr>
+										<c:if test="${coupon ne null}">
+											<tr class="coupon-list-text">
+												<th>${coupon.title}<input type="hidden" value="${coupon.no}"></th>
+												<th>${coupon.discount}원</th>
+												<th>${coupon.period}</th>
+												<th>${coupon.state}</th>
+											</tr>
+										</c:if>
 									</c:forEach>
 								</table>
 							</div>

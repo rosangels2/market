@@ -67,7 +67,7 @@
 </select>
 <select id="selectCouponList" resultType="kr.green.market.vo.CouponBagVO">
 	select * from couponBag
-		where id = #{id} and valid = "I"
+		where id = #{id} and valid = 'I'
 </select>
 <select id="selectCoupon" resultType="kr.green.market.vo.CouponVO">
 	select * from coupon
@@ -114,7 +114,7 @@
 </insert>
 <select id="selectWishlistAll" resultType="kr.green.market.vo.WishlistVO">
 	select * from wishlist
-		where id = #{id} and valid = "I"
+		where id = #{id} and valid = 'I'
 </select>
 <select id="selectWishlistDelete" resultType="kr.green.market.vo.WishlistVO">
 	select * from wishlist

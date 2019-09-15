@@ -174,24 +174,37 @@ public class ItemsController {
     @RequestMapping(value= "/order")
     public ModelAndView order(Model model, ModelAndView mv, Integer item_no,  Integer[] option_no, String[] select,
     	String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id, Integer bag_no) throws Exception{
+    	//System.out.println("order : " + );
+    	System.out.println("order item_no : " + item_no);
+    	System.out.println("order total_price: " + total_price);
+    	System.out.println("order id : " + id);
+    	System.out.println("order bag_no : " + bag_no);
     	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
+    	System.out.println("order oVoList : " + oVoList);
         Integer orderCount = select.length;
         model.addAttribute("orderCount", orderCount);
         model.addAttribute("optionList", oVoList);
         model.addAttribute("total_price", total_price);
         mv.setViewName("/items/order");		//타일즈를 통해 불러올 jsp 경로
 	    ArrayList<CouponBagVO> couponList = itemService.getCouponList(id);	//쿠폰함 불러오기
+	    System.out.println("order couponList : " + couponList);
 	    ArrayList<CouponVO> cVo = new ArrayList<CouponVO>();
 	    for(int i=0; i<couponList.size(); i++){	
 	    	CouponVO cVo1 = itemService.getCoupon(couponList.get(i).getCoupon_no());
-	    	int discount = Integer.parseInt(String.valueOf(Math.round(cVo1.getDiscount())));	//double 반올림 > String 형변환 > int 형변환
-	    	cVo1.setDiscount(discount);
-	    	cVo.add(cVo1);
+	    	if(cVo1 != null){
+	    		System.out.println("order cVo1 : " + cVo1);
+		    	int discount = Integer.parseInt(String.valueOf(Math.round(cVo1.getDiscount())));	//double 반올림 > String 형변환 > int 형변환
+		    	cVo1.setDiscount(discount);
+		    	cVo.add(cVo1);
+		    	System.out.println("order cVo: " + cVo);
+	    	}
+	    }
+	    if(cVo != null) {
+	    	model.addAttribute("cVo", cVo);
 	    }
 	    ArrayList<AddressListVO> aVo = memberService.getAddressList(id);	//배송지 목록 불러오기
 	    System.out.println("order aVo : " + aVo);
 	    model.addAttribute("addressList", aVo);
-	    model.addAttribute("cVo", cVo);
         return mv;
     }  
     @RequestMapping(value="/orderRequest", method=RequestMethod.POST)
