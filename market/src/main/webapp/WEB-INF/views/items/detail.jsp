@@ -324,7 +324,10 @@ $(document).ready(function(){
 	
 	//구매 버튼
 	$('.buy-button').click(function(){
-		
+		if($('input[name=total_price]').val() == 0){
+			alert("선택된 상품이 없습니다.");
+			return false;
+		}
 	});
 	
 	//위시리스트 버튼
@@ -465,7 +468,6 @@ $(document).ready(function(){
 		});
 	});
 	
-	
 	//댓글 등록 클릭 시
 	$('#comment-add').click(function(){
 		if($('input[name=id]').val() == ""){
@@ -483,7 +485,7 @@ $(document).ready(function(){
 	        url:"<%=request.getContextPath()%>/board/addComment",
 	        dataType:"json",
 	        contentType:"application/json; charset=UTF-8",
-	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	        success : function(data){		//요청이 성공해서 보내준 값을 저장할 변수명
 	  			alert("댓글이 등록 되었습니다.");
 	        	var to = $('.comment-regiser-box input[name=to]').val("");
 	    		var contents = $('.comment-regiser-box input[name=contents]').val("");

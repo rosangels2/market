@@ -521,6 +521,7 @@ $(document).ready(function(){
 			$(this).parents('.bag-box').find('input[name=bag_check]').val(1);
 		}else{	//체크를 해제한 경우
 			$(this).parents('.bag-box').find('input[name=bag_check]').val(0);
+			$('#bag-checkAll').prop("checked", false);
 		}
 		var delivery = parseInt(2500);
 		var total = 0;
