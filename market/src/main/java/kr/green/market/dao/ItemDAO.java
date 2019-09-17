@@ -43,7 +43,7 @@ public interface ItemDAO {
 
 	ArrayList<OptionVO> selectDetails(@Param("item_no")Integer item_no, @Param("select")String select);
 
-	OptionVO selectOption(@Param("no")Integer detail_no);
+	OptionVO selectOption(@Param("no")Integer no);
 
 	ArrayList<CouponBagVO> selectCouponList(@Param("id")String id);
 

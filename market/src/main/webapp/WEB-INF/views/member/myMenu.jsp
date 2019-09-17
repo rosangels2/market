@@ -91,6 +91,15 @@
 	text-align: center;
 	margin-top: 10px;
 }
+.buy-agree:hover{
+	cursor: pointer;
+}
+.buy-cancel:hover{
+	cursor: pointer;
+}
+.buy-return:hover{
+	cursor: pointer;
+}
 /* 내 정보 보기 */
 .my-info-contents{
 	float: right;
@@ -350,7 +359,37 @@ $(document).ready(function(){
 		$('.info-contents .withdrawal').removeClass('display-none');
 	});
 	
-	// /^\w*(\d[A-z]|[A-z]\d)\w*$/ 영어숫자 포함
+	//구매 확정 클릭 시
+	$('.buy-agree').click(function(){
+		var s = confirm("구매 확정을 진행하시겠습니까?");
+		if(s){
+			alert("yes");
+		}else{
+			alert("no");
+		}
+	});
+	
+	//구매 취소 클릭 시
+	$('.buy-cancel').click(function(){
+		var s = confirm("구매 취소를 진행하시겠습니까?");
+		if(s){
+			alert("yes");
+		}else{
+			alert("no");
+		}
+	});
+	
+	//교환/반품 클릭 시
+	$('.buy-return').click(function(){
+		var s = confirm("반품/교환을 진행하시겠습니까?");
+		if(s){
+			alert("yes");
+		}else{
+			alert("no");
+		}
+	});
+	
+	//내 정보 수정 정규표현식
 	$("#modify").validate({
         rules: {
         	oldPassword: {
@@ -359,6 +398,7 @@ $(document).ready(function(){
                 maxlength : 12,
                 regex: /^\w*(\d[A-z]|[A-z]\d)\w*$/	//영문 또는 숫자만 사용 가능하며 각각 1개 이상 사용
                 //	   /^(?=.*[a-zA-Z])(?=.*[!@#$%^*-])(?=.*[0-9]).{8,12}$/		특수문자, 영문, 숫자를 1개씩 포함
+                // 	   /^\w*(\d[A-z]|[A-z]\d)\w*$/ 영어숫자 포함
         	},
             password: {
                 required : true,
@@ -794,7 +834,9 @@ function menuClick(selecter){
 													<h6>현재 상황</h6>
 												</div>
 												<div class="status-check">
-													<h5>${buy.state}</h5>
+													<h5>
+														<a href="<%=request.getContextPath()%>/items/myBuy?no=${buy.no}">${buy.state}</a>
+													</h5>
 												</div>
 											</th>
 											<th class="order-check-box">

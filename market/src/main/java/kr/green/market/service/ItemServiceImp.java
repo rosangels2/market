@@ -151,8 +151,13 @@ public class ItemServiceImp implements ItemService{
 		if(bVo == null){
 			return null;
 		}
-		itemDao.insertBuy(bVo);
+		itemDao.insertBuy(bVo);		//주문 등록
 		int num = itemDao.selectMaxBuy();
+		OptionVO oVo = itemDao.selectOption(bVo.getOption_no());
+		if(oVo != null){
+			oVo.setStock(oVo.getStock()-bVo.getCount());
+			itemDao.updateOption(oVo);	//구매한 수량만큼 상품 재고 감소
+		}
 		return itemDao.selectBuy(num);
 	}
 	@Override
