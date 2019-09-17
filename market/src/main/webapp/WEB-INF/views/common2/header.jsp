@@ -41,7 +41,7 @@
 			        	<a class="nav-link" href="<%=request.getContextPath()%>/delivery/register" style="color : white;">배송 등록</a>
 			      	</li>
 			      	<li class="nav-item">
-			        	<a class="nav-link" href="<%=request.getContextPath()%>/delivery/finish?deliverer=${user.name}&phone=${user.phone}" style="color : white;">배송 종료</a>
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/delivery/finish" style="color : white;">배송 종료</a>
 			      	</li>
 		      	</c:if>
 	    	</ul>

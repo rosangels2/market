@@ -17,10 +17,12 @@ public interface DeliveryDAO {
 
 	void updateEndDelivery(@Param("dVo")DeliveryVO dVo);
 
-	ArrayList<DeliveryVO> selectDelivererList(@Param("deliverer")String deliverer, @Param("phone")String phone);
+	ArrayList<DeliveryVO> selectDelivererList(@Param("deliverer")String deliverer, @Param("phone")String phone, @Param("cri")Criteria cri);
 
 	DeliveryVO selectDelivery1(@Param("buy_no")Integer buy_no);
 
-	int getDeliveryTotalCount(@Param("cri")Criteria cri);
+	int getDeliveryRegisterTotalCount(@Param("cri")Criteria cri);
+
+	int getDelivererListTotalCount(@Param("deliverer")String deliverer, @Param("phone")String phone, @Param("cri")Criteria cri);
 
 }

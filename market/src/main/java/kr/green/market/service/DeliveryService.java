@@ -15,10 +15,12 @@ public interface DeliveryService {
 
 	boolean endDelivery(String deliverer, String phone, Integer delivery_no);
 
-	ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone);
+	ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone, Criteria cri);
 
 	DeliveryVO getDelivery1(Integer buy_no);
 
-	int getDeliveryTotalCount(Criteria cri);
+	int getDeliveryRegisterTotalCount(Criteria cri);
+
+	int getDelivererListTotalCount(String deliverer, String phone, Criteria cri);
 
 }

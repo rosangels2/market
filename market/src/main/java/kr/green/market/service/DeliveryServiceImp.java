@@ -46,7 +46,7 @@ public class DeliveryServiceImp implements DeliveryService{
 
 	@Override
 	public boolean endDelivery(String deliverer, String phone, Integer delivery_no) {
-		if(deliverer == null || phone == null || delivery_no == null){
+		if(deliverer == "" || phone == "" || delivery_no == null){
 			return false;
 		}
 		DeliveryVO dVo = deliveryDao.selectDelivery(delivery_no);
@@ -61,11 +61,11 @@ public class DeliveryServiceImp implements DeliveryService{
 	}
 
 	@Override
-	public ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone) {
+	public ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone, Criteria cri) {
 		if(deliverer == null || phone == null) {
 			return null;
 		}
-		return deliveryDao.selectDelivererList(deliverer, phone);
+		return deliveryDao.selectDelivererList(deliverer, phone, cri);
 	}
 
 	@Override
@@ -77,8 +77,13 @@ public class DeliveryServiceImp implements DeliveryService{
 	}
 
 	@Override
-	public int getDeliveryTotalCount(Criteria cri) {
-		return deliveryDao.getDeliveryTotalCount(cri);
+	public int getDeliveryRegisterTotalCount(Criteria cri) {
+		return deliveryDao.getDeliveryRegisterTotalCount(cri);
+	}
+
+	@Override
+	public int getDelivererListTotalCount(String deliverer, String phone, Criteria cri) {
+		return deliveryDao.getDelivererListTotalCount(deliverer, phone, cri);
 	}
 
 
