@@ -1,0 +1,89 @@
+﻿1. /board/list.jsp에서 셀렉트 박스를 추가
+예시) list.jsp
+	 <select class="form-control col-3 float-right" id="perPageNum">
+		<option>5</option>
+		<option>10</option>
+		<option>15</option>
+		<option>20</option>
+		<option>50</option>
+	</select>
+
+2. jquery에서 셀렉트 박스의 값이 변경됐을 때 location.href=""; 함수를 통해 원하는 URI로 이동
+-> URI를 통해 Criteria의 멤버변수 값을 보내주면 컨트롤러에서 사용하는 매개변수 Criteria 객체 cri에 자동으로 적용
+예시) list.jsp
+	$(document).ready(function(){
+		$('#perPageNum').change(function(){
+				location.href = "<%=request.getContextPath()%>/board/list?perPageNum="+$(this).val();
+		});
+	});
+
+3. 컨트롤러에서 //cri.setPerPageNum(5); 코드를 삭제(URI로 보낸 perPageNum이 덮어써지므로)
+예시)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String listGet(Model model, Criteria cri) {
+	    logger.info("게시판 목록");
+	    System.out.println("cri = "+cri);	//설정값이 없을 경우 기본 생성자의 page=1, perPageNum=10의 값으로 설정돼 출력(설정이 안돼있어도 page=1을 화면에 표시)
+
+	    ArrayList<BoardVO> boardList = boardService.getBoardList(cri);	//cri의 setPerPageNum을 설정한 뒤 리스트를 호출해야 변경된 값이 적용
+		
+	    PageMaker pM = new PageMaker();	//pageMaker 객체를 생성 후 복사
+	    pM.setCriteria(cri);		//보여줄 게시글들의 설정을 수정
+	    pM.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)
+	    int totalCount = boardService.getTotalCount(cri);	//총 게시글 수를 계산하여 변수에 저장
+	    pM.setTotalCount(totalCount);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
+	    System.out.println(pM);
+	    
+	    model.addAttribute("pageMaker", pM);	//pageMaker의 객체를 model의 변수에 저장
+	    model.addAttribute("list", boardList);	//limit 설정에 맞는 게시글들을 가져와 model의 변수에 저장하여 jsp에서 사용
+	    
+	    return "/board/list";
+	}
+
+4. 선택된 셀렉트박스의 옵션이 유지되도록 c:if문으로 selected를 추가
+예시)
+	<select class="form-control col-3 float-right" id="perPageNum">
+		<option <c:if test="${pageMaker.criteria.perPageNum == 5} ">selected</c:if> >5</option>
+		<option <c:if test="${pageMaker.criteria.perPageNum == 10}">selected</c:if> >10</option>
+		<option <c:if test="${pageMaker.criteria.perPageNum == 15}">selected</c:if> >15</option>
+		<option <c:if test="${pageMaker.criteria.perPageNum == 20}">selected</c:if> >20</option>
+		<option <c:if test="${pageMaker.criteria.perPageNum == 20}">selected</c:if> >50</option>
+	</select>
+
+5. 페이지가 변경돼도 셀렉트박스의 옵션이 유지 및 적용되도록 list.jsp의 페이지네이션 href에서 보내줄 perPageNum값을 추가
+<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">
+예시)
+	<ul class="pagination" style="justify-content: center;">
+	    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+	        <li class="page-item">
+	            <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
+	        </li>							<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+	    </c:if>
+	    <!-- 페이지네이션 목록 -->																<!-- var xxx = 반복문의 i 역할 -->
+	    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+	        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+		        <li class="page-item active">
+		            <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+		        </li>
+	        </c:if>
+	        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+		        <li class="page-item">								<!-- index : 반복문의 i같은 역할로 증감연산 -->
+		            <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+		        </li>
+	        </c:if>
+	    </c:forEach>
+	    <c:if test="${pageMaker.next}">	<!-- 다음버튼(boolean 값이 true면 보여준다) -->
+	        <li class="page-item">
+	            <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Next</a>
+	        </li>
+	    </c:if>
+	</ul>
+
+6. 검색 후 개시글 개수 보기를 변경해도 검색값이 유지되도록 jqery를 통해 코드 추가
+예시)
+	$(document).ready(function(){
+		$('#perPageNum').change(function(){
+			var type = $('select[name=type]').val();	//검색한 상태에서 게시글 개수를 변경했을 떄 검색한 값을 유지하기 위해 추가
+			var search = $('input[name=search]').val();
+				location.href = "<%=request.getContextPath()%>/board/list?perPageNum="+$(this).val()+'&type='+type+'&search='+search;
+		});
+	});

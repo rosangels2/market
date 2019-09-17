@@ -69,16 +69,14 @@ public class ItemsController {
     public ModelAndView itemList(ModelAndView mv, Model model, Criteria cri) throws Exception{
     	mv.setViewName("/items/list");		//타일즈를 통해 불러올 jsp 경로
     	System.out.println("itemsList cri : " + cri);
-    	cri.setPerPageNum(5);	//한 페이지에 보여줄 개수글 설정
     	PageMaker pM = new PageMaker();	//pageMaker 객체를 생성 후 복사
 	    pM.setCriteria(cri);			//보여줄 게시글들의 설정을 수정
 	    pM.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)
-	    int totalCount = itemService.getTotalCount(cri);	//총 게시글 수를 계산하여 변수에 저장하는 인터페이스를 호출
+	    int totalCount = itemService.getItemTotalCount(cri);	//총 게시글 수를 계산하여 변수에 저장하는 인터페이스를 호출
 	    pM.setTotalCount(totalCount);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
     	ArrayList<ItemVO> itemList = itemService.getItemList(cri);
     	model.addAttribute("itemList", itemList);
     	model.addAttribute("pageMaker", pM);	//pageMaker의 객체를 model의 변수에 저장
-        
         ArrayList<CategoryVO> categoryList = itemService.getCategoryListAll();	//카테고리 목록 불러오기
     	model.addAttribute("categoryList", categoryList);
     	Set<String> categoryKind = new HashSet<String>();
@@ -283,11 +281,13 @@ public class ItemsController {
     @RequestMapping(value= "/register", method = RequestMethod.GET)
     public ModelAndView itemRegisterGet(ModelAndView mv) throws Exception{
         mv.setViewName("/items/register");		//타일즈를 통해 불러올 jsp 경로
+        ArrayList<CategoryVO> categoryList = itemService.getCategoryListAll();
+        mv.addObject("categoryList", categoryList);
         return mv;
     }
     @RequestMapping(value= "/register", method = RequestMethod.POST)
-    public String itemRegisterPost(MultipartFile[] file2, String seller_id, String title, Integer price1, String[] select,  String[] detail,  Integer[] stock,  Integer[] price) throws Exception{
-        Integer categoryNo = 1;
+    public String itemRegisterPost(MultipartFile[] file2, String seller_id, String title, Integer price1, String[] select,
+    	String[] detail,  Integer[] stock,  Integer[] price, Integer categoryNo) throws Exception{
         int itemNo = itemService.registerItem(seller_id, categoryNo, title, price1);	//아이템 등록
 		for(MultipartFile tmp : file2){
 			if(tmp.getOriginalFilename().length() != 0) {

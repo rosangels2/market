@@ -1,0 +1,34 @@
+﻿1. /views/include/head.jsp에 summer note 링크 추가
+예시)
+<!--summer note -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+
+2. /views/board/register.jsp에서 textarea 태그 생성 후 id에 summernote를 추가
+예시)
+<div style="min-height: 561px;">
+	<h1>게시글 등록</h1>
+	<form method="post" action="<%=request.getContextPath()%>/board/register">
+		<div class="form-group">
+		  <input type="text" class="form-control" name="title" placeholder="제목">
+		</div>
+		<div class="form-group">
+		  <input type="text" class="form-control" name="writer" value="${user.id}">
+		</div>
+		<textarea id="summernote" name="contents"></textarea>
+		<button type="submit" class="btn btn-success">등록</button>
+	</form>
+</div>
+
+3. id가 summernote인 태그에 자바스크립트를 적용
+예시)
+<script>
+$(document).ready(function(){
+  $('#summernote').summernote({
+    placeholder: 'Hello bootstrap 4',
+    tabsize: 2,
+    height: 300,
+    lang: 'ko-KR'
+  });
+});	//레디
+</script>

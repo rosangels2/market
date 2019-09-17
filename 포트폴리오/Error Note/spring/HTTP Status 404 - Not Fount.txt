@@ -1,0 +1,68 @@
+﻿에러 내용
+Type Status Report
+Description The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+Pivotal tc Runtime 9.0.13.B.RELEASE
+에러 원인 - 컨트롤러에 해당 URL에 맞는 메서드가 없어서
+
+해결 방법 - 컨트롤러에 해당 URI에 맞는 메서드 추가
+예시)
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String signupGet(Model model){
+		logger.info("메인페이지 실행");	//console에 입력되는 메세지
+		return "signup";	//사용자에게 signup.jsp를 보내준다
+	}
+
+
+
+
+
+에러 내용
+Type Status Report
+Message /spring/WEB-INF/views/signup.jsp
+Description The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+Pivotal tc Runtime 9.0.13.B.RELEASE
+
+에러 원인 - 해당 폴더에 JSP파일이 없어서
+
+해결 방법 - 해당 폴더에 JSP파일 추가
+
+
+
+
+
+에러 내용
+HTTP Status 404 – Not Found
+Type Status Report
+Message /test/WEB-INF/views/redirect/board/list.jsp
+Description The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+Pivotal tc Runtime 9.0.13.B.RELEASE
+
+에러 원인 - 컨트롤러 return에 오타 발생
+예시)
+	return "redirect/board/list";	//redirect 뒤에 :를 빼고 입력하여 에러 발생
+
+해결 방법 - 컨트롤러의 return에서 오타 수정
+예시)
+	return "redirect:/board/list";
+
+
+
+
+
+에러 내용
+Type Status Report
+Message /market/
+Description The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+에러 원인 - UTF-8 인코딩 코드에 </web-app>를 문법에 맞지 않게 추가 입력
+예시)
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+</web-app>
+해결 방법 - 문법에 맞게 닫는 태그를 삭제
+예시)
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>

@@ -1,0 +1,134 @@
+﻿1. board/display.jsp에서 로그인 user의 id와 게시글의 작성자 board.writer가 일치하면 게시글 삭제 버튼이 보이게 c:if문을 추가하고 URI에 게시글 번호를 담아 전송
+예시)
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	<!-- c태그를 사용하기 위한 링크 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<style type="text/css">
+.box{
+	border : 1px solid black;
+}
+.box div{
+	font-size:30px;
+}
+</style>
+<body>
+<div class="container">         
+  <table class="table">
+    <thead>
+      <tr>
+        <th>게시글 제목</th>
+        <th>작성자</th>
+        <th>조회수</th>
+        <th>작성일</th>
+        <th>첨부파일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>${board.title}</td>
+        <td>${board.writer}</td>
+        <td>${board.views}</td>
+        <td>${board.registered}</td>
+        <td>${board.file}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>게시글 내용</th>
+      </tr>
+    </thead>
+  </table>
+  <div class="contents" style="padding-left: 12px; height: 300px; overflow: auto;">${board.contents}</div>
+  <a href="<%=request.getContextPath()%>/board/list"> <button type="button" class="btn btn-outline-dark">게시글 목록</button> </a>
+  <a href="<%=request.getContextPath()%>/board/register"> <button type="button" class="btn btn-outline-dark">게시글 등록</button> </a>
+  <c:if test="${user.id eq board.writer}">
+  	<a href="<%=request.getContextPath()%>/board/modify?num=${board.num}"> <button type="button" class="btn btn-outline-dark">게시글 수정</button> </a>
+  	<a href="<%=request.getContextPath()%>/board/delete?num=${board.num}"> <button type="button" class="btn btn-outline-dark">게시글 삭제</button> </a>
+  </c:if>
+</body>
+</html>
+
+2. 해당 URI를 매핑하는 컨트롤러 메서드를 생성하고 게시글 번호가 제대로 넘어오는지 출력하여 확인
+예시)
+	@RequestMapping(value = "delete")
+	public String delete(Model model, Integer num){
+		System.out.println("board/delete num : " + num);
+		return "redirect:/board/list";
+	}
+
+3. 게시글 번호가 제대로 출력된다면 서비스 인터페이스를 호출
+예시)
+	@RequestMapping(value = "delete")
+	public String delete(Model model, Integer num){
+		System.out.println("board/delete num : " + num);
+		if(boardService.delete(num)){
+			return "redirect:/board/list";
+		}
+		return "redirect:/board/list";
+	}
+
+4. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	boolean delete(Integer num);
+
+5. quick fixed를 통해 서비스 인터페이스를 구현하고 DAO 인터페이스를 호출
+예시)
+	@Override
+	public boolean delete(Integer num) {
+		boardDao.delete(num);
+		return false;
+	}
+
+6. quick fixed를 통해 DAO 인터페이스를 생성
+예시)
+	void delete(Integer num);
+
+7. DAO 인터페이스를 연결하는 쿼리문을 BoardMapper.xml에서 생성
+예시) delete를 사용하지 않고 valid 값을 'D'로 수정
+<update id="delete">
+	update board
+	set valid = 'D'
+	where num = #{num}
+</update>
+
+8. 삭제된 게시글이 보이지 않도록 getBoardList와 getBoard 쿼리문에서 조건문에 valid = 'I'를 추가
+예시)
+<select id="getBoardList" resultType="kr.green.practice.vo.BoardVO">
+	select * from board where valid = 'I' order by num desc 
+</select>
+<select id="getBoard" resultType="kr.green.practice.vo.BoardVO">
+	select * from board where num = #{num} and valid = 'I'
+</select>
+
+9. 삭제한 게시글이 게시판에서 사라졌는지 확인한 후 서비스 구현 클래스에서 예외 처리
+예시)
+	@Override
+	public boolean delete(Integer num) {
+		if(num == null){
+			return false;
+		}
+		boardDao.delete(num);
+		return true;
+	}
+
+10. 게시글 삭제 성공 여부에 따라 jsp를 다르게 반환
+예시)
+	@RequestMapping(value = "delete")
+	public String delete(Model model, Integer num){
+		System.out.println("board/delete num : " + num);
+		if(boardService.delete(num)){
+			return "redirect:/board/list";
+		}
+		model.addAttribute("num", num);	//model의 변수 num에 bVo의 게시글 번호를 담아서 URI로 전송
+		return "redirect:/board/display";
+	}

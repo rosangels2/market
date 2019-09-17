@@ -221,6 +221,12 @@ $(document).ready(function(){
 		$('#search-form').submit(); 
 	});
 	
+	//게시글 개수 선택 시
+	$('select[name=perPageNum]').change(function(){
+		$('#search-form').submit(); 
+	});
+	
+	
 });		//레디
 </script>
 </head>
@@ -246,7 +252,7 @@ $(document).ready(function(){
 						<div class="category-box float-left">
 							<i class="fas fa-bars category-menu"></i>
 							<h3 class="category-text">전체 카테고리</h3>
-							<i class="fas fa-chevron-down down-arrow"></i>
+							<i class="fas fa-chevron-down down-arrow" id="c-arrow"></i>
 						</div>
 						<div class="selected-category-box float-left clearfix" id="selected-category">
 							<c:forEach items="${categoryList}" var="category">
@@ -271,12 +277,11 @@ $(document).ready(function(){
 							</select>
 						</div>
 						<div class="page-view">
-							<select>
-								<option>표시할 상품 개수</option>
-								<option>10개씩 보기</option>
-								<option>20개씩 보기</option>
-								<option>30개씩 보기</option>
-								<option>50개씩 보기</option>							
+							<select name="perPageNum" id="perPageNum">
+								<option value="10" <c:if test="${pageMaker.criteria.perPageNum eq 10}">selected</c:if> >10개씩 보기</option>
+								<option value="20" <c:if test="${pageMaker.criteria.perPageNum eq 20}">selected</c:if> >20개씩 보기</option>
+								<option value="30" <c:if test="${pageMaker.criteria.perPageNum eq 30}">selected</c:if> >30개씩 보기</option>
+								<option value="50" <c:if test="${pageMaker.criteria.perPageNum eq 50}">selected</c:if> >50개씩 보기</option>							
 							</select>					
 						</div>					
 					</div>
@@ -329,24 +334,24 @@ $(document).ready(function(){
 					<ul class="pagination" style="justify-content: center;">
 					    <c:if test="${pageMaker.prev}">
 					        <li class="page-item">
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">Previous</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
 					        </li>
 					    </c:if>
 					    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">
 					       <c:if test="${pageMaker.criteria.page == index}">
 					        <li class="page-item active">	<!-- 부트스트랩 active 클래스를 호출하여 css를 적용 -->
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">${index}</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>
 					        </li>
 					       </c:if>
 					       <c:if test="${pageMaker.criteria.page != index}">
 					        <li class="page-item">	
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">${index}</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>
 					        </li>
 					       </c:if>
 					    </c:forEach>
 					    <c:if test="${pageMaker.next}">
 					        <li class="page-item">
-					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}">Next</a>
+					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}&perPageNum=${pageMaker.criteria.perPageNum}">Next</a>
 					        </li>
 					    </c:if>
 					</ul>

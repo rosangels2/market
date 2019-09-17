@@ -91,7 +91,7 @@ public interface ItemService {
 
 	boolean modifyOption(OptionVO oVo1);
 
-	int getTotalCount(Criteria cri);
+	int getItemTotalCount(Criteria cri);
 
 	ArrayList<ItemVO> getItemListAll();
 

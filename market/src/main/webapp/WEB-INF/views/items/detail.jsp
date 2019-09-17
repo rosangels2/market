@@ -82,6 +82,9 @@
 .menu-box{
 	position: relative; 
 }
+.menu-box div:hover{
+	 cursor: pointer;
+}
 .menu-box .menu-box-left{
 	float: left;
 	border: 1px solid gray;

@@ -1,0 +1,196 @@
+﻿1. 로그인한 user가 작성자와 같을 경우에만 게시글 수정 버튼이 보이도록 board/display.jsp에 c:if문을 통해 게시글 수정 버튼을 추가
+예시)
+<c:if test="${user.id eq board.writer}">
+	<a href="<%=request.getContextPath()%>/board/modify"> <button type="button" class="btn btn-outline-dark">게시글 수정</button> </a>
+</c:if>
+
+2. href에 ?를 추가해 URI에 수정할 게시글 번호를 전송
+예시)
+<c:if test="${user.id eq board.writer}">
+	<a href="<%=request.getContextPath()%>/board/modify?num=${board.num}"> <button type="button" class="btn btn-outline-dark">게시글 수정</button> </a>
+</c:if>
+
+3. 컨트롤러에서 URI를 매핑하는 메서드 매핑 후 게시글 번호가 매개변수로 제대로 전송되는지 출력하여 확인
+예시)
+	@RequestMapping(value = "modify", method = RequestMethod.GET)
+	public String modifyGet(Model model, Integer num){
+		System.out.println("board/modify num : " + num);
+		return "board/modify";
+	}
+
+4. 유저 정보와 게시글 작성자가 일치하는지 확인하기 위해 매개변수로 HttpServletRequest r을 추가하고 서비스 인터페이스를 호출
+예시)
+	@RequestMapping(value = "modify", method = RequestMethod.GET)
+	public String modifyGet(Model model, Integer num, HttpServletRequest r){
+		boolean isWriter = boardService.isWriter(num, r);
+		return "board/modify";
+	}
+
+5. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	public boolean isWriter(Integer num, HttpServletRequest r);
+
+6. quick fixed를 통해 서비스 인터페이스를 구현하고 코드 추가
+예시)
+	@Override
+	public boolean isWriter(Integer num, HttpServletRequest r) {
+		BoardVO board = boardDao.getBoard(num);
+		MemberVO user = (MemberVO)(r.getSession().getAttribute("user"));
+		if(board != null && board.getWriter().equals(user.getId())) {
+			return true;
+		}
+		return false;
+	}
+
+7. 로그인 중인 유저와 작성자가 일치하지 않을 경우 게시글 수정 URI에 접근하지 못하도록 컨트롤러에서 조건문을 추가
+예시)
+	@RequestMapping(value = "modify", method = RequestMethod.GET)
+	public String modifyGet(Model model, Integer num, HttpServletRequest r){
+		boolean isWriter = boardService.isWriter(num, r);
+		if(!isWriter){
+			return "redirect:/board/list";
+		}
+		return "board/modify";
+	}
+
+8. 화면에 표시할 board/modify.jsp를 생성 후 form태그 생성 및 css 추가
+예시)
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<html>
+<head>	
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<title>display</title>
+<style>
+a{
+	float: right;			
+	color: black;
+	margin-right : 30px;
+}
+</style>
+</head>
+<body>
+	<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
+	<form method="post" action="<%=request.getContextPath()%>/board/modify">
+		<input type="hidden" name="num" value="${board.num}">
+		<div class="container-fluid" style="margin-top:20px;">	              
+		    <div class="form-group">
+			  <label>제목</label>
+			  <input type="text" class="form-control" name="title" value="${board.title}">
+		    </div>
+		    <div class="form-group">
+			  <label>작성자</label>
+			  <input type="text" class="form-control" name="writer" value="${board.writer}" readonly>
+		    </div>
+		    <div class="form-group">
+			  <label>작성일</label>
+			  <input type="text" class="form-control" name="registered" value="${board.registered}" readonly>
+		    </div>
+		    <div class="form-group">
+			  <label>조회수</label>
+			  <input type="text" class="form-control" name="views" value="${board.views}" readonly>
+		    </div>
+		    <div class="form-group">
+			  <label>내용</label>
+			  <textarea class="form-control" rows="5" name="contents">${board.contents}</textarea>
+			</div>
+		    <div class="form-group">
+			  <label>파일첨부</label>
+			  <input type="text" class="form-control" name="file" value="${board.file}">
+		    </div>	  		
+		</div>
+		<button style="float: right; margin-right: 20px;">수정 완료</button>
+	</form>
+	<a style="float: left; margin-left: 20px;" href="<%=request.getContextPath()%>/board/list"><button type="button" class="btn btn-outline-primary">취소</button></a>
+</body>
+</html>
+
+9. URI로 넘겨받은 게시글 번호를 통해 DB에서 게시글 정보를 가져오는 서비스 인터페이스를 호출하고 결과값을 출력하여 확인
+예시) BoardController
+	@RequestMapping(value = "modify", method = RequestMethod.GET)
+	public String modifyGet(Model model, Integer num){
+		System.out.println("board/modify num : " + num);
+		BoardVO bVo = boardService.getBoard(num);
+		System.out.println("board/modify bVo : " + bVo);
+		return "board/modify";
+	}
+
+10. DB에서 가져온 게시글 정보를 model의 변수에 담아 jsp로 전송하고 jsp에서 value값에 ${board.속성명}을 입력해 getter를 호출
+예시)
+	@RequestMapping(value = "modify", method = RequestMethod.GET)
+	public String modifyGet(Model model, Integer num){
+		System.out.println("board/modify num : " + num);
+		BoardVO bVo = boardService.getBoard(num);
+		System.out.println("board/modify bVo : " + bVo);
+		model.addAttribute("board", bVo);
+		return "board/modify";
+	}
+
+11. post형식으로 form태그를 통해 수정된 게시글 정보를 매개변수로 전송받을 메서드를 컨트롤러에서 매핑하고 전송된 정보를 출력하여 확인
+예시)
+	@RequestMapping(value = "modify", method = RequestMethod.POST)
+	public String modifyPost(Model model, BoardVO bVo){
+		System.out.println("board/modify bVo : " + bVo);
+		return "redirect:/board/list";
+	}
+
+12. 게시글 정보가 제대로 전송된다면 해당 게시글 정보를 매개변수로 사용하여 게시글을 수정하는 서비스 인터페이스를 호출
+예시)
+	@RequestMapping(value = "modify", method = RequestMethod.POST)
+	public String modifyPost(Model model, BoardVO bVo){
+		System.out.println("board/modify bVo : " + bVo);
+		if(boardService.modify(bVo)){
+			return "redirect:/board/list";
+		}
+		return "redirect:/board/list";
+	}
+
+13. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	boolean modify(BoardVO bVo);
+
+14. quick fixed를 통해 서비스 인터페이스를 구현하고 DAO 인터페이스를 호출
+예시)
+	@Override
+	public boolean modify(BoardVO bVo) {
+		boardDao.modify(bVo);
+		return false;
+	}
+
+15. quick fifxed를 통해 DAO 인터페이스를 생성
+예시)
+	void modify(BoardVO bVo);
+
+16. DAO 인터페이스를 연결하고 게시글을 수정하는 update 쿼리문을 BoardMapper.xml에 구현
+예시)
+	update board 
+	set title = #{title},
+		contents = #{contents},
+		file = #{file},
+		views = #{views}
+		where num = #{num}
+	</update>
+
+17. 화면에서 게시글 수정 진행 후 DB에서 게시글 데이터가 수정되는지 확인한 후 서비스 구현 클래스에서 예외 처리
+예시)	
+	@Override
+	public boolean modify(BoardVO bVo) {
+		if(bVo == null) {
+			return false;
+		}
+		boardDao.modify(bVo);
+		return true;
+	}
+
+18. 게시글 정보 수정 성공 여부에 따라 보여줄 jsp를 다르게 반환
+예시)
+	@RequestMapping(value = "modify", method = RequestMethod.POST)
+	public String modifyPost(Model model, BoardVO bVo){
+		System.out.println("board/modify bVo : " + bVo);
+		if(boardService.modify(bVo)){
+			return "redirect:/board/list";
+		}
+		model.addAttribute("num", bVo.getNum());	//model의 변수 num에 bVo의 게시글 번호를 담아서 URI로 전송
+		return "redirect:/board/modify";
+	}

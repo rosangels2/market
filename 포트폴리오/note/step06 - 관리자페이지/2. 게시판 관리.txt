@@ -1,0 +1,297 @@
+﻿1. 게시판 관리로 이동하는 a태그를 nav bar에 생성
+예시) views/common/nav.jsp
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	<!-- c태그를 사용하기 위한 링크 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<nav class="navbar navbar-expand-sm bg-info navbar-dark" style="position: relative;">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link"href="<%=request.getContextPath()%>/member/modify" style="color: white">회원정보 수정</a>	
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="<%=request.getContextPath()%>/board/list" style="color: white">게시판</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://github.com/st8324" target="blank" style="color: white">gitHub</a>	<!-- 타겟 blank = 새 탭 -->
+    </li>
+    <c:if test="${user ne null}">
+        <li class="nav-item">
+       		<div class="nav-link" style="color: black;">로그인 아이디 [ ${user.id} ] </div>
+	</li>
+    </c:if>
+    <c:if test="${user.authority eq 'ADMIN'}">
+        <li class="nav-item">
+	      <a class="nav-link" href="<%=request.getContextPath()%>/admin/user/list" style="color: white;">회원 등급 관리</a>
+	    </li>
+        <li class="nav-item">
+	      <a class="nav-link" href="<%=request.getContextPath()%>/admin/board/list" style="color: white;">게시글 관리</a>
+	    </li>
+    </c:if>
+    <li class="nav-item">
+      <a class="nav-link nav-logout" href="<%=request.getContextPath()%>/signout" style="position: absolute;right: 0;width: 100px; color: white;">로그아웃</a>
+    </li>
+  </ul>
+</nav>
+
+2. views/admin/board/list.jsp 생성 및 boardList.jsp 복사 후 권한 항목을 추가
+예시)
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	<!-- c태그를 사용하기 위한 링크 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<title>Insert title here</title>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+	});	//레디
+</script>
+</head>
+<body>
+<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
+	<h1>게시판</h1>
+	  	<select class="form-control col-3 float-right" id="perPageNum">
+		    <option <c:if test="${pageMaker.criteria.perPageNum == 5} ">selected</c:if> >5</option>
+		    <option <c:if test="${pageMaker.criteria.perPageNum == 10}">selected</c:if> >10</option>
+		    <option <c:if test="${pageMaker.criteria.perPageNum == 15}">selected</c:if> >15</option>
+		    <option <c:if test="${pageMaker.criteria.perPageNum == 20}">selected</c:if> >20</option>
+		    <option <c:if test="${pageMaker.criteria.perPageNum == 20}">selected</c:if> >50</option>
+		</select>
+	<table class="table">
+		<tr>
+			<th width="10%">번호</th>		<!-- width를 통해 가로를 지정 -->
+			<th width="50%">제목</th>
+			<th width="10%">작성자</th>
+			<th width="20%">등록일</th>
+			<th width="10%">조회수</th>
+			<th width="10%">게시글 관리</th>
+		</tr>
+		<c:forEach var="board" items="${list}">	<!-- 향상된 포문처럼 items에 있는 변수 list의 값을 0번지부터 하나씩 꺼내서 board에 추가한다 -->
+			<tr>
+				<th>${board.num}</th>	<!-- list의 값이 추가된 변수 board의 getter 호출 -->
+				<th><a href="<%=request.getContextPath()%>/board/display?num=${board.num}">${board.title}</a></th>
+				<th>${board.writer}</th>
+				<th>${board.registered}</th>
+				<th>${board.views}</th>
+				<th>
+					<select name="boardModifySelect">
+						<option value="num=${board.num}&valid=I&page=${pageMaker.criteria.page}" <c:if test="${board.valid eq 'I'}">selected</c:if> >게시</option>
+						<option value="num=${board.num}&valid=D&page=${pageMaker.criteria.page}" <c:if test="${board.valid eq 'D'}">selected</c:if> >삭제</option>
+					</select>
+				</th>				
+			</tr>
+		</c:forEach>
+	</table>
+	<a href="<%=request.getContextPath()%>/board/register?id=${user.id}" style="float: right;"> <button type="button" class="btn btn-outline-dark">게시글 등록</button> </a>
+	
+	<ul class="pagination" style="justify-content: center;">
+	    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+	        <li class="page-item">
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${pageMaker.startPage-1}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
+	        </li>																<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+	    </c:if>
+	    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+	        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+	        <li class="page-item active">													<!-- index : 반복문의 i같은 역할로 증감연산 -->
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${index}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+	        </li>
+	        </c:if>
+	        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+	        <li class="page-item">															<!-- index : 반복문의 i같은 역할로 증감연산 -->
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${index}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+	        </li>
+	        </c:if>
+	    </c:forEach>
+	    <c:if test="${pageMaker.next}">	<!-- 다음버튼 -->
+	        <li class="page-item">
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${pageMaker.endPage+1}&perPageNum=${pageMaker.criteria.perPageNum}">Next</a>
+	        </li>
+	    </c:if>
+	</ul>
+	<form class="" method="get" action="<%=request.getContextPath()%>/admin/board/list">
+		<select name="type" class="float-left">
+			<option value="1" <c:if test="${pageMaker.criteria.type eq 1}">selected</c:if> >제목</option>
+			<option value="2" <c:if test="${pageMaker.criteria.type eq 2}">selected</c:if> >내용</option>
+			<option value="3" <c:if test="${pageMaker.criteria.type eq 3}">selected</c:if> >작성자</option>
+		</select>
+		<input type="text" name="search" class="float-left" value="${pageMaker.criteria.search}">
+		<button type="submit" class="btn btn-outline-success float-left">검색</button>
+	</form>
+</body>
+</html>
+
+3. 해당 URI를 컨트롤러에서 매핑
+예시)
+	@RequestMapping(value = "/board/list")
+	public String adminBoardList(Model model, Criteria cri){
+	    ArrayList<BoardVO> boardList = boardService.adminGetBoardList(cri);	//boardService클래스의 getBoardList 인터페이스를 호출해 결과값을 저장
+	    model.addAttribute("list", boardList);	//limit 설정에 맞는 게시글들을 가져와 model의 변수에 저장하여 jsp에서 사용
+		return "admin/board/list";
+	}
+
+4. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	ArrayList<BoardVO> adminGetBoardList(Criteria cri);
+
+5. BoardServiceImp.java에서 getBoardList를 복사 후 이름 변경
+예시)
+	@Override
+	public ArrayList<BoardVO> adminGetBoardList(Criteria cri) {
+		return boardDao.adminGetBoardList(cri);
+	}
+
+6. BoardDAO에서 getBoardList를 복사 후 이름 변경
+예시)
+	ArrayList<BoardVO> adminGetBoardList(Criteria cri);
+
+7. BoardMapper에서 getBoardList를 복사 후 이름과 where문을 삭제하여 게시글 전체 출력
+예시)
+  <select id="adminGetBoardList" resultType="kr.green.spring.vo.BoardVO">
+  	select * from board
+  	order by num desc	<!-- asc : 정렬, desc : 역순으로 정렬 -->
+  	limit #{pageStart}, #{perPageNum}	<!-- Criteria 클래스의 getter를 통해 limit -->
+  </select>
+
+8. 컨트롤러에서 가져온 정보를 model에 담아 jsp에 전송하여 출력
+예시)
+	@RequestMapping(value = "/board/list")
+	public String adminBoardList(Model model, Criteria cri){
+	    ArrayList<BoardVO> boardList = boardService.adminGetBoardList(cri);	//boardService클래스의 getBoardList 인터페이스를 호출해 결과값을 저장
+	    model.addAttribute("cri", cri);
+	    model.addAttribute("list", boardList);	//limit 설정에 맞는 게시글들을 가져와 model의 변수에 저장하여 jsp에서 사용
+		return "admin/board/list";
+	}
+
+9. 셀렉트 박스가 변경되면 value를 통해 정보를 전송하도록 jquery코드 추가
+예시)
+		$('select[name=boardModifySelect]').change(function(){
+			location.href = "<%=request.getContextPath()%>/admin/board/modify?"+$(this).val()";
+		});
+
+10. 해당 URI값을 전송받을 메서드를 컨트롤러에서 매핑 후 정보를 수정하는 서비스 호출
+예시)
+	@RequestMapping(value = "/board/modify")
+	public String adminBoardModify(Model model, BoardVO bVo, Criteria cri){
+		System.out.println("adminBoardModify bVo : "+bVo);
+		boardService.modify(bVo);
+		return "redirect:/admin/board/list";
+	}
+
+11. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	void modify(BoardVO bVo);
+
+12. quick fixed를 통해 인터페이스를 구현 후 DAO인터페이스를 호출
+예시)
+	@Override
+	public void modify(BoardVO bVo){
+		boardDao.validModify(bVo);
+		return;
+	}
+
+13. 해당 게시글 번호와 valid 값을 통해 게시글의 valid를 수정하는 mapper를 생성하여 DAO와 연결
+예시)
+	<update id="validModify">
+		update board 
+		set valid = #{valid}
+		where num = #{num}
+	</update>
+
+14. 페이지네이션 적용을 위해 컨트롤러에서 pageMaker 코드를 복사 후 서비스 인터페이스의 이름에 admin을 추가해서 관리자용으로 새로 호출
+예시)
+	@RequestMapping(value = "/board/list")
+	public String adminBoardList(Model model, Criteria cri){
+		ArrayList<BoardVO> boardList = boardService.adminGetBoardList(cri);	//boardService클래스의 getBoardList 인터페이스를 호출해 결과값을 저장
+	    int totalCount = boardService.adminGetTotalCount(cri);	//총 게시글 수를 계산하여 변수에 저장
+	    PageMaker pm = pageMakerService.getPageMaker(5, cri, totalCount);
+	    model.addAttribute("pageMaker", pm);	//pageMaker의 객체를 model의 변수에 저장
+	    model.addAttribute("cri", cri);
+	    model.addAttribute("list", boardList);	//limit 설정에 맞는 게시글들을 가져와 model의 변수에 저장하여 jsp에서 사용
+		return "admin/board/list";
+	}
+	@RequestMapping(value = "/board/modify")
+	public String adminBoardModify(Model model, BoardVO bVo, Criteria cri){
+		System.out.println("adminBoardModify bVo : "+bVo);
+		boardService.modify(bVo);
+		model.addAttribute("type", cri.getType());
+		model.addAttribute("search", cri.getSearch());
+		model.addAttribute("perPageNum", cri.getPerPageNum());
+		model.addAttribute("page", cri.getPage());
+		return "redirect:/admin/board/list";
+	}
+
+15. 서비스 인터페이스를 복사 후 이름에 admin을 추가
+예시)
+	int adminGetTotalCount(Criteria cri);
+
+16. 서비스 구현 메서드를 복사 후 이름에 admin을 추가
+예시)
+	@Override
+	public int adminGetTotalCount(Criteria cri) {
+		return boardDao.adminGetTotalCount(cri);
+	}
+
+17. DAO 인터페이스를 복사 후 이름에 admin을 추가
+예시)
+	int adminGetTotalCount(Criteria cri);
+
+18. 관리자용으로 모든 게시글의 개수를 계산하도록 mapper를 복사 후 where문을 제거
+예시)
+    <select id="adminGetTotalCount" resultType="int">
+		select count(*) from board
+    </select>
+
+19. 셀렉트박스가 바꼈을 때도 페이지 정보가 유지되도록 location에 페이지 정보를 추가
+예시)
+		$('select[name=boardModifySelect]').change(function(){
+			location.href = "<%=request.getContextPath()%>/admin/board/modify?"+$(this).val()+"&search=${pageMaker.criteria.search}&type=${pageMaker.criteria.type}&page=${pageMaker.criteria.page}&perPageNum=${pageMaker.criteria.perPageNum}";
+		});
+
+20. 검색값이 유지되도록 페이지네이션의 a태그 경로에 페이지 정보를 추가
+예시)
+	<ul class="pagination" style="justify-content: center;">
+	    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+	        <li class="page-item">
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
+	        </li>																<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+	    </c:if>
+	    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+	        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+	        <li class="page-item active">													<!-- index : 반복문의 i같은 역할로 증감연산 -->
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+	        </li>
+	        </c:if>
+	        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+	        <li class="page-item">															<!-- index : 반복문의 i같은 역할로 증감연산 -->
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+	        </li>
+	        </c:if>
+	    </c:forEach>
+	    <c:if test="${pageMaker.next}">	<!-- 다음버튼 -->
+	        <li class="page-item">
+	            <a class="page-link" href="<%=request.getContextPath()%>/admin/board/list?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Next</a>
+	        </li>
+	    </c:if>
+	</ul>
+
+21. 개시글 개수 선택 시 perPageNum을 변경하도록 선택된 옵션의 value를 전송하는 jquery문을 작성
+예시)
+		$('#perPageNum').change(function(){
+				location.href = "<%=request.getContextPath()%>/admin/board/list?perPageNum="+$(this).val();
+		});
+
+22. 검색한 상태에서 게시글 개수를 변경했을 때 검색한 값을 유지하기 위해 검색값을 URI에 추가로 전송
+예시)
+	$(document).ready(function(){
+		$('#perPageNum').change(function(){
+			var type = $('select[name=type]').val();	//검색한 상태에서 게시글 개수를 변경했을 떄 검색한 값을 유지하기 위해 추가
+			var search = $('input[name=search]').val();
+				location.href = "<%=request.getContextPath()%>/admin/board/list?perPageNum="+$(this).val()+'&type='+type+'&search='+search;
+		});
+		
+	});	//레디

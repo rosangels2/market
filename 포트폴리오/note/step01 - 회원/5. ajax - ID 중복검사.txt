@@ -1,0 +1,220 @@
+﻿1. pom.xml에 json 사용을 위한 의존성 추가
+<!-- json 사용 라이브러리 -->
+<dependency>
+    <groupId>org.codehaus.jackson</groupId>
+    <artifactId>jackson-mapper-asl</artifactId>
+    <version>1.9.13</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.8.7</version>
+</dependency>
+
+2. signup.jsp에서 아이디 input창 다음 위치에 중복 확인 버튼 추가
+예시)
+		<div>
+			<button type="button" class="btn btn-outline-success col-7" id="dup">아이디 중복확인</button>
+		</div>
+
+3. jsp에서 중복 확인 버튼을 누를 시 ajax가 실행되도록 script에 코드를 추가하고 jquery를 연결
+예시) signup.jsp <head>
+<script src="//code.jquery.com/jquery-3.4.1.js"></script>
+
+$(document).ready(function(){
+
+	$('#dup').click(function(){
+	 var id = $('input[name=id]').val();	//data를 통해 넘겨줄 매개변수에 저장할 값을 입력
+	 $.ajax({
+	        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:id,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/dup",
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	
+	       }
+	    });
+	});
+
+});	//레디
+
+4. 컨트롤러에서 매핑 후 인풋창에서 입력된 id를 출력하여 확인(보낼 정보가 참거짓이라면 map을 사용하지 않고 boolean을 사용해도 된다)
+예시)
+	@RequestMapping(value ="/dup")	//id 중복검사를 위한 메서드 매핑
+	@ResponseBody
+	public Map<Object, Object> idcheck(@RequestBody String id){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("ajax id : " + id);
+	    return map;
+	}
+
+5. id가 제대로 출력된다면 map.put을 통해 id를 map의 변수에 담아 jsp에 전송
+예시)
+	@RequestMapping(value ="/dup")	//id 중복검사를 위한 메서드 매핑
+	@ResponseBody
+	public Map<Object, Object> idcheck(@RequestBody String id){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("ajax id : " + id);
+	    map.put("id", id);
+	    return map;
+	}
+
+6. map.put을 통해 제대로 정보가 전송되는지 ajax에서 console.log나 alert을 통해 확인
+예시) signup.jsp
+
+		$('#dup').click(function(){
+			var id = $('input[name=id]').val();	//data를 통해 넘겨줄 매개변수에 저장할 값을 입력
+			$.ajax({
+		        async:true,
+		        type:'POST',
+		        data:id,	//컨트롤러에게 넘겨주는 매개변수명
+		        url:"dup",	//전송하는 URI 주소
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+			console.log(data.id);
+		        	alert(id.id);
+		       }
+		    });
+		});
+
+7. 정보가 ajax에 제대로 전달된다면 컨트롤러에서 id를 통해 가입된 id인지 여부를 서비스를 호출해 확인
+예시)
+	@Autowired
+	MemberDAO memberDao;
+
+	@RequestMapping(value ="/dup")	//id 중복검사를 위한 메서드 매핑
+	@ResponseBody
+	public Map<Object, Object> idcheck(@RequestBody String id){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    MemberVO mVo = memberDao.getMember(id);
+	    System.out.println("ajax mVo : " + mVo);
+	    return map;
+	}
+
+
+
+8. 컨트롤러에서 서비스를 호출하여 얻은 정보에 따라 boolean 변수 isMember의 값을 설정
+예시)
+	@RequestMapping(value ="/dup")	//id 중복검사를 위한 메서드 매핑
+	@ResponseBody
+	public Map<Object, Object> idcheck(@RequestBody String id){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    boolean isMember =  true;	//변수 초기화
+	    MemberVO mVo = memberDao.getMember(id);
+	    System.out.println("ajax mVo : " + mVo);
+	    if(mVo == null){
+	    	isMember = false;	//일치하는 회원이 없다
+	    }else{
+	    	isMember = true;	//일치하는 회원이 있다
+	    }
+	    return map;
+	}
+
+
+9. 컨트롤러에서 map.put을 통해 변수값을 ajax에 전달
+예시)
+	@RequestMapping(value ="/dup")	//id 중복검사를 위한 메서드 매핑
+	@ResponseBody
+	public Map<Object, Object> idcheck(@RequestBody String id){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    boolean isMember =  true;	//변수 초기화
+	    MemberVO mVo = memberDao.getMember(id);
+	    System.out.println("ajax mVo : " + mVo);
+	    if(mVo == null){
+	    	isMember = false;	//일치하는 회원이 없다
+	    }else{
+	    	isMember = true;	//일치하는 회원이 있다
+	    }
+	    map.put("isMember", isMember);	//돌려줄 정보를 map의 변수로 입력하고 map을 반환
+	    return map;
+	}
+
+10. 전달된 변수에 따라서 ajax의 결과를 다르게 반환
+예시)
+$(document).ready(function(){
+	$('#dup').click(function(){
+		var id = $('input[name=id]').val();	//data를 통해 넘겨줄 매개변수에 저장할 값을 입력
+		 $.ajax({
+	        async:true,
+	        type:'POST',
+	        data:id,	//컨트롤러에게 넘겨주는 매개변수명
+	        url:"dup",	//전송하는 URI 주소
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+				if(data.isMember){
+					alert('이미 가입된 아이디입니다');
+				}else{
+					alert('회원 가입이 가능한 아이디입니다.');
+				}
+	        }
+	    });
+	});
+});	//레디
+
+11. 전역변수를 생성해 ajax의 결과에 따라 알림 메세지와 결과를 다르게 처리
+예시)
+var isCheck = -1;	//중복 확인을 요구하는 초기값
+
+$(document).ready(function(){
+	$('#dup').click(function(){
+		var id = $('input[name=id]').val();	//data를 통해 넘겨줄 매개변수에 저장할 값을 입력
+		 $.ajax({
+	        async:true,
+	        type:'POST',
+	        data:id,	//컨트롤러에게 넘겨주는 매개변수명
+	        url:"dup",	//전송하는 URI 주소
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+				if(data.isMember){
+					alert('이미 가입된 아이디입니다');
+	        	 	isCheck = 0;	//아이디 중복(회원가입 불가능)
+				}else{
+					alert('회원 가입이 가능한 아이디입니다.');
+					isCheck = 1;	//아이디 비중복(회원가입 가능)
+				}
+	        }
+	    });
+	});
+});	//레디
+
+12. id의 입력값이 바뀐다면 전역변수를 초기화해 중복 확인을 다시 하도록 jquery 이벤트 함수 생성
+예시)
+	$(document).ready(function(){
+		$('#id').change(function(){
+			isCheck = -1;
+		});
+	});
+
+13. form태그에 id를 설정하고 id를 통해 isCheck 값이 1일 때만 form태그의 정보가 전송돼 회원가입이 진행되도록 jquery를 수정
+예시)
+	var isCheck = -1;
+	
+	$(document).ready(function(){
+		
+		$('#id').change(function(){
+			isCheck = -1;
+		});
+		
+	$('#signup').submit(function(){		//회원가입 버튼을 눌렀을 때
+		if(isCheck == -1){	//아이디 중복확인을 하지 않았을 경우
+			alert('아이디 중복 확인을 해주세요');
+			return false;
+		}else if(isCheck == 0){	//이미 가입된 아이디일 경우
+			alert('가입한 회원 아이디입니다.');
+			return false;
+		}else{
+			
+		}
+		alert('회원가입이 완료 되었습니다.');
+		isCheck = -1;	//회원 가입 완료 후 isCheck를 초기화
+		return true;
+	});
+
+	});	//레디
+
+14. 화면에서 회원가입 시 DB에 데이터가 추가되는지 확인

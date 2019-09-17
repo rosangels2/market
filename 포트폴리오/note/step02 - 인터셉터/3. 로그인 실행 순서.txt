@@ -1,0 +1,341 @@
+﻿1. "/"에서 아이디와 비밀번호를 입력하면 "/signin"에서 로그인 시도
+-> prehandle 방식인 AuthInterceptor인 클래스들의 servlet-context 설정 경로에 따라 prehandle AuthInterceptor가 먼저 실행된다
+예시) AuthInterceptor 클래스
+public class AuthInterceptor extends HandlerInterceptorAdapter {
+
+	@Override
+	public boolean preHandle(	//URI에서 컨트롤러로 정보를 전송할 때 작동하는 interceptor
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();	//현재 요청된 페이지의 세션을 가져와 새 세션에 저장한다
+		Object user = session.getAttribute("user");	//세션에서 변수 user를 가져와 객체 user에 저장한다
+		if(user == null) {	//객체가 null이면(로그인이 안돼있다면)
+			response.sendRedirect(request.getContextPath()+"/");	//AuthInterceptor가 적용되는 URI로 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+		return true;
+	}
+	
+}
+public class UnauthInterceptor extends HandlerInterceptorAdapter {
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();	//현재 요청된 페이지의 세션을 가져와 새 세션에 저장한다
+		Object user = session.getAttribute("user");	//세션에서 변수 user를 가져와 객체 user에 저장한다
+		if(user != null) {	//객체가 null이 아니면(로그인이 성공했다면) 
+			response.sendRedirect(request.getContextPath()+"/board/list");	//servlet-conext에서 설정한 경로에 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+		return true;
+	}
+	
+}
+예시) servlet-context.xml
+	<interceptors>
+	    <interceptor>
+	        <mapping path="/signin"/>	<!--	<mapping path="/"/>	 URI 경로에 접근했을 때 인터셉터를 실행		-->
+	        <beans:ref bean="loginInterceptor"/>	<!-- 위쪽 beans의 id와 일치해야 한다 -->
+	    </interceptor>
+   		<interceptor>
+	        <mapping path="/board/*"/>	<!-- 로그인이 안됐을 떄 board 경로에 접근할 시 -->
+	        <beans:ref bean="authInterceptor"/>	<!-- 로그인이 안됐을 때 접근을 막는 prehandle -->
+		</interceptor>
+   		<interceptor>
+	        <mapping path="/signin"/>	<!-- 로그인이 됐을 때 로그인이나 회원가입 경로나 홈에 접근할 시 -->
+	        <mapping path="/signup"/>
+	        <mapping path="/"/>
+	        <beans:ref bean="unauthInterceptor"/>	<!-- 로그인이 됐을 때 접근을 막는 prehandle 인터페이스 -->
+		</interceptor>
+	</interceptors>	
+
+2. prehandle 방식의 interceptor인 unauthInterceptor가 현재 세션을 확인하고 조건에 따라 response.sendRedirect를 통해 설정한 URI로 이동한다
+예시)
+public class AuthInterceptor extends HandlerInterceptorAdapter {
+
+	@Override
+	public boolean preHandle(	//URI에서 컨트롤러로 정보를 전송할 때 작동하는 interceptor
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();	//현재 요청된 페이지의 세션을 가져와 새 세션에 저장한다
+		Object user = session.getAttribute("user");	//세션에서 변수 user를 가져와 객체 user에 저장한다
+		if(user == null) {	//객체가 null이면(로그인이 안돼있다면)
+			response.sendRedirect(request.getContextPath()+"/");	//AuthInterceptor가 적용되는 URI로 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+		return true;
+	}
+	
+}
+
+3. Interceptor가 전송한 URI에 맞는 컨트롤러의 메서드를 매핑해 실행하고 model.addAttribute를 통해 Interceptor에게 보낼 변수에 객체를 저장한다
+예시)
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinPost(Model model, MemberVO mVo){
+		logger.info("로그인 진행 중");
+		System.out.println(mVo);	//입력한 정보를 제대로 가져오는지 확인
+		MemberVO user = memberService.signin(mVo);	//객체 mVo를 매개변수로 사용한 signin 함수를 호출하여 결과는 객체 user에 저장한다
+		if(user != null){	//user가 null이 아니라면(로그인에 성공했다면)
+			model.addAttribute("user", user);	//interceptor에게 전해주기 위해 변수 user에 객체 user를 저장한다
+			return "redirect:/member"; //로그인 성공 시 member.jsp로 이동
+		}
+		return "redirect:/signin";
+	}
+
+4. 컨트롤러가 JSP에게 전송한 정보를 postHandle 방식인 LoginInterceptor가 먼저 실행된다
+예시) LoginInterceptor
+public class LoginInterceptor extends HandlerInterceptorAdapter {
+	
+	@Override
+	public void postHandle(	//컨트롤러에서 JSP에 정보를 전송할 때 작동하는 방식
+	    HttpServletRequest request, 
+	    HttpServletResponse response, 
+	    Object handler, 
+	    ModelAndView modelAndView)
+	    throws Exception {	//오바리이딩하는 메서드의 선언부
+	    ModelMap modelMap = modelAndView.getModelMap();	//컨트롤러에서 model에 저장한 user 정보를 가져온다
+	    MemberVO user = (MemberVO)modelMap.get("user");
+
+	    if(user != null) {	//가져온 객체가 null이 아니라면(로그인이 성공했다면)
+	        HttpSession session = request.getSession();	//요청한 페이지에서 세션을 가져와 객체 세션에 저장한다
+	        session.setAttribute("user", user);	//객체 세션의 변수 user에 가져온 객체 user를 저장한다 
+	    }
+	 }
+	
+}
+예시)servlet-context.xml
+	<interceptors>
+	    <interceptor>
+	        <mapping path="/signin"/>	<!--	<mapping path="/"/>	 URI 경로에 접근했을 때 인터셉터를 실행		-->
+	        <beans:ref bean="loginInterceptor"/>	<!-- 위쪽 beans의 id와 일치해야 한다 -->
+	    </interceptor>
+   		<interceptor>
+	        <mapping path="/board/*"/>	<!-- 로그인이 안됐을 떄 board 경로에 접근할 시 -->
+	        <beans:ref bean="authInterceptor"/>	<!-- 로그인이 안됐을 때 접근을 막는 prehandle -->
+		</interceptor>
+   		<interceptor>
+	        <mapping path="/signin"/>	<!-- 로그인이 됐을 때 로그인이나 회원가입 경로나 홈에 접근할 시 -->
+	        <mapping path="/signup"/>
+	        <mapping path="/"/>
+	        <beans:ref bean="unauthInterceptor"/>	<!-- 로그인이 됐을 때 접근을 막는 prehandle 인터페이스 -->
+		</interceptor>
+	</interceptors>	
+
+5. LoginInterceptor가 세션을 저장하지만 이동할 경로를 선택하지 않았기 때문에 컨트롤러에서 요청한 URI로 이동한다
+예시)
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinPost(Model model, MemberVO mVo){
+		logger.info("로그인 진행 중");
+		System.out.println(mVo);	//입력한 정보를 제대로 가져오는지 확인
+		MemberVO user = memberService.signin(mVo);	//객체 mVo를 매개변수로 사용한 signin 함수를 호출하여 결과는 객체 user에 저장한다
+		if(user != null){	//user가 null이 아니라면(로그인에 성공했다면)
+			model.addAttribute("user", user);	//interceptor에게 전해주기 위해 변수 user에 객체 user를 저장한다
+			return "redirect:/member"; //로그인 성공 시 member.jsp로 이동
+		}
+		return "redirect:/signin";
+	}
+
+6. 컨트롤러에서 요청한 URI로 이동한 뒤 다시 URI에 맞는 컨트롤러의 RequestMapping에 연결되기 전에 해당 URI에 맞는 preHandle 방식의 Interceptor가 작동
+예시) servlet-context.xml
+	<interceptors>
+	    <interceptor>
+	        <mapping path="/signin"/>	<!--	<mapping path="/"/>	 URI 경로에 접근했을 때 인터셉터를 실행		-->
+	        <beans:ref bean="loginInterceptor"/>	<!-- 위쪽 beans의 id와 일치해야 한다 -->
+	    </interceptor>
+   		<interceptor>
+	        <mapping path="/board/*"/>	<!-- 로그인이 안됐을 떄 board 경로에 접근할 시 -->
+	        <beans:ref bean="authInterceptor"/>	<!-- 로그인이 안됐을 때 접근을 막는 prehandle -->
+		</interceptor>
+   		<interceptor>
+	        <mapping path="/signin"/>	<!-- 로그인이 됐을 때 로그인이나 회원가입 경로나 홈에 접근할 시 -->
+	        <mapping path="/signup"/>
+	        <mapping path="/"/>
+	        <beans:ref bean="unauthInterceptor"/>	<!-- 로그인이 됐을 때 접근을 막는 prehandle 인터페이스 -->
+		</interceptor>
+	</interceptors>	
+예시) preHandle 방식의 Interceptor 클래스
+public class AuthInterceptor extends HandlerInterceptorAdapter {
+
+	@Override
+	public boolean preHandle(	//URI에서 컨트롤러로 정보를 전송할 때 작동하는 interceptor
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();	//현재 요청된 페이지의 세션을 가져와 새 세션에 저장한다
+		Object user = session.getAttribute("user");	//세션에서 변수 user를 가져와 객체 user에 저장한다
+		if(user == null) {	//객체가 null이면(로그인이 안돼있다면)
+			response.sendRedirect(request.getContextPath()+"/");	//AuthInterceptor가 적용되는 URI로 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+		return true;
+	}
+	
+}
+public class UnauthInterceptor extends HandlerInterceptorAdapter {
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();	//현재 요청된 페이지의 세션을 가져와 새 세션에 저장한다
+		Object user = session.getAttribute("user");	//세션에서 변수 user를 가져와 객체 user에 저장한다
+		if(user != null) {	//객체가 null이 아니면(로그인이 성공했다면) 
+			response.sendRedirect(request.getContextPath()+"/board/list");	//servlet-conext에서 설정한 경로에 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+		return true;
+	}
+	
+}
+
+7. 인터셉터에 해당하는 조건이 있다면 해당 인터셉터의 response.sendRedirect를 통해 설정 경로로 보내고, 해당하는 조건이 없다면 컨트롤러에서 URI를 매핑
+예시)
+	//@RequestMapping(요청을 연결) - 서버 부분을 제외한 URL이 /고 방식이 get이면 home 메서드를 실행
+	@RequestMapping(value = "/", method = RequestMethod.GET)	//get방식으로 호출했을 떄 값과 일치하는 메서드를 호출
+	public String home(Model model){
+		logger.info("메인페이지 실행");	//console에 입력되는 메세지		
+		
+		return "home";	//사용자에게 home.jsp를 보내준다
+	}
+
+
+
+
+예제) 로그인을 하지 않고 /board/list를 입력하고 엔터를 쳐을 때 실행 순서를 작성
+
+1. 해당 URI의 경로를 설정해 둔 preHandle 방식의 AuthInterceptor가 실행
+예시) servlet-context.xml
+	<beans:bean id="authInterceptor" 
+		class="kr.green.spring.interceptor.AuthInterceptor">
+	</beans:bean>
+	<interceptors>
+   		<interceptor>
+	        <mapping path="/board/*"/>	<!-- 로그인이 안됐을 때 /board/밑의 모든 경로에 접근할 시 -->
+	        <beans:ref bean="authInterceptor"/>	<!-- 로그인이 안됐을 때 접근을 막는 prehandle -->
+		</interceptor>
+	</interceptors>	
+예시)AuthInterceptor 클래스
+	@Override
+	public boolean preHandle(	//URI에서 컨트롤러로 정보를 전송할 때 작동하는 interceptor
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();	//현재 요청된 페이지의 세션을 가져와 새 세션에 저장한다
+		Object user = session.getAttribute("user");	//세션에서 변수 user를 가져와 객체 user에 저장한다
+		if(user == null) {	//객체가 null이면(로그인이 안돼있다면)
+			response.sendRedirect(request.getContextPath()+"/");	//AuthInterceptor가 적용되는 URI로 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+		return true;
+	}
+
+2. 로그인이 돼있지 않다면 세션의 객체 user가 null이기 때문에 해당 조건식의 실행문을 실행
+-> response.sendRedirect(request.getContextPath()+"/");를 통해 해당 프로젝트+"/" URI로 이동
+예시)
+		if(user == null) {	//객체가 null이면(로그인이 안돼있다면)
+			response.sendRedirect(request.getContextPath()+"/");	//AuthInterceptor가 적용되는 URI로 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+
+3. response를 통해 "/" URI로 이동
+예시) http://localhost:8080/spring/
+
+4. 해당 URI "/"에 맞는 preHandle 방식의 Interceptor가 호출
+예시) servlet-context.xml
+	<beans:bean id="unauthInterceptor" 
+		class="kr.green.spring.interceptor.UnauthInterceptor">
+	</beans:bean>
+	<interceptors>
+   		<interceptor>
+	        		<mapping path="/signin"/>	<!-- 로그인이 됐을 때 로그인이나 회원가입 경로나 홈에 접근할 시 -->
+	     		<mapping path="/signup"/>
+	     		<mapping path="/"/>
+	     		<beans:ref bean="unauthInterceptor"/>	<!-- 로그인이 됐을 때 접근을 막는 prehandle 인터페이스 -->
+		</interceptor>
+	</interceptors>	
+예시) UnauthInterceptor
+public class UnauthInterceptor extends HandlerInterceptorAdapter {
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, 
+			HttpServletResponse response, 
+			Object handler)
+			throws Exception {
+		HttpSession session = request.getSession();	//현재 요청된 페이지의 세션을 가져와 새 세션에 저장한다
+		Object user = session.getAttribute("user");	//세션에서 변수 user를 가져와 객체 user에 저장한다
+		if(user != null) {	//객체가 null이 아니면(로그인이 성공했다면) 
+			response.sendRedirect(request.getContextPath()+"/board/list");	//servlet-conext에서 설정한 경로에 접근할 시 해당 URI의 절대경로로 이동한다
+		}
+		return true;
+	}
+	
+}
+
+5. UnauthInterceptor는 user 정보가 null이 아닐 때만 경로를 수정
+-> 로그인하기 전인 상태에선 user값이 null이기 때문에 true를 반환해 컨트롤러에 매핑
+
+6. URI에 맞는 컨트롤러의 메서드를 매핑하여 메서드에서 서비스 호출 등 코드를 실행하고 home.jsp를 실행
+예시)	
+	@RequestMapping(value = "/", method = RequestMethod.GET)	//get방식으로 호출했을 떄 값과 일치하는 메서드를 호출
+	public String home(Model model){
+		logger.info("메인페이지 실행");	//console에 입력되는 메세지		
+		
+		return "home";	//사용자에게 home.jsp를 보내준다
+	}
+
+7. home.jsp를 실행하는 도중 postHandle방식의 Interceptor에서 해당 경로에 맞는 매핑 설정을 했다면 Interceptor를 실행하고,
+경로에 맞는 postHandle방식의 Interceptor의 경로 매핑 설정이 없다면 Interceptor를 실행하지 않고 home.jsp를 실행하여 페이지를 구성
+예시)
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<title>회원가입</title>
+	<style>
+	input.form-control:focus{
+		color: green;
+		background-color: aqua;
+		font-size: 30px;
+	}
+	input.form-control:hover{
+		background-color: wheat;
+	}
+	.container{
+		border: 1px solid black;
+		width: 50%;
+	}
+	i.fab{
+		font-size: 100px;
+		color: red;
+	}
+	</style>
+</head>
+<body>
+	<div class="row m-5">
+		<div class="container offset-4 col-4">
+			<div class="offset-3"> <h1>로그인</h1></div>
+			<form method="post" action="<%=request.getContextPath()%>/signin">	<!-- signinPost메서드에 매핑 -->
+				<div class="form-group">
+					<label for="usr">아이디</label>
+					<input type="text" class="form-control col-7" id="id" placeholder="아이디" name="id">
+				</div>
+				<div class="form-group">
+					<label for="pwd">비밀번호</label>
+					<input type="password" class="form-control col-7" id="pw" placeholder="비밀번호" name="pw">
+				</div>
+				<button type="submit" class="btn btn-primary float-right">로그인</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

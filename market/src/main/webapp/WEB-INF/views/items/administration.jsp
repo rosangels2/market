@@ -12,32 +12,6 @@ ul{
 	list-style: none;
 	display: block;
 }
-/* 페이지 선택창 */
-.page-select-contents{
-	height: 50px;
-	position: relative;
-}
-.list-select-box{
-	width: 300px;
-	margin: 0;
-	display: inline-block;
-}
-.list-select-box select{
-	width: 300px;
-	height: 40px;
-	margin: 4px 0 5px 0;
-}
-.page-view{
-	position: absolute;
-	right: 0;
-	margin:20px 0 0 0;
-	top: 0px;
-}
-.page-view select{
-	width: 300px;
-	height: 40px;
-	margin: 4px 0 5px 0;
-}
 /* 상품 리스트 */
 .item-list-contents{
 	min-height : 600px;
@@ -140,20 +114,6 @@ $(document).ready(function(){
 </head>
 	<div style="min-height: 1000px; position: relative;">
 		<div class="views-page">
-			<!-- 페이지 선택창  -->
-			<div class="page-select">
-				<div class="page-select-contents">
-					<div class="page-view clearfix">
-						<select>
-							<option>표시할 상품 개수</option>
-							<option>10개씩 보기</option>
-							<option>20개씩 보기</option>
-							<option>30개씩 보기</option>
-							<option>50개씩 보기</option>							
-						</select>					
-					</div>					
-				</div>
-			</div>
 			<!-- 상품 목록창 -->
 			<div class="item-list">
 				<div class="item-list-contents">
@@ -196,10 +156,7 @@ $(document).ready(function(){
 						</div>	
 					</c:forEach>																			
 				</div>
-			</div>
-			<div class="more-img-box" style="text-align: center;">
-				<i class="fas fa-plus-square more-img"></i>
-			</div>			
+			</div>		
 			<div class="page-bottom">
 				<div class="bottom-contents">
 					

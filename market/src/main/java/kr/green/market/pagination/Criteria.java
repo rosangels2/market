@@ -2,10 +2,10 @@ package kr.green.market.pagination;
 
 public class Criteria {
 
-	private int page;		//현재 페이지를 저장할 멤버변수
-	private int perPageNum;	//한 페이지에 보여줄 개시글 개수를 정하는 멤버변수
-	private int type;		//검색 카테고리 값을 저장할 멤버변수
-	private int category;
+	private Integer page;		//현재 페이지를 저장할 멤버변수
+	private Integer perPageNum;	//한 페이지에 보여줄 개시글 개수를 정하는 멤버변수
+	private Integer type;		//검색 카테고리 값을 저장할 멤버변수
+	private Integer category;
 	private String search;	//검색창에 입력된 값을 저장할 멤버변수
 	
 	public Criteria() {	//기본 생성자
@@ -16,7 +16,10 @@ public class Criteria {
 		this.search = "";
 	}
 	
-	public int getCategory() {
+	public Integer getCategory() {
+		if(category == null) {
+			return 0;
+		}
 		return category;
 	}
 
@@ -24,10 +27,16 @@ public class Criteria {
 		this.category = category;
 	}
 
-	public int getType() {
+	public Integer getType() {
+		if(type == null) {
+			return 1;
+		}
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(Integer type) {
+		if(type == null) {
+			return;
+		}
 		this.type = type;
 	}
 	public String getSearch() {
@@ -36,7 +45,10 @@ public class Criteria {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-	public int getPage() {
+	public Integer getPage() {
+		if(page == null) {
+			return 1;
+		}
 		return page;
 	}
 	public void setPage(int page) {
@@ -46,11 +58,14 @@ public class Criteria {
 		else
 			this.page = page;
 	}
-	public int getPerPageNum() {
+	public Integer getPerPageNum() {
+		if(perPageNum == null) {
+			return 10;
+		}
 		return perPageNum;
 	}
 	public void setPerPageNum(int perPageNum) {
-		if(perPageNum <=0 || perPageNum > 100) {	//한 페이지당 컨텐츠 개수를 100개로 제한
+		if(perPageNum <= 0 || perPageNum > 100) {	//한 페이지당 컨텐츠 개수를 100개로 제한
 			this.perPageNum = 10;
 		}
 		else

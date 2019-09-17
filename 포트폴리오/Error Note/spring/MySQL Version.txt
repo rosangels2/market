@@ -1,0 +1,4 @@
+﻿에러 이름 - could not get IDBC COnnection: nested exception is java.sql.SQLExeption
+에러 내용 - Unable to load authentication plugin 'caching sha2 password'
+원인 - MySQL 버전이 달라 생기는 호환 문제
+해결 방법 - pom.xml의 mysql 버전을 6.에서 8. 이상인 8.0.11로 변경

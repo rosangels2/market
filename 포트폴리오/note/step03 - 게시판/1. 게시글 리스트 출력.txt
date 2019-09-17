@@ -1,0 +1,222 @@
+﻿1. 게시판 테이블 생성
+번호 제목 내용 작성자 작성일 첨부파일 조회수
+int num
+varchar(255)title
+longtext contents
+varchar(15) writer
+datetime registered CURRENT_TIMESTAMP
+varchar(255) file
+int views default 0
+
+2. BoardController를 생성 후  /board/list URI를 매핑하는 메서드와 어노테이션을 추가
+예시)
+@Controller
+@RequestMapping(value = "/board")
+public class BoardController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public String list(Model model){
+		
+		return "board/list";
+	}
+}
+
+3. 해당 컨트롤러에서 반환할 jsp파일을 경로에 맞게 생성 후 css 구성
+예시) /views/board/modify.jsp
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	<!-- c태그를 사용하기 위한 링크 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<title>Insert title here</title>
+
+</head>
+<body>
+<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
+	<h1>게시판</h1>
+	<table class="table">
+		<tr>
+			<th width="10%">번호</th>		<!-- width를 통해 가로를 지정 -->
+			<th width="50%">제목</th>
+			<th width="10%">작성자</th>
+			<th width="20%">등록일</th>
+			<th width="10%">조회수</th>
+		</tr>
+	</table>
+</body>
+</html>
+
+4. BoardService 인터페이스 생성
+
+5. BoardServiceImp 클래스 생성 및 어노테이션 추가
+예시)
+@Service
+public class BoardServiceImp implements BoardService{
+
+}
+
+6. BoardDAO 인터페이스 생성
+
+7. BoardVO 클래스 생성
+예시)
+public class BoardVO {
+
+	private Integer num;
+	private String title;
+	private String contents;
+	private String writer;
+	private Date registered;
+	private String file;
+	private int views;
+	
+	
+	public Integer getNum() {
+		return num;
+	}
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getContents() {
+		return contents;
+	}
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	public String getRegistered() {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	//jsp에서 호출할 때 원하는 형식으로 보기 위해 코드를 수정
+		return f.format(registered);						//변수 registered를 위의 형식으로 변환하여 반환
+	}
+	public void setRegistered(String registered) {		//jsp에서 form태그를 통해 컨트롤러로 넘어갈 떄 setter를 호출하여 전송
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		try {
+			this.registered = transFormat.parse(registered);
+		}catch(ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
+
+
+	@Override
+	public String toString() {
+		return "BoardVO [num=" + num + ", title=" + title + ", contents=" + contents + ", writer=" + writer
+				+ ", registered=" + registered + ", file=" + file + ", views=" + views + "]";
+	}
+
+}
+
+8. BoardMapper.xml 파일 생성 후 DAO 연결
+예시)
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.green.practice.dao.BoardDAO">
+
+</mapper>
+
+9. 게시글 정보를 DB에서 가져오기 위해 컨트롤러에서 서비스 인터페이스를 호출
+예시)
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public String list(Model model){
+		ArrayList<BoardVO> list = boardService.getBoardList();
+		return "board/list";
+	}
+
+10. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	ArrayList<BoardVO> getBoardList();
+
+11. quick fixed를 통해 서비스 인터페이스를 구현 후 DAO 인터페이스 호출
+예시)
+	@Autowired
+	BoardDAO boardDao;
+	
+	@Override
+	public ArrayList<BoardVO> getBoardList() {
+
+		return boardDao.getBoardList();
+	}
+
+12. quick fixed를 통해 DAO 인터페이스를 생성
+예시)
+	ArrayList<BoardVO> getBoardList();
+
+13. 게시판 정보들을 가져올 쿼리문을 구현해 DAO 인터페이스와 연결
+예시)
+<mapper namespace="kr.green.practice.dao.BoardDAO">
+<select id="getBoardList" resultType="kr.green.practice.vo.BoardVO">
+	select * from board order by num desc
+</select>
+</mapper>
+
+14. 게시글 정보가 제대로 전송되는지 컨트롤러에서 출력하여 확인
+예시)
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public String list(Model model){
+		ArrayList<BoardVO> list = boardService.getBoardList();
+		System.out.println("board/list list : " + list);
+		return "board/list";
+	}
+
+15. 제대로 게시판 정보가 출력된다면 model에 담아 jsp에 전송
+예시)
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public String list(Model model){
+		ArrayList<BoardVO> list = boardService.getBoardList();
+		System.out.println("board/list list : " + list);
+		model.addAttribute("list", list);
+		return "board/list";
+	}
+
+16. c:forEach문을 통해 게시글 정보를 담아서 모델로 보낸 변수 list의 값을 하나씩 꺼내서 board라는 변수에 담아 하나씩 출력한다
+예시)
+	<table class="table">
+		<tr>
+			<th width="10%">번호</th>		<!-- width를 통해 가로를 지정 -->
+			<th width="50%">제목</th>
+			<th width="10%">작성자</th>
+			<th width="20%">등록일</th>
+			<th width="10%">조회수</th>
+		</tr>
+		<c:forEach var="board" items="${list}">	<!-- 향상된 포문처럼 items에 있는 변수 list의 값을 0번지부터 하나씩 꺼내서 board에 추가한다 -->
+			<tr>
+				<th>${board.num}</th>	<!-- list의 값이 추가된 변수 board의 getter 호출 -->
+				<th>${board.title}</a></th>
+				<th>${board.writer}</th>
+				<th>${board.registered}</th>
+				<th>${board.views}</th>			
+			</tr>
+		</c:forEach>
+	</table>
+
+17. 

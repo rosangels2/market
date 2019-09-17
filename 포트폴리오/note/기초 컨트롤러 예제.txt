@@ -1,0 +1,70 @@
+﻿예시) HomeController.java
+@Controller	//annotation - 입력하면 controller로 인식(없을 경우 일반 클래스로 인식)
+public class HomeController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	//실행된 클래스와 컨트롤러를 확인하기 위해 현재 정보를 상수인 클래스 멤버변수에 저장
+	
+	@Autowired
+	MemberService memberService;	//memberService의 객체 생성
+	
+	@Autowired	//생성자를 대신 사용해주는 기능(하나의 객체를 만들어서 해당 클래스의 객체를 사용할 때 자동 연결)
+	MemberDAO stdDao;	//memberDAO의 객체를 생성
+	
+	//@RequestMapping(요청을 연결) - 서버 부분을 제외한 URL이 /고 방식이 get이면 home 메서드를 실행
+	@RequestMapping(value = "/", method = RequestMethod.GET)	//get방식으로 호출했을 떄 값과 일치하는 메서드를 호출
+	public String home(Model model){
+		logger.info("메인페이지 실행");	//console에 입력되는 메세지		
+		
+		//model - 화면(jsp)과 관련된 정보를 저장하는 객체
+		model.addAttribute("serverTime", "안녕하세요" ); //객체.addAttribute(변수,값) - 해당 객체의 변수에 값을 추가하는 기능을 가진 메서드 
+		model.addAttribute("name", id);
+		
+		int res = num1+num2;	//매개변수로 객체를 가져왔을 경우 자료형이 일치해야 한다(또는 Integer로 했을 때 null+null을 실행해 에러 발생 가능)	
+		if(num1 != null && num2 != null) {
+			model.addAttribute("res",num1+num2);
+		}
+		model.addAttribute("num1", num1);
+		model.addAttribute("num2", num2);
+		//model.addAttribute("res", num1+num2); //num1, num2 입력 없이 계산할 경우 nullPointException 발생
+		
+		if(zero == null) {
+			zero = 0;
+		}else{
+			zero++;
+		}
+		model.addAttribute("zero", zero);
+	}
+
+
+	 @RequestMapping(value = "/", method = RequestMethod.GET) 
+	 public String home(Locale locale, Model model) {
+	 logger.info("Welcome home! The client locale is {}.", locale);
+	  
+	  Date date = new Date(); DateFormat dateFormat =
+	  DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+	  
+	  String formattedDate = dateFormat.format(date);
+	  
+	  model.addAttribute("serverTime", formattedDate)); 
+	  return "home"; //사용자에게 home.jsp를 보내준다 
+	}
+}
+
+
+예시) home.jsp
+<h1>
+	Hello world!  
+</h1>
+
+<P>  The time on the server is ${serverTime}</P>	<!-- 주석에도 $ {변수명}을 붙여서 사용 불가(에러 발생) -->
+<form method="get" action="<%=request.getContextPath()%>">	<!-- 프로젝트 명을 입력받는 코드 : 현재 /spring/ -->
+	<input name="id" value="${name}"><br><br>	<!-- 인풋창에 입력한 값이 위쪽의 P태그에도 적용 -->
+	<input name="num1" value="${num1}">
+	<input name="num2" value="${num2}">
+	<input name="res" value="${res}" readonly>
+	<!-- value : 실행됐을 때의 보여지는 값 -->
+	<button>계산하기</button>	<!-- form태그 안의 button은 기본적으로 타입이 submit이기 때문에 추가 작업이 없어도 버튼 클릭시 데이터 전송이 진행 -->
+	<br><br>
+	<input name="zero" value="${zero}"><button>더하기</button>
+</form>

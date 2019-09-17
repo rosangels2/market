@@ -1,0 +1,7 @@
+﻿1. gitignore.io에서 java와 java-web 선택 후 생성
+
+2. 깃크라켄에서 새로 생성된 프로젝트 파일 중 아무 파일 클릭 > ignore > ignore... 클릭
+
+3. gitignore에서 텍스트를 복사한 후 깃크라켄의 gitignore 파일 선택 > edit > 텍스트 붙여넣기 > Stage FIle 클릭 > Save and stage
+
+4. Stage all changes > 커밋 > push

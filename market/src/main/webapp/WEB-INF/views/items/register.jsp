@@ -161,11 +161,10 @@ function addInputEvent(){
 					<div class="input-box">
 						<div class="item-category" style="margin-top: 0;">
 							<h4>카테고리</h4>
-							<select>
-								<option>카테고리</option>
-								<option>01</option>
-								<option>02</option>
-								<option>03</option>
+							<select name="categoryNo">
+								<c:forEach items="${categoryList}" var="category">
+									<option value="${category.no}">${category.detail}</option>
+								</c:forEach>
 							</select>
 						</div>
 						<!-- 작성자 ID 전송 -->

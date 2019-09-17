@@ -365,9 +365,9 @@ public class ItemServiceImp implements ItemService{
 		return true;
 	}
 	@Override
-	public int getTotalCount(Criteria cri) {
+	public int getItemTotalCount(Criteria cri) {
 		
-		return itemDao.getTotalCount(cri);
+		return itemDao.getItemTotalCount(cri);
 	}
 	@Override
 	public ArrayList<ItemVO> getItemListAll() {

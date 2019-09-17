@@ -165,6 +165,7 @@
 <select id="selectMyItemList" resultType="kr.green.market.vo.ItemVO">
 	select * from `item`
 		where seller_id = #{id} and valid = 'I'
+		order by no desc
 </select>
 <update id="deleteOption">
 	update `option`
@@ -196,7 +197,7 @@
 		set item_no = #{oVo.item_no}, item_title = #{oVo.item_title}, `select` = #{oVo.select}, `detail` = #{oVo.detail}, `stock` = #{oVo.stock}, `price` = #{oVo.price}, valid = #{oVo.valid}
 		where no = #{oVo.no}
 </update>
-<select id="getTotalCount" resultType="int">
+<select id="getItemTotalCount" resultType="int">
 		select count(*) from `item` where valid = 'I'	<!-- 총 개시글 수를 계산하여 정수로 반환 -->
 		<if test="cri.category != 0">and category_no = #{cri.category}</if>
 		<choose>

@@ -1,0 +1,225 @@
+﻿1. 파일 업로드 의존성 추가
+예시) pom.xml
+		<!-- 이미지 관련 라이브러리 -->
+		<dependency>
+		    <groupId>org.imgscalr</groupId>
+		    <artifactId>imgscalr-lib</artifactId>
+		    <version>4.2</version>
+		</dependency>
+		<!-- 파일 업로드 기능 라이브러리 -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.3.2</version>
+		</dependency>
+
+2. servlet-context.xml에서 파일 업로드를 bean에 등록
+예시) servlet-context.xml
+<!-- 파일 업로드 기능 -->
+<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <!-- 업로드 최대 크기 10Mb -->
+    <beans:property name="maxUploadSize" value="10485760"></beans:property>
+</beans:bean>
+
+3. board/register.jsp 에서 form태그에 enctype="multipart/form-data"을 추가하고 file 인풋창의 타입을 file로 변경하고 네임을 변경
+<!-- form 태그 수정 -->
+<form method="post" enctype="multipart/form-data">
+    <!-- ... 이전 코드 생략 -->
+    <!-- 파일 업로드창 추가 -->
+    <div class="form-group">
+        <label>파일</label>
+        <input type="file" class="form-control" name="file2"/>
+    </div>
+</form>
+
+4. 서버에 저장될 파일의 경로 설정 - 서버에 저장할 경로는 \를 이용하여 표현하며 \를 문자열로 표현하기위해 \\로 입력해야한다.
+예시) servlet-context.xml
+<!-- 파일 업로드 경로 추가 -->
+<beans:bean id="uploadPath" class="java.lang.String">
+    <!--
+	<beans:constructor-arg value="서버에 저장할 경로"></beans:constructor-arg>
+	-->
+    <beans:constructor-arg value="C:\\최진영\\git\\uploadfiles"></beans:constructor-arg>	<!-- \\를 두개씩 입력 -->
+</beans:bean>
+
+실제 예시)
+<!-- servlet-context.xml에 추가 -->
+<beans:bean id="uploadPath" class="java.lang.String">
+    <!--
+	<beans:constructor-arg value="서버에 저장할 경로"></beans:constructor-arg>
+	-->
+    <beans:constructor-arg value="C:\\최진영\\git\\uploadfiles"></beans:constructor-arg>	<!-- \\를 두개씩 입력 -->
+</beans:bean>
+
+5.서버 폴더에 파일들이 집중되는 문제를 해결을 위한 추가 작업 - 파일을 저장할 때 /년/월/일을 별도의 폴더로 구성해서 파일을 보관
+예시) spring프로젝트 > kr.green.spring.utils패키지 > UploadFileUtils 클래스 생성
+메소드 생성
+public class UploadFileUtils {
+
+	public static String uploadFile(String uploadPath, String originalName, byte[] 	//파일을 업로드하는 메소드
+			fileData)throws Exception{
+		UUID uid = UUID.randomUUID();	//고유 식별자 UUID를 통해 같은 파일명이어도 다르게 저장
+		String savedName = uid.toString() +"_" + originalName;	//고유식별명_파일명의 형식으로 파일명을 저장
+		String savedPath = calcPath(uploadPath);	//업로드 날짜를 기준으로 파일 경로를 추가
+		File target = new File(uploadPath + savedPath, savedName);	//기본 폴더에 업로드 날짜를 경로로 추가한 뒤 이름을 저장
+		FileCopyUtils.copy(fileData, target);
+		String uploadFileName = makeIcon(uploadPath, savedPath, savedName);
+		return uploadFileName;
+	}
+	
+	private static String calcPath(String uploadPath) {	//업로드한 파일을 저장할 경로를 계산하는 메소드(현재 시간을 기준으로 년월을 가져온다)
+		Calendar cal = Calendar.getInstance();
+		//separator - 운영체제에 맞게 \ 또는 / 를 설정해 주는 구분자
+		String yearPath = File.separator+cal.get(Calendar.YEAR);	// /2019	
+		String monthPath = yearPath + File.separator 				// /2019/07
+            + new DecimalFormat("00").format(cal.get(Calendar.MONTH)+1);
+		String datePath = monthPath + File.separator 				// /2019/07/29
+            + new DecimalFormat("00").format(cal.get(Calendar.DATE));
+		makeDir(uploadPath, yearPath, monthPath, datePath);		//해당 경로를 매개변수로 폴더를 생성하는 메서드 호출
+		
+		return datePath;
+ 
+	}
+	private static void makeDir(String uploadPath, String... paths) {	//String... : 3개의 Path들을 paths라는 배열로 만들어서 사용
+		if(new File(uploadPath+paths[paths.length-1]).exists())	//datePath가 만들어져 있다면 폴더를 생성하지 않고 리턴 
+			return;
+		for(String path : paths) {	//향상된 포문으로 yearPath부터 하나씩 꺼내서 실행
+			File dirPath = new File(uploadPath + path);
+			if( !dirPath.exists())	//존재하지 않으면
+				dirPath.mkdir();	//해당 폴더를 생성
+		}
+	}
+	private static String makeIcon(String uploadPath, String path, String fileName)
+        	throws Exception{
+		String iconName = uploadPath + path + File.separator + fileName;	//
+		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');	//replace를 통해 구분자를 \에서 /로 변경
+	}
+
+}
+
+6. 고유식별자를 제외한 첨부 파일명만을 추출하기 위해 BoardVO에 getter인 getFileName을 추가
+예시)
+	public String getFileName(){
+		if(file == null){
+			return "";
+		}
+		int index = file.indexOf("_");	//UUID 뒤에 오는 첫번째 _의 위치를 찾아서 저장
+		if(index == -1){	//파일이 없을 때의 예외처리
+			return "";
+		}
+		return file.substring(index+1);	// _ 다음 위치의 문자열을 서브스트링으로 변환하여 반환
+	}
+
+7. BoardController에  어노테이션 추가
+예시)
+@Resource
+private String uploadPath;
+
+8.) 매개변수와 코드 추가 후 quick fiexd로 throws Exception 추가하고 bVo.setFile을 통해 setter로 값을 입력
+예시) 추가 코드 : String file = UploadFileUtils.uploadFile(uploadPath, file2.getOriginalFilename(),file2.getBytes());	//String file = uploadFile(file2.getOriginalFilename(),file2.getBytes());
+	@RequestMapping(value="register", method = RequestMethod.POST)
+	public String BoardRegisterPost(MultipartFile file2, BoardVO bVo) throws IOException, Exception{	//RunTimeException이 아니면 예외처리 필수
+		String file = UploadFileUtils.uploadFile(uploadPath, file2.getOriginalFilename(),file2.getBytes());
+		bVo.setFile(file);
+		if(boardService.register(bVo)){		//첨부파일을 먼저 작업하지 않고 게시글을 등록할 경우 NullPointerException 발생 가능
+			return "redirect:/board/list";
+		}
+		return "redirect:/board/register";
+	}
+
+9. 첨부파일명에 식별 코드를 추가하는 메서드 추가
+예시) BoardController
+	private String uploadFile(String name, byte[] data)	//첨부파일 업로드 메서드(매핑 없이 컨트롤러 내에서 자체적으로 실행)
+			throws Exception{
+			UUID uid = UUID.randomUUID();	//동일한 파일명이 있어도 중복되지 않게 구분해주는 식별자
+			String savaName = uid.toString() + "_" + name;
+			File target = new File(uploadPath, savaName);
+			FileCopyUtils.copy(data, target);
+			return savaName;
+	}
+
+10. 첨부파일이 없을 때의 예외처리
+예시) BoardController
+	@RequestMapping(value="register", method = RequestMethod.POST)
+	public String BoardRegisterPost(Model model, BoardVO bVo, MultipartFile file2) throws IOException, Exception{
+		if(file2.getOriginalFilename().length() != 0){
+			String file = UploadFileUtils.uploadFile(uploadPath, file2.getOriginalFilename(),file2.getBytes());
+			bVo.setFile(file);
+			boardService.register(bVo);
+			return "redirect:/board/list";
+		}
+		return "redirect:/board/register";
+	}
+
+11. 첨부파일을 표시할 jsp파일에서 getter를 호출하여 게시글에서 첨부파일명을 출력 - display.jsp, modify.jsp
+
+예시) display.jsp
+      <tr>
+        <td>${board.title}</td>
+        <td>${board.writer}</td>
+        <td>${board.views}</td>
+        <td>${board.registered}</td>
+        <td>${board.fileName}</td>	<!-- getter를 호출 시 첫 글자가 대문자로 변환돼 호출되기 때문에 첫 글자를 카멜 표기법으로 입력 -->
+      </tr>
+
+예시) modify.jsp
+		    <div class="form-group">
+			  <label>파일첨부</label>
+			  <input type="text" class="form-control" name="file" value="${board.fileName}">
+		    </div>	  		
+
+12. 다운로드 기능 추가
+예시) BoardController에 메서드를 복사 후 붙여넣고 import(1번째 java.io, 2번째 org.springframework)
+@ResponseBody
+@RequestMapping("download")
+public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
+    InputStream in = null;
+    ResponseEntity<byte[]> entity = null;
+    try{
+        HttpHeaders headers = new HttpHeaders();
+        in = new FileInputStream(uploadPath+fileName);
+
+        fileName = fileName.substring(fileName.indexOf("_")+1);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.add("Content-Disposition",  "attachment; filename=\"" 
+			+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+    }catch(Exception e) {
+        e.printStackTrace();
+        entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+    }finally {
+        in.close();
+    }
+    return entity;
+}
+
+13. 다운로드 테스트
+예시) http://localhost:8080/spring/board/download?fileName=/2019/07/29/9d73a94d-7773-4380-9dda-fb3647daf6e0_cat1.png URI 입력
+
+14. 첨부파일 클릭 시 다운로드가 진행되도록 코드를 수정
+예시) display.jsp
+  <table class="table">
+    <thead>
+      <tr>
+        <th>게시글 제목</th>
+        <th>작성자</th>
+        <th>조회수</th>
+        <th>작성일</th>
+        <th>첨부파일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>${board.title}</td>
+        <td>${board.writer}</td>
+        <td>${board.views}</td>
+        <td>${board.registered}</td>
+        <td>	<!-- getter를 호출 시 첫 글자가 대문자로 변환돼 호출되기 때문에 첫 글자를 카멜 표기법으로 입력 -->
+	<c:if test="${board.fileName ne ''}">		<!-- 첨부파일이 있으면 파일명을 누를 시 다운로드 링크로 연결 -->
+		<a href="<%=request.getContextPath()%>/board/download?fileName=${board.file}">${board.fileName}</a>
+	</c:if>
+	<c:if test="${board.fileName eq ''}">없음</c:if>		<!-- 첨부파일이 없을 경우 텍스트만 표시 -->
+        </td>
+      </tr>
+    </tbody>
+  </table>

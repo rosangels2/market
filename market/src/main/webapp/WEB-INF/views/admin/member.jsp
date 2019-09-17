@@ -9,6 +9,7 @@
 .menu-contents div{
 	border: 1px solid gray;
 	margin-right: 30px;
+	cursor: pointer;
 }
 .table-title{
 	text-align: center; 

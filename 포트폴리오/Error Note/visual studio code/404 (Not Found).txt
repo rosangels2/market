@@ -1,0 +1,4 @@
+﻿에러 발생 코드 : <script src="/js/pwCheck1.js"></script>
+에러 : GET http://127.0.0.1:5500/js/pwCheck1.js net::ERR_ABORTED 404 (Not Found)
+원인 : 경로를 찾을 수 없을 때 발생 (오타 발생 : pwCheck.js)
+해결 방법 : 정확한 경로와 파일명을 입력

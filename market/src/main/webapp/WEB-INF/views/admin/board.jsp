@@ -11,6 +11,7 @@
 	float: left;
 	border: 1px solid gray;
 	margin-right: 20px;
+	cursor: pointer;
 }
 .table-title{
 	text-align: center; 

@@ -1,0 +1,33 @@
+﻿1. modify.jsp에서 첨부파일 코드 수정
+예시) 1. 첨부파일 readonly 2. X버튼 추가 3. 파일명 저장 hidden창 추가 4. 첨부파일창 추가
+		    <div class="form-group">
+			  <label>파일첨부</label>
+			  <input type="text" class="form-control" value="${board.fileName}" readonly>	//다운로드 기능 삭제
+			  <button type="button" id="modify-close">X</button>		//첨부파일 삭제 기능
+			  <input type="hidden" name="file" value="${board.file}">	//파일명을 저장하는 기능
+			  <input type="file" class="form-control" name="file2">		//첨부파일 기능
+		    </div>	
+
+2. x버튼을 눌렀을 시 첨부파일명이 사라지도록 jquery 작성
+예시)
+$(document).ready(function(){
+	$('#modify-close').click(function(){
+		$('input[name=file]').val('');	//첨부파일명을 빈 문자열로 초기화
+		$(this).css('display', 'none');	//X버튼을 숨김
+	});
+
+3. BoardController에서 
+예시) 1. MultipartFile file2를 매개변수로 추가 2. board/register의 첨부파일 코드를 추가 3. quick fixed를 통해 throws Exception 추가
+	@RequestMapping(value="modify", method = RequestMethod.POST)
+	public String boardModifyPost(Model model, BoardVO bVo, HttpServletRequest r, MultipartFile file2) throws IOException, Exception{
+		if(!boardService.isWriter(bVo.getNum(), r)){	//작성자와 접속중인 유저가 일치하지 않는 경우
+			return "redirect:/board/list";
+		}
+		if(file2.getOriginalFilename().length() != 0){	//첨부파일이 있는 경우
+			String file  = UploadFileUtils.uploadFile(uploadPath, file2.getOriginalFilename(),file2.getBytes());
+			bVo.setFile(file);
+		}
+		boardService.modify(bVo, r);
+		model.addAttribute("num", bVo.getNum());	//model.addAttribute를 통해 변수를 모델에 담아서 보내면 다른 매핑에서 해당 변수를 매개변수로 사용 가능
+		return "redirect:/board/display";
+	}

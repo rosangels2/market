@@ -1,0 +1,121 @@
+﻿1. board/display.jsp와 board/list.jsp에서 게시글 등록 버튼 추가
+예시)
+  <a href="<%=request.getContextPath()%>/board/register"> <button type="button" class="btn btn-outline-dark">게시글 등록</button> </a>
+
+2. 컨트롤러에서 해당 URI 매핑
+예시) 
+	@RequestMapping(value="register", method = RequestMethod.GET)
+	public String BoardRegisterGet(Model model){		//세션에 저장된 user 정보를 이용하기 때문에 매개변수를 사용하지 않아도 된다
+
+		return "board/register";
+	}
+
+3. board/register.jsp 파일을 생성하고 css를 구성하고 로그인 인터셉터로 세션에 저장된 user정보를 작성자 input창에서 호출( ${user.id} )
+예시) jsp파일 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<html>
+<head>	
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<title>display</title>
+<style>
+a{
+	float: right;			
+	color: black;
+	margin-right : 30px;
+}
+</style>
+</head>
+<body>
+	<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
+	<form method="post" action="<%=request.getContextPath()%>/board/register">	<!-- action이 따로 없다면 현재 jsp의 post방식 매핑으로 이동한다 -->
+
+		<div class="container-fluid" style="margin-top:20px;">	              
+		    <div class="form-group">
+			  <label>제목</label>
+			  <input type="text" class="form-control" name="title">
+		    </div>
+		    <div class="form-group">
+			  <label>작성자</label>
+			  <input type="text" class="form-control" name="writer" value="${user.id}" readonly>
+		    </div>
+		    <div class="form-group">
+			  <label>작성일</label>
+			  <input type="text" class="form-control" name="" readonly>	<!-- input태그는 입력값이 없을 시 null이 아닌 빈 문자열이 입력된다 -->
+		    </div>
+		    <div class="form-group">
+			  <label>조회수</label>
+			  <input type="text" class="form-control" name="" readonly>
+		    </div>
+		    <div class="form-group">
+			  <label>내용</label>
+			  <textarea class="form-control" rows="5" name="contents"></textarea>
+			</div>
+		    <div class="form-group">
+			  <label>파일첨부</label>
+			  <input type="text" class="form-control" name="file">
+		    </div>	  		
+		</div>
+		<button style="float: right; margin-right: 20px;">게시글 등록</button>
+	</form>
+	<a style="float: left; margin-left: 20px;" href="<%=request.getContextPath()%>/board/list"><button type="button" class="btn btn-outline-primary">취소</button></a>
+</body>
+</html>
+
+4. register.jsp에서 form태그를 통해 post형식으로 넘겨받은 정보를 처리할 POST매서드를 컨트롤러에 생성하고 정보가 제대로 출력되는지 확인
+예시)
+	@RequestMapping(value="register", method = RequestMethod.POST)
+	public String BoardRegisterPost(Model model, BoardVO bVo){
+		System.out.println(bVo);	//입력받은 정보가 제대로 출력되는지 확인
+		
+		return "redirect:/board/register";
+	}
+
+5. 게시글 정보가 제대로 넘어온다면 해당 게시글 정보를 매개변수로 사용하는 서비스 인터페이스를 호출
+예시)
+	@RequestMapping(value="register", method = RequestMethod.POST)
+	public String BoardRegisterPost(Model model, BoardVO bVo){
+		System.out.println(bVo);	//입력받은 정보가 제대로 출력되는지 확인
+		if(boardService.register(bVo)){	//처리 결과에 따라 보여줄 jsp를 구분
+			return "redirect:/board/list";
+		}
+		return "redirect:/board/register";
+
+6. 컨트롤러에서 quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	boolean register(BoardVO bVo);
+
+7. 서비스 implements 클래스에서 해당 인터페이스를 quick fixed를 통해 생성한 후 다오 인터페이스를 호출
+예시)
+	@Override
+	public boolean register(BoardVO bVo) {
+		boardDao.register(bVo);
+		return false;
+	}
+
+8. quick fixed를 통해 DAO 인터페이스를 생성
+예시)
+	void register(BoardVO bVo);
+
+9. DAO 인터페이스를 연결해 게시판 테이블에 데이터를 등록하는 insert 쿼리문을 BoardMapper.xml에서 생성
+예시)
+	<insert id="register">
+		insert into board(title, contents, writer, file)
+		values(#{title}, #{contents}, #{writer}, #{file})	
+	</insert>
+
+10. 게시글이 제대로 등록되는지 게시글 등록을 진행하고 DB에서 board 테이블의 데이터를 확인
+예시)
+	SELECT * FROM university.board order by num desc;
+
+11. BoardServiceImp.java 클래스에서 예외처리를 추가
+예시)
+	@Override
+	public boolean register(BoardVO bVo) {
+		if(bVo == null){
+			return false;
+		}
+		boardDao.register(bVo);
+		return true;
+	}

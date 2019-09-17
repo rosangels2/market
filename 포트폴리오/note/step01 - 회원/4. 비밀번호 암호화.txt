@@ -1,0 +1,92 @@
+﻿1. pom.xml에 의존성 추가
+예시)
+<!--스프링시큐리티 web 라이브러리-->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+    <version>4.1.0.RELEASE</version>
+</dependency>
+  <!--스프링시큐리티 core 라이브러리-->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>4.1.0.RELEASE</version>
+</dependency>
+  <!--스프링시큐리티 config 라이브러리-->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>4.1.0.RELEASE</version>
+</dependency>
+
+2. /WEB_INF/spring/spring-security.xml 파일 생성 후 코드 붙여넣기
+예시)
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+    <beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />  
+</beans:beans>
+
+3. web.xml에 spring-security.xml를 등록
+예시) 등록 코드 : /WEB-INF/spring/spring-security.xml
+<!-- 수정전 web.xml-->
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+        /WEB-INF/spring/root-context.xml
+    </param-value>
+</context-param>
+
+<!-- 수정후 web.xml-->
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+        /WEB-INF/spring/root-context.xml
+        /WEB-INF/spring/spring-security.xml
+    </param-value>
+</context-param>
+
+4. MemberServiceImp 클래스에서 사용되는 비밀번호들을 암호화
+예시) signup
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
+	@Override
+	public boolean signup(MemberVO mVo) {
+		if(mVo == null){
+			return false;
+		}
+		mVo.setPw(passwordEncoder.encode(mVo.getPw()));
+		memberDao.signup(mVo);
+		return true;
+	}
+
+예시) signin
+	@Override
+	public MemberVO signin(MemberVO mVo) {
+		if(mVo == null){
+			return null;
+		}
+		MemberVO oVo = memberDao.getMember(mVo.getId());
+		if(passwordEncoder.matches(mVo.getPw(), oVo.getPw())){	//matches(입력 비밀번호, 암호화돼 저장된 비밀번호) - 입력 비밀번호를 암호화해 비교하는 메서드
+			return oVo;
+		}
+		return null;
+	}
+
+예시) modify
+	@Override
+	public boolean modify(MemberVO mVo, String oPw) {
+		if(mVo == null || oPw == null){
+			return false;
+		}
+		MemberVO oVo = memberDao.getMember(mVo.getId());
+		if(!passwordEncoder.matches(oPw, oVo.getPw())){
+			return false;
+		}
+		mVo.setPw(passwordEncoder.encode(mVo.getPw()));
+		memberDao.modify(mVo);
+		return true;
+	}

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.green.market.dao.DeliveryDAO;
 import kr.green.market.dao.ItemDAO;
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.DeliveryVO;
 
@@ -19,8 +20,8 @@ public class DeliveryServiceImp implements DeliveryService{
 	ItemDAO itemDao;
 	
 	@Override
-	public ArrayList<DeliveryVO> getDeliveryListAll() {
-		return deliveryDao.selectDeliveryListAll();
+	public ArrayList<DeliveryVO> getDeliveryListAll(Criteria cri) {
+		return deliveryDao.selectDeliveryListAll(cri);
 	}
 
 	@Override
@@ -73,6 +74,11 @@ public class DeliveryServiceImp implements DeliveryService{
 			return null;
 		}
 		return deliveryDao.selectDelivery1(buy_no);
+	}
+
+	@Override
+	public int getDeliveryTotalCount(Criteria cri) {
+		return deliveryDao.getDeliveryTotalCount(cri);
 	}
 
 

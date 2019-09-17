@@ -1,0 +1,290 @@
+﻿에러 내용 - Invalid bound statement (not fount); 패키지명.메서드명
+원인
+1. **Mapper.xml 파일에서 namespace에 오타, 대소문자 불일치
+2. **Mapper.xml 파일에서 id 부분에 해당 메서드가 없는 경우
+3. **Mapper.xml 파일이 없는 경우
+해결 방법
+1, 2번 -  메서드명 또는 파일 경로에 오타 확인
+3번 - **Mapper.xml 생성 후 해당 메서드 추가
+
+
+
+
+에러 내용
+Type Exception Report
+Message Servlet.init() for servlet [appServlet] threw exception
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+에러 원인 - RequestMapping의 value와 method가 동일한 컨트롤러 메서드가 있는 경우(실행할 메서드를 선택 불가)
+	   -> 복사 붙여넣기 후 수정하지 않을 때 자주 발생
+예시) 같은 value값에서 GET방식은 1개만 존재해야 한다
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)	//get 방식으로 호출했을 떄 값과 일치하는 메서드를 호출
+	public String signupGet(Model model){
+		logger.info("회원가입 진행중");
+		return "signup";
+	}
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)	//post 방식으로 호출했을 떄 값과 일치하는 메서드를 호출
+	public String signupPost(Model model){
+		logger.info("회원가입 진행중");
+		return "redirect:/signup";	//redirect - 실행 후 get방식으로 재실행(value값이 동일한 매핑에서 get 방식은 1개만 존재해야 한다)
+	}
+해결 방법 - 메서드를 수정하거나 value값을 수정한다
+
+
+
+
+에러 내용
+### Cause: com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'gender' at row 1
+에러 원인 - gender 자료형의 길이를 varchar 1로 해놨는데 value를 주지 않아 on/off로 입력돼 자료형 길이를 초과
+해결 방법 - 자료형 길이에 맞게 한 글자의 value값을 입력
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): kr.green.test.dao.MemberDAO.getEmail
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+에러 원인 - Mapper 파일에서 namespace에 오타 발생으로 인해 DAO 파일 등을 연결 할 수 없을 떄
+예시)
+<mapper namespace="kr.green.test.dao.MemberDao">	//에러 원인
+해결 방법 - 오타 확인 등으로 정확한 파일명 연결
+예시)
+<mapper namespace="kr.green.test.dao.MemberDAO">
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): kr.green.test.dao.BoardDAO.getBoardList
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): kr.green.test.dao.BoardDAO.getBoardList
+에러 원인 - Mapper파일에서 DAO 메서드 호출 시 메서드명 오타
+해결 방법 - 오타 수정으로 정확한 메서드명 입력
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message An exception occurred processing [/WEB-INF/views/board/list.jsp] at line [22]
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.apache.jasper.JasperException: An exception occurred processing [/WEB-INF/views/board/list.jsp] at line [22]
+19: 		</tr>
+20: 		<c:forEach var="board" items="list">
+
+에러 원인 - jsp파일에서 컨트롤러의 변수를 호출할 떄 ${변수명}의 형식으로 호출해야 하는데 일반 변수명의 형식으로 호출
+해결 방법 - jsp 파일의 컨트롤러 변수 호출 형식에 맞춰 변수를 호출
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'num' in 'class java.lang.Integer'
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'num' in 'class java.lang.Integer'
+
+에러 원인 - Mapper에서 변수 호출 방법은 #{변수명}인데 ${변수명}을 통해 호출했을 때 발생
+예시)
+select * from board where num = ${num}
+
+해결 방법 - Mapper의 변수 호출 방식에 맞게 ${변수명}을 #{변수명}으로 변경
+예시)
+select * from board where num = #{num}
+
+
+
+
+
+애러 내용 - Public key Retrieaval is not allowed ... BoardMapper.xml
+에러 원인 - DB의 계정 정보가 잘못 입력됐을 때 뜨는 에러지만 정보가 제대로 입력돼있는 상태에서 특별한 일 없이 갑작스럽게 읽지 못하는 경우도 발생
+해결 방법 - root-context.xml에서 DB의 계정 정보의 오타를 수정하거나 오타가 없을 시 계정 정보를 바꾸고 서버를 재실행한 뒤 원래대로 복원하고 서버를 재실행
+	   또는 MySQL 실행 후 스프링 서버 재시작
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'boardVO' on field 'views': rejected value []; codes [typeMismatch.boardVO.views,typeMismatch.views,typeMismatch.int,typeMismatch]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [boardVO.views,views]; arguments []; default message [views]]; default message [Failed to convert property value of type 'java.lang.String' to required type 'int' for property 'views'; nested exception is java.lang.NumberFormatException: For input string: ""]
+에러 원인 - input창은 입력값이 없으면 null이 아니라 빈 문자열은 전송하기 때문에 자료형이 String이 아닌 변수들이 빈 문자열 값을 전송받아 자료형 에러 발생
+예시)
+	<input type="text" class="form-control" name="views" readonly>
+해결 방법 - input창에서 name을 지워 해당 input창의 빈 문자열 값이 들어가는 걸 방지
+예시)
+	<input type="text" class="form-control" name="" readonly>
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.springframework.jdbc.BadSqlGrammarException:
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by num desc
+  	limit 0, 5' at line 5
+에러 원인 - 쿼리문에 불필요하게 and를 사용
+예시)
+<select id="getBoardList" resultType="kr.green.spring.vo.BoardVO">
+  	select * from board where valid = 'I' and
+  	<if test="type == 1"> and title like concat('%', #{search}, '%') </if>	<!-- concat : 값을 이어 붙이는 함수 -->
+  	<if test="type == 2"> and contents like concat('%', #{search}, '%') </if>
+  	<if test="type == 3"> and writer like concat('%', #{search}, '%') </if>
+  	order by num desc
+  	limit #{pageStart}, #{perPageNum}	<!-- Criteria 클래스의 getter를 통해 limit -->
+</select>
+해결 방법 - and를 제거
+예시)
+<select id="getBoardList" resultType="kr.green.spring.vo.BoardVO">
+  	select * from board where valid = 'I'
+  	<if test="type == 1"> and title like concat('%', #{search}, '%') </if>	<!-- concat : 값을 이어 붙이는 함수 -->
+  	<if test="type == 2"> and contents like concat('%', #{search}, '%') </if>
+  	<if test="type == 3"> and writer like concat('%', #{search}, '%') </if>
+  	order by num desc
+  	limit #{pageStart}, #{perPageNum}	<!-- Criteria 클래스의 getter를 통해 limit -->
+</select>
+
+
+
+
+
+에러내용
+ype Exception Report
+Message Request processing failed; nested exception is org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'criteria' on field 'type': rejected value [1$search=가입]; codes [typeMismatch.criteria.type,typeMismatch.type,typeMismatch.int,typeMismatch]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [criteria.type,type]; arguments []; default message [type]]; default message [Failed to convert property value of type 'java.lang.String' to required type 'int' for property 'type'; nested exception is java.lang.NumberFormatException: For input string: "1$search=가입"]
+에러 원인 - a태그의 href에서 ?로 정보를 전송할 때 & 대신 $를 입력(search 앞에 $)
+예시)
+<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}&type=${pageMaker.criteria.type}$search=${pageMaker.criteria.search}">${index}</a>
+해결 방법 - $를 &로 수정하여 정보를 전송(search 앞에 $를 &로 수정)
+예시)
+<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}">${index}</a>
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'boardVO' on field 'file': rejected value [org.springframework.web.multipart.commons.CommonsMultipartFile@48a89c95]; codes [typeMismatch.boardVO.file,typeMismatch.file,typeMismatch.java.lang.String,typeMismatch]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [boardVO.file,file]; arguments []; default message [file]]; default message [Failed to convert property value of type 'org.springframework.web.multipart.commons.CommonsMultipartFile' to required type 'java.lang.String' for property 'file'; nested exception is java.lang.IllegalStateException: Cannot convert value of type [org.springframework.web.multipart.commons.CommonsMultipartFile] to required type [java.lang.String] for property 'file': no matching editors or conversion strategy found]
+에러 원인 - BoardVO의 멤버변수인 file로 먼저 호출이 돼 스트링 파일로 받아져 에러가 발생
+해결 방법 - 업로드 파일의 네임을 바꾸거나 BoardVO 수정
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is java.lang.NullPointerException
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.NullPointerException
+에러 원인 - 매개변수 명을 바꾸고 jsp에서 name을 변경하지 않아서 NullPointerException이 발생
+해결 방법 - value를 전송하는 jsp의 태그 name을 맞게 수정
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.springframework.web.multipart.MultipartException: The current request is not a multipart request
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.web.multipart.MultipartException: The current request is not a multipart request
+에러 원인 - form 태그에 enctype="multipart/form-data"를 입력하지 않아서 에러 발생
+해결 방법 - form 태그에 enctype="multipart/form-data" 추가
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.PersistenceException:
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error updating database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Could not get JDBC Connection; nested exception is java.sql.SQLSyntaxErrorException: Unknown database 'dbì�´ë¦„'
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Could not get JDBC Connection; nested exception is java.sql.SQLSyntaxErrorException: Unknown database 'dbì�´ë¦„'
+에러 원인 - root-context.xml에서 DB 스키마명 잘못 입력
+예시)
+	              value="jdbc:mysql://localhost:3306/DB이름?useSSL=false&amp;serverTimezone=UTC">
+해결 방법 - 스키마명 수정
+예시)
+	              value="jdbc:mysql://localhost:3306/university?useSSL=false&amp;serverTimezone=UTC">
+
+
+
+
+
+에러 내용
+Type Exception Report
+Message Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.TooManyResultsException: Expected one result (or null) to be returned by selectOne(), but found: 24
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.TooManyResultsException: Expected one result (or null) to be returned by selectOne(), but found: 24
+에러 원인 - Mapper.xml에서 리턴 타입은 객체 1개인데 실제 반환되는 게 여러 개의 객체여서 반환 개수가 맞지 않아 에러 발생(List프레임워크가 아니기 떄문)
+예시)
+<select id="getMember" resultType="kr.green.test.vo.MemberVO">
+	select * from member
+</select>
+해결 방법 - 쿼리문을 수정해 반환 객체의 개수를 맞춘다
+예시)
+<select id="getMember" resultType="kr.green.test.vo.MemberVO">
+	select * from member where id = #{id}
+</select>
+
+
+
+
+에러 내용
+Type Exception Report
+Message Servlet.init() for servlet [appServlet] threw exception
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+Exception
+javax.servlet.ServletException: Servlet.init() for servlet [appServlet] threw exception
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping': Invocation of init method failed; nested exception is java.lang.IllegalStateException: Ambiguous mapping. Cannot map 'homeController' method 
+public org.springframework.web.servlet.ModelAndView kr.green.test.controller.HomeController.mainGet(org.springframework.web.servlet.ModelAndView) throws java.lang.Exception
+to {[/],methods=[GET]}: There is already 'homeController' bean method
+public org.springframework.web.servlet.ModelAndView kr.green.test.controller.HomeController.signupGet(org.springframework.web.servlet.ModelAndView) throws java.lang.Exception mapped.
+에러 원인 - 컨트롤러에서 value값이 중복됐을 때 어느 메서드를 매핑할지 결정할 수 없기 때문에 에러 발생
+예시)
+	@RequestMapping(value= "/", method = RequestMethod.GET)
+	public ModelAndView mainGet(ModelAndView mv) throws Exception{
+	    mv.setViewName("/main/home");	//setViewName :  return "/main/home" 와 같이 /main/home.jsp를 호출
+	    return mv;
+	}
+	@RequestMapping(value= "/", method = RequestMethod.GET)
+	public ModelAndView signupGet(ModelAndView mv) throws Exception{
+	    mv.setViewName("/member/signup");	//setViewName :  return "/main/home" 와 같이 /main/home.jsp를 호출
+	    return mv;
+	}
+해결 방법 - 컨트롤러의 메서드 매핑 value를 중복되지 않게 수정
+예시)
+	@RequestMapping(value= "/signup", method = RequestMethod.GET)
+	public ModelAndView signupGet(ModelAndView mv) throws Exception{
+	    mv.setViewName("/member/signup");	//setViewName :  return "/main/home" 와 같이 /main/home.jsp를 호출
+	    return mv;
+	}

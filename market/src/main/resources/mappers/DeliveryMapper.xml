@@ -5,7 +5,13 @@
 <mapper namespace="kr.green.market.dao.DeliveryDAO">	<!-- DAO 인터페이스가 있는 파일명 -->
 <select id="selectDeliveryListAll" resultType="kr.green.market.vo.DeliveryVO">
 	select * from delivery 
-	where deliverer is null 
+		where deliverer is null
+		<choose>
+			<when test="cri.type == 1">and `start` like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and `end` like concat('%', #{cri.search}, '%')</when>
+			<otherwise></otherwise>
+		</choose>
+		limit #{cri.pageStart}, #{cri.perPageNum} 
 </select>
 <select id="selectDelivery" resultType="kr.green.market.vo.DeliveryVO">
 	select * from delivery
@@ -28,5 +34,13 @@
 <select id="selectDelivery1" resultType="kr.green.market.vo.DeliveryVO">
 	select * from delivery
 	where buy_no = #{buy_no}
+</select>
+<select id="getDeliveryTotalCount" resultType="int">
+		select count(*) from delivery where valid = 'I'	<!-- 총 개시글 수를 계산하여 정수로 반환 -->
+		<choose>
+			<when test="cri.type == 1">and `start` like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and `end` like concat('%', #{cri.search}, '%')</when>
+			<otherwise></otherwise>
+		</choose>
 </select>
 </mapper>

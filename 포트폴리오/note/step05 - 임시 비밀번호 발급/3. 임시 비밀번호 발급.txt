@@ -1,0 +1,524 @@
+﻿1. 메인 페이지에 비밀번호 찾기 페이지로 이동하는 링크 추가
+예시)
+<a href="<%=request.getContextPath()%>/member/find" class="float-left">비밀번호 찾기</a>
+
+2. /member/find.jsp 생성 후 id와 email을 입력받을 수 있는 입력창 추가
+예시)
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('input[name=id]').focus();
+		})
+		
+	</script>
+	<title>로그인</title>
+	<style>
+	*{
+		margin: 0;
+		padding : 0;
+	}
+	.main{
+		margin-top:50px;
+	}
+	.row{
+		margin: 5px 0px;
+	}
+	.fab.fa-amazon{
+		font-size: 100px;
+		color: red;
+	}
+	</style>
+</head>
+<body>
+	<div>
+		<div class="offset-4 col-4 border border-dark mt-5 clearfix">
+			<h1 class="text-center">비밀번호 찾기</h1>
+			<form method="post" action="<%=request.getContextPath()%>/password/send" id="findForm">
+				<div class="row">
+					<label class="col-4">아이디</label>
+					<input type="text"class="form-control col-7" placeholder="아이디" name="id" tabindex="1">
+				</div>
+				<div class="row">
+					<label class="col-4">이메일</label>
+					<input type="email"class="form-control col-7" placeholder="이메일" name="email" tabindex="2">
+				</div>
+				<div class="offset-7 col-4 clearfix p-0">
+					<button type="button" class="btn btn-primary float-right" id="findBtn">비밀번호 찾기</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+3. 컨트롤러에서 폼태그의 경로에 맞는 메서드 생성 후 매핑
+예시)
+	@RequestMapping(value = "/member/find")
+	public String passwordFind() {
+	    return "member/find";
+	}
+
+4. jquery로 찾기 버튼 클릭 시 알림창으로 제대로 입력되는지 확인
+예시)
+		$(document).ready(function(){
+			$('input[name=id]').focus();	//홈페이지가 호출됐을 때 id 입력창에  focus를 지정
+			$('#findBtn').click(function(){
+				alert("id = "+$('input[name=id]').val()+", email = "+$('input[name=email]').val());
+				return false;
+			});
+
+		});	//레디
+
+5. 찾기 버튼 클릭 시 ajax를 이용하여 서버에 아이디와 이메일 정보를 전송하도록 /member/find.jsp에 코드 추가
+예시) find.jsp
+		$(document).ready(function(){
+			$('#findBtn').click(function(){
+				var id = $('input[name=id]').val();		//인풋창에 입력받은 값을 저장
+				var email = $('input[name=email]').val();
+				$.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',
+		        data:{'id':id, 'email': email},		//매개변수로 컨트롤러에 변수값을 전송
+		        url:"<%=request.getContextPath()%>/checkemail",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){
+
+		      	  }
+		         });
+		     });
+		});	//레디
+
+
+6. 해당 정보를 넘겨받기 위해 컨트롤러에서 메서드를 생성 후 매핑하고 출력하여 확인하고 map.put으로 변수에 저장한 뒤 ajax에서 알림을 통해 확인
+예시) 컨트롤러
+	@RequestMapping(value ="/checkemail")
+	@ResponseBody
+	public Map<Object, Object> emailcheck(
+			@RequestBody String str){	//스트링을 통해 한번에 매개변수로 사용
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    
+	    System.out.println("checkeamail str : " + str);
+	    map.put("str", str);
+
+	    return map;	//map 정보를 ajax에 반환
+	}
+
+예시) find.jsp
+		$(document).ready(function(){
+			$('input[name=id]').focus();
+			$('#findBtn').click(function(){
+				var id = $('input[name=id]').val();		//인풋창에 입력받은 값을 저장
+				var email = $('input[name=email]').val();
+				$.ajax({
+		        async:true,
+		        type:'POST',
+		        data:{'id':id, 'email': email},		//매개변수로 컨트롤러에 변수값을 전송
+		        url:"<%=request.getContextPath()%>/checkemail",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){
+				alert(data.str);
+		      	  }
+		         });
+		     });
+		});	//레디
+
+7. &를 기준으로 id와 email 값을 분리하고 UTF-8형식으로 디코딩 후 확인
+예시)
+	@RequestMapping(value ="/checkemail")
+	@ResponseBody
+	public Map<Object, Object> emailcheck(@RequestBody String str){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("emailcheck str : " + str);
+	    String [] arr = str.split("&");	//전송된 정보를 &을 기준으로 구분하여 나눠 배열에 저장
+	    String id = arr[0];	//&을 기준으로 앞쪽의 0번지값을 String객체 id에 저장한다
+	    String email = "";	//빈 문자열 객체를 생성
+	    try {
+			email=URLDecoder.decode(arr[1], "UTF-8");	//인코딩 돼 깨진 email값을 decode 메서드로 복원
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    System.out.println(id+" , "+email);
+	    return map;	//map 정보를 ajax에 반환
+	}
+
+8. id=xxx, email=xxx@xxx의 형식에서 =을 기준으로 뒤쪽의 값만을 추출하도록 서비스를 호출하여 리턴값을 변수에 저장
+예시) 컨트롤러
+	@RequestMapping(value ="/checkemail")
+	@ResponseBody
+	public Map<Object, Object> emailcheck(
+			@RequestBody String str){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    
+	    System.out.println(str);
+	    String [] arr = str.split("&");	//전송된 정보를 &을 기준으로 구분하여 나눠 배열에 저장
+	    String id = arr[0];	//&을 기준으로 앞쪽의 0번지값을 String객체 id에 저장한다
+	    String email = "";	//빈 문자열 객체를 생성
+	    try {
+			email=URLDecoder.decode(arr[1], "UTF-8");	//인코딩 돼 깨진 email값을 decode 메서드로 복원
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    System.out.println(id+" , "+email);
+
+	    id = memberService.getVal(id);	//id=xxx 형식의 값에서 id=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    email = memberService.getVal(email);	//email=xxx 형식의 값에서 email=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    
+	    return map;	//map 정보를 ajax에 반환
+	}
+
+9. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	public String getVal(String str);	//입력받은 값에서 실제 값만을 추출	예시)id=xxx > xxx추출
+
+10. quick fiexd를 통해 인터페이스를 구현하고 =을 기준으로 실제 값만을 추출하는 코드 추가
+예시)
+	@Override
+	public String getVal(String str) {
+		String [] arr = id.split("=");	//입력받은 문자열을 =을 기준으로 배열로 나눠서 저장 
+		if(arr.length == 2){		//배열의 길이가 2라면 	예시)id=xxx -> 0번지 = id, 1번지 = xxx
+			return arr[1];	//배열의 1번지를 반환(실제 입력값인 xxx)
+		}else{
+			return "";
+		}
+	}
+
+11. 잘 추출 됐는지 서비스의 리턴값을 출력하여 확인
+예시)
+	@RequestMapping(value ="/checkemail")
+	@ResponseBody
+	public Map<Object, Object> emailcheck(@RequestBody String str){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("emailcheck str : " + str);
+	    String [] arr = str.split("&");	//전송된 정보를 &을 기준으로 구분하여 나눠 배열에 저장
+	    String id = arr[0];	//&을 기준으로 앞쪽의 0번지값을 String객체 id에 저장한다
+	    String email = "";	//빈 문자열 객체를 생성
+	    try {
+			email=URLDecoder.decode(arr[1], "UTF-8");	//인코딩 돼 깨진 email값을 decode 메서드로 복원
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    System.out.println("emailcheck decode id, email : " + id+" , "+email);
+	    id = memberService.getVal(id);	//id=xxx 형식의 값에서 id=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    email = memberService.getVal(email);	//email=xxx 형식의 값에서 email=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    System.out.println("emailcheck getVal id, email : " + id+" , "+email);
+	    return map;	//map 정보를 ajax에 반환
+	}
+
+12. 매개변수로 id와 email을 넘겨받아 회원정보와 일치하는지 확인하는 서비스를 호출
+예시)
+	@RequestMapping(value ="/checkemail")
+	@ResponseBody
+	public Map<Object, Object> emailcheck(
+			@RequestBody String str){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    
+	    System.out.println(str);
+	    String [] arr = str.split("&");	//전송된 정보를 &을 기준으로 구분하여 나눠 배열에 저장
+	    String id = arr[0];	//&을 기준으로 앞쪽의 0번지값을 String객체 id에 저장한다
+	    String email = "";	//빈 문자열 객체를 생성
+	    try {
+			email=URLDecoder.decode(arr[1], "UTF-8");	//인코딩 돼 깨진 email값을 decode 메서드로 복원
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    System.out.println(id+" , "+email);
+	    
+	    id = memberService.getVal(id);	//id=xxx 형식의 값에서 id=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    email = memberService.getVal(email);	//email=xxx 형식의 값에서 email=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    System.out.println(id + " , " + email);
+	    
+	    boolean isOk = memberService.checkMember(id,email);	//입력받은 id와 email이 회원 정보와 일치하는지 확인하고 결과를 boolean 변수에 저장
+	    
+	    return map;	//map 정보를 ajax에 반환
+	}
+
+13. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	boolean checkMember(String id, String email);
+
+14. quick fixed를 통해 서비스 인터페이스를 구현하고 DAO 인터페이스를 호출하여 결과값을 반환
+예시)
+	@Override
+	public boolean checkMember(String id, String email) {
+		MemberVO mVo = memberDao.getMember(id);
+		if(mVo != null && mVo.getEmail().equals(email)){
+			return true;
+		}
+		return false;
+	}
+
+15. 컨트롤러에서 jsp에게 일치 여부를 전달
+예시)
+	@RequestMapping(value ="/checkemail")
+	@ResponseBody
+	public Map<Object, Object> emailcheck(
+			@RequestBody String str){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    
+	    System.out.println(str);
+	    String [] arr = str.split("&");	//전송된 정보를 &을 기준으로 구분하여 나눠 배열에 저장
+	    String id = arr[0];	//&을 기준으로 앞쪽의 0번지값을 String객체 id에 저장한다
+	    String email = "";	//빈 문자열 객체를 생성
+	    try {
+			email=URLDecoder.decode(arr[1], "UTF-8");	//인코딩 돼 깨진 email값을 decode 메서드로 복원
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	    System.out.println(id+" , "+email);
+	    
+	    id = memberService.getVal(id);	//id=xxx 형식의 값에서 id=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    email = memberService.getVal(email);	//email=xxx 형식의 값에서 email=를 빼고 xxx만을 가져오는 인터페이스 호출 후 결과값을 저장
+	    System.out.println(id + " , " + email);
+	    
+	    boolean isOk = memberService.checkMember(id,email);	//입력받은 id와 email이 회원 정보와 일치하는지 확인하고 결과를 boolean 변수에 저장
+	    map.put("isOk",isOk);	//ajax에 전송할 변수 isOk에 boolean 변수값을 저장 
+	    
+	    return map;	//map 정보를 ajax에 반환
+	}
+
+16. ajax에서 제대로 결과를 전달 받는지 확인
+예시)
+$(document).ready(function(){
+	$('input[name=id]').focus();	//홈페이지가 호출됐을 때 id 입력창에  focus를 지정
+	$('#findBtn').click(function(){
+		return false;
+	});
+	$('#findBtn').click(function(){
+		var id = $('input[name=id]').val();		//인풋창에 입력받은 값을 저장
+		var email = $('input[name=email]').val();
+		$.ajax({
+        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+        type:'POST',
+        data:{'id':id, 'email': email},		//매개변수로 컨트롤러에 변수값을 전송
+        url:"<%=request.getContextPath()%>/checkemail",
+        dataType:"json",
+        contentType:"application/json; charset=UTF-8",
+        success : function(data){
+      	  alert(data.isOk);
+        }
+        });
+    });
+});		//레디
+
+17. 회원 정보가 일치하면 메일을 보내는 메서드를 컨트롤러에서 매핑
+예시) URI 경로 : <%=request.getContextPath()%>/password/send
+	@RequestMapping(value = "/password/send")
+	public String passwordSend(String id,String email) {
+		String newPw = "12345678";
+		String title = "변경된 비밀번호입니다.";
+		String contents = "변경된 비밀번호입니다.";
+		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송하는 서비스 인터페이스 호출
+		return "redirect:/"; 
+	}
+
+18. quick fixed를 통해 이메일 주소, 제목, 내용을 String으로 입력받아 메일을 보내는 서비스 인터페이스를 생성
+예시)
+	void sendMail(String email, String title, String contents);
+
+19. 메일을 보내기를 위해 의존성 추가
+예시) pom.xml
+<!-- 메일 보내기 -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context-support</artifactId>
+    <version>${org.springframework-version}</version>
+</dependency>
+<dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>mail</artifactId>
+    <version>1.4.3</version>
+</dependency>
+
+예시) root-context.xml
+<!-- 메일 보내기 -->
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="smtp.gmail.com" />
+    <property name="port" value="587" />
+    <property name="username" value="아이디@gmail.com" />		<!-- 실제 이메일 정보 -->
+    <property name="password" value="비밀번호" />
+    <property name="javaMailProperties">
+        <props>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.debug">true</prop>
+        </props>
+    </property>
+</bean>
+
+20. quick fixed를 통해 서비스 임플리먼트 클래스에서 인터페이스를 구현하고 어노테이션 추가
+예시)
+	@Autowired
+	private JavaMailSender mailSender;
+
+	@Override
+	public void sendMail(String email, String title, String contents) {		//입력받은 정보를 통해 이메일을 전송
+		String setfrom = "stajun@google.com";         
+	    try {
+	        MimeMessage message = mailSender.createMimeMessage();
+	        MimeMessageHelper messageHelper 
+	            = new MimeMessageHelper(message, true, "UTF-8");
+	        
+	        messageHelper.setFrom(setfrom);  // 보내는사람 생략하거나 하면 정상작동을 안함
+	        messageHelper.setTo(email);     // 받는사람 이메일
+	        messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	        messageHelper.setText(contents);  // 메일 내용
+
+	        mailSender.send(message);
+	    } catch(Exception e){
+	        System.out.println(e);
+	    }
+	}
+
+21. root-context.xml에서 이메일 발신자의 실제 이메일 정보를 입력
+예시)
+예시) root-context.xml
+<!-- root-context.xml -->
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="smtp.gmail.com" />
+    <property name="port" value="587" />
+    <property name="username" value="xxxxxx@gmail.com" />		<!-- 실제 이메일 정보 -->
+    <property name="password" value="xxxxxx" />
+    <property name="javaMailProperties">
+        <props>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.debug">true</prop>
+        </props>
+    </property>
+</bean>
+
+22. 회원 정보가 일치하면 true를 반환해 이메일을 전송하도록 ajax 코드를 추가
+예시)
+		$(document).ready(function(){
+			$('input[name=id]').focus();
+			$('#findBtn').click(function(){
+				var id = $('input[name=id]').val();		//인풋창에 입력받은 값을 저장
+				var email = $('input[name=email]').val();
+				if(id.length == 0 || email.length == 0){
+					return false;
+				}
+				$.ajax({
+		        async:false,	//true(동기) : ajax 작업이 끝나야 다음 작업이 실행, false(비동기) : 동시에 작업을 진행
+		        type:'POST',
+		        data:{'id':id, 'email': email},		//매개변수로 컨트롤러에 변수값을 전송
+		        url:"<%=request.getContextPath()%>/checkemail",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){
+				if(data.isOk){
+					alert("인증이 완료되어 이메일로 임시 비밀번호가 발급되었습니다.");
+		            		$('#findForm').submit();	//form태그의 정보 전송 기능을 실행
+				}else{
+					alert("회원 정보가 일치하지 않습니다.");
+				}
+		      	  },error : function(request,status, error){
+		      		  	console.log(request.status);
+      					console.log(request.responseText);
+      					console.log(error);
+		      	  }
+		   		});
+			});
+			
+		})	//레디
+		
+23. 비밀번호 찾기 버튼을 눌러서 이메일이 제대로 전송됐는지 DB에 입력된 이메일에서 메일 확인
+
+24. 비밀번호가 잘 전송된다면 임시 비밀번호 8자리를 생성하는 서비스 인터페이스를 컨트롤러에서 호출하여 변수에 저장
+예시) String newPw = memberService.createPw();
+	@RequestMapping(value = "/password/send")
+	public String passwordSend(String id,String email) {
+		System.out.println("/password/send id, email : " + id + " , " + email);
+		String newPw = memberService.createPw();
+		String title = "변경된 비밀번호입니다.";
+		String contents = "변경된 비밀번호입니다."+newPw;
+		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
+		return "redirect:/";
+	}
+
+25. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	String createPw();
+
+26. quick fixed를 통해 서비스 인터페이스를 구현하고 임시 비밀번호 8자리를 생성하는 코드 추가
+예시)
+	@Override
+	public String createPw() {
+		String str ="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String pw="";
+		for(int i=0; i< 8; i++) {
+			int r = (int)(Math.random()*str.length());
+			pw += str.charAt(r);
+		}
+		return pw;
+	}
+
+27. 임시 비밀번호가 제대로 생성되는지 비밀번호 찾기 버튼을 누른 뒤 컨트롤러에서 값이 출력되는지 콘솔에서 확인
+예시)
+	@RequestMapping(value = "/password/send")
+	public String passwordSend(String id,String email) {
+		System.out.println("/password/send : " + id + " , " + email);
+		String newPw = memberService.createPw();
+		System.out.println("/password/send newPw : " + newPw);
+		String title = "변경된 비밀번호입니다.";
+		String contents = "변경된 비밀번호입니다."+newPw;
+		//memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
+		return "redirect:/";
+	}
+
+28. 새로 생성된 임시 비밀번호가 제대로 출력된다면 임시 비밀번호를 메일로 전송
+예시) 컨트롤러
+	@RequestMapping(value = "/password/send")
+	public String passwordSend(String id,String email) {
+		System.out.println("/password/send : " + id + " , " + email);
+		String newPw = memberService.createPw();
+		System.out.println("/password/send : " + newPw);
+		String title = "변경된 비밀번호입니다.";
+		String contents = "변경된 비밀번호 : " + newPw;
+		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
+		return "redirect:/";
+	}
+
+29. 해당 임시 비밀번호를 암호화해 회원정보를 수정하는 서비스 인터페이스를 오버로딩하여 생성
+예시)
+	@RequestMapping(value = "/password/send")
+	public String passwordSend(String id,String email) {
+		System.out.println("/password/send : " + id + " , " + email);
+		String newPw = memberService.createPw();	//임시 비밀번호를 생성
+		System.out.println("/password/send : " + newPw);
+		String title = "변경된 비밀번호입니다.";
+		String contents = "변경된 비밀번호입니다."+newPw;
+		memberService.sendMail(email,title,contents);	//변경된 값을 통해 email을 전송
+		memberService.modify(id, email, newPw);	//임시 비밀번호로 비밀번호를 변경
+		return "redirect:/";
+	}
+
+30. quick fixed를 통해 오버로딩된 인터페이스를 새로 생성
+예시)
+	void modify(String id, String email, String newPw);
+
+31. quick fixed를 통해 오버로딩한 인터페이스를 구현 후 코드 추가
+예시)
+	@Override
+	public void modify(String id, String email, String newPw) {
+		MemberVO mVo = memberDao.getMember(id);		//id를 통해 회언 정보를 가져와서 변수에 저장
+		if(mVo != null && mVo.getEmail().equals(email)){
+			mVo.setPw(passwordEncoder.encode(newPw));	//암호화된 비밀번호로 객체 정보를 수정
+			memberDao.modify(mVo);
+		}
+		return;
+	}
+
+32. 메일로 전송된 임시 비밀번호로 로그인이 되는지 확인

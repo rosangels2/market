@@ -5,6 +5,9 @@
 <style type="text/css">
 .contents-box{
 	padding: 20px;
+	min-width: 1400px;
+	position: absolute;
+	left: 0;
 }
 /* 상단 */
 .register-contents{

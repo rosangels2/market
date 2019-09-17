@@ -1,0 +1,9 @@
+﻿에러 내용
+HTTP Status 405 – Method Not Allowed
+Type Status Report
+Message Request method 'POST' not supported
+Description The method received in the request-line is known by the origin server but not supported by the target resource.
+
+에러 원인 - from태그를 통해 post형식으로 url정보를 전송했는데 해당 uri의 post방식으로 mapping하는 post 컨트롤러 메서드가 없을 때
+
+해결 방법 - 컨트롤러에 해당 uri를 mapping하는 post형식의 메서드를 생성

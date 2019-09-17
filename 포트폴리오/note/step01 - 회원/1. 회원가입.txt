@@ -1,0 +1,202 @@
+﻿1. DB와 연동할 VO 클래스의 멤버변수들을 DB의 속성명과 자료형에 맞게 생성한 뒤 getter/setter와 toString을 호출
+예시) MemberVO.java
+public class MemberVO {
+	
+	private String id;
+	private String pw;
+	private String gender;
+	private String email;
+	private String name;
+	
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "MemberVO [id=" + id + ", pw=" + pw + ", gender=" + gender + ", email=" + email + ", name=" + name + "]";
+	}
+	
+	
+}
+
+2. home.jsp에서 회원가입 페이지로 이동하는 a태그를 생성
+예시)
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
+<head>
+	<title>Home</title>
+</head>
+<body>
+	<a href="<%=request.getContextPath()%>/signup">회원가입</a>
+</body>
+</html>
+
+3. 컨트롤러에 해당 URI 경로에 맞는 메서드를 생성한다
+예시)
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String signupGet(Model model) {
+		
+		return "signup";
+	}
+
+4. 해당 URI에서 연결할 jsp파일을 생성
+예시) /views/signup.jsp
+
+5. signup.jsp에서 회원가입을 위해 정보를 전송하는 form태그와 css를 구현
+예시)
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<title>회원가입</title>
+<style>
+	input.form-control:focus{
+		color: green;
+		background-color: aqua;
+		font-size: 30px;
+	}
+	input.form-control:hover{
+		background-color: wheat;
+	}
+	.container{
+		border: 1px solid black;
+		width: 50%;
+	}
+	i.fab{
+		font-size: 100px;
+		color: red;
+	}
+</style>
+<body>
+	<div class="row m-5">
+		<div class="container offset-4 col-4">
+			<div class="offset-3"> <h1>회원가입</h1></div>
+			<form method="post" action="<%=request.getContextPath()%>/signup">
+				<div class="form-group">
+					<label for="usr">아이디</label>
+					<input type="text" class="form-control col-7" id="id" placeholder="아이디" name="id">
+				</div>
+				<div class="form-group">
+					<label for="pwd">비밀번호</label>
+					<input type="password" class="form-control col-7" id="pw" placeholder="비밀번호" name="pw">
+				</div>
+				<div class="form-group">
+					<label for="pwdRe">비밀번호 확인</label>
+					<input type="password" class="form-control col-7" id="pw1" placeholder="비밀번호 확인" name="pw1">
+				</div>
+				<div class="form-group">
+					<label for="sel1">성별</label>
+					<select class="form-control col-4" id="sel1" name="gender">
+						<option value="남">남자</option>
+						<option value="여">여자</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="email">이메일</label>
+					<input type="text" class="form-control" id="email" placeholder="이메일" name="email">
+				</div>
+				<div class="form-group">
+					<label for="usr">이름</label>
+					<input type="text" class="form-control col-7" id="name" placeholder="이름" name="name">
+				</div>				
+				<a href="<%=request.getContextPath()%>/"><button type="button" class="btn btn-dark float-right" id="cancel" name="cancel">취소</button></a>
+				<button type="submit" class="btn btn-primary float-right" id="ok" name="ok">입력완료</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+6. form태그에서 post방식으로 전송받은 정보를 매핑할 메서드를 컨트롤러에서 생성하고 제대로 전송이 되는지 출력
+예시)
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public String signupPost(Model model, MemberVO mVo){
+		System.out.println(mVo);
+		return "redirect:/";
+	}
+
+7. 전송받은 정보를 매개변수로 사용하는 서비스 인터페이스를 호출하고 서비스 어노테이션을 추가
+예시)
+	@Autowired
+	MemberService memberService;
+
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public String signupPost(Model model, MemberVO mVo) {
+		if(memberService.signup(mVo)) {
+			return "redirect:/";
+		}
+		return "redirect:/signup";
+	}
+
+8. quick fixed를 통해 인터페이스를 생성
+예시)
+	boolean signup(MemberVO mVo);
+
+9. MemberServiceImp클래스에서 implements MemberService를 추가하고 quick fixed를 통해 인터페이스를 구현하고 어노테이션 추가 후  DAO를 호출
+예시)
+@Service
+public class MemberServiceImp implements MemberService{
+
+	@Autowired
+	MemberDAO memberDao;
+	
+	@Override
+	public boolean signup(MemberVO mVo) {
+		if(mVo == null){
+			return false;
+		}
+		memberDao.signup(mVo);
+		return true;
+	}
+}
+
+10. quick fixed를 통해 DAO 인터페이스를 생성
+예시)
+	boolean signup(MemberVO mVo);
+
+11. MemberMapper.xml에서 DAO 인터페이스를 연결하는 쿼리문 작성
+예시)
+<mapper namespace="kr.green.practice.dao.MemberDAO">
+<insert id="signup">
+	insert into member(id, pw, gender, email, name)
+		values(#{id}, #{pw}, #{gender}, #{email}, #{name})
+</insert>
+</mapper>

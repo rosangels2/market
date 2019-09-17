@@ -1,0 +1,206 @@
+﻿1. board/list.jsp에서 게시글을 누르면 게시글 상세보기로 이동하도록 a태그를 생성
+예시)
+<th> <a href="<%=request.getContextPath()%>/board/display?num=${board.num}">${board.title}</a> </th>	//URI뒤에 ?를 붙여 값을 전송
+
+2. 해당 URI를 매핑할 메서드를 컨트롤러에서 생성하고 매개변수로 URI 정보를 넘겨받은 뒤 출력하여 확인
+예시)
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public String display(Model model, BoardVO bVo){
+		System.out.println("board/display bVo : " + bVo);
+		return "board/display";
+	}
+
+3. 컨트롤러가 반환할 jsp파일을 경로에 맞게 생성하고 css 구현
+예시) views/board/display.jsp
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	<!-- c태그를 사용하기 위한 링크 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<style type="text/css">
+.box{
+	border : 1px solid black;
+}
+.box div{
+	font-size:30px;
+}
+</style>
+<body>
+<div class="container">         
+  <table class="table">
+    <thead>
+      <tr>
+        <th>게시글 제목</th>
+        <th>작성자</th>
+        <th>조회수</th>
+        <th>작성일</th>
+        <th>첨부파일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>제목</td>
+        <td>작성자</td>
+        <td>조회수</td>
+        <td>작성일</td>
+        <td>첨부파일</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>게시글 내용</th>
+      </tr>
+    </thead>
+  </table>
+  <div class="contents" style="padding-left: 12px; height: 300px; overflow: auto;">${board.contents}</div>
+  <a href="<%=request.getContextPath()%>/board/list"> <button type="button" class="btn btn-outline-dark">게시글 목록</button> </a>
+</body>
+</html>
+
+4. URI로 넘겨받은 게시글 번호를 매개변수로 사용해 해당 게시글의 내용을 가져오는 서비스 인터페이스 호출
+예시)
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public String display(Model model, BoardVO bVo){
+		System.out.println("board/display bVo : " + bVo);
+		BoardVO bVo = boardService.getBoard(bVo.getNum());
+		return "board/display";
+	}
+
+5. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	BoardVO getBoard(Integer num);
+
+6. quick fixed를 통해 인터페이스를 구현하고 DAO 인터페이스를 호출
+예시)
+	@Override
+	public BoardVO getBoard(Integer num) {
+		
+		return boardDao.getBoard(num);
+	}
+
+7. quick fixed를 통해 DAO 인터페이스를 생성
+예시)
+	BoardVO getBoard(Integer num);
+
+8. BoardMapper.xml에서 DAO 인터페이스를 연결하는 쿼리문을 생성
+예시)
+<select id="getBoard" resultType="kr.green.practice.vo.BoardVO">
+	select * from board where num = #{num}
+</select>
+
+9. 제대로 DB에서 데이터가 넘어왔는지 컨트롤러에서 출력하여 확인
+예시)
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public String display(Model model, BoardVO bVo){
+		System.out.println("board/display bVo : " + bVo);
+		BoardVO board = boardService.getBoard(bVo.getNum());
+		System.out.println("board/display board : " + board);
+		return "board/display";
+	}
+
+10. 데이터가 제대로 넘어왔다면 해당 데이터를 jsp에서 사용하기 위해 model의 변수 board에 담아 전송
+예시)
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public String display(Model model, BoardVO bVo){
+		System.out.println("board/display bVo : " + bVo);
+		BoardVO board = boardService.getBoard(bVo.getNum());
+		System.out.println("board/display board : " + board);
+		model.addAttribute("board", board);
+		return "board/display";
+	}
+
+11. jsp파일의 게시글 내용으로 모델에 담긴 게시글 정보를 호출
+예시)
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>	<!-- c태그를 사용하기 위한 링크 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<style type="text/css">
+.box{
+	border : 1px solid black;
+}
+.box div{
+	font-size:30px;
+}
+</style>
+<body>
+<div class="container">         
+  <table class="table">
+    <thead>
+      <tr>
+        <th>게시글 제목</th>
+        <th>작성자</th>
+        <th>조회수</th>
+        <th>작성일</th>
+        <th>첨부파일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>${board.title}</td>
+        <td>${board.writer}</td>
+        <td>${board.views}</td>
+        <td>${board.registered}</td>
+        <td>${board.file}</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>게시글 내용</th>
+      </tr>
+    </thead>
+  </table>
+  <div class="contents" style="padding-left: 12px; height: 300px; overflow: auto;">${board.contents}</div>
+  <a href="<%=request.getContextPath()%>/board/list"> <button type="button" class="btn btn-outline-dark">게시글 목록</button> </a>
+</body>
+</html>
+
+12. 게시글 정보가 제대로 출력되는지 화면에서 확인
+
+
+
+
+
++조회수 기능 추가
+1. 게시글을 불러오는 getBoard 인터페이스 구현 클래스에서 조회수를 1 증가시키는 DAO 인터페이스를 호출
+예시)
+	@Override
+	public BoardVO getBoard(Integer num) {
+		BoardVO bVo = boardDao.getBoard(num);
+		if(bVo == null){
+			return null;
+		}
+		boardDao.updateViews(num);
+		return boardDao.getBoard(num);
+	}
+
+2. quick fixed를 통해 DAO 인터페이스를 생성
+예시)
+	void updateViews(Integer num);
+
+3. BoardMapper.xml에서 인터페이스를 연결하는 쿼리문 작성
+예시)
+<update id="updateViews">
+	update board
+	set views = views+1
+	where num = #{num}
+</update>
+
+4. board/display 경로로 이동했을 시 조회수가 증가하는지 확인

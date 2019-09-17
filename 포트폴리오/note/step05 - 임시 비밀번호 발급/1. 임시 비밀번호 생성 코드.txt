@@ -1,0 +1,29 @@
+﻿		//방법1 - char[] 사용 시 출력할 떄 toString에서 원하지 않는 값이 출력될 수 있다
+		char[] pw = new char[8];
+		for(int i=0 ; i<8 ; i++){
+			int r = (int)(Math.random()*62);
+			if(r <= 9){
+				pw[i] = (char)('0'+r);
+			}else if(r <= 35){
+				pw[i] = (char)('a'+(r-10));	//아스키 코드값이 연속적인 걸 이용
+			}else{
+				pw[i] = (char)('A'+(r-36));
+			}
+		}
+		System.out.println("pw = " + pw);
+		//방법2 - char[] 사용 시 출력할 떄 toString에서 원하지 않는 값이 출력될 수 있다
+		char[] pw1 = new char[]{0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+		char[] password = new char[8];
+		for(int i=0 ; i<8 ; i++){
+			int r = (int)(Math.random()*62);
+			password[i] = pw1[r-1];
+		}
+		System.out.println("pw1 = " + pw1);
+		//방법3
+		String str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String pw2 = "";
+		for(int i=0 ; i<8 ; i++){
+			int r = (int)(Math.random()*62);
+			pw2 += str.charAt(r);
+		}
+		System.out.println("pw2 = " + pw2);

@@ -2,11 +2,12 @@ package kr.green.market.service;
 
 import java.util.ArrayList;
 
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.DeliveryVO;
 
 public interface DeliveryService {
 
-	ArrayList<DeliveryVO> getDeliveryListAll();
+	ArrayList<DeliveryVO> getDeliveryListAll(Criteria cri);
 
 	DeliveryVO getDelivery(Integer delivery_no);
 
@@ -17,5 +18,7 @@ public interface DeliveryService {
 	ArrayList<DeliveryVO> getDelivererList(String deliverer, String phone);
 
 	DeliveryVO getDelivery1(Integer buy_no);
+
+	int getDeliveryTotalCount(Criteria cri);
 
 }

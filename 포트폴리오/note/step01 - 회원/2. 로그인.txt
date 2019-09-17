@@ -1,0 +1,151 @@
+﻿1. home.jsp에 로그인창으로 이동하는 a태그를 생성
+예시)
+	<a href="<%=request.getContextPath()%>/signin">로그인</a>
+
+2. 해당 URI를 매핑하는 메서드를 컨트롤러에서 생성
+예시)
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	public String signinGet(Model model) {
+		
+		return "signin";
+	}
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinPost(Model model) {
+		
+		return "redirect:/signin";
+	}
+
+3. URI에 맞는 jsp를 생성 후 css 구현(form태그에 action을 입력하지 않을 시 현재 URI로 전송)
+예시) signin.jsp
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<title>회원가입</title>
+	<style>
+	input.form-control:focus{
+		color: green;
+		background-color: aqua;
+		font-size: 30px;
+	}
+	input.form-control:hover{
+		background-color: wheat;
+	}
+	.container{
+		border: 1px solid black;
+		width: 50%;
+	}
+	i.fab{
+		font-size: 100px;
+		color: red;
+	}
+</style>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#id').focus();
+	});
+</script>
+</head>
+<body>
+	<div class="row m-5">
+		<div class="container offset-4 col-4">
+			<div class="offset-4"> <h1>로그인</h1></div>
+			<form method="post" action="">
+				<div class="form-group">
+					<label for="usr">아이디</label>
+					<input type="text" class="form-control col-7" id="id" placeholder="아이디" name="id">
+				</div>
+				<div class="form-group">
+					<label for="pwd">비밀번호</label>
+					<input type="password" class="form-control col-7" id="pw" placeholder="비밀번호" name="pw">
+				</div>
+				<button type="submit" class="btn btn-primary float-right">로그인</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+
+4. form 태그를 통해 정보가 제대로 전송되는지 컨트롤러의 메서드에서 출력
+예시)
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinPost(Model model, MemberVO mVo) {
+		System.out.println(mVo);
+		return "redirect:/signin";
+	}
+
+5. 해당 정보를 매개변수로 사용하여 서비스 인터페이스를 호출
+예시)
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinPost(Model model, MemberVO mVo) {
+		System.out.println("signin mVo : " + mVo);
+		MemberVO user = memberService.signin(mVo);
+		return "redirect:/signin";
+	}
+
+6. quick fixed를 통해 서비스 인터페이스를 생성
+예시)
+	MemberVO signin(MemberVO mVo);
+
+7. quick fixed를 통해 인터페이스를 구현 후 DAO 인터페이스를 호출
+예시)
+	@Override
+	public MemberVO signin(MemberVO mVo) {
+		if(mVo == null){
+			return null;
+		}
+		return memberDao.getMember(mVo.getId());
+	}
+
+8. quick fixed를 통해 DAO 인터페이스를 생성
+예시)
+	MemberVO getMember(String id);
+
+9. DAO 인터페이스를 연결하는 쿼리문을 MemberMapper.xml에서 생성
+예시)
+<select id="getMember" resultType="kr.green.practice.vo.MemberVO">		<!-- MemberVO 객체를 반환하기 위해 MemberVO 파일의 경로를 resultType에 입력 -->
+	select * from member where id = #{id}
+</select>
+
+10. id가 일치하는 회원 정보를 DB에서 제대로 가져오는지 컨트롤러에서 출력하여 확인
+예시)
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinPost(Model model, MemberVO mVo) {
+		System.out.println("signin mVo : " + mVo);
+		MemberVO user = memberService.signin(mVo);
+		System.out.println("signin user : " + user);
+		return "redirect:/signin";
+	}
+
+11. id에 맞는 회원 정보를 제대로 가져온다면 비밀번호가 일치했을 때만 회원 정보를 가져오도록 MemberServiceImp.java 클래스에서 조건문을 추가
+예시)
+	@Override
+	public MemberVO signin(MemberVO mVo) {
+		if(mVo == null){
+			return null;
+		}
+		MemberVO oVo = memberDao.getMember(mVo.getId());
+		if(oVo.getPw().equals(mVo.getPw())){
+			return oVo;
+		}
+		return null;
+	}
+
+12. 로그인 성공 여부에 따라 보여줄 화면을 다르게 반환하도록 컨트롤러에 조건문을 추가
+예시) HomeController
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinPost(Model model, MemberVO mVo) {
+		System.out.println("signin mVo : " + mVo);
+		MemberVO user = memberService.signin(mVo);
+		System.out.println("signin user : " + user);
+		if(user == null){
+			return "redirect:/signin";
+		}
+		return "redirect:/";
+	}
