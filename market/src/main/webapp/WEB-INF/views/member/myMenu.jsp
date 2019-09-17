@@ -362,8 +362,23 @@ $(document).ready(function(){
 	//구매 확정 클릭 시
 	$('.buy-agree').click(function(){
 		var s = confirm("구매 확정을 진행하시겠습니까?");
+		var no = $(this).parents('.table-contents').find('.buy-no').text();
+		var id = $('input[name=id]').val();
+		var a = $(this).parents('.table-contents').find('.buy-state');
 		if(s){
-			alert("yes");
+			$.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{"id": id, "no": no},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/buyAgree",
+		        dataType:"json",
+		        //contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						a.html("구매확정");
+					}
+		        }
+			 });
 		}else{
 			alert("no");
 		}
@@ -372,8 +387,23 @@ $(document).ready(function(){
 	//구매 취소 클릭 시
 	$('.buy-cancel').click(function(){
 		var s = confirm("구매 취소를 진행하시겠습니까?");
+		var no = $(this).parents('.table-contents').find('.buy-no').text();
+		var id = $('input[name=id]').val();
+		var a = $(this).parents('.table-contents').find('.buy-state');
 		if(s){
-			alert("yes");
+			$.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{"id": id, "no": no},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/buyCancel",
+		        dataType:"json",
+		        //contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						a.html("취소요청");
+					}
+		        }
+			 });
 		}else{
 			alert("no");
 		}
@@ -382,8 +412,23 @@ $(document).ready(function(){
 	//교환/반품 클릭 시
 	$('.buy-return').click(function(){
 		var s = confirm("반품/교환을 진행하시겠습니까?");
+		var no = $(this).parents('.table-contents').find('.buy-no').text();
+		var id = $('input[name=id]').val();
+		var a = $(this).parents('.table-contents').find('.buy-state');
 		if(s){
-			alert("yes");
+			$.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data:{"id": id, "no": no},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/buyReturn",
+		        dataType:"json",
+		        //contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						a.html("교환/반품요청");
+					}
+		        }
+			 });
 		}else{
 			alert("no");
 		}
@@ -807,7 +852,7 @@ function menuClick(selecter){
 													<h6>${buy.time}</h6>
 												</div>
 												<div class="detail-link">
-													<h6>주문 번호</h6><a href="<%=request.getContextPath()%>/items/myBuy?no=${buy.no}">${buy.no}</a>
+													<h6>주문 번호</h6><a href="<%=request.getContextPath()%>/items/myBuy?no=${buy.no}" class="buy-no">${buy.no}</a>
 												</div>
 											</th>
 											<th class="item-info-box item-info-border">
@@ -835,7 +880,7 @@ function menuClick(selecter){
 												</div>
 												<div class="status-check">
 													<h5>
-														<a href="<%=request.getContextPath()%>/items/myBuy?no=${buy.no}">${buy.state}</a>
+														<a href="<%=request.getContextPath()%>/items/myBuy?no=${buy.no}" class="buy-state">${buy.state}</a>
 													</h5>
 												</div>
 											</th>

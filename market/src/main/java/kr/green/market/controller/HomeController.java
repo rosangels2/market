@@ -299,4 +299,22 @@ public class HomeController {
 	public boolean deleteBag(BagVO bVo){   
 	    return itemService.deleteBag(bVo.getNo(), bVo.getId());	
 	}
+    @RequestMapping(value ="/buyAgree")
+	@ResponseBody
+	public boolean buyAgree(BuyVO bVo){
+	    System.out.println("buyAgree bVo : " + bVo);
+	    return itemService.buyAgree(bVo.getNo(), bVo.getId());
+	}
+    @RequestMapping(value ="/buyCancel")
+	@ResponseBody
+	public boolean buyCancel(BuyVO bVo){
+	    System.out.println("buyCancel bVo : " + bVo);
+	    return itemService.buyCancel(bVo.getNo(), bVo.getId());	//map 정보를 ajax에 반환
+	}
+    @RequestMapping(value ="/buyReturn")
+	@ResponseBody
+	public boolean buyReturn(BuyVO bVo){
+	    System.out.println("buyReturn bVo : " + bVo);
+	    return itemService.buyReturn(bVo.getNo(), bVo.getId());	//map 정보를 ajax에 반환
+	}
 }

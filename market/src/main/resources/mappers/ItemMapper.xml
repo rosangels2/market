@@ -228,4 +228,12 @@
 		set `count` = #{bVo.count}, price = #{bVo.price}, image = #{bVo.image}, valid = #{bVo.valid}
 		where no = #{bVo.no}
 </update>
+<select id="selectItemListSeller" resultType="kr.green.market.vo.ItemVO">
+	select * from `item`
+		where seller_id = #{id}
+</select>
+<select id="selectBuyList1" resultType="kr.green.market.vo.BuyVO">
+	select * from buy
+		where item_no = #{item_no} and state like '%요청' and valid = 'I'
+</select>
 </mapper>

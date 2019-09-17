@@ -394,4 +394,65 @@ public class ItemServiceImp implements ItemService{
 		}
 		return true;
 	}
+	@Override
+	public boolean buyAgree(Integer no, String id) {
+		if(no == null || id == "") {
+			return false;
+		}
+		BuyVO bVo1 = itemDao.selectBuy(no);
+		if(bVo1 == null) {
+			return false;
+		}
+		bVo1.setState("구매확정");
+		itemDao.updateBuy(bVo1);
+		return true;
+	}
+	@Override
+	public boolean buyCancel(Integer no, String id) {
+		if(no == null || id == "") {
+			return false;
+		}
+		BuyVO bVo1 = itemDao.selectBuy(no);
+		if(bVo1 == null) {
+			return false;
+		}
+		bVo1.setState("취소요청");
+		itemDao.updateBuy(bVo1);
+		return true;
+	}
+	@Override
+	public boolean buyReturn(Integer no, String id) {
+		if(no == null || id == "") {
+			return false;
+		}
+		BuyVO bVo1 = itemDao.selectBuy(no);
+		if(bVo1 == null) {
+			return false;
+		}
+		bVo1.setState("교환/반품요청");
+		itemDao.updateBuy(bVo1);
+		return true;
+	}
+	@Override
+	public ArrayList<ItemVO> getItemListSeller(String id) {
+		if(id == null) {
+			return null;
+		}
+		return itemDao.selectItemListSeller(id);
+	}
+	@Override
+	public ArrayList<BuyVO> addRequestList(Integer no, ArrayList<BuyVO> requestList) {
+		if(no == null) {
+			return requestList;
+		}
+		ArrayList<BuyVO> bVoList = itemDao.selectBuyList1(no);
+		if(bVoList != null) {
+			for(int i=0; i<bVoList.size(); i++) {
+				requestList.add(bVoList.get(i));
+				System.out.println("addRequestList bVoList +"+i+"번지 requestList : " + requestList);
+			}
+		}
+		System.out.println("addRequestList requestList : " + requestList);
+		return requestList;
+	}
 }

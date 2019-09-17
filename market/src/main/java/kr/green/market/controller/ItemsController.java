@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
 import kr.green.market.vo.FileVO;
 import kr.green.market.vo.ItemVO;
+import kr.green.market.vo.MemberVO;
 import kr.green.market.vo.OptionVO;
 import kr.green.market.vo.SellerVO;
 import kr.green.market.vo.WishlistVO;
@@ -513,14 +515,24 @@ public class ItemsController {
     	map.put("cVo", cVo);
     	return map;
     }
-    @RequestMapping(value="/deleteItem", method = RequestMethod.POST)	//쿠폰함
+    @RequestMapping(value="/deleteItem", method = RequestMethod.POST)	//상품 삭제
     @ResponseBody
-    public Map<Object, Object> deleteItem(ItemVO iVo) {
-    	Map<Object, Object> map = new HashMap<Object, Object>();
+    public boolean deleteItem(ItemVO iVo) {
     	System.out.println("deleteItem iVo : " + iVo);
-    	if(itemService.deleteItem(iVo.getNo(), iVo.getSeller_id())) {
-    		
-    	}
-    	return map;
+    	return itemService.deleteItem(iVo.getNo(), iVo.getSeller_id());
+    }
+    @RequestMapping(value= "/request", method = RequestMethod.GET)
+    public ModelAndView itemRequest(ModelAndView mv, HttpServletRequest r) throws Exception{
+        mv.setViewName("/items/request");		//타일즈를 통해 불러올 jsp 경로
+        MemberVO user = (MemberVO)r.getSession().getAttribute("user");
+        ArrayList<ItemVO> itemList = itemService.getItemListSeller(user.getId());
+        System.out.println("itemRequest itemList : " + itemList);
+        ArrayList<BuyVO> requestList = new ArrayList<BuyVO>();
+        for(int i=0; i<itemList.size(); i++) {
+        	itemService.addRequestList(itemList.get(i).getNo(), requestList);
+        	System.out.println("itemRequest requestList "+i+"번지 : " + requestList);
+        }
+        mv.addObject("requestList", requestList);
+        return mv;
     }
 }

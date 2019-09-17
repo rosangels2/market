@@ -118,5 +118,9 @@ public interface ItemDAO {
 	BagVO selectBag(@Param("no")Integer no);
 
 	void updateBag(@Param("bVo")BagVO bVo);
+
+	ArrayList<ItemVO> selectItemListSeller(@Param("id")String id);
+
+	ArrayList<BuyVO> selectBuyList1(@Param("item_no")Integer no);
 	
 }

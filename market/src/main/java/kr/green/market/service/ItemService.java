@@ -99,4 +99,14 @@ public interface ItemService {
 
 	boolean deleteBag(Integer no, String id);
 
+	boolean buyAgree(Integer no, String id);
+
+	boolean buyCancel(Integer no, String id);
+
+	boolean buyReturn(Integer no, String id);
+
+	ArrayList<ItemVO> getItemListSeller(String id);
+
+	ArrayList<BuyVO> addRequestList(Integer no, ArrayList<BuyVO> requestList);
+
 }

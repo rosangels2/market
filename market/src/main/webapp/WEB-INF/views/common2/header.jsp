@@ -22,8 +22,11 @@
 			        	<a class="nav-link" href="<%=request.getContextPath()%>/items/register?id=${user.id}" style="color : white;">상품 등록</a>
 			      	</li>
 			      	<li class="nav-item">
-		        	<a class="nav-link" href="<%=request.getContextPath()%>/items/administration?id=${user.id}" style="color : white;">상품 관리</a>
-		      	</li>      	
+		        		<a class="nav-link" href="<%=request.getContextPath()%>/items/administration?id=${user.id}" style="color : white;">상품 관리</a>
+		      		</li>
+		      		<li class="nav-item">
+		        		<a class="nav-link" href="<%=request.getContextPath()%>/items/request?id=${user.id}" style="color : white;">요청 관리</a>
+		      		</li>  	
 		      	</c:if>      	
 		      	<c:if test="${user.grade eq 'admin'}">
 			      	<li class="nav-item">
