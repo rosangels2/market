@@ -13,7 +13,7 @@
 }
 /* 메뉴 */
 .menu-contents{
-	padding: 20px 0 20px 0px;
+	padding: 20px 0 20px 0;
 }
 .menu-contents div{
 	border: 1px solid gray;
@@ -99,31 +99,21 @@
 
 $(document).ready(function(){
 	
-	//멤버 등급 변경
-	$('.changeGrade').change(function(){
-		if($(this).val() == 0){
-			return;
-		}
-		if($(this).val() == $(this).siblings('input[name=member_grade]').val()){
-			return;
-		}
-		var s = $(this).siblings('input[name=member_grade]');
-		var d = $(this);
-		var t = $(this).parent();
-		var id = $(this).siblings('input[name=member_id]').val();
-		var grade = $(this).val();
+	//판매자 신청 승인 시
+	$('.request-agree').click(function(){
+		var box = $(this).parent();
+		var id = $(this).children('input[name=request_id]').val();
 		$.ajax({ 
 	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
 	        type:'POST',	//POST방식으로 전송
-	        data:{"id": id, "grade": grade},	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
-	        url:"<%=request.getContextPath()%>/admin/changeGrade",
+	        data:id,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/admin/agreeSeller",
 	        dataType:"json",
-	        //contentType:"application/json; charset=UTF-8",
+	        contentType:"application/json; charset=UTF-8",
 	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
 	        	 if(data){
 	        		 alert("요청이 성공 하였습니다.");
-	        		 t.siblings('.member-grade').html(grade);
-	        		 s.val(grade);
+	        		 box.remove();
 	        	 }else{
 	        		 alert("요청이 실패 하였습니다.");
 	        	 }
@@ -181,63 +171,58 @@ $(document).ready(function(){
 			</div>
 			<!-- 게시판 -->
 			<div class="board-box">
-				<div class="board-contents">
-					<!-- 전체 회원 보기 -->
-					<div class="member-board">
+				<div class="board-contents">		
+					<!-- 판매자 신청 보기 -->
+					<div class="seller-request-board display-none">
 						<table class="table">
 							<tr class="table-title">
-								<th width="20%">ID</th>
-								<th width="20%">name</th>
-								<th width="30%">email</th>
-								<th width="10%">등급</th>
-								<th width="15%" class="th-last">등급 관리</th>
+								<th width="10%">번호</th>
+								<th width="15%">ID</th>
+								<th width="15%">licensse</th>
+								<th width="15%">name</th>
+								<th width="15%">phone</th>
+								<th width="22%">place</th>
+								<th width="8%">확인</th>
 							</tr>
-							<c:forEach items="${memberList}" var="member">
-								<tr class="table-contents"> 
-									<th>${member.id}</th>
-									<th>${member.name}</th>
-									<th>${member.email}</th>
-									<th class="member-grade">${member.grade}</th>
-									<th>
-										<select class="changeGrade">
-											<option value="0">등급 변경</option>
-											<option value="member">member</option>
-											<option value="seller">seller</option>
-											<option value="deliverer">deliverer</option>
-											<option value="withdrawal">withdrawal</option>
-										</select>
-										<input type="hidden" value="${member.id}" name="member_id">
-										<input type="hidden" value="${member.grade}" name="member_grade">
-									</th>
-								</tr>
-							</c:forEach>
+							<c:if test="${sellerList ne null}">
+								<c:forEach items="${sellerList}" var="seller">
+									<tr class="table-contents">
+										<th>${seller.no}</th>
+										<th class="request-id">${seller.id}</th>
+										<th>${seller.license}</th>
+										<th>${seller.name}</th>
+										<th>${seller.phone}</th>
+										<th>${seller.place}</th>
+										<th class="request-agree">승인<input type="hidden" name="request_id" value="${seller.id}"></th>
+									</tr>
+								</c:forEach>
+							</c:if>
 						</table>	
-							<ul class="pagination" style="justify-content: center;">
-							    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
-							        <li class="page-item">
-							            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
-							        </li>							<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
-							    </c:if>
-							    <!-- 페이지네이션 목록 -->																<!-- var xxx = 반복문의 i 역할 -->
-							    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
-							        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
-								        <li class="page-item active">
-								            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
-								        </li>
-							        </c:if>
-							        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
-								        <li class="page-item">								<!-- index : 반복문의 i같은 역할로 증감연산 -->
-								            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
-								        </li>
-							        </c:if>
-							    </c:forEach>
-							    <c:if test="${pageMaker.next}">	<!-- 다음버튼(boolean 값이 true면 보여준다) -->
-							        <li class="page-item">
-							            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Next</a>
+						<ul class="pagination" style="justify-content: center;">
+						    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
+						        </li>							<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+						    </c:if>
+						    <!-- 페이지네이션 목록 -->																<!-- var xxx = 반복문의 i 역할 -->
+						    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+						        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+							        <li class="page-item active">
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
 							        </li>
-							    </c:if>
-							</ul>	
-						</div>		
+						        </c:if>
+						        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+							        <li class="page-item">								<!-- index : 반복문의 i같은 역할로 증감연산 -->
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+							        </li>
+						        </c:if>
+						    </c:forEach>
+						    <c:if test="${pageMaker.next}">	<!-- 다음버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}">Next</a>
+						        </li>
+						    </c:if>
+						</ul>							
 					</div>							
 				</div>
 			</div>

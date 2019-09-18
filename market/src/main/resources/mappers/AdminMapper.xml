@@ -90,7 +90,8 @@
 		where category like '%문의' and valid = 'I'
 		<choose>
 			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
-			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 3">and title like concat('%', #{cri.search}, '%')</when>			
 			<otherwise></otherwise>
 		</choose>
 		order by no desc
@@ -101,7 +102,8 @@
 		where category like '%문의' and valid = 'I'
 		<choose>
 			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
-			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>	
+			<when test="cri.type == 3">and title like concat('%', #{cri.search}, '%')</when>			
 			<otherwise></otherwise>
 		</choose>
 </select>
@@ -130,7 +132,7 @@
 		where category like '%답변' and valid = 'I'
 		<choose>
 			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
-			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>	
 			<otherwise></otherwise>
 		</choose>
 		order by no desc
@@ -141,7 +143,7 @@
 		where category like '%답변' and valid = 'I'
 		<choose>
 			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
-			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>		
 			<otherwise></otherwise>
 		</choose>
 </select>

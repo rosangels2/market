@@ -30,11 +30,20 @@
 		      	</c:if>      	
 		      	<c:if test="${user.grade eq 'admin'}">
 			      	<li class="nav-item">
-			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/board?page_state=1" style="color : white;">게시판 관리</a>
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/comment" style="color : white;">댓글 관리</a>
+			      	</li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/ask" style="color : white;">문의 관리</a>
+			      	</li>
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/reply" style="color : white;">답변 관리</a>
 			      	</li>
 			      	<li class="nav-item">
 			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/member" style="color : white;">회원 관리</a>
 			      	</li>      	
+			      	<li class="nav-item">
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/sellerRequest" style="color : white;">판매자 관리</a>
+			      	</li>  
 			      	<li class="nav-item">
 			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/coupon" style="color : white;">쿠폰 관리</a>
 			      	</li>    
@@ -53,8 +62,7 @@
 			<a href="<%=request.getContextPath()%>/signin" class="float-right" style="color : white; margin-right: 20px;">Signin</a>				
 			<a href="<%=request.getContextPath()%>/signup" class="float-right" style="color : white;">Signup</a>
 		</c:if>
-		<c:if test="${user ne null}">
-			<div class="nav-item" style="color: white; margin-right: 20px;">로그인 중 : ${user.id}</div>  		
+		<c:if test="${user ne null}">	
 			<a href="<%=request.getContextPath()%>/myMenu?id=${user.id}" class="float-right" style="color : white; margin-right: 20px;">My Menu</a>		
 			<a href="<%=request.getContextPath()%>/signout" class="float-right" style="color : silver;">로그아웃</a>
 		</c:if>
