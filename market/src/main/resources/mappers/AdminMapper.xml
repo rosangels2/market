@@ -6,6 +6,23 @@
 <select id="selectAllMemberList" resultType="kr.green.market.vo.MemberVO">
 	select * from member 
 		where grade != 'admin'
+		<choose>
+			<when test="cri.type == 1">and id like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and name like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 3">and email like concat('%', #{cri.search}, '%')</when>
+			<otherwise></otherwise>
+		</choose>
+		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
+</select>
+<select id="getTotalCountMemberList" resultType="int">
+	select count(*) from member 
+		where grade != 'admin'
+		<choose>
+			<when test="cri.type == 1">and id like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and name like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 3">and email like concat('%', #{cri.search}, '%')</when>
+			<otherwise></otherwise>
+		</choose>
 </select>
 <select id="selectRequestSellerList" resultType="kr.green.market.vo.SellerVO">
 	select * from seller
@@ -76,4 +93,5 @@
 		set valid = "D"
 		where no = #{no}
 </update>
+
 </mapper>

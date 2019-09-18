@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponVO;
@@ -12,7 +13,7 @@ import kr.green.market.vo.SellerVO;
 
 public interface AdminDAO {
 
-	ArrayList<MemberVO> selectAllMemberList();
+	ArrayList<MemberVO> selectAllMemberList(@Param("cri")Criteria cri);
 
 	ArrayList<SellerVO> selectRequestSellerList();
 
@@ -43,4 +44,6 @@ public interface AdminDAO {
 	void deleteComment(@Param("no")Integer no);
 
 	void deleteBoard(@Param("no")Integer no);
+
+	int getTotalCountMemberList(@Param("cri")Criteria cri);
 }

@@ -2,6 +2,7 @@ package kr.green.market.service;
 
 import java.util.ArrayList;
 
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponVO;
@@ -10,7 +11,7 @@ import kr.green.market.vo.SellerVO;
 
 public interface AdminService {
 
-	ArrayList<MemberVO> getAllMemberList();
+	ArrayList<MemberVO> getAllMemberList(Criteria cri);
 
 	ArrayList<SellerVO> getRequestSellerList();
 
@@ -43,5 +44,7 @@ public interface AdminService {
 	boolean deleteAsk(Integer no);
 
 	boolean deleteReply(Integer no);
+
+	int getTotalCountMemberList(Criteria cri);
 
 }

@@ -9,6 +9,7 @@ import kr.green.market.dao.AdminDAO;
 import kr.green.market.dao.BoardDAO;
 import kr.green.market.dao.ItemDAO;
 import kr.green.market.dao.MemberDAO;
+import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.CommentVO;
 import kr.green.market.vo.CouponVO;
@@ -28,8 +29,8 @@ public class AdminServiceImp implements AdminService{
 	BoardDAO boardDao;
 	
 	@Override
-	public ArrayList<MemberVO> getAllMemberList() {
-		return adminDao.selectAllMemberList();
+	public ArrayList<MemberVO> getAllMemberList(Criteria cri) {
+		return adminDao.selectAllMemberList(cri);
 	}
 
 	@Override
@@ -182,6 +183,11 @@ public class AdminServiceImp implements AdminService{
 		}
 		adminDao.deleteBoard(no);
 		return true;
+	}
+
+	@Override
+	public int getTotalCountMemberList(Criteria cri) {
+		return adminDao.getTotalCountMemberList(cri);
 	}
 
 }
