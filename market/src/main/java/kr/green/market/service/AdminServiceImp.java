@@ -34,8 +34,8 @@ public class AdminServiceImp implements AdminService{
 	}
 
 	@Override
-	public ArrayList<SellerVO> getRequestSellerList() {
-		return adminDao.selectRequestSellerList();
+	public ArrayList<SellerVO> getRequestSellerList(Criteria cri) {
+		return adminDao.selectRequestSellerList(cri);
 	}
 
 	@Override
@@ -144,18 +144,18 @@ public class AdminServiceImp implements AdminService{
 	}
 
 	@Override
-	public ArrayList<BoardVO> getAskListAll() {
-		return adminDao.selectAskListAll();
+	public ArrayList<BoardVO> getAskListAll(Criteria cri) {
+		return adminDao.selectAskListAll(cri);
 	}
 
 	@Override
-	public ArrayList<CommentVO> getCommentListAll() {
-		return adminDao.selectCommentListAll();
+	public ArrayList<CommentVO> getCommentListAll(Criteria cri) {
+		return adminDao.selectCommentListAll(cri);
 	}
 
 	@Override
-	public ArrayList<BoardVO> getReplyListAll() {
-		return adminDao.selectReplyListAll();
+	public ArrayList<BoardVO> getReplyListAll(Criteria cri) {
+		return adminDao.selectReplyListAll(cri);
 	}
 
 	@Override
@@ -188,6 +188,26 @@ public class AdminServiceImp implements AdminService{
 	@Override
 	public int getTotalCountMemberList(Criteria cri) {
 		return adminDao.getTotalCountMemberList(cri);
+	}
+
+	@Override
+	public int getTotalCountRequestSellerList(Criteria cri) {
+		return adminDao.getTotalCountRequestSellerList(cri);
+	}
+
+	@Override
+	public int getTotalCountAskList(Criteria cri) {
+		return adminDao.getTotalCountAskList(cri);
+	}
+
+	@Override
+	public int getTotalCountReplyList(Criteria cri) {
+		return adminDao.getTotalCountReplyList(cri);
+	}
+
+	@Override
+	public int getTotalCountCommentList(Criteria cri) {
+		return adminDao.getTotalCountCommentList(cri);
 	}
 
 }

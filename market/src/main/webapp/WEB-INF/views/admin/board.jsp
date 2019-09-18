@@ -3,6 +3,15 @@
 <html>
 <head>
 <style type="text/css">
+.container{
+	min-width: 1140px;
+	max-width: 2000px;
+}
+.contents-box{
+	padding: 20px;
+	min-width: 1100px;
+}
+/* 메뉴 */
 .menu-box{
 	min-height: 100px;
 	padding: 30px 0;
@@ -26,15 +35,61 @@
 .bottom-box{
 	min-height: 100px;
 }
-.search-box{
-	margin-bottom: 40px;
+/* 검색창 */
+.search-contents{
+	position: relative;
+	height: 100px;
+	padding-top: 30px;
 }
-.search-box div{
-	margin-right: 15px;
+.search-contents .search-text{
+	position: absolute;
+	right: 360px;
+	top: 20px;
 }
-.search-box input{
+.search-text img{
+	width: 150px;
+	height: 50px;
+}
+.search-contents .search-input{
+	position: absolute;
+	right: 50px;
+}
+.search-input .input{
 	width: 300px;
-	fint-size: 30px;
+	height: 35px;
+}
+.search-contents .search-img{
+	position: absolute;
+	right: 0;
+}
+#type{
+	margin-top: 16px;
+}
+/* 페이지 선택창 */
+.page-select-contents{
+	height: 50px;
+	position: relative;
+	padding: 0 0 0 10px;
+}
+.list-select-box{
+	width: 300px;
+	margin: 0;
+	display: inline-block;
+}
+.list-select-box select{
+	width: 300px;
+	height: 40px;
+	margin: 4px 0 5px 0;
+}
+.page-view{
+	position: absolute;
+	left: 0;
+	top: 26px;
+}
+.page-view select{
+	width: 300px;
+	height: 40px;
+	margin: 4px 0 5px 0;
 }
 
 /* 공통 */
@@ -48,6 +103,31 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
+	//페이지 시작 시
+	if($('input[name=page_state]').val() == 1){		//댓글 목록
+		$('.comment-board').removeClass('display-none');
+		$('.ask-board').addClass('display-none');
+		$('.reply-board').addClass('display-none');
+		$('#comment-menu').addClass('background-gray');
+		$('#ask-menu').removeClass('background-gray');
+		$('#reply-menu').removeClass('background-gray');
+	}else if($('input[name=page_state]').val() == 2){	//문의 목록
+		$('.ask-board').removeClass('display-none');
+		$('.comment-board').addClass('display-none');
+		$('.reply-board').addClass('display-none');
+		$('#ask-menu').addClass('background-gray');
+		$('#comment-menu').removeClass('background-gray');
+		$('#reply-menu').removeClass('background-gray');
+	}else if($('input[name=page_state]').val() == 3){	//답변 목록
+		$('.reply-board').removeClass('display-none');
+		$('.comment-board').addClass('display-none');
+		$('.ask-board').addClass('display-none');
+		$('#reply-menu').addClass('background-gray');
+		$('#comment-menu').removeClass('background-gray');
+		$('#ask-menu').removeClass('background-gray');
+	}
+	
+	
 	//댓글 목록 클릭 시
 	$('#comment-menu').click(function(){
 		$('.comment-board').removeClass('display-none');
@@ -56,7 +136,7 @@ $(document).ready(function(){
 		$(this).addClass('background-gray');
 		$('#ask-menu').removeClass('background-gray');
 		$('#reply-menu').removeClass('background-gray');
-		
+		$('input[name=page_state]').val(1);
 	});
 	
 	//상품문의 목록 클릭 시
@@ -67,6 +147,7 @@ $(document).ready(function(){
 		$(this).addClass('background-gray');
 		$('#comment-menu').removeClass('background-gray');
 		$('#reply-menu').removeClass('background-gray');
+		$('input[name=page_state]').val(2);
 	});
 	
 	//문의 답변 목록 클릭 시
@@ -77,6 +158,21 @@ $(document).ready(function(){
 		$(this).addClass('background-gray');
 		$('#comment-menu').removeClass('background-gray');
 		$('#ask-menu').removeClass('background-gray');
+		$('input[name=page_state]').val(3);
+	});
+	
+	//검색 아이콘 클릭 시
+	$('#search-icon').click(function(){
+		if($('#search').val() == ""){
+			alert('검색값을 입력해 주세요.');
+			return false;
+		}
+		$('#search-form').submit();
+	});
+	
+	//게시글 개수 선택 시
+	$('select[name=perPageNum]').change(function(){
+		$('#search-form').submit(); 
 	});
 	
 	//댓글 삭제 클릭 시
@@ -178,21 +274,51 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
+			<!-- 검색창 -->
+			<div class="search">
+				<form action="" method="get" id="search-form">
+					<div class="search-contents clearfix">
+						<c:choose>
+							<c:when test="${state eq 1}">
+								<input type="hidden" name="page_state" value="1">
+							</c:when>
+							<c:when test="${state eq 2}">
+								<input type="hidden" name="page_state" value="2">
+							</c:when>
+							<c:when test="${state eq 3}">
+								<input type="hidden" name="page_state" value="3">
+							</c:when>
+							<c:otherwise>
+								<input type="hidden" name="page_state" value="1">
+							</c:otherwise>
+						</c:choose>
+						<input name="page_state" type="hidden" value="">
+						<div class="search-text">
+							<select name="type" id="type"> 
+								<option value="1" <c:if test="${pageMaker.criteria.type eq 1}">selected</c:if> >ID</option>
+								<option value="2" <c:if test="${pageMaker.criteria.type eq 2}">selected</c:if> >내용</option>
+							</select>
+						</div>
+						<div class="search-input">
+							<input class="input" name="search" id="search" value="${pageMaker.criteria.search}">
+						</div>
+						<div class="search-img">
+							<i class="fas fa-search img" style="font-size: 40px;" id="search-icon"></i>
+						</div>
+						<div class="page-view float-left">
+							<select name="perPageNum" id="perPageNum">
+								<option value="10" <c:if test="${pageMaker.criteria.perPageNum eq 10}">selected</c:if> >10개씩 보기</option>
+								<option value="20" <c:if test="${pageMaker.criteria.perPageNum eq 20}">selected</c:if> >20개씩 보기</option>
+								<option value="30" <c:if test="${pageMaker.criteria.perPageNum eq 30}">selected</c:if> >30개씩 보기</option>
+								<option value="50" <c:if test="${pageMaker.criteria.perPageNum eq 50}">selected</c:if> >50개씩 보기</option>							
+							</select>					
+						</div>	
+					</div>
+				</form>
+			</div>
 			<!-- 댓글 관리 -->
 			<div class="comment-board">
 				<div class="comment-contents">
-					<div class="search-box clearfix">
-					<div class="search-img float-right">
-						<i class="fas fa-search img" style="font-size: 30px;"></i>
-					</div>
-					<div class="search-input float-right"><input></div>
-					<div class="search-select float-right">
-						<select>
-							<option>제목</option>
-							<option>내용</option>
-						</select>
-					</div>  
-				</div>
 					<table class="table">
 						<tr class="table-title">
 							<th width="10%">번호</th>
@@ -210,24 +336,37 @@ $(document).ready(function(){
 								<th class="comment-delete">삭제</th>
 							</tr>
 						</c:forEach>
-					</table>								
+					</table>	
+					<ul class="pagination" style="justify-content: center;">
+					    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+					        <li class="page-item">
+					            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${pageMaker2.startPage-1}&type=${pageMaker2.criteria.type}&search=${pageMaker2.criteria.search}&perPageNum=${pageMaker2.criteria.perPageNum}&page_state=1">Previous</a>
+					        </li>							<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+					    </c:if>
+					    <!-- 페이지네이션 목록 -->																<!-- var xxx = 반복문의 i 역할 -->
+					    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+					        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+						        <li class="page-item active">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${index}&type=${pageMaker2.criteria.type}&search=${pageMaker2.criteria.search}&perPageNum=${pageMaker2.criteria.perPageNum}&page_state=1">${index}</a>	<!-- 숫자를 찍는 역할 -->
+						        </li>
+					        </c:if>
+					        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+						        <li class="page-item">								<!-- index : 반복문의 i같은 역할로 증감연산 -->
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${index}&type=${pageMaker2.criteria.type}&search=${pageMaker2.criteria.search}&perPageNum=${pageMaker2.criteria.perPageNum}&page_state=1">${index}</a>	<!-- 숫자를 찍는 역할 -->
+						        </li>
+					        </c:if>
+					    </c:forEach>
+					    <c:if test="${pageMaker.next}">	<!-- 다음버튼(boolean 값이 true면 보여준다) -->
+					        <li class="page-item">
+					            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${pageMaker2.endPage+1}&type=${pageMaker2.criteria.type}&search=${pageMaker2.criteria.search}&perPageNum=${pageMaker2.criteria.perPageNum}&page_state=1">Next</a>
+					        </li>
+					    </c:if>
+					</ul>												
 				</div>				
 			</div>
 			<!-- 문의글 관리 -->
 			<div class="ask-board display-none">
 				<div class="ask-contents">
-					<div class="search-box clearfix">
-						<div class="search-img float-right">
-							<i class="fas fa-search img" style="font-size: 30px;"></i>
-						</div>
-						<div class="search-input float-right"><input></div>
-						<div class="search-select float-right">
-							<select>
-								<option>제목</option>
-								<option>내용</option>
-							</select>
-						</div>  
-					</div> 
 					<div class="board-box">
 						<table class="table">
 							<tr class="table-title">
@@ -237,7 +376,6 @@ $(document).ready(function(){
 								<th width="35%">내용</th>
 								<th width="20%">등록일</th>
 								<th width="10%">관리</th>	
-								
 							</tr>
 							<c:forEach items="${askList}" var="ask">
 								<tr class="table-contents">
@@ -250,24 +388,37 @@ $(document).ready(function(){
 								</tr>
 							</c:forEach>
 						</table>							
+						<ul class="pagination" style="justify-content: center;">
+						    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}&page_state=2">Previous</a>
+						        </li>							<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+						    </c:if>
+						    <!-- 페이지네이션 목록 -->																<!-- var xxx = 반복문의 i 역할 -->
+						    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+						        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+							        <li class="page-item active">
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}&page_state=2">${index}</a>	<!-- 숫자를 찍는 역할 -->
+							        </li>
+						        </c:if>
+						        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+							        <li class="page-item">								<!-- index : 반복문의 i같은 역할로 증감연산 -->
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${index}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}&page_state=2">${index}</a>	<!-- 숫자를 찍는 역할 -->
+							        </li>
+						        </c:if>
+						    </c:forEach>
+						    <c:if test="${pageMaker.next}">	<!-- 다음버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${pageMaker.endPage+1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&perPageNum=${pageMaker.criteria.perPageNum}&page_state=2">Next</a>
+						        </li>
+						    </c:if>
+						</ul>
 					</div>					
 				</div>
 			</div>
 			<!-- 문의 답변글 관리 -->
 			<div class="reply-board display-none">
-				<div class="reply-contents">
-					<div class="search-box clearfix">
-						<div class="search-img float-right">
-							<i class="fas fa-search img" style="font-size: 30px;"></i>
-						</div>
-						<div class="search-input float-right"><input></div>
-						<div class="search-select float-right">
-							<select>
-								<option>제목</option>
-								<option>내용</option>
-							</select>
-						</div>  
-					</div> 
+				<div class="reply-contents"> 
 					<div class="board-box">
 						<table class="table">
 							<tr class="table-title">
@@ -286,7 +437,32 @@ $(document).ready(function(){
 									<th class="reply-delete">삭제</th>
 								</tr>
 							</c:forEach>
-						</table>							
+						</table>
+						<ul class="pagination" style="justify-content: center;">
+						    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${pageMaker1.startPage-1}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}&page_state=3">Previous</a>
+						        </li>							<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+						    </c:if>
+						    <!-- 페이지네이션 목록 -->																<!-- var xxx = 반복문의 i 역할 -->
+						    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+						        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+							        <li class="page-item active">
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${index}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}&page_state=3">${index}</a>	<!-- 숫자를 찍는 역할 -->
+							        </li>
+						        </c:if>
+						        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+							        <li class="page-item">								<!-- index : 반복문의 i같은 역할로 증감연산 -->
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${index}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}&page_state=3">${index}</a>	<!-- 숫자를 찍는 역할 -->
+							        </li>
+						        </c:if>
+						    </c:forEach>
+						    <c:if test="${pageMaker.next}">	<!-- 다음버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/board?page=${pageMaker1.endPage+1}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}&page_state=3">Next</a>
+						        </li>
+						    </c:if>
+						</ul>													
 					</div>					
 				</div>
 			</div>

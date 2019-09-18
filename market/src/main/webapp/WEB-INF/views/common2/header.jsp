@@ -30,7 +30,7 @@
 		      	</c:if>      	
 		      	<c:if test="${user.grade eq 'admin'}">
 			      	<li class="nav-item">
-			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/board" style="color : white;">게시판 관리</a>
+			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/board?page_state=1" style="color : white;">게시판 관리</a>
 			      	</li>
 			      	<li class="nav-item">
 			        	<a class="nav-link" href="<%=request.getContextPath()%>/admin/member" style="color : white;">회원 관리</a>

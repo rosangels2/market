@@ -27,6 +27,23 @@
 <select id="selectRequestSellerList" resultType="kr.green.market.vo.SellerVO">
 	select * from seller
 		where state = '승인대기'
+		<choose>
+			<when test="cri.type == 1">and id like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and name like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 3">and email like concat('%', #{cri.search}, '%')</when>
+			<otherwise></otherwise>
+		</choose>
+		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
+</select>
+<select id="getTotalCountRequestSellerList" resultType="int">
+	select count(*) from seller
+		where state = '승인대기'
+		<choose>
+			<when test="cri.type == 1">and id like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and name like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 3">and email like concat('%', #{cri.search}, '%')</when>
+			<otherwise></otherwise>
+		</choose>
 </select>
 <update id="updateAgreeSeller">
 	update seller
@@ -71,17 +88,62 @@
 <select id="selectAskListAll" resultType="kr.green.market.vo.BoardVO">
 	select * from board
 		where category like '%문의' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<otherwise></otherwise>
+		</choose>
 		order by no desc
+		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
+</select>
+<select id="getTotalCountAskList" resultType="int">
+	select count(*) from board
+		where category like '%문의' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<otherwise></otherwise>
+		</choose>
 </select>
 <select id="selectCommentListAll" resultType="kr.green.market.vo.CommentVO">
-	select * from comment
+	select * from `comment`
 		where category = '댓글' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<otherwise></otherwise>
+		</choose>
 		order by no desc
+		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
+</select>
+<select id="getTotalCountCommentList" resultType="int">
+	select count(*) from `comment`
+		where category = '댓글' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<otherwise></otherwise>
+		</choose>
 </select>
 <select id="selectReplyListAll" resultType="kr.green.market.vo.BoardVO">
 	select * from board
-		where category = '문의답변' and valid = 'I'
+		where category like '%답변' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<otherwise></otherwise>
+		</choose>
 		order by no desc
+		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
+</select>
+<select id="getTotalCountReplyList" resultType="int">
+	select count(*) from board
+		where category like '%답변' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and contents like concat('%', #{cri.search}, '%')</when>			
+			<otherwise></otherwise>
+		</choose>
 </select>
 <update id="deleteComment">
 	update comment

@@ -13,7 +13,7 @@ public interface AdminService {
 
 	ArrayList<MemberVO> getAllMemberList(Criteria cri);
 
-	ArrayList<SellerVO> getRequestSellerList();
+	ArrayList<SellerVO> getRequestSellerList(Criteria cri);
 
 	boolean agreeSeller(String id);
 
@@ -33,11 +33,11 @@ public interface AdminService {
 
 	void deleteBoard(Integer board_no);
 
-	ArrayList<BoardVO> getAskListAll();
+	ArrayList<BoardVO> getAskListAll(Criteria cri);
 
-	ArrayList<CommentVO> getCommentListAll();
+	ArrayList<CommentVO> getCommentListAll(Criteria cri);
 
-	ArrayList<BoardVO> getReplyListAll();
+	ArrayList<BoardVO> getReplyListAll(Criteria cri);
 
 	boolean deleteComment(Integer no);
 
@@ -46,5 +46,13 @@ public interface AdminService {
 	boolean deleteReply(Integer no);
 
 	int getTotalCountMemberList(Criteria cri);
+
+	int getTotalCountRequestSellerList(Criteria cri);
+
+	int getTotalCountAskList(Criteria cri);
+
+	int getTotalCountReplyList(Criteria cri);
+
+	int getTotalCountCommentList(Criteria cri);
 
 }

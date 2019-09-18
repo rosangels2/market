@@ -36,17 +36,40 @@ public class AdminController {
 	BoardService boardService;
 	
     @RequestMapping(value= "/board")
-    public ModelAndView adminBoard(ModelAndView mv, Model model) throws Exception{
+    public ModelAndView adminBoard(ModelAndView mv, Model model, Criteria cri, Integer page_state) throws Exception{
         mv.setViewName("/admin/board");	//타일즈를 통해 불러올 jsp 경로
-        ArrayList<BoardVO> askList = adminService.getAskListAll();	//상품 문의 목록 불러오기
+        PageMaker pM = new PageMaker();	//pageMaker 객체를 생성 후 복사
+	    pM.setCriteria(cri);		//보여줄 게시글들의 설정을 수정
+	    pM.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)
+	    int totalCount = adminService.getTotalCountAskList(cri);	//총 게시글 수를 계산하여 변수에 저장
+	    System.out.println("adminBoard totalCount : " + totalCount);
+	    pM.setTotalCount(totalCount);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
+	    model.addAttribute("pageMaker", pM);
+        ArrayList<BoardVO> askList = adminService.getAskListAll(cri);	//상품 문의 목록 불러오기
         System.out.println("adminBoard askList : " + askList);
-        ArrayList<BoardVO> replyList = adminService.getReplyListAll();	//문의답변 목록 불러오기
-        System.out.println("adminBoard replyList : " + replyList);
-        ArrayList<CommentVO> commentList = adminService.getCommentListAll();	//댓글 목록 불러오기
-        System.out.println("adminBoard commentList : " + commentList);
         model.addAttribute("askList", askList);
+        PageMaker pM1 = new PageMaker();	//pageMaker 객체를 생성 후 복사
+	    pM1.setCriteria(cri);		//보여줄 게시글들의 설정을 수정
+	    pM1.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)
+	    int totalCount1 = adminService.getTotalCountReplyList(cri);	//총 게시글 수를 계산하여 변수에 저장
+	    System.out.println("adminBoard totalCount1 : " + totalCount1);
+	    pM1.setTotalCount(totalCount1);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
+	    model.addAttribute("pageMaker1", pM1);
+        ArrayList<BoardVO> replyList = adminService.getReplyListAll(cri);	//문의답변 목록 불러오기
+        System.out.println("adminBoard replyList : " + replyList);
         model.addAttribute("replyList", replyList);
+        PageMaker pM2 = new PageMaker();	//pageMaker 객체를 생성 후 복사
+	    pM2.setCriteria(cri);		//보여줄 게시글들의 설정을 수정
+	    pM2.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)
+	    int totalCount2 = adminService.getTotalCountCommentList(cri);	//총 게시글 수를 계산하여 변수에 저장\
+	    System.out.println("adminBoard totalCount2 : " + totalCount2);
+	    pM2.setTotalCount(totalCount2);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
+	    model.addAttribute("pageMaker2", pM2);
+        ArrayList<CommentVO> commentList = adminService.getCommentListAll(cri);	//댓글 목록 불러오기
+        System.out.println("adminBoard commentList : " + commentList);
         model.addAttribute("commentList", commentList);
+        System.out.println("adminBoard page_state : " + page_state);
+        model.addAttribute("state", page_state);
         return mv;
     }
     @RequestMapping(value= "/boardRegister", method = RequestMethod.GET)
@@ -86,7 +109,13 @@ public class AdminController {
         ArrayList<MemberVO> memberList = adminService.getAllMemberList(cri);	//멤버 리스트 불러오기
         System.out.println("adminMember memberList : " + memberList);
         model.addAttribute("memberList", memberList);
-        ArrayList<SellerVO> requestSellerList = adminService.getRequestSellerList();	//판매자 리스트 불러오기
+        PageMaker pM1 = new PageMaker();	//pageMaker 객체를 생성 후 복사
+	    pM1.setCriteria(cri);		//보여줄 게시글들의 설정을 수정
+	    pM1.setDisplayPageNum(5);
+	    int totalCount1 = adminService.getTotalCountRequestSellerList(cri);	//총 게시글 수를 계산하여 변수에 저장
+	    pM1.setTotalCount(totalCount1);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
+	    model.addAttribute("pageMaker1", pM1);	//pageMaker의 객체를 model의 변수에 저장
+        ArrayList<SellerVO> requestSellerList = adminService.getRequestSellerList(cri);	//판매자 리스트 불러오기
         System.out.println("adminMember requestSellerList : " + requestSellerList);
         model.addAttribute("sellerList", requestSellerList);
         return mv;

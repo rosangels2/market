@@ -15,7 +15,7 @@ public interface AdminDAO {
 
 	ArrayList<MemberVO> selectAllMemberList(@Param("cri")Criteria cri);
 
-	ArrayList<SellerVO> selectRequestSellerList();
+	ArrayList<SellerVO> selectRequestSellerList(@Param("cri")Criteria cri);
 
 	void updateAgreeSeller(@Param("sVo")SellerVO sVo);
 
@@ -35,15 +35,23 @@ public interface AdminDAO {
 
 	void updateBoard(@Param("bVo")BoardVO bVo1);
 
-	ArrayList<BoardVO> selectAskListAll();
+	ArrayList<BoardVO> selectAskListAll(@Param("cri")Criteria cri);
 
-	ArrayList<CommentVO> selectCommentListAll();
+	ArrayList<CommentVO> selectCommentListAll(@Param("cri")Criteria cri);
 
-	ArrayList<BoardVO> selectReplyListAll();
+	ArrayList<BoardVO> selectReplyListAll(@Param("cri")Criteria cri);
 
 	void deleteComment(@Param("no")Integer no);
 
 	void deleteBoard(@Param("no")Integer no);
 
 	int getTotalCountMemberList(@Param("cri")Criteria cri);
+
+	int getTotalCountRequestSellerList(@Param("cri")Criteria cri);
+
+	int getTotalCountAskList(@Param("cri")Criteria cri);
+
+	int getTotalCountReplyList(@Param("cri")Criteria cri);
+
+	int getTotalCountCommentList(@Param("cri")Criteria cri);
 }

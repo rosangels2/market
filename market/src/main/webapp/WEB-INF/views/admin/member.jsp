@@ -97,7 +97,6 @@ $(document).ready(function(){
 		$('#seller-request-view').removeClass('background-gray');
 		$('.member-board').removeClass('display-none');
 		$(this).addClass('background-gray');
-		$('.search').removeClass('display-none');
 	});
 	
 	//멤버 등급 변경
@@ -138,7 +137,6 @@ $(document).ready(function(){
 		$(this).addClass('background-gray');
 		$('.member-board').addClass('display-none');
 		$('#all-member-view').removeClass('background-gray'); 
-		$('.search').addClass('display-none');
 	});
 	
 	//판매자 신청 승인 시
@@ -306,7 +304,32 @@ $(document).ready(function(){
 									</tr>
 								</c:forEach>
 							</c:if>
-						</table>		
+						</table>	
+						<ul class="pagination" style="justify-content: center;">
+						    <c:if test="${pageMaker.prev}">	<!-- 이전 버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${pageMaker1.startPage-1}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}">Previous</a>
+						        </li>							<!-- 현재 페이지의 스타트 페이지에서 -1을 뺀 값을 페이지로 결정 -->
+						    </c:if>
+						    <!-- 페이지네이션 목록 -->																<!-- var xxx = 반복문의 i 역할 -->
+						    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage}" var="index">	<!-- begin/end를 통해 시작과 끝을 지정하고 반복 -->
+						        <c:if test="${pageMaker.criteria.page == index}">	<!-- uri의 페이지 번호가 index와 같다면 active를 추가-->
+							        <li class="page-item active">
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${index}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+							        </li>
+						        </c:if>
+						        <c:if test="${pageMaker.criteria.page != index}">	<!-- uri의 페이지 번호가 index와 다르다면 -->
+							        <li class="page-item">								<!-- index : 반복문의 i같은 역할로 증감연산 -->
+							            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${index}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}">${index}</a>	<!-- 숫자를 찍는 역할 -->
+							        </li>
+						        </c:if>
+						    </c:forEach>
+						    <c:if test="${pageMaker.next}">	<!-- 다음버튼(boolean 값이 true면 보여준다) -->
+						        <li class="page-item">
+						            <a class="page-link" href="<%=request.getContextPath()%>/admin/member?page=${pageMaker1.endPage+1}&type=${pageMaker1.criteria.type}&search=${pageMaker1.criteria.search}&perPageNum=${pageMaker1.criteria.perPageNum}">Next</a>
+						        </li>
+						    </c:if>
+						</ul>							
 					</div>							
 				</div>
 			</div>
