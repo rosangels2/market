@@ -110,8 +110,8 @@ public class AdminServiceImp implements AdminService{
 	}
 
 	@Override
-	public ArrayList<BoardVO> getBoardListAll() {
-		return adminDao.selectBoardListAll();
+	public ArrayList<BoardVO> getBoardListAll(Criteria cri) {
+		return adminDao.selectBoardListAll(cri);
 	}
 
 	@Override
@@ -208,6 +208,11 @@ public class AdminServiceImp implements AdminService{
 	@Override
 	public int getTotalCountCommentList(Criteria cri) {
 		return adminDao.getTotalCountCommentList(cri);
+	}
+
+	@Override
+	public int getTotalCountBoardList(Criteria cri) {
+		return adminDao.getTotalCountBoardList(cri);
 	}
 
 }

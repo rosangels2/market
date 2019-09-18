@@ -78,7 +78,22 @@
 <select id="selectBoardListAll" resultType="kr.green.market.vo.BoardVO">
 	select * from board
 		where category = '공지사항' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and title like concat('%', #{cri.search}, '%')</when>	
+			<otherwise></otherwise>
+		</choose>
 		order by no desc
+		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
+</select>
+<select id="getTotalCountBoardList" resultType="int">
+	select count(*) from board
+		where category = '공지사항' and valid = 'I'
+		<choose>
+			<when test="cri.type == 1">and writer like concat('%', #{cri.search}, '%')</when>
+			<when test="cri.type == 2">and title like concat('%', #{cri.search}, '%')</when>		
+			<otherwise></otherwise>
+		</choose>
 </select>
 <update id="updateBoard">
 	update board

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.market.pagination.Criteria;
+import kr.green.market.pagination.PageMaker;
 import kr.green.market.service.AdminService;
 import kr.green.market.service.BoardService;
 import kr.green.market.service.MemberService;
@@ -32,10 +34,17 @@ public class BoardController {
 	AdminService adminService;
 
     @RequestMapping(value= "/list")		//공지사항 목록
-    public ModelAndView boardList(ModelAndView mv, Model model) throws Exception{
+    public ModelAndView boardList(ModelAndView mv, Model model, Criteria cri) throws Exception{
         mv.setViewName("/board/list");		//타일즈를 통해 불러올 jsp 경로
-        ArrayList<BoardVO> boardList = adminService.getBoardListAll();
-        System.out.println("BoardRegisterGet boardList : " + boardList);
+        PageMaker pM = new PageMaker();	//pageMaker 객체를 생성 후 복사
+	    pM.setCriteria(cri);		//보여줄 게시글들의 설정을 수정
+	    pM.setDisplayPageNum(5);	//페이지네이션의 개수를 설정(setDisplayPageNum을 먼저 호출해서 계산해야 setTotalCount함수가 정상적으로 작동)
+	    int totalCount = adminService.getTotalCountBoardList(cri);	//총 게시글 수를 계산하여 변수에 저장
+	    System.out.println("boardList totalCount : " + totalCount);
+	    pM.setTotalCount(totalCount);	//페이지네이션을 계산하기 위해 총 게시글 수를 수정
+	    model.addAttribute("pageMaker", pM);
+        ArrayList<BoardVO> boardList = adminService.getBoardListAll(cri);
+        System.out.println("boardList boardList : " + boardList);
         model.addAttribute("boardList", boardList);
         return mv;
     }    

@@ -27,7 +27,7 @@ public interface AdminService {
 
 	boolean registerBoard(BoardVO bVo);
 
-	ArrayList<BoardVO> getBoardListAll();
+	ArrayList<BoardVO> getBoardListAll(Criteria cri);
 
 	BoardVO modifyBoard(BoardVO bVo);
 
@@ -54,5 +54,7 @@ public interface AdminService {
 	int getTotalCountReplyList(Criteria cri);
 
 	int getTotalCountCommentList(Criteria cri);
+
+	int getTotalCountBoardList(Criteria cri);
 
 }

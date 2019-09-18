@@ -31,7 +31,7 @@ public interface AdminDAO {
 
 	void insertBoard(@Param("bVo")BoardVO bVo);
 
-	ArrayList<BoardVO> selectBoardListAll();
+	ArrayList<BoardVO> selectBoardListAll(@Param("cri")Criteria cri);
 
 	void updateBoard(@Param("bVo")BoardVO bVo1);
 
@@ -54,4 +54,6 @@ public interface AdminDAO {
 	int getTotalCountReplyList(@Param("cri")Criteria cri);
 
 	int getTotalCountCommentList(@Param("cri")Criteria cri);
+
+	int getTotalCountBoardList(@Param("cri")Criteria cri);
 }
