@@ -442,11 +442,11 @@ public class ItemServiceImp implements ItemService{
 		return itemDao.selectItemListSeller(id);
 	}
 	@Override
-	public ArrayList<BuyVO> getRequestListSeller(String id) {
+	public ArrayList<BuyVO> getRequestListSeller(String id, Criteria cri) {
 		if(id == null) {
 			return null;
 		}
-		return itemDao.selectRequestListSeller(id);
+		return itemDao.selectRequestListSeller(id, cri);
 	}
 	@Override
 	public boolean buyCancelAgree(Integer no, String id) {

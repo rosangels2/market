@@ -523,10 +523,10 @@ public class ItemsController {
     	return itemService.deleteItem(iVo.getNo(), iVo.getSeller_id());
     }
     @RequestMapping(value= "/request", method = RequestMethod.GET)	//상품 요청 페이지
-    public ModelAndView itemRequest(ModelAndView mv, HttpServletRequest r) throws Exception{
+    public ModelAndView itemRequest(ModelAndView mv, HttpServletRequest r, Criteria cri) throws Exception{
         mv.setViewName("/items/request");		//타일즈를 통해 불러올 jsp 경로
         MemberVO user = (MemberVO)r.getSession().getAttribute("user");
-        ArrayList<BuyVO> requestList = itemService.getRequestListSeller(user.getId());
+        ArrayList<BuyVO> requestList = itemService.getRequestListSeller(user.getId(), cri);
         System.out.println("itemRequest requestList : " + requestList);
         mv.addObject("requestList", requestList);
         return mv;

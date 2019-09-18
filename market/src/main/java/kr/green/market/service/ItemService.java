@@ -107,7 +107,7 @@ public interface ItemService {
 
 	ArrayList<ItemVO> getItemListSeller(String id);
 
-	ArrayList<BuyVO> getRequestListSeller(String id);
+	ArrayList<BuyVO> getRequestListSeller(String id, Criteria cri);
 
 	boolean buyCancelAgree(Integer no, String id);
 

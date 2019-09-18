@@ -235,5 +235,6 @@
 <select id="selectRequestListSeller" resultType="kr.green.market.vo.BuyVO">
 	select * from buy
 		where seller_id = #{id} and state like '%요청' and valid = 'I'
+		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
 </select>
 </mapper>
