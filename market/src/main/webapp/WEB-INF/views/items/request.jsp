@@ -119,6 +119,84 @@ $(document).ready(function(){
 		$('#search-form').submit(); 
 	});
 	
+	//취소처리 클릭 시
+	$('.cancel-agree').click(function(){
+		var parent = $(this).parents('.table-contents');
+		var no = parent.find('.request-no').text();
+		var s = confirm("취소를 진행하시겠습니까?");
+		if(s){
+			$.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data: no,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/items/cancelAgree",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						parent.remove();
+					}else{
+						alert("실패하였습니다");
+					}
+		        }
+			 });
+		}else{
+			
+		}
+	});
+	
+	//교환처리 클릭 시
+	$('.swap-agree').click(function(){
+		var parent = $(this).parents('.table-contents');
+		var no = parent.find('.request-no').text();
+		var s = confirm("취소를 진행하시겠습니까?");
+		if(s){
+			$.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data: no,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/items/swapAgree",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						parent.remove();
+					}else{
+						alert("실패하였습니다");
+					}
+		        }
+			 });
+		}else{
+			
+		}
+	});
+	
+	//반품처리 클릭 시
+	$('.return-agree').click(function(){
+		var parent = $(this).parents('.table-contents');
+		var no = parent.find('.request-no').text();
+		var s = confirm("취소를 진행하시겠습니까?");
+		if(s){
+			$.ajax({
+		        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+		        type:'POST',	//POST방식으로 전송
+		        data: no,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+		        url:"<%=request.getContextPath()%>/items/returnAgree",
+		        dataType:"json",
+		        contentType:"application/json; charset=UTF-8",
+		        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+					if(data){
+						parent.remove();
+					}else{
+						alert("실패하였습니다");
+					}
+		        }
+			 });
+		}else{
+			
+		}
+	});
+	
 });		//레디
 </script>
 </head>
@@ -149,7 +227,7 @@ $(document).ready(function(){
 						<c:if test="${requestList ne null}">
 							<c:forEach items="${requestList}" var="request">
 								<tr class="table-contents">
-									<td>${request.no}</td>
+									<td class="request-no">${request.no}</td>
 									<td>${request.id}</td>
 									<td>${request.item_no}</td>
 									<td>${request.option_no}</td>
@@ -157,11 +235,11 @@ $(document).ready(function(){
 									<td>${request.price}</td>
 									<td>
 										<c:if test="${request.state eq '취소요청'}">
-											<button class="cancel-agree">수락</button>
+											<button class="cancel-agree">취소처리</button>
 										</c:if>
 										<c:if test="${request.state eq '교환/반품요청'}">
-											<button class="swap-agree">교환</button>
-											<button class="return-agree" style="margin-left:5px;">반품</button>
+											<button class="swap-agree" style="margin-right:5px;">교환처리</button>
+											<button class="return-agree">반품처리</button>
 										</c:if>
 									</td>
 								</tr>

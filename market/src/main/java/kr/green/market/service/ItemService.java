@@ -39,7 +39,7 @@ public interface ItemService {
 
 	OptionVO getDetailOptions(Integer detail_no);
 
-	ArrayList<OptionVO> getOderOptions(Integer item_no, Integer[] option_no, String[] select, String[] detail, Integer[] count, Integer[] price);
+	ArrayList<OptionVO> getOrderOptions(Integer[] option_no, String[] select, String[] detail, Integer[] count, Integer[] price);
 
 	ArrayList<CouponBagVO> getCouponList(String id);
 
@@ -107,6 +107,12 @@ public interface ItemService {
 
 	ArrayList<ItemVO> getItemListSeller(String id);
 
-	ArrayList<BuyVO> addRequestList(Integer no, ArrayList<BuyVO> requestList);
+	ArrayList<BuyVO> getRequestListSeller(String id);
+
+	boolean buyCancelAgree(Integer no, String id);
+
+	boolean buySwapAgree(Integer no, String id);
+
+	boolean buyReturnAgree(Integer no, String id);
 
 }

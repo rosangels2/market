@@ -121,6 +121,6 @@ public interface ItemDAO {
 
 	ArrayList<ItemVO> selectItemListSeller(@Param("id")String id);
 
-	ArrayList<BuyVO> selectBuyList1(@Param("item_no")Integer no);
-	
+	ArrayList<BuyVO> selectRequestListSeller(@Param("id")String id);
+
 }

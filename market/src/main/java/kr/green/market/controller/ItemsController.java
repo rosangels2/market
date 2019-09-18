@@ -190,7 +190,7 @@ public class ItemsController {
     		System.out.println("order bag_no1 : " + bag_no1);
     		model.addAttribute("bagNoList", bag_no1);
     	}
-    	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
+    	ArrayList<OptionVO> oVoList = itemService.getOrderOptions(option_no, select, detail, count, price);
     	System.out.println("order oVoList : " + oVoList);
     	if(bag_no != null && bag_check != null) {
     		for(int i=bag_check.length-1; i >= 0; i--) {
@@ -236,7 +236,7 @@ public class ItemsController {
     			itemService.deleteBag(bag_no[i], id);
     		}
     	}
-    	ArrayList<OptionVO> orderList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);	//option 객체로 변환
+    	ArrayList<OptionVO> orderList = itemService.getOrderOptions(option_no, select, detail, count, price);	//option 객체로 변환
     	System.out.println("orderRequest orderList : " + orderList);
     	if(delivery_code == 0){
     		aVo.setNo(address_no);
@@ -252,6 +252,7 @@ public class ItemsController {
     		System.out.println("orderRequest iVO : " + iVo);
     		bVo.setImage(iVo.getFile());
     		bVo.setId(id);
+    		bVo.setSeller_id(iVo.getSeller_id());
     		bVo.setItem_no(orderList.get(i).getItem_no());
     		bVo.setOption_no(orderList.get(i).getNo());
     		bVo.setSelect(orderList.get(i).getSelect());
@@ -474,7 +475,7 @@ public class ItemsController {
     @RequestMapping(value= "/addBag")	//장바구니
     public String addBag(Model model, Integer item_no,  Integer[] option_no, String[] select,
         String[] detail,  Integer[] count,  Integer[] price, Integer total_price, String id){
-    	ArrayList<OptionVO> oVoList = itemService.getOderOptions(item_no, option_no, select, detail, count, price);
+    	ArrayList<OptionVO> oVoList = itemService.getOrderOptions(option_no, select, detail, count, price);
     	System.out.println("addBag oVoList : " + oVoList);
     	System.out.println("addBag id : " + id);
     	BagVO bVo = new BagVO();
@@ -521,18 +522,37 @@ public class ItemsController {
     	System.out.println("deleteItem iVo : " + iVo);
     	return itemService.deleteItem(iVo.getNo(), iVo.getSeller_id());
     }
-    @RequestMapping(value= "/request", method = RequestMethod.GET)
+    @RequestMapping(value= "/request", method = RequestMethod.GET)	//상품 요청 페이지
     public ModelAndView itemRequest(ModelAndView mv, HttpServletRequest r) throws Exception{
         mv.setViewName("/items/request");		//타일즈를 통해 불러올 jsp 경로
         MemberVO user = (MemberVO)r.getSession().getAttribute("user");
-        ArrayList<ItemVO> itemList = itemService.getItemListSeller(user.getId());
-        System.out.println("itemRequest itemList : " + itemList);
-        ArrayList<BuyVO> requestList = new ArrayList<BuyVO>();
-        for(int i=0; i<itemList.size(); i++) {
-        	itemService.addRequestList(itemList.get(i).getNo(), requestList);
-        	System.out.println("itemRequest requestList "+i+"번지 : " + requestList);
-        }
+        ArrayList<BuyVO> requestList = itemService.getRequestListSeller(user.getId());
+        System.out.println("itemRequest requestList : " + requestList);
         mv.addObject("requestList", requestList);
         return mv;
+    }
+    @RequestMapping(value="/cancelAgree")	//구매 취소 수락
+    @ResponseBody
+    public boolean cancelAgree(@RequestBody Integer no, HttpServletRequest r) {
+    	System.out.println("cancelAgree no : " + no);
+    	MemberVO user = (MemberVO)r.getSession().getAttribute("user");
+    	System.out.println("cancelAgree id : " + user.getId());
+    	return itemService.buyCancelAgree(no, user.getId());
+    }
+    @RequestMapping(value="/swapAgree")	//교환 신청 수락
+    @ResponseBody
+    public boolean swapAgree(@RequestBody Integer no, HttpServletRequest r) {
+    	System.out.println("swapAgree no : " + no);
+    	MemberVO user = (MemberVO)r.getSession().getAttribute("user");
+    	System.out.println("swapAgree id : " + user.getId());
+    	return itemService.buySwapAgree(no, user.getId());
+    }
+    @RequestMapping(value="/returnAgree")	//반품 신청 수락
+    @ResponseBody
+    public boolean returnAgree(@RequestBody Integer no, HttpServletRequest r) {
+    	System.out.println("returnAgree no : " + no);
+    	MemberVO user = (MemberVO)r.getSession().getAttribute("user");
+    	System.out.println("returnAgree id : " + user.getId());
+    	return itemService.buyReturnAgree(no, user.getId());
     }
 }

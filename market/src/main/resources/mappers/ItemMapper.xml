@@ -232,8 +232,8 @@
 	select * from `item`
 		where seller_id = #{id}
 </select>
-<select id="selectBuyList1" resultType="kr.green.market.vo.BuyVO">
+<select id="selectRequestListSeller" resultType="kr.green.market.vo.BuyVO">
 	select * from buy
-		where item_no = #{item_no} and state like '%요청' and valid = 'I'
+		where seller_id = #{id} and state like '%요청' and valid = 'I'
 </select>
 </mapper>

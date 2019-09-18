@@ -115,14 +115,15 @@ public class ItemServiceImp implements ItemService{
 		return itemDao.selectOption(detail_no);
 	}
 	@Override
-	public ArrayList<OptionVO> getOderOptions(Integer item_no, Integer[] option_no, String[] select, String[] detail, Integer[] count, Integer[] price) {
+	public ArrayList<OptionVO> getOrderOptions(Integer[] option_no, String[] select, String[] detail, Integer[] count, Integer[] price) {
     	ArrayList<OptionVO> oVoList = new ArrayList<OptionVO>();
     	OptionVO oVo = new OptionVO();
         for(int i=0 ; i<select.length ; i++){
-        	if(item_no == null || option_no[i] == null || select[i] == "" || detail[i] == "" || count[i] == null || price[i] == null){
+        	if(option_no[i] == null || select[i] == "" || detail[i] == "" || count[i] == null || price[i] == null){
         		return null;
         	}
-        	oVo.setItem_no(item_no);
+        	OptionVO oVo1 = itemDao.selectOption(option_no[i]);
+        	oVo.setItem_no(oVo1.getItem_no());
         	oVo.setNo(option_no[i]);
         	oVo.setSelect(select[i]);
         	oVo.setDetail(detail[i]);
@@ -441,18 +442,66 @@ public class ItemServiceImp implements ItemService{
 		return itemDao.selectItemListSeller(id);
 	}
 	@Override
-	public ArrayList<BuyVO> addRequestList(Integer no, ArrayList<BuyVO> requestList) {
-		if(no == null) {
-			return requestList;
+	public ArrayList<BuyVO> getRequestListSeller(String id) {
+		if(id == null) {
+			return null;
 		}
-		ArrayList<BuyVO> bVoList = itemDao.selectBuyList1(no);
-		if(bVoList != null) {
-			for(int i=0; i<bVoList.size(); i++) {
-				requestList.add(bVoList.get(i));
-				System.out.println("addRequestList bVoList +"+i+"번지 requestList : " + requestList);
-			}
-		}
-		System.out.println("addRequestList requestList : " + requestList);
-		return requestList;
+		return itemDao.selectRequestListSeller(id);
 	}
+	@Override
+	public boolean buyCancelAgree(Integer no, String id) {
+		if(no == null || id == null) {
+			return false;
+		}
+		BuyVO bVo = itemDao.selectBuy(no);
+		if(bVo == null || !bVo.getSeller_id().equals(id)) {
+			return false;
+		}
+		bVo.setState("취소처리");
+		bVo.setValid("D");
+		itemDao.updateBuy(bVo);		//주문 상태 변경
+		OptionVO oVo = itemDao.selectOption(bVo.getOption_no());
+		if(oVo != null){
+			oVo.setStock(oVo.getStock()+bVo.getCount());	//구매 취소 후 재고 변경
+			itemDao.updateOption(oVo);
+		}
+		return true;
+	}
+	@Override
+	public boolean buySwapAgree(Integer no, String id) {
+		if(no == null || id == null) {
+			return false;
+		}
+		BuyVO bVo = itemDao.selectBuy(no);
+		if(bVo == null || !bVo.getSeller_id().equals(id)) {
+			return false;
+		}
+		bVo.setState("교환처리");
+		itemDao.updateBuy(bVo);		//주문 상태 변경
+		OptionVO oVo = itemDao.selectOption(bVo.getOption_no());
+		if(oVo != null){
+			oVo.setStock(oVo.getStock()+bVo.getCount());	//교환 처리 후 재고 변경
+			itemDao.updateOption(oVo);
+		}
+		return true;
+	}
+	@Override
+	public boolean buyReturnAgree(Integer no, String id) {
+		if(no == null || id == null) {
+			return false;
+		}
+		BuyVO bVo = itemDao.selectBuy(no);
+		if(bVo == null || !bVo.getSeller_id().equals(id)) {
+			return false;
+		}
+		bVo.setState("반품처리");
+		itemDao.updateBuy(bVo);		//주문 상태 변경
+		OptionVO oVo = itemDao.selectOption(bVo.getOption_no());
+		if(oVo != null){
+			oVo.setStock(oVo.getStock()+bVo.getCount());	//반품 처리 후 재고 변경
+			itemDao.updateOption(oVo);
+		}
+		return true;
+	}
+
 }

@@ -9,6 +9,7 @@ public class BuyVO {
 	private Integer no;
 	private String id;
 	private Integer item_no;
+	private String seller_id;
 	private Integer option_no;
 	private String select;
 	private String detail;
@@ -21,7 +22,12 @@ public class BuyVO {
 	private String valid;
 	
 	
-	
+	public String getSeller_id() {
+		return seller_id;
+	}
+	public void setSeller_id(String seller_id) {
+		this.seller_id = seller_id;
+	}
 	public String getImage() {
 		return image;
 	}
@@ -110,11 +116,11 @@ public class BuyVO {
 		this.valid = valid;
 	}
 	
-	
 	@Override
 	public String toString() {
-		return "BuyVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", option_no=" + option_no + ", select="
-				+ select + ", detail=" + detail + ", count=" + count + ", price=" + price + ", image=" + image
-				+ ", request=" + request + ", time=" + time + ", state=" + state + ", valid=" + valid + "]";
+		return "BuyVO [no=" + no + ", id=" + id + ", item_no=" + item_no + ", seller_id=" + seller_id + ", option_no="
+				+ option_no + ", select=" + select + ", detail=" + detail + ", count=" + count + ", price=" + price
+				+ ", image=" + image + ", request=" + request + ", time=" + time + ", state=" + state + ", valid="
+				+ valid + "]";
 	}
 }
