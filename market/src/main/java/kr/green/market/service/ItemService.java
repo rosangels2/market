@@ -115,4 +115,6 @@ public interface ItemService {
 
 	boolean buyReturnAgree(Integer no, String id);
 
+	ArrayList<ItemVO> getMoreItemList(Integer no);
+
 }

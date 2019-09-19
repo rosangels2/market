@@ -43,6 +43,12 @@ ul{
 .category{
 
 }
+.category-cancel-box{
+	float: left;
+	width: 30px;
+	padding: 5px;
+	height: 50px;
+}
 .category .category-contents{
 	position: relative;
 	height: 50px;
@@ -54,7 +60,6 @@ ul{
 	border: 1px solid gray;
 	width: 300px;
 	height: 50px;
-	padding-top: 5px;
 }
 .category-box .category-menu{
 	position: absolute;
@@ -73,14 +78,14 @@ ul{
 }
 .selected-category-box{
 	position: relative;
-	min-width: 250px;
+	min-width: 30px;
 	height: 50px;
 	padding: 10px 10px;
 }
 .selected-category-box .category-text{
 	margin: 0;
 	padding: 5px 0 0 20px;
-	min-width: 200px;
+	min-width: 30px;
 }
 .selected-category-box i{
 	position: absolute;
@@ -89,6 +94,9 @@ ul{
 	font-size: 40px;
 } 
 .selected-category-box i:hover{
+	cursor: pointer;
+}
+#category-cancel:hover{
 	cursor: pointer;
 }
 /* 페이지 선택창 */
@@ -123,8 +131,8 @@ ul{
 }
 .item-contents{
 	height: 150px;
-	border-bottom: 1px solid gray;
 	padding: 10px 10px;
+	margin-bottom: 20px;
 }
 .item-contents div{
 	float: left;
@@ -203,6 +211,7 @@ $(document).ready(function(){
 	//카테고리 취소 클릭 시
 	$('#category-cancel').click(function(){
 		$('#selected-category').addClass('display-none');
+		$('#category-cancel').addClass('display-none');
 		$('#category').val(0);
 		$('#search-form').submit();
 	});
@@ -254,14 +263,16 @@ $(document).ready(function(){
 							<h3 class="category-text">전체 카테고리</h3>
 							<i class="fas fa-chevron-down down-arrow" id="c-arrow"></i>
 						</div>
-						<div class="selected-category-box float-left clearfix" id="selected-category">
-							<c:forEach items="${categoryList}" var="category">
-								<c:if test="${pageMaker.criteria.category eq category.no}">
-									<h5 class="category-text">${category.kind}/${category.detail}</h5>
-									<i class="fas fa-times float-right" id="category-cancel"></i>
-								</c:if>
-							</c:forEach>
-						</div>
+						<c:forEach items="${categoryList}" var="category">
+							<c:if test="${pageMaker.criteria.category eq category.no}">
+								<div class="selected-category-box float-left clearfix" id="selected-category">
+									<h5 class="category-text" style="padding: 0;">${category.kind}/${category.detail}</h5>
+								</div>
+								<div class="category-cancel-box clearfix">
+									<h3 id="category-cancel" style="float:left;">X</h3>
+								</div>
+							</c:if>
+						</c:forEach>
 					</div>
 				</div>
 				<!-- 페이지 선택창  -->

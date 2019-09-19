@@ -213,7 +213,7 @@
 	select * from `item` 
 		where valid = 'I'
 		order by no desc
-		limit 0, 30
+		limit 0, 15
 </select>
 <select id="selectCategoryListAll" resultType="kr.green.market.vo.CategoryVO">
 	select * from `category`
@@ -236,5 +236,11 @@
 	select * from buy
 		where seller_id = #{id} and state like '%요청' and valid = 'I'
 		limit #{cri.pageStart}, #{cri.perPageNum}	<!-- Criteria 클래스의 getter를 통해 시작 게시글의 번지와 한 페이지에 표시할 게시글 수를 제한 -->
+</select>
+<select id="selectMoreItemList" resultType="kr.green.market.vo.ItemVO">
+	select * from `item`
+		where valid = 'I'
+		order by no desc
+		limit #{no}, 3
 </select>
 </mapper>

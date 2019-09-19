@@ -11,17 +11,17 @@
 .page-contents{
 	
 }
-/* nav bar */
+/* 메뉴 바 */
 .nav-bar{
 	position: fixed;
 	float: left;
-	border: 1px solid gray;
+	//border: 1px solid gray;
 	width: 130px;
 	min-height: 400px;
 }
 .nav-box{
 	height: calc( 100% / 9 );
-	border-bottom: 1px solid gray;
+	//border-bottom: 1px solid gray;
 	text-align: center;
 	padding: 15px 0 10px 0;
 }
@@ -240,6 +240,9 @@
 .give-coupon-list{
 	min-height: 200px;
 	margin-bottom: 50px;
+}
+.get-coupon:hover{
+	cursor: pointer;
 }
 .use-coupon-list{
 	min-height: 300px;

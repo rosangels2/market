@@ -503,5 +503,12 @@ public class ItemServiceImp implements ItemService{
 		}
 		return true;
 	}
+	@Override
+	public ArrayList<ItemVO> getMoreItemList(Integer no) {
+		if(no == null) {
+			return null;
+		}
+		return itemDao.selectMoreItemList(no);
+	}
 
 }

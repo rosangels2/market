@@ -336,4 +336,22 @@ public class HomeController {
 	    System.out.println("buyReturn bVo : " + bVo);
 	    return itemService.buyReturn(bVo.getNo(), bVo.getId());	//map 정보를 ajax에 반환
 	}
+    @RequestMapping(value ="/moreView")
+	@ResponseBody
+	public Map<Object, Object> moreView(@RequestBody Integer no){
+    	Map<Object, Object> map = new HashMap<Object, Object>();
+	    System.out.println("moreView no : " + no);
+	    ArrayList<ItemVO> moreItemList = itemService.getMoreItemList(no);
+	    System.out.println("moreView moreItemList : " + moreItemList);
+	    System.out.println("moreView moreItemList.size : " + moreItemList.size());
+	    if(moreItemList.size() == 3){
+	    	int no1 = no+3;
+		    System.out.println("moreView no1 : " + no1);
+	    	map.put("more", moreItemList);
+	    	map.put("no", no1);
+	    }else{
+	    	map.put("more", null);
+	    }
+	    return map;
+	}
 }

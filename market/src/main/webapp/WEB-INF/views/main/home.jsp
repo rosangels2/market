@@ -44,7 +44,7 @@ ul{
 }
 /* 카테고리창 */
 .category{
-	border: 1px solid gray;
+	
 }
 .category .category-contents{
 	position: relative;
@@ -55,7 +55,6 @@ ul{
 	width: 300px;
 	height: 50px;
 	padding-top: 5px;
-	border-right: 1px solid gray;
 }
 .category-box .category-menu{
 	position: absolute;
@@ -93,18 +92,34 @@ ul{
 	float:left;
 	width: calc( 100% / 3 );
 	height: 200px;
-	border: 1px solid gray;
 }
 .items-li .img-box{
 	height: 160px;
+	padding: 5px;
 }
 .items-li h5{
 	margin: 5px 0 0 5px;
 	color: black;
 }
 .img-box img{
-	width: 368px;
-	height: 160px;
+	width: 350px;
+	height: 150px;  
+}
+/* 더보기 */
+.more-box{
+	height: 50px;
+	margin: 10px 0;
+}
+.more-box i{
+	display: block;
+	margin: 0 auto;
+	height: 50px;
+	width: 50px;
+	font-size: 50px;
+	color: gray;
+}
+.more-view:hover{
+	cursor: pointer;
 }
 /* 하단 */
 .page-bottom{
@@ -117,13 +132,12 @@ ul{
 	position: absolute; 
 	width: 100%;
 	background-color: white;
-	top : 152px;
+	top : 150px;
 }
 .hidden-page .hidden-li{
 	float:left;
 	width : calc( 100% / 5);
 	height : 200px; 
-	border : 1px solid gray;
 }
 .category-ul .category-li{
 	text-align: center;
@@ -138,6 +152,8 @@ ul{
 }
 </style>
 <script type="text/javascript">
+var view = 15;
+
 $(document).ready(function(){
 	
 	//카테고리 내림 아이콘 클릭 시
@@ -152,6 +168,33 @@ $(document).ready(function(){
 			return false;
 		}
 		$('#search-form').submit();
+	});
+	
+	//더보기 클릭 시
+	$('.more-view').click(function(){
+		var no = $('#view').val();
+		$.ajax({ 
+	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:no,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/moreView",
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	        	if(data.more != null){
+	        		var str = "";
+	        		for(i=0; i<data.more.length; i++){
+	        			console.log("data.more["+i+"].no : " + data.more[i].no);
+	        			str += '<li class="items-li"><div class="img-box"><img src="<%=request.getContextPath()%>/resources/uploadFiles'+data.more[i].file+'"></div><a href="<%=request.getContextPath()%>/items/detail?item_no='+data.more[i].no+'"><h5 style="display: inline-block; margin-left: 10px;">'+data.more[i].title+'</h5><h5 style="float: right; margin-right: 20px;">'+data.more[i].price+'원</h5></a></li>';
+	        		}
+	        		$('.items-ul').append(str);
+	        		console.log("data.no : " + data.no);
+	        		$('#view').val(data.no);
+	        	}else{
+	        		alert("이미지가 없습니다.");
+	        	}
+	        }
+	 	 });
 	});
 	
 });		//레디
@@ -193,14 +236,18 @@ $(document).ready(function(){
 										<img src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
 									</div>
 									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
-										<h5 style="display: inline-block;">${item.title}</h5>
-										<h5 style="float: right;">${item.price}원</h5>
+										<h5 style="display: inline-block; margin-left: 10px;">${item.title}</h5>
+										<h5 style="float: right; margin-right: 20px;">${item.price}원</h5> 
 									</a>
 								</li>
 							</c:forEach>
 						</ul>
 					</div>
 				</div>
+			</div>
+			<input type="hidden" id="view" value="15">
+			<div class="more-box">
+				<i class="fas fa-chevron-down more-view"></i>
 			</div>
 			<div class="page-bottom">
 			
@@ -212,7 +259,7 @@ $(document).ready(function(){
 				<ul class="clearfix" style="margin: 0;">
 					<c:forEach items="${categoryKind}" var="kind">
 						<li class="hidden-li">
-							<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
+							<div class="hidden-li-box">
 								<h4 style="text-align: center; margin : 0;">${kind}</h3>
 							</div>
 							<ul class="category-ul">

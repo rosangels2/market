@@ -34,6 +34,7 @@
 	margin: 0;
 	width: 100%;
 	min-height: 200px; 
+	border: none;
 }
 .button-box button{
 	width:150px;
