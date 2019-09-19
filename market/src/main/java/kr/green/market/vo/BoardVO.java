@@ -11,6 +11,7 @@ public class BoardVO {
 	private Integer board_no;
 	private Integer item_no;
 	private String writer;
+	private String to;
 	private String title;
 	private String contents;
 	private Date time;
@@ -19,6 +20,12 @@ public class BoardVO {
 	private String valid;
 	
 	
+	public String getTo() {
+		return to;
+	}
+	public void setTo(String to) {
+		this.to = to;
+	}
 	public Integer getItem_no() {
 		return item_no;
 	}
@@ -99,8 +106,8 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [no=" + no + ", category=" + category + ", board_no=" + board_no + ", item_no=" + item_no
-				+ ", writer=" + writer + ", title=" + title + ", contents=" + contents + ", time=" + time + ", state="
-				+ state + ", views=" + views + ", valid=" + valid + "]";
+				+ ", writer=" + writer + ", to=" + to + ", title=" + title + ", contents=" + contents + ", time=" + time
+				+ ", state=" + state + ", views=" + views + ", valid=" + valid + "]";
 	}
-	
+		
 }

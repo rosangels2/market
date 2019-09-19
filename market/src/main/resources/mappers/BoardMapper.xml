@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.green.market.dao.BoardDAO">	<!-- DAO 인터페이스가 있는 파일명 -->
 <insert id="insertBoard">
-	insert into board(category, board_no, item_no, writer, title, contents, state)
-		values(#{category}, #{board_no}, #{item_no}, #{writer}, #{title}, #{contents}, #{state})
+	insert into board(category, board_no, item_no, writer, `to`, title, contents, state)
+		values(#{category}, #{board_no}, #{item_no}, #{writer}, #{to}, #{title}, #{contents}, #{state})
 </insert>
 <select id="selectMaxBoard" resultType="int">
 	select max(no) from board
@@ -51,7 +51,7 @@
 </select>
 <update id="updateReply">
 	update board
-		set contents = ${bVo.contents}, time = now()
+		set contents = #{bVo.contents}, time = now(), `to` = #{bVo.to}
 		where board_no = #{bVo.board_no} and category = '문의답변'
 </update>
 <select id="selectReplyList" resultType="kr.green.market.vo.BoardVO">
@@ -63,4 +63,12 @@
 		set contents = #{cVo.contents}, valid = #{cVo.valid}
 		where no = #{cVo.no}
 </update>
+<select id="selectMyAskListAll" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+		where category like '%문의' and writer = #{id} and valid = 'I'
+</select>
+<select id="selectMyAskReplyList" resultType="kr.green.market.vo.BoardVO">
+	select * from board
+		where category like '%답변' and `to` = #{id} and valid = 'I'
+</select>
 </mapper>

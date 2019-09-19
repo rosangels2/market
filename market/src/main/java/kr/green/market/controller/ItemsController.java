@@ -91,6 +91,8 @@ public class ItemsController {
     }
     @RequestMapping(value= "/detail")
     public ModelAndView itemsDetail(ModelAndView mv, Model model, Integer item_no, String id) throws Exception{
+        mv.setViewName("/items/detail");		//타일즈를 통해 불러올 jsp 경로
+        
     	ItemVO iVo = itemService.getItem(item_no);	//상품 상세 정보 불러오기
     	model.addAttribute("item", iVo);
     	ArrayList<FileVO> itemFiles = itemService.getFiles(item_no);		//상품 첨부파일 불러오기
@@ -121,9 +123,9 @@ public class ItemsController {
     	ArrayList<BoardVO> replyList = boardService.getReplyList(item_no);	//문의 답변 목록 불러오기
     	System.out.println("itemDetail replyList : " + replyList);
     	model.addAttribute("replyList", replyList);
+    	
     	ArrayList<CommentVO> cVoList = boardService.getCommentList(item_no);	//댓글 목록 가져오기
     	model.addAttribute("commentList", cVoList);
-        mv.setViewName("/items/detail");		//타일즈를 통해 불러올 jsp 경로
         return mv;
     }
 	@RequestMapping(value="/getDetail")	//세부 옵션 불러오기

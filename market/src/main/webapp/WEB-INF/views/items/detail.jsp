@@ -126,6 +126,7 @@
 }
 .ask-title{
 	width: 598px;
+	cursor: pointer;
 }
 .ask-contents{
 	width: 598px;
@@ -699,7 +700,7 @@ function askTitleClick(){
 							</div>
 						</div>
 					</div>
-					<!-- 문의/답변 -->
+					<!-- 문의/답변 보기 -->
 					<div class="ask display-none" id="ask">
 						<div class="ask-box">
 							<!-- 검색 창 -->
@@ -783,7 +784,12 @@ function askTitleClick(){
 													${myAsk.contents}
 												</div>
 												<div class="reply-box display-none">
-													<h5>답변 내용</h5>
+													<c:forEach items="${replyList}" var="reply">
+													<c:if test="${myAsk.no eq reply.board_no}">
+														<h5>답변 내용</h5>
+														${reply.contents}
+													</c:if>
+												</c:forEach>
 												</div>
 											</div>
 										</c:forEach>

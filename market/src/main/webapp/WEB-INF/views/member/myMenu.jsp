@@ -260,8 +260,40 @@
 	width: 950px;
 	min-height: 1000px;
 }
+.ask-title:hover{
+	cursor: pointer;
+}
 .ask-board .table-contents{
 	text-align: center;
+}
+.board-box-contents{
+	min-height: 200px;
+}
+.board-set{
+	border: 1px solid gray;
+	border-top: none;
+}
+.board-set .set-top div{
+	float: left;
+	text-align: center;
+	border-right: 1px solid gray;
+	border-bottom: none;
+	height: 30px;
+}
+.board-set .set-bottom{ 
+	min-height: 50px;
+	border-top: 1px solid gray;
+	padding: 5px;
+}
+.board-set .reply-box{
+	position: relative;
+	min-height: 100px;
+	border-top: 1px solid gray;
+}
+.reply-box input{
+	min-height: 100px;
+	width: 100%;
+	border: none;
 }
 /* 판매자 신청 클릭 시 */
 .seller-request-contents{
@@ -668,7 +700,15 @@ $(document).ready(function(){
 	 	});
 	});
 	
+	//문의글 제목 클릭 시
+	$('.board-set .ask-title').click(function(){
+		$(this).parent().siblings('.set-bottom').toggleClass('display-none');
+		if($(this).siblings('.ask-state').text() == '답변완료'){
+			$(this).parent().siblings('.reply-box').toggleClass('display-none');	
+		}
+	});
 	
+	//판매자 신청 정규표현식
 	$("#seller-form").validate({	
         rules: {
         	license: {
@@ -1133,22 +1173,44 @@ function menuClick(selecter){
 						<div class="ask-contents">
 							<div class="ask-board">
 								<h2>문의/답변</h2>
-								<table class="table">
-									<!-- 테이블 타이틀 -->
-									<tr class="table-title">
-										<th width="20%" class="">문의 번호</th>
-										<th width="25%" class="">제목</th>
-										<th width="30%" class="">문의 날짜</th>
-										<th width="15%">상태</th>
-									</tr>
-									<!-- 테이블 컨텐츠 -->
-									<tr class="table-contents">
-										<th>175</th>
-										<th>배송 언제 되나요</th>
-										<th>yyyy-mm-dd ~ yyyy-mm-dd</th>
-										<th>답변 대기</th>
-									</tr>
-								</table>
+								<!-- 내 문의 보기 -->
+								<div class="board-box-contents-my">
+									<div class="board-set ask-title1" style="border-top: 1px solid gray;" id="ask-title1">
+										<div class="set-top clearfix">
+											<div style="width: 10%;">문의 번호</div>
+											<div style="width: 10%;">문의 유형</div>
+											<div style="width: 30%;">제목</div>
+											<div style="width: 15%;">작성자</div>
+											<div style="width: 25%;">작성일</div>
+											<div style="width: 10%; border-right: none;">상태</div>
+										</div>
+									</div>
+									<c:if test="${user ne null}">
+										<c:forEach items="${myAskList}" var="myAsk">
+											<div class="board-set">
+												<div class="set-top clearfix">
+													<div style="width: 10%;">${myAsk.no}</div>
+													<div style="width: 10%;">${myAsk.category}</div>
+													<div class="ask-title" style="width: 30%;">${myAsk.title}</div>
+													<div style="width: 15%;">${myAsk.writer}</div>
+													<div style="width: 25%;">${myAsk.time}</div>
+													<div class="ask-state" style="width: 10%; border-right: none;">${myAsk.state}</div>
+												</div>
+												<div class="set-bottom display-none">
+													${myAsk.contents}
+												</div>
+												<div class="reply-box display-none">
+													<h5>답변 내용</h5>
+													<c:forEach items="${replyList}" var="reply">
+														<c:if test="${myAsk.no eq reply.board_no}">
+															${reply.contents}
+														</c:if>
+													</c:forEach>
+												</div>
+											</div>
+										</c:forEach>
+									</c:if>
+								</div>
 							</div>
 						</div>
 					</div>

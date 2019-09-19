@@ -27,4 +27,8 @@ public interface BoardService {
 
 	boolean deleteComment(CommentVO cVo);
 
+	ArrayList<BoardVO> getMyAskListAll(String id);
+
+	ArrayList<BoardVO> getMyAskReplyList(String id);
+
 }

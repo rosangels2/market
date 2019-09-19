@@ -29,7 +29,8 @@ public class BoardServiceImp implements BoardService{
 		}
 		String state = "답변대기";
 		Integer item_no = null;
-		boardDao.insertBoard(category, board_no, item_no, writer, title, contents, state);
+		String to = null;
+		boardDao.insertBoard(category, board_no, item_no, writer, to, title, contents, state);
 		int no = boardDao.selectMaxBoard();
 		return boardDao.selectBoard(no);
 	}
@@ -102,13 +103,14 @@ public class BoardServiceImp implements BoardService{
 			return null;
 		}
 		BoardVO oVo = boardDao.selectBoard(bVo.getBoard_no());
-		if(oVo == null || oVo.getBoard_no() != bVo.getItem_no()) {	//답변할 글의 상품 번호와 답변의 상품 번호가 다르다면
+		if(oVo == null || oVo.getBoard_no() != bVo.getItem_no()) {	//답변할 글의 상품 번호(board_no)와 답변의 상품 번호가 다르다면
 			return null;
 		}
 		BoardVO bVo1 = boardDao.selectReply(bVo.getBoard_no());
 		if(bVo1 == null){	//답변이 없다면
-			boardDao.insertBoard(bVo.getCategory(), bVo.getBoard_no(), bVo.getItem_no(), bVo.getWriter(), bVo.getTitle(), bVo.getContents(), bVo.getState());
+			boardDao.insertBoard(bVo.getCategory(), bVo.getBoard_no(), bVo.getItem_no(), bVo.getWriter(), oVo.getWriter(), bVo.getTitle(), bVo.getContents(), bVo.getState());
 		}else {		//답변이 있다면
+			bVo.setTo(oVo.getWriter());
 			boardDao.updateReply(bVo);
 		}
 		boardDao.updateBoardState(bVo.getBoard_no(), "답변완료");
@@ -140,5 +142,21 @@ public class BoardServiceImp implements BoardService{
 			itemDao.updateItem(iVo);
 		}
 		return true;
+	}
+
+	@Override
+	public ArrayList<BoardVO> getMyAskListAll(String id) {
+		if(id == null) {
+			return null;
+		}
+		return boardDao.selectMyAskListAll(id);
+	}
+
+	@Override
+	public ArrayList<BoardVO> getMyAskReplyList(String id) {
+		if(id == null) {
+			return null;
+		}
+		return boardDao.selectMyAskReplyList(id);
 	}
 }

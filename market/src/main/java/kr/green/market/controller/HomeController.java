@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.market.service.BoardService;
 import kr.green.market.service.ItemService;
 import kr.green.market.service.MemberService;
 import kr.green.market.vo.BagVO;
+import kr.green.market.vo.BoardVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CategoryVO;
 import kr.green.market.vo.CouponBagVO;
@@ -43,6 +45,8 @@ public class HomeController {
 	private JavaMailSender mailSender;
 	@Autowired
 	ItemService itemService;
+	@Autowired
+	BoardService boardService;
 	
     @RequestMapping(value= "/")
     public ModelAndView home(ModelAndView mv, Model model) throws Exception{
@@ -208,18 +212,22 @@ public class HomeController {
         ArrayList<BuyVO> bVoList = itemService.getBuyList(id);	//구매 내역 불러오기
         System.out.println("myMenuGet bVoList : " + bVoList);
         model.addAttribute("buyList", bVoList);
+        
         ArrayList<WishlistVO> wVoList = itemService.getWishlistList(id);	//회원의 위시리스트 내역 불러오기
         System.out.println("myMenu wVoList : " + wVoList);
         model.addAttribute("wishlistList", wVoList);
+        
         ArrayList<BagVO> bagList = itemService.getBagList(id);		//회원의 장바구니 내역 불러오기
         System.out.println("myMenu bagList : " + bagList);
         model.addAttribute("bagList", bagList);
+        
         int total_price = 0;	//장바구니 합계 계산용 변수
         for(int i=0; i<bagList.size(); i++) {
         	total_price += bagList.get(i).getPrice();	//장바구니 가격 합계를 계산
         }
         System.out.println("myMenu total_price : " + total_price);
         model.addAttribute("total_price", total_price);
+        
         ArrayList<CouponVO> cList = itemService.getCouponAll();	//모든 쿠폰 정보 가져오기
         ArrayList<CouponVO> cList1 = new ArrayList<CouponVO>(); 
         System.out.println("myMenu cList : " + cList);
@@ -231,6 +239,7 @@ public class HomeController {
         }
         System.out.println("myMenu cList1 : " + cList1);	
         model.addAttribute("cList", cList1);	
+        
         ArrayList<CouponBagVO> cVoList = itemService.getCouponBagList(id);	//사용 가능한 쿠폰함 정보 가져오기
         System.out.println("myMenu cVoList : " + cVoList);
         ArrayList<CouponVO> couponList = new ArrayList<CouponVO>();
@@ -246,6 +255,16 @@ public class HomeController {
         SellerVO sVo = memberService.getSeller(id);		//판매자 정보 가져오기
         System.out.println("myMenu sVo : " + sVo);
         model.addAttribute("seller", sVo);
+        
+        //문의 내역 불러오기
+        if(id != null){
+    		ArrayList<BoardVO> myAskList = boardService.getMyAskListAll(id);	//내 문의글 목록 불러오기
+    		System.out.println("myMenu myAskList : " + myAskList);
+    		model.addAttribute("myAskList", myAskList);
+    	}
+    	ArrayList<BoardVO> replyList = boardService.getMyAskReplyList(id);	//문의 답변 목록 불러오기
+    	System.out.println("myMenu replyList : " + replyList);
+    	model.addAttribute("replyList", replyList);
         return mv;
     }
     @RequestMapping(value ="/oldPasswordCheck")
