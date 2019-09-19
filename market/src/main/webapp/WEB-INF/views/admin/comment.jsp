@@ -91,6 +91,9 @@
 	height: 40px;
 	margin: 4px 0 5px 0;
 }
+.comment-delete:hover{
+	cursor: pointer;
+}
 
 /* 공통 */
 .background-gray{
