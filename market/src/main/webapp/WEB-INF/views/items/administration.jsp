@@ -19,7 +19,6 @@ ul{
 .item-contents{
 	margin-top: 20px;
 	height: 150px;
-	border-bottom: 1px solid gray;
 	padding: 10px 10px;
 }
 .item-contents div{

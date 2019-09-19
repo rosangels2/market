@@ -639,6 +639,16 @@ $(document).ready(function(){
 	$('.bag-checkbox').change(function(){
 		if($(this).prop("checked")){	//체크한 경우
 			$(this).parents('.bag-box').find('input[name=bag_check]').val(1);
+			var a = true;
+			$('.bag-checkbox').each(function(){		//현재 체크박스 상태들을 확인
+				var s = $(this).prop("checked");
+				if(!s){
+					a = false;
+				}
+			});
+			if(a){	//체크박스가 전부 체크됐으면
+				$('#bag-checkAll').prop("checked", true);	//전체 선택 체크박스를 체크로 변경 
+			}
 		}else{	//체크를 해제한 경우
 			$(this).parents('.bag-box').find('input[name=bag_check]').val(0);
 			$('#bag-checkAll').prop("checked", false);
