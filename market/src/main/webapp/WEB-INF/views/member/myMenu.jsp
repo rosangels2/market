@@ -207,7 +207,7 @@
 	float: right;
 } 
 .order-price-box{
-	margin-left: 200px;
+	margin-left: 150px;
 	height: 70px;
 	float: left;
 	padding: 20px 10px;
@@ -689,6 +689,16 @@ $(document).ready(function(){
 		}
 	});
 	
+	//장바구니 선택 삭제 시
+	$('#check-delete').click(function(){
+		$('.bag-checkbox').each(function(){
+			if($(this).prop("checked")){
+				$(this).parents('.bag-box').remove();
+			}
+		});
+		
+	});
+	
 	//쿠폰 받기
 	$('.get-coupon').click(function(){
 		var box = $(this).parents('.coupon-list-text')
@@ -1116,11 +1126,12 @@ function menuClick(selecter){
 								<!-- 장바구니 주문 창 -->
 								<div class="order-box clearfix">
 									<input type="checkbox" id="bag-checkAll" class="float-left" checked>
+									<button type="button" class="float-left" id="check-delete" style="margin: 10px 0 0 0;"><h3>선택 삭제</h3></button>
 									<div class="order-price-box clearfix">
 										<h4 class="float-left" style="margin: 0 10px;">상품 가격 합계</h4>
 										<input name="total_price" value="${total_price}" readonly style="text-align: center;">
 									</div>
-									<button style="margin: 10px 44px 0 0;"><h3>주문하기</h3></button>
+									<button style="margin: 10px -10px 0 0;"><h3>주문하기</h3></button>
 								</div>
 							</form>
 						</div>
