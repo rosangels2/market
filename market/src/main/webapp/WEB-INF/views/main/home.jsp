@@ -44,7 +44,7 @@ ul{
 }
 /* 카테고리창 */
 .category{
-	
+	margin-bottom: 20px;
 }
 .category .category-contents{
 	position: relative;
@@ -57,8 +57,7 @@ ul{
 	padding-top: 5px;
 }
 .category-box .category-menu{
-	position: absolute;
-	left: 5px;
+	float: left;
 	font-size: 40px;
 }
 .category-box .category-text{
@@ -71,7 +70,7 @@ ul{
 	left: 260px;
 	font-size: 40px;
 }  
-.down-arrow:hover{
+.category-text:hover{
 	cursor: pointer;
 }
 /* 상품정보 */
@@ -107,16 +106,8 @@ ul{
 }
 /* 더보기 */
 .more-box{
-	height: 50px;
-	margin: 10px 0;
-}
-.more-box i{
-	display: block;
-	margin: 0 auto;
-	height: 50px;
-	width: 50px;
-	font-size: 50px;
-	color: gray;
+	height: 35px;
+	margin: 30px 0;
 }
 .more-view:hover{
 	cursor: pointer;
@@ -132,7 +123,7 @@ ul{
 	position: absolute; 
 	width: 100%;
 	background-color: white;
-	top : 150px;
+	top : 170px;  
 }
 .hidden-page .hidden-li{
 	float:left;
@@ -157,10 +148,10 @@ var view = 15;
 $(document).ready(function(){
 	
 	//카테고리 내림 아이콘 클릭 시
-	$('.down-arrow').click(function(){
+	$('.category-text').click(function(){
 		$('.hidden-page').toggleClass('display-none');
 	});
-	
+	  
 	//검색 아이콘 클릭 시
 	$('#search-icon').click(function(){
 		if($('#search').val() == ""){
@@ -222,7 +213,6 @@ $(document).ready(function(){
 				<div class="category-contents">
 					<div class="category-box">
 						<h3 class="category-text">전체 카테고리</h3>
-						<i class="fas fa-chevron-down down-arrow"></i>
 					</div>
 				</div>
 			</div>
@@ -247,7 +237,7 @@ $(document).ready(function(){
 			</div>
 			<input type="hidden" id="view" value="15">
 			<div class="more-box">
-				<i class="fas fa-chevron-down more-view"></i>
+				<h3 class="more-view" style="display:block; width: 200px; margin: 0 auto;">이미지 더보기</h3>
 			</div>
 			<div class="page-bottom">
 			

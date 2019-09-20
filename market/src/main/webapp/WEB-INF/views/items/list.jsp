@@ -57,24 +57,13 @@ ul{
 }
 .category-contents .category-box{
 	position : relative;
-	border: 1px solid gray;
 	width: 300px;
 	height: 50px;
-}
-.category-box .category-menu{
-	position: absolute;
-	left: 5px;
-	font-size: 40px;
 }
 .category-box .category-text{
 	position: absolute;
 	left: 65px;
 	margin: 4px 0 0 0;
-}
-.category-box .down-arrow{
-	position: absolute;
-	left: 260px;
-	font-size: 40px;
 }
 .selected-category-box{
 	position: relative;
@@ -86,6 +75,9 @@ ul{
 	margin: 0;
 	padding: 5px 0 0 20px;
 	min-width: 30px;
+}
+.category-text:hover{
+	cursor: pointer;
 }
 .selected-category-box i{
 	position: absolute;
@@ -181,7 +173,6 @@ ul{
 	float:left;
 	width : calc( 100% / 5);
 	height : 200px; 
-	border : 1px solid gray;
 }
 .category-ul .category-li{
 	text-align: center;
@@ -204,7 +195,7 @@ ul{
 $(document).ready(function(){
 	
 	//카테고리 내림 아이콘 클릭 시
-	$('.down-arrow').click(function(){
+	$('.category-text').click(function(){
 		$('.hidden-page').toggleClass('display-none');
 	});
 	
@@ -259,9 +250,7 @@ $(document).ready(function(){
 				<div class="category">
 					<div class="category-contents clearfix">
 						<div class="category-box float-left">
-							<i class="fas fa-bars category-menu"></i>
 							<h3 class="category-text">전체 카테고리</h3>
-							<i class="fas fa-chevron-down down-arrow" id="c-arrow"></i>
 						</div>
 						<c:forEach items="${categoryList}" var="category">
 							<c:if test="${pageMaker.criteria.category eq category.no}">
@@ -342,7 +331,7 @@ $(document).ready(function(){
 							</div>	
 						</c:forEach>																		
 					</div>
-					<ul class="pagination" style="justify-content: center;">
+					<ul style="margin-top: 20px;" class="pagination" style="justify-content: center;">
 					    <c:if test="${pageMaker.prev}">
 					        <li class="page-item">
 					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
@@ -377,10 +366,10 @@ $(document).ready(function(){
 		<!-- 카테고리 숨김 페이지 -->
 		<div class="hidden-page clearfix display-none">
 			<div class="hidden-contents clearfix">
-				<ul class="clearfix" style="margin: 0;">
+				<ul class="clearfix" style="margin: 20px 0 0 0;">
 					<c:forEach items="${categoryKind}" var="kind">
 						<li class="hidden-li">
-							<div class="hidden-li-box" style="border-bottom: 1px solid gray;">
+							<div class="hidden-li-box">
 								<h4 style="text-align: center; margin : 0;">${kind}</h3>
 							</div>
 							<ul class="category-ul">

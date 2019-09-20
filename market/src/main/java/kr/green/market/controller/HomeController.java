@@ -354,4 +354,20 @@ public class HomeController {
 	    }
 	    return map;
 	}
+    @RequestMapping(value ="/checkDeleteBag")
+	@ResponseBody
+	public boolean checkDeleteBag(@RequestBody String list, HttpServletRequest r){
+    	MemberVO user =	(MemberVO)r.getSession().getAttribute("user");
+    	System.out.println("checkDeleteBag user.id : " + user.getId());
+    	String[] arr = list.split("&");
+    	for(int i=0; i<arr.length; i++){
+    		System.out.println("checkDeleteBag arr["+i+"] : " + arr[i]);
+    		Integer no = Integer.parseInt(arr[i]);
+    		if(!itemService.checkDeleteBag(no, user.getId())) {
+    			return false;
+    		}
+    	}
+	    System.out.println("checkDeleteBag list : " + list);
+	    return true;
+	}
 }

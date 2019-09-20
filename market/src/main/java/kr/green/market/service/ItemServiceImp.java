@@ -510,5 +510,17 @@ public class ItemServiceImp implements ItemService{
 		}
 		return itemDao.selectMoreItemList(no);
 	}
-
+	@Override
+	public boolean checkDeleteBag(Integer no, String id) {
+		if(no == null || id == "") {
+			return false;
+		}
+		BagVO bVo = itemDao.selectBag(no);
+		if(bVo == null || !bVo.getId().equals(id)) {
+			return false;
+		}
+		bVo.setValid("D");
+		itemDao.updateBag(bVo);
+		return true;
+	}
 }

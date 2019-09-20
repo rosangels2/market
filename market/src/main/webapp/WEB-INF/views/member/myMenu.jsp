@@ -691,11 +691,38 @@ $(document).ready(function(){
 	
 	//장바구니 선택 삭제 시
 	$('#check-delete').click(function(){
-		$('.bag-checkbox').each(function(){
+		var list = '';
+		$('.bag-checkbox').each(function(){		//장바구니 페이지에서 지우기
 			if($(this).prop("checked")){
+				list += $(this).parents('.bag-box').find('input[name=bag_no]').val()+'&';
 				$(this).parents('.bag-box').remove();
 			}
 		});
+		$.ajax({
+	        async:true,	//비동기화(동시 작업 처리)	async:false : 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:list,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/checkDeleteBag",
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+				if(data){
+					var total = 0;
+					$('.bag-box').each(function(){
+						$(this).find('.bag-checkbox').prop("checked", true);
+						$('#bag-checkAll').prop("checked", true);
+						var s = parseInt($(this).find('input[name=price]').val());
+						total += s;
+					});
+					if(total > 0 && total < 30000){
+						total += delivery;
+					}
+					$('input[name=total_price]').val(total);
+				}else{
+					
+				}
+	        }
+	 	});
 		
 	});
 	

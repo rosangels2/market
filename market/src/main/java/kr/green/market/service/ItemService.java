@@ -117,4 +117,6 @@ public interface ItemService {
 
 	ArrayList<ItemVO> getMoreItemList(Integer no);
 
+	boolean checkDeleteBag(Integer no, String id);
+
 }
