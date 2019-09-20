@@ -86,7 +86,9 @@
 	height: 40px;
 	margin: 4px 0 5px 0;
 }
-
+.request-agree:hover{
+	cursor: pointer;
+}
 /* 공통 */
 .display-none{
 	display: none;
@@ -173,7 +175,7 @@ $(document).ready(function(){
 			<div class="board-box">
 				<div class="board-contents">		
 					<!-- 판매자 신청 보기 -->
-					<div class="seller-request-board display-none">
+					<div class="seller-request-board">
 						<table class="table">
 							<tr class="table-title">
 								<th width="10%">번호</th>

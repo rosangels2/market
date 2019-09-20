@@ -49,7 +49,13 @@ public class AdminServiceImp implements AdminService{
 		}
 		sVo.setState("승인완료");
 		sVo.setValid("I");
-		adminDao.updateAgreeSeller(sVo);
+		adminDao.updateAgreeSeller(sVo);	//판매자 상태 변경
+		MemberVO mVo = memberDao.selectMember(id);
+		if(mVo == null) {
+			return false;
+		}
+		mVo.setGrade("seller");
+		memberDao.updateMember(mVo); //멤버 등급을 판매자로 변경
 		return true;
 	}
 
