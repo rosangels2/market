@@ -62,7 +62,7 @@ ul{
 }
 .category-box .category-text{
 	position: absolute;
-	left: 65px;
+	left: 0;
 	margin: 4px 0 0 0;
 }
 .selected-category-box{
@@ -76,7 +76,7 @@ ul{
 	padding: 5px 0 0 20px;
 	min-width: 30px;
 }
-.category-text:hover{
+.category-box .category-text:hover{
 	cursor: pointer;
 }
 .selected-category-box i{
@@ -96,6 +96,7 @@ ul{
 	height: 50px;
 	position: relative;
 	padding: 0 0 0 10px;
+	margin-bottom: 30px;
 }
 .list-select-box{
 	width: 300px;
@@ -119,7 +120,7 @@ ul{
 }
 /* 상품 리스트 */
 .item-list-contents{
-	min-height : 400px;
+	min-height : 200px;  
 }
 .item-contents{
 	height: 150px;
@@ -141,12 +142,16 @@ ul{
 }
 .item-info div{
 	text-align: center;
-	height: calc( 100% / 2 );
-	width: 100%;
-	padding-top: 15px;
+	min-height: 30px;  
+	width: 100%;  
 }
-.item-info h3{
+.item-info h4{
 	margin: 0;
+	margin-bottom: 15px;  
+}
+.item-info h5{
+	margin: 0;
+	font-style: italic;
 }
 .item-link a{
 	color: black;
@@ -165,7 +170,7 @@ ul{
 	min-height: 300px; 
 	position: absolute; 
 	width: 100%;
-	background-color: white;
+	background-color: rgb(250, 250, 250);
 	top : 152px;
 	padding-left: 10px;
 }
@@ -195,7 +200,7 @@ ul{
 $(document).ready(function(){
 	
 	//카테고리 내림 아이콘 클릭 시
-	$('.category-text').click(function(){
+	$('.category-box .category-text').click(function(){
 		$('.hidden-page').toggleClass('display-none');
 	});
 	
@@ -297,41 +302,49 @@ $(document).ready(function(){
 									</a>
 								</div>
 								<div class="item-info">
-									<div><h3>상품명</h3></div>
+									<div>
+										<h4>상품명</h4>
+									</div>
 									<div class="item-link">
 										<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}&id=${user.id}">
-											<h3>${item.title}</h3>
+											<h5>${item.title}</h5>
 										</a>
 									</div>
 								</div>
 								<div class="item-info">
-									<div><h3>가격</h3></div>
+									<div>
+										<h4>가격</h4>
+									</div>
 									<div class="item-link">
 										<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
-											<h3>${item.price}</h3> 
+											<h5>${item.price}</h5> 
 										</a>
 									</div>					
 								</div>
 								<div class="item-info">
-									<div><h3>추천 수</h3></div>
+									<div>
+										<h4>추천 수</h4>
+									</div>
 									<div class="item-link">
 										<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
-											<h3>${item.commend}</h3>
+											<h5>${item.commend}</h5>
 										</a>
 									</div>		
 								</div>
 								<div class="item-info">
-									<div><h3>판매자</h3></div>
+									<div>
+										<h4>판매자</h4>
+									</div>
 									<div class="item-link">
 										<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
-											<h3>${item.seller_id}</h3>
+											<h5>${item.seller_id}</h5>
 										</a>
 									</div>				
 								</div>
 							</div>	
 						</c:forEach>																		
 					</div>
-					<ul style="margin-top: 20px;" class="pagination" style="justify-content: center;">
+					<ul class="pagination" style="justify-content: center; margin-top: 20px;">
 					    <c:if test="${pageMaker.prev}">
 					        <li class="page-item">
 					            <a class="page-link" href="<%=request.getContextPath()%>/items/list?page=${pageMaker.startPage-1}&type=${pageMaker.criteria.type}&search=${pageMaker.criteria.search}&category=${pageMaker.criteria.category}&perPageNum=${pageMaker.criteria.perPageNum}">Previous</a>
@@ -366,7 +379,7 @@ $(document).ready(function(){
 		<!-- 카테고리 숨김 페이지 -->
 		<div class="hidden-page clearfix display-none">
 			<div class="hidden-contents clearfix">
-				<ul class="clearfix" style="margin: 20px 0 0 0;">
+				<ul class="clearfix" style="margin: 20px 0 0 0;" >
 					<c:forEach items="${categoryKind}" var="kind">
 						<li class="hidden-li">
 							<div class="hidden-li-box">

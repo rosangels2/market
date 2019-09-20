@@ -62,7 +62,7 @@ ul{
 }
 .category-box .category-text{
 	position: absolute;
-	left: 55px;
+	left: 5px;
 	margin: 4px 0 0 0;
 }
 .category-box .down-arrow{
@@ -90,19 +90,20 @@ ul{
 .items-box li{
 	float:left;
 	width: calc( 100% / 3 );
-	height: 200px;
+	min-height: 400px;
 }
 .items-li .img-box{
-	height: 160px;
+	min-height: 310px;
 	padding: 5px;
 }
-.items-li h5{
+.items-li h5,
+.items-li h6{
 	margin: 5px 0 0 5px;
 	color: black;
 }
 .img-box img{
 	width: 350px;
-	height: 150px;  
+	height: 300px;  
 }
 /* 더보기 */
 .more-box{
@@ -143,7 +144,7 @@ ul{
 }
 </style>
 <script type="text/javascript">
-var view = 15;
+var view = 6;
 
 $(document).ready(function(){
 	
@@ -164,6 +165,7 @@ $(document).ready(function(){
 	//더보기 클릭 시
 	$('.more-view').click(function(){
 		var no = $('#view').val();
+		id = $('#id').val();
 		$.ajax({ 
 	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
 	        type:'POST',	//POST방식으로 전송
@@ -176,7 +178,7 @@ $(document).ready(function(){
 	        		var str = "";
 	        		for(i=0; i<data.more.length; i++){
 	        			console.log("data.more["+i+"].no : " + data.more[i].no);
-	        			str += '<li class="items-li"><div class="img-box"><img src="<%=request.getContextPath()%>/resources/uploadFiles'+data.more[i].file+'"></div><a href="<%=request.getContextPath()%>/items/detail?item_no='+data.more[i].no+'"><h5 style="display: inline-block; margin-left: 10px;">'+data.more[i].title+'</h5><h5 style="float: right; margin-right: 20px;">'+data.more[i].price+'원</h5></a></li>';
+	        			str += '<li class="items-li"><div class="img-box"><img src="<%=request.getContextPath()%>/resources/uploadFiles'+data.more[i].file+'"></div><a href="<%=request.getContextPath()%>/items/detail?item_no='+data.more[i].no+'&id='+id+'"><h5 style="text-align: center; font-style: italic;">'+data.more[i].title+'</h5><h6 style="text-align: center; font-style: oblique;">'+data.more[i].price+'원</h6></a></li>';
 	        		}
 	        		$('.items-ul').append(str);
 	        		console.log("data.no : " + data.no);
@@ -192,6 +194,7 @@ $(document).ready(function(){
 </script>
 </head>
 	<div style="min-height: 1000px; position: relative;">
+		<input type="hidden" value="${user.id}" id="id">
 		<div class="views-page">
 			<div class="search">
 				<div class="search-contents">
@@ -225,9 +228,9 @@ $(document).ready(function(){
 									<div class="img-box">
 										<img src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
 									</div>
-									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
-										<h5 style="display: inline-block; margin-left: 10px;">${item.title}</h5>
-										<h5 style="float: right; margin-right: 20px;">${item.price}원</h5> 
+									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}&id=${user.id}">
+										<h5 style="text-align: center; font-style: italic;">${item.title}</h5>
+										<h6 style="text-align: center; font-style: oblique;">${item.price}원</h6> 
 									</a>
 								</li>
 							</c:forEach>
@@ -235,9 +238,10 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
-			<input type="hidden" id="view" value="15">
-			<div class="more-box">
-				<h3 class="more-view" style="display:block; width: 200px; margin: 0 auto;">이미지 더보기</h3>
+			<!-- 처음 보여줄 이미지 개수 -->
+			<input type="hidden" id="view" value="6">
+			<div class="more-box"> 
+				<h2 class="more-view" style="display:block; width: 202px; margin: 0 auto;">이미지 더보기</h2>
 			</div>
 			<div class="page-bottom">
 			
