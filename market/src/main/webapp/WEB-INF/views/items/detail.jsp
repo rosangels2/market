@@ -281,24 +281,25 @@ $(document).ready(function(){
 		  });
 	});
 
+	//옵션 추가 버튼
 	$('#stock-select').click(function(){
 		if($('#item-select').val() == 0){
 			alert('상품을 선택해 주세요');
-			return;
+			return false;
 		}
 		if($('#option-select').val() == 0){
 			alert('옵션을 선택해 주세요');
-			return;
+			return false;
 		}
 		if($('#stock-count').val() < 1){
 			alert('수량을 입력해 주세요');
-			return;
+			return false;
 		}
 		var s = $('#stock').val();
 		var t = $('#stock-count').val();
 		if(parseInt(s) < parseInt(t)){
 			alert("재고가 부족합니다.");
-			return;
+			return false;
 		}
 		var str = '<div class="info-box clearfix"><input type="hidden" name="option_no"><input readonly name="select" placeholder="선택 옵션"><input readonly name="detail" placeholder="세부 옵션"><input readonly name="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
 		$('.info-box-last').before(str);
@@ -322,20 +323,12 @@ $(document).ready(function(){
 		  });
 	});
 	
-	//옵션 추가 버튼
-	$('.button-contents a').click(function(){
-		if($('.option-box input[name=total_price]').val() == 0){
-			alert("옵션을 선택해 주세요.");
-			return false;
-		}
-	});
-	
 	//구매 버튼
 	$('.buy-button').click(function(){
-		if($('input[name=id]').val() == ""){
+		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
-		}
-		if($('input[name=total_price]').val() == 0){
+			return false;
+		}else if($('input[name=total_price]').val() == 0){
 			alert("선택된 상품이 없습니다.");
 			return false;
 		}
@@ -343,16 +336,19 @@ $(document).ready(function(){
 	
 	//위시리스트 버튼
 	$('#add-wishlist').click(function(){
-		if($('input[name=id]').val() == ""){
+		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
+			return false;
 		}
 		location.href = "<%=request.getContextPath()%>/items/addWishlist?id=${user.id}&item_no=${item.no}";
+		return false;
 	});
 	
 	//장바구니 버튼
 	$('#add-bag').click(function(){
-		if($('input[name=id]').val() == ""){
+		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
+			return false;
 		}
 		if($('.option-box input[name=total_price]').val() == 0){
 			return false;
@@ -363,32 +359,37 @@ $(document).ready(function(){
 	
 	//좋아요 버튼
 	$('#add-commend').click(function(){
-		if($('input[name=id]').val() == ""){
+		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
+			 return false;
 		}
+		var commend = parseInt($('#commend-input').val());
+		var commendUp = commend+1;
+		var commendDown = commend-1;
 		var no = $('input[name=item_no]').val();
 		$.ajax({ 
 	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
 	        type:'POST',	//POST방식으로 전송
-	        data:id,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        data:no,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
 	        url:"<%=request.getContextPath()%>/items/addCommend",
 	        dataType:"json",
 	        contentType:"application/json; charset=UTF-8",
 	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
 	    		if(data == -1){		//요청 실패
-	    			
+	    			alert("요청에 실패했습니다.");
 	    		}else if(data == 0){	//좋아요한 경우
-	    			
+	    			alert("좋아요를 누르셨습니다.");
+	    			$('#commend-input').val(commendUp);
 	    		}else if(data == 1){	//좋아요 취소한 경우
-	    			
+	    			alert("좋아요를 취소하였습니다.");
+	    			$('#commend-input').val(commendDown);
 	    		}else if(data == 2){	//다시 좋아요한 경우
-	    			
+	    			alert("좋아요를 누르셨습니다.");
+	    			$('#commend-input').val(commendUp);
 	    		}
-	        
 	        }
-	  });
+	 	 });
 	});
-	
 	
 	//상품 정보 메뉴 클릭 시
 	$('.item-info-menu').click(function(){
@@ -407,7 +408,7 @@ $(document).ready(function(){
 	});
 	//문의하기 클릭 시
 	$('#ask-request').click(function(){
-		if($('input[name=id]').val() == ""){
+		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
 		}
 		$('.request-contents').removeClass('display-none');
@@ -467,7 +468,7 @@ $(document).ready(function(){
 	
 	//내 문의 보기 클릭 시
 	$('#ask-my').click(function(){
-		if($('input[name=id]').val() == ""){
+		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
 		}
 		$('.board-box-contents').addClass('display-none');
@@ -516,7 +517,7 @@ $(document).ready(function(){
 	
 	//댓글 등록 클릭 시
 	$('#comment-add').click(function(){
-		if($('input[name=id]').val() == ""){
+		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
 		}
 		var category = $('.comment-regiser-box input[name=category]').val();
@@ -606,8 +607,8 @@ function askTitleClick(){
 						<input readonly value="${item.time}">
 					</div>
 					<div class="commend">
-						<h4>추천 수</h1>
-						<input readonly value="${item.commend}" style="padding-left: 20px;">
+						<h4>좋아요</h1>
+						<input id="commend-input" readonly value="${item.commend}" style="padding-left: 20px;">
 					</div>		
 					<div class="item-select">
 						<h4>상품 선택</h4>

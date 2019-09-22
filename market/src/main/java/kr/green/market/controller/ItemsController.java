@@ -557,7 +557,7 @@ public class ItemsController {
     	System.out.println("returnAgree id : " + user.getId());
     	return itemService.buyReturnAgree(no, user.getId());
     }
-    @RequestMapping(value="/addCommend")	//반품 신청 수락
+    @RequestMapping(value="/addCommend")	//좋아요 클릭
     @ResponseBody
     public int addCommend(@RequestBody Integer no, HttpServletRequest r) {
     	System.out.println("addCommend no : " + no);

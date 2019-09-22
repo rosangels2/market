@@ -529,21 +529,31 @@ public class ItemServiceImp implements ItemService{
 		if(item_no == null || id == "") {
 			return -1;
 		}
+		ItemVO iVo = itemDao.selectItem(item_no);
+		if(iVo == null) {
+			return -1;
+		}
 		CommendVO cVo = itemDao.selectCommend(item_no, id);
 		if(cVo == null) {	//처음 좋아요한 경우 (insert)
 			itemDao.insertCommend(item_no, id);
+			iVo.setCommend(iVo.getCommend()+1);
+			itemDao.updateItem(iVo);
 			return 0;
 		}
-		if(cVo.getValid().equals("I")) {	//좋아요 취소한 경우 (update valid 'D')
+		if(cVo.getId().equals(id) && cVo.getValid().equals("I")) {	//좋아요 취소한 경우 (update valid 'D')
 			cVo.setValid("D");
 			itemDao.updateCommend(cVo);
+			iVo.setCommend(iVo.getCommend()-1);
+			itemDao.updateItem(iVo);
 			return 1;
 		}
-		if(cVo.getValid().equals("D")) {	//다시 좋아요한 경우 (update valid 'I')
+		if(cVo.getId().equals(id) && cVo.getValid().equals("D")) {	//다시 좋아요한 경우 (update valid 'I')
 			cVo.setValid("I");
 			itemDao.updateCommend(cVo);
+			iVo.setCommend(iVo.getCommend()+1);
+			itemDao.updateItem(iVo);
 			return 2;
 		}
-		return 0;
+		return -1;
 	}
 }

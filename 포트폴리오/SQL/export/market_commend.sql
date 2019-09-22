@@ -30,7 +30,7 @@ CREATE TABLE `commend` (
   `id` varchar(12) COLLATE utf8_bin DEFAULT NULL,
   `valid` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `commend` (
 
 LOCK TABLES `commend` WRITE;
 /*!40000 ALTER TABLE `commend` DISABLE KEYS */;
+INSERT INTO `commend` VALUES (1,132,'z11111111','I'),(2,132,'z1111111','I');
 /*!40000 ALTER TABLE `commend` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-22 17:16:22
+-- Dump completed on 2019-09-22 21:38:42
