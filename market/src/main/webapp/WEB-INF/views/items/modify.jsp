@@ -16,7 +16,6 @@
 	float: left;
 	width: 59%;
 	min-height: 600px;
-	border: 1px solid gray;
 }
 .img-box-contents{
 	position: relative;
@@ -54,13 +53,11 @@
 
 /* 옵션 상세 내용 */
 .option-info-contents{
-	border: 1px solid gray;
 	padding: 20px 0 40px 0;
 }
 .info-box input{
 	float: left;
 	margin: 20px 40px 0 40px;
-	border: 1px solid gray;
 	text-align: center;
 }
 .info-box img{
@@ -75,7 +72,7 @@
 	margin: 50px 0 0 0;
 }
 .menu-info-box{
-	min-height: 200px;
+	min-height: 200px;  
 	padding: 30px;
 	margin-bottom: 40px;
 	position: relative;
@@ -229,7 +226,7 @@ function addInputEvent(){
 							<input id="item-price">
 						</div>		
 						<div class="add-option clearfix">
-							<button type="button" class="add-button" id="add-option">옵션 추가</button>
+							<button type="button" class="add-button" id="add-option" style="border:none; background-color: white;">옵션 추가</button>
 						</div>	
 					</div>
 				</div>
@@ -246,11 +243,11 @@ function addInputEvent(){
 				  <c:forEach items="${optionList}" var="option">
 					  	<div class="info-box clearfix">
 					  		<input type="hidden" name="option_no" value="${option.no}"> 
-					  		<input placeholder="선택 옵션" name="modify_select" value="${option.select}">
-					  		<input placeholder="세부 옵션" name="modify_detail" value="${option.detail}">
-					  		<input placeholder="상품 재고" name="modify_stock" value="${option.stock}">
-					  		<input placeholder="가격" name="modify_price" value="${option.price}">
-					  		<button type="button" class="float-right option-delete">삭제</button>
+					  		<input placeholder="선택 옵션" name="modify_select" value="${option.select}" style="border:none;">
+					  		<input placeholder="세부 옵션" name="modify_detail" value="${option.detail}" style="border:none;">
+					  		<input placeholder="상품 재고" name="modify_stock" value="${option.stock}" style="border:none;">
+					  		<input placeholder="가격" name="modify_price" value="${option.price}" style="border:none;">
+					  		<button type="button" class="float-right option-delete" style="">삭제</button>
 					  	</div>
 					</c:forEach>
 				</div>
@@ -287,7 +284,7 @@ function addInputEvent(){
 			  	<div class="file-box clearfix">
 			  		<input value="${file.fileName}" class="float-left">
 			  		<button type="button" class="file-delete float-left">삭제</button>
-			  		<div class="float-left foremost-image">대표 이미지 설정</div>
+			  		<div class="float-left foremost-image">대표 이미지로 설정하기</div>  
 			  		<input type="hidden" class="file_route" value="${file.route}">
 			  		<input type="hidden" name="file_no" value="${file.no}">
 			  	</div>
@@ -296,11 +293,13 @@ function addInputEvent(){
 			</div>		
 			<div class="button-box clearfix">
 				<a href="<%=request.getContextPath()%>/items/administration?id=${user.id}">
-					<button type="button" class="float-right" style="margin-left: 30px;" id="cancel">
+					<button type="button" class="float-right" style="border:none; background-color: white;" id="cancel">
 						<h3>취소</h3>
 					</button>
 				</a>
-				<button type="button" class="float-right" id="register"><h3>등록하기</h3></button>
+				<button type="button" class="float-right" id="register" style="border:none; background-color: white;">
+					<h3>등록하기</h3>
+				</button>
 			</div>
 			<div class="bottom-box">
 				<div class="bottom-contents">

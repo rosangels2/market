@@ -41,7 +41,6 @@
 /* 옵션 텍스트 */
 /* 옵션 상세 내용 */
 .option-info-contents{
-	border: 1px solid gray;
 	padding: 20px 0;
 }
 .info-box img{
@@ -54,12 +53,13 @@
 	text-align: center;
 }
 .info-box-last{
+	border-top: 1px solid gray;
 	padding: 20px 70px;
 	margin-top: 30px;
 }
 .info-box-last input{
 	float: right;
-	margin: 20px 54px 0 37px;
+	margin: 20px 47px 0 37px;
 	text-align: center;
 }
 /* 버튼 박스 */
@@ -301,7 +301,7 @@ $(document).ready(function(){
 			alert("재고가 부족합니다.");
 			return false;
 		}
-		var str = '<div class="info-box clearfix"><input type="hidden" name="option_no"><input readonly name="select" placeholder="선택 옵션"><input readonly name="detail" placeholder="세부 옵션"><input readonly name="count" placeholder="선택 수량"><input readonly name="price" placeholder="가격"></div>';
+		var str = '<div class="info-box clearfix"><input type="hidden" name="option_no" style="border:none;"><input readonly name="select" placeholder="선택 옵션" style="border:none;"><input readonly name="detail" placeholder="세부 옵션" style="border:none;"><input readonly name="count" placeholder="선택 수량" style="border:none;"><input readonly name="price" placeholder="가격" style="border:none;"></div>';
 		$('.info-box-last').before(str);
 		$('.info-box input[name=option_no]').last().val(data3.no);
 		$('.info-box input[name=select]').last().val(data3.select);
@@ -640,14 +640,14 @@ function askTitleClick(){
 					<div class="item-stock">
 						<h4>선택 수량</h4> 
 						<input id="stock-count" placeholder="0" style="width: 80px; border: 1px solid gray; text-align: center;">
-						<button id="stock-select">선택</button>
+						<button id="stock-select" style="border: none; background-color: white;">선택</button>
 					</div>					
 				</div>
 			</div>
 		</div>
 		<!-- 옵션 텍스트 -->
 		<div class="option-text">
-			<div class="option-text-contents">
+			<div class="option-text-contents" style="margin-bottom: 30px;">
 				<h1>선택 옵션</h1>
 			</div>
 		</div>
@@ -659,17 +659,33 @@ function askTitleClick(){
 				<div class="option-info-contents">
 					<div class="info-box-last option-box clearfix">
 						<h3 class="float-left" style="margin-top:15px;">결제 예상액</h3>
-						<input readonly name="total_price" value="0">
+						<input readonly name="total_price" value="0" style="border:none;">
 					</div>
 				</div>
 			</div>
 			<!-- 버튼 박스 -->
-			<div class="button">
+			<div class="button">   
 				<div class="button-contents clearfix">
-					<a><button class="buy-button"><h4>구매하기</h4></button></a>
-					<a><button type="button" id="add-bag"><h4>장바구니 담기</h4></button></a>				
-					<a><button type="button" id="add-wishlist"><h4>위시리스트 담기</h4></button></a>
-					<a><button type="button" id="add-commend"><h4>좋아요♡</h4></button></a>	
+					<a class="clearfix float-right" style="margin-left: 20px;">
+						<button class="buy-button" style="border: none; background-color: white;">
+							<h4>구매하기</h4>
+						</button>
+					</a>
+					<a class="clearfix float-right" style="margin-left: 20px;">
+						<button type="button" id="add-bag" style="border: none; background-color: white;">
+							<h4>장바구니 담기</h4>
+						</button>
+					</a>				
+					<a class="clearfix float-right" style="margin-left: 20px;">
+						<button type="button" id="add-wishlist" style="border: none; background-color: white;">
+							<h4>위시리스트 담기</h4>
+						</button>
+					</a>
+					<a class="clearfix float-right" style="margin-left: 20px;">
+						<button type="button" id="add-commend" style="border: none; background-color: white;">
+							<h4>좋아요♡</h4>
+						</button>
+					</a>	
 				</div>
 			</div>
 		</form>
@@ -677,22 +693,22 @@ function askTitleClick(){
 		<div class="menu">
 			<div class="menu-contents">
 				<div class="menu-box clearfix">
-					<div class="item-info-menu menu-box-left">
+					<div class="item-info-menu menu-box-left" style="border:none; margin-right: 20px;">
 						<h2>상품 정보</h2>
 					</div>
-					<div class="ask-menu menu-box-left">
+					<div class="ask-menu menu-box-left" style="border:none; margin-right: 20px;">
 						<h2>문의/답변</h2>
 					</div>
-					<div class="comment-menu menu-box-left">
+					<div class="comment-menu menu-box-left" style="border:none; margin-right: 20px;">
 						<h2>댓글</h2>
 					</div>
-					<div class="menu-box-right display-none" id="ask-all">
+					<div class="menu-box-right display-none" id="ask-all" style="border:none; margin-left: 20px;">
 						<h2>전체 문의 보기</h2>
 					</div>
-					<div class="menu-box-right display-none" id="ask-my">
+					<div class="menu-box-right display-none" id="ask-my" style="border:none; margin-left: 20px;"">
 						<h2>내 문의 보기</h2>
 					</div>
-					<div class="menu-box-right display-none" id="ask-request">
+					<div class="menu-box-right display-none" id="ask-request" style="border:none;">
 						<h2>문의하기</h2>
 					</div>
 					<!-- 문의 하기 창 -->
@@ -905,8 +921,8 @@ function askTitleClick(){
 								<div class="contents-box">
 									<input name="contents">
 								</div>
-								<div class="button-box clearfix">
-									<button type="button" id="comment-add">
+								<div class="button-box clearfix" style="margin-top: 20px;">
+									<button type="button" id="comment-add" style="border: none; background-color: white;">
 										<h4>등록하기</h4>
 									</button>
 								</div>

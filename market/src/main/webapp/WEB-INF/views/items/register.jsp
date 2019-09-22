@@ -55,7 +55,6 @@
 
 /* 옵션 상세 내용 */
 .option-info-contents{
-	border: 1px solid gray;
 	padding: 20px 0 40px 0;
 }
 .info-box input{
@@ -73,7 +72,7 @@
 /* 상품 정보*/
 .contents-text,
 .option-text-contents{
-	margin: 50px 0 0 0;
+	margin: 50px 0 30px 0;
 }
 .menu-info-box{
 	min-height: 200px;

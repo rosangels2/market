@@ -143,12 +143,12 @@ $(document).ready(function(){
 							<div class="item-info" style="float: right">
 								<div>
 									<a href="<%=request.getContextPath()%>/items/modify?item_no=${item.no}&id=${user.id}">
-										<button class="modify-button">수정</button>
+										<button class="modify-button" style="border: none; background-color: white;">수정</button>
 									</a>
 									<input type="hidden" name="item_no" value="${item.no}">
 								</div>
-								<div>
-									<button class="delete-button">삭제</button>
+								<div style="border-top:1px solid gray;">
+									<button class="delete-button" style="border: none; background-color: white;">삭제</button>
 									<input type="hidden" name="item_no" value="${item.no}">
 								</div>		
 							</div>
