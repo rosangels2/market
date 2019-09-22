@@ -8,6 +8,7 @@ import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CategoryVO;
+import kr.green.market.vo.CommendVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -124,5 +125,11 @@ public interface ItemDAO {
 	ArrayList<BuyVO> selectRequestListSeller(@Param("id")String id, @Param("cri")Criteria cri);
 
 	ArrayList<ItemVO> selectMoreItemList(@Param("no")Integer no);
+
+	CommendVO selectCommend(@Param("item_no")Integer item_no, @Param("id")String id);
+
+	void insertCommend(@Param("item_no")Integer item_no, @Param("id")String id);
+
+	void updateCommend(@Param("cVo")CommendVO cVo);
 
 }

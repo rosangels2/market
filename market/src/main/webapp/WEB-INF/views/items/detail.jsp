@@ -228,6 +228,9 @@
 
 
 /* 공통 적용 */
+.button-contents button{
+	
+}
 .display-none{
 	display: none;
 }
@@ -322,12 +325,16 @@ $(document).ready(function(){
 	//옵션 추가 버튼
 	$('.button-contents a').click(function(){
 		if($('.option-box input[name=total_price]').val() == 0){
+			alert("옵션을 선택해 주세요.");
 			return false;
 		}
 	});
 	
 	//구매 버튼
 	$('.buy-button').click(function(){
+		if($('input[name=id]').val() == ""){
+			location.href = '<%=request.getContextPath()%>/signin';
+		}
 		if($('input[name=total_price]').val() == 0){
 			alert("선택된 상품이 없습니다.");
 			return false;
@@ -336,17 +343,52 @@ $(document).ready(function(){
 	
 	//위시리스트 버튼
 	$('#add-wishlist').click(function(){
+		if($('input[name=id]').val() == ""){
+			location.href = '<%=request.getContextPath()%>/signin';
+		}
 		location.href = "<%=request.getContextPath()%>/items/addWishlist?id=${user.id}&item_no=${item.no}";
 	});
 	
 	//장바구니 버튼
 	$('#add-bag').click(function(){
+		if($('input[name=id]').val() == ""){
+			location.href = '<%=request.getContextPath()%>/signin';
+		}
 		if($('.option-box input[name=total_price]').val() == 0){
 			return false;
 		}
 		$('#option-form').attr("action", "<%=request.getContextPath()%>/items/addBag");
 		$('#option-form').submit();
 	});
+	
+	//좋아요 버튼
+	$('#add-commend').click(function(){
+		if($('input[name=id]').val() == ""){
+			location.href = '<%=request.getContextPath()%>/signin';
+		}
+		var no = $('input[name=item_no]').val();
+		$.ajax({ 
+	        async:true,	//async:true - 비동기화(동시 작업 처리)	async:false - 동기화(순차적 작업 처리) 
+	        type:'POST',	//POST방식으로 전송
+	        data:id,	//컨트롤러에게 넘겨주는 매개변수명 -> {'id':id} 형식과 같고 {}를 사용할 때는 변수를 여러 개 사용할 때
+	        url:"<%=request.getContextPath()%>/items/addCommend",
+	        dataType:"json",
+	        contentType:"application/json; charset=UTF-8",
+	        success : function(data){	//요청이 성공해서 보내준 값을 저장할 변수명
+	    		if(data == -1){		//요청 실패
+	    			
+	    		}else if(data == 0){	//좋아요한 경우
+	    			
+	    		}else if(data == 1){	//좋아요 취소한 경우
+	    			
+	    		}else if(data == 2){	//다시 좋아요한 경우
+	    			
+	    		}
+	        
+	        }
+	  });
+	});
+	
 	
 	//상품 정보 메뉴 클릭 시
 	$('.item-info-menu').click(function(){
@@ -626,6 +668,7 @@ function askTitleClick(){
 					<a><button class="buy-button"><h4>구매하기</h4></button></a>
 					<a><button type="button" id="add-bag"><h4>장바구니 담기</h4></button></a>				
 					<a><button type="button" id="add-wishlist"><h4>위시리스트 담기</h4></button></a>
+					<a><button type="button" id="add-commend"><h4>좋아요♡</h4></button></a>	
 				</div>
 			</div>
 		</form>

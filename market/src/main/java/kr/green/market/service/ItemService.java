@@ -119,4 +119,6 @@ public interface ItemService {
 
 	boolean checkDeleteBag(Integer no, String id);
 
+	int addCommend(Integer item_no, String id);
+
 }

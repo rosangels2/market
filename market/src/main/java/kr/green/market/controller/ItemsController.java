@@ -437,8 +437,9 @@ public class ItemsController {
     } 
     @RequestMapping(value= "/addWishlist")	//위시리스트
     public String addWishlist(Model model, String id, Integer item_no){
+    	model.addAttribute("item_no", item_no);
     	if(id == null || id == ""){
-    		return "redirect:/items/list";
+    		return "redirect:/items/detail";
     	}
     	System.out.println("addWishlist id : " + id);
     	System.out.println("addWishlist item_no : " + item_no);
@@ -452,7 +453,6 @@ public class ItemsController {
     	wVo.setItem_price(iVo.getPrice());
     	System.out.println("addWishlist wVo : " + wVo);
     	itemService.addWishlist(wVo);
-    	model.addAttribute("item_no", item_no);
     	return "redirect:/items/detail";
     }
     @RequestMapping(value= "/deleteWishlist")	//장바구니
@@ -556,5 +556,13 @@ public class ItemsController {
     	MemberVO user = (MemberVO)r.getSession().getAttribute("user");
     	System.out.println("returnAgree id : " + user.getId());
     	return itemService.buyReturnAgree(no, user.getId());
+    }
+    @RequestMapping(value="/addCommend")	//반품 신청 수락
+    @ResponseBody
+    public int addCommend(@RequestBody Integer no, HttpServletRequest r) {
+    	System.out.println("addCommend no : " + no);
+    	MemberVO user = (MemberVO)r.getSession().getAttribute("user");
+    	System.out.println("returnAgree id : " + user.getId());
+    	return itemService.addCommend(no, user.getId());
     }
 }

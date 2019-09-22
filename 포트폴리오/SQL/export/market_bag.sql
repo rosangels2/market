@@ -42,7 +42,7 @@ CREATE TABLE `bag` (
   CONSTRAINT `fk_bag_item1` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`),
   CONSTRAINT `fk_bag_member1` FOREIGN KEY (`id`) REFERENCES `member` (`ID`),
   CONSTRAINT `fk_bag_option1` FOREIGN KEY (`option_no`) REFERENCES `option` (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,4 +63,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-22 15:04:59
+-- Dump completed on 2019-09-22 17:16:25

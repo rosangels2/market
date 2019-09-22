@@ -10,6 +10,7 @@ import kr.green.market.pagination.Criteria;
 import kr.green.market.vo.BagVO;
 import kr.green.market.vo.BuyVO;
 import kr.green.market.vo.CategoryVO;
+import kr.green.market.vo.CommendVO;
 import kr.green.market.vo.CouponBagVO;
 import kr.green.market.vo.CouponVO;
 import kr.green.market.vo.DeliveryVO;
@@ -522,5 +523,27 @@ public class ItemServiceImp implements ItemService{
 		bVo.setValid("D");
 		itemDao.updateBag(bVo);
 		return true;
+	}
+	@Override
+	public int addCommend(Integer item_no, String id) {
+		if(item_no == null || id == "") {
+			return -1;
+		}
+		CommendVO cVo = itemDao.selectCommend(item_no, id);
+		if(cVo == null) {	//처음 좋아요한 경우 (insert)
+			itemDao.insertCommend(item_no, id);
+			return 0;
+		}
+		if(cVo.getValid().equals("I")) {	//좋아요 취소한 경우 (update valid 'D')
+			cVo.setValid("D");
+			itemDao.updateCommend(cVo);
+			return 1;
+		}
+		if(cVo.getValid().equals("D")) {	//다시 좋아요한 경우 (update valid 'I')
+			cVo.setValid("I");
+			itemDao.updateCommend(cVo);
+			return 2;
+		}
+		return 0;
 	}
 }

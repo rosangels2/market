@@ -18,30 +18,28 @@ USE `market`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `addresslist`
+-- Table structure for table `commend`
 --
 
-DROP TABLE IF EXISTS `addresslist`;
+DROP TABLE IF EXISTS `commend`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `addresslist` (
+CREATE TABLE `commend` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
-  `id` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `phone` varchar(13) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `address` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `valid` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'I',
+  `item_no` int(11) DEFAULT NULL,
+  `id` varchar(12) COLLATE utf8_bin DEFAULT NULL,
+  `valid` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT 'I',
   PRIMARY KEY (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `addresslist`
+-- Dumping data for table `commend`
 --
 
-LOCK TABLES `addresslist` WRITE;
-/*!40000 ALTER TABLE `addresslist` DISABLE KEYS */;
-/*!40000 ALTER TABLE `addresslist` ENABLE KEYS */;
+LOCK TABLES `commend` WRITE;
+/*!40000 ALTER TABLE `commend` DISABLE KEYS */;
+/*!40000 ALTER TABLE `commend` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-22 17:16:26
+-- Dump completed on 2019-09-22 17:16:22

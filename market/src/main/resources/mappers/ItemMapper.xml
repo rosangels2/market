@@ -243,4 +243,17 @@
 		order by no desc
 		limit #{no}, 3
 </select>
+<select id="selectCommend" resultType="kr.green.market.vo.CommendVO">
+	select * from commend
+		where item_no = #{item_no} and id = #{id}
+</select>
+<insert id="insertCommend">
+	insert into commend(item_no, id)
+		values(#{item_no}, #{id})
+</insert>
+<update id="updateCommend">
+	update commend
+		set valid = #{cVo.valid}
+		where no = #{cVo.no}
+</update>
 </mapper>
