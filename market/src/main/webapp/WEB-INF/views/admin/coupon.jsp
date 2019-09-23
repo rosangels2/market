@@ -93,6 +93,7 @@ $(document).ready(function(){
 	        		alert("쿠폰이 등록 되었습니다.");
 	        		var str = '<tr class="coupon-list-text"><th>'+data.coupon.no+'</th><th>'+data.coupon.title+'</th><th>'+data.coupon.discount+'원</th><th>'+data.coupon.period+'</th><th><button class="coupon-delete">삭제</button><input type="hidden" name="coupon_no" value="'+data.coupon.no+'"></th></tr>';
 	        		$('.use-coupon-list .table-title').after(str);
+	        		$('.table-contents input').val("");
 	        	}else{
 	        		alert("요청이 실패하였습니다.");	        		
 	        	}

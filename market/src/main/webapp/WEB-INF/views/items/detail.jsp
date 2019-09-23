@@ -139,7 +139,6 @@
 .request-box .button{
 	padding: 5px;
 	min-height: 50px;
-	border-bottom: 1px solid gray;
 }
 /* 상품 정보 선택*/
 .menu-info-box{
@@ -410,6 +409,7 @@ $(document).ready(function(){
 	$('#ask-request').click(function(){
 		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
+			return false;
 		}
 		$('.request-contents').removeClass('display-none');
 		$('#ask-form input[name=title]').val("");
@@ -657,9 +657,9 @@ function askTitleClick(){
 			<input type="hidden" name="item_no" value="${item.no}">
 			<div class="option-info">
 				<div class="option-info-contents">
-					<div class="info-box-last option-box clearfix">
-						<h3 class="float-left" style="margin-top:15px;">결제 예상액</h3>
-						<input readonly name="total_price" value="0" style="border:none;">
+					<div class="info-box-last option-box clearfix">						
+						<input readonly name="total_price" value="0" style="border:none; margin-right: 28px;" class="float-right">	
+						<h3 class="float-right" style="margin-top:15px;">결제 예상 금액</h3>								
 					</div>
 				</div>
 			</div>

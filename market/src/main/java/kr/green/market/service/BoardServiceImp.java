@@ -28,8 +28,8 @@ public class BoardServiceImp implements BoardService{
 			return null;
 		}
 		String state = "답변대기";
-		Integer item_no = null;
-		String to = null;
+		Integer item_no = 0;
+		String to = "";
 		boardDao.insertBoard(category, board_no, item_no, writer, to, title, contents, state);
 		int no = boardDao.selectMaxBoard();
 		return boardDao.selectBoard(no);
@@ -102,15 +102,15 @@ public class BoardServiceImp implements BoardService{
 		if(bVo == null) {
 			return null;
 		}
-		BoardVO oVo = boardDao.selectBoard(bVo.getBoard_no());
-		if(oVo == null || oVo.getBoard_no() != bVo.getItem_no()) {	//답변할 글의 상품 번호(board_no)와 답변의 상품 번호가 다르다면
+		BoardVO oVo = boardDao.selectBoard(bVo.getBoard_no());	//문의글 가져오기
+		if(oVo == null) {
 			return null;
 		}
+		bVo.setTo(oVo.getWriter());
 		BoardVO bVo1 = boardDao.selectReply(bVo.getBoard_no());
 		if(bVo1 == null){	//답변이 없다면
-			boardDao.insertBoard(bVo.getCategory(), bVo.getBoard_no(), bVo.getItem_no(), bVo.getWriter(), oVo.getWriter(), bVo.getTitle(), bVo.getContents(), bVo.getState());
+			boardDao.insertReply(bVo);
 		}else {		//답변이 있다면
-			bVo.setTo(oVo.getWriter());
 			boardDao.updateReply(bVo);
 		}
 		boardDao.updateBoardState(bVo.getBoard_no(), "답변완료");

@@ -92,6 +92,9 @@ ul{
 	width: calc( 100% / 3 );
 	min-height: 400px;
 }
+.items-li:hover{
+
+}
 .items-li .img-box{
 	min-height: 310px;
 	padding: 5px;
@@ -142,6 +145,23 @@ ul{
 .display-none{
 	display: none;
 }
+.d {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.d:hover {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  cursor: pointer; 
+}
+.d1 {width:325px; height:280px; overflow:hidden }
 </style>
 <script type="text/javascript">
 var view = 6;
@@ -178,7 +198,7 @@ $(document).ready(function(){
 	        		var str = "";
 	        		for(i=0; i<data.more.length; i++){
 	        			console.log("data.more["+i+"].no : " + data.more[i].no);
-	        			str += '<li class="items-li"><div class="img-box"><img src="<%=request.getContextPath()%>/resources/uploadFiles'+data.more[i].file+'"></div><a href="<%=request.getContextPath()%>/items/detail?item_no='+data.more[i].no+'&id='+id+'"><h5 style="text-align: center; font-style: italic;">'+data.more[i].title+'</h5><h6 style="text-align: center; font-style: oblique;">'+data.more[i].price+'원</h6></a></li>';
+	        			str += '<li class="items-li d1"><div class="img-box d"><img src="<%=request.getContextPath()%>/resources/uploadFiles'+data.more[i].file+'"></div><a href="<%=request.getContextPath()%>/items/detail?item_no='+data.more[i].no+'&id='+id+'"><h5 style="text-align: center; font-style: italic;">'+data.more[i].title+'</h5><h6 style="text-align: center; font-style: oblique;">'+data.more[i].price+'원</h6></a></li>';
 	        		}
 	        		$('.items-ul').append(str);
 	        		console.log("data.no : " + data.no);
@@ -204,7 +224,7 @@ $(document).ready(function(){
 						</div>
 						<div class="search-input">
 							<input type="hidden" name="type" value="1">
-							<input class="input" name="search" id="search" value="${pageMaker.criteria.search}">
+							<input class="input" name="search" id="search" value="${pageMaker.criteria.search}" style="border-radius: 5pt;">
 						</div>
 						<div class="search-img">
 							<i class="fas fa-search img" style="font-size: 40px;" id="search-icon"></i>
@@ -224,9 +244,11 @@ $(document).ready(function(){
 					<div class="items-box">
 						<ul class="items-ul clearfix">
 							<c:forEach items="${itemList}" var="item">
-								<li class="items-li">
-									<div class="img-box">
-										<img src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
+								<li class="items-li d1">
+									<div style="overflow: hidden;">
+										<div class="img-box d">
+											<img src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
+										</div>
 									</div>
 									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}&id=${user.id}">
 										<h5 style="text-align: center; font-style: italic;">${item.title}</h5>

@@ -124,7 +124,7 @@ $(document).ready(function(){
 });	//레디
 function addOptionEvent(){
 	$('#add-option').click(function(){
-		var str = '<div class="info-box clearfix"><input placeholder="선택 옵션" name="select" readonly><input placeholder="세부 옵션" name="detail" readonly><input placeholder="상품 재고" name="stock" readonly><input placeholder="가격" name="price" readonly><button class="float-right option-delete">삭제</button></div>'
+		var str = '<div class="info-box clearfix"><input placeholder="선택 옵션" name="select" readonly><input placeholder="세부 옵션" name="detail" readonly><input placeholder="상품 재고" name="stock" readonly><input placeholder="가격" name="price" readonly><button type="button" class="float-right option-delete">삭제</button></div>'
 		$('.option-info-contents').append(str);
 		$('input[name=select]').last().val($('#item-select').val());
 		$('input[name=detail]').last().val($('#item-detail').val());

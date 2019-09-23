@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `market` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `market`;
--- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: localhost    Database: market
 -- ------------------------------------------------------
@@ -9,7 +9,7 @@ USE `market`;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `market`;
 
 DROP TABLE IF EXISTS `bag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `bag` (
   `no` int(11) NOT NULL AUTO_INCREMENT,
   `id` varchar(12) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `bag` (
   CONSTRAINT `fk_bag_item1` FOREIGN KEY (`item_no`) REFERENCES `item` (`no`),
   CONSTRAINT `fk_bag_member1` FOREIGN KEY (`id`) REFERENCES `member` (`ID`),
   CONSTRAINT `fk_bag_option1` FOREIGN KEY (`option_no`) REFERENCES `option` (`no`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,6 +51,7 @@ CREATE TABLE `bag` (
 
 LOCK TABLES `bag` WRITE;
 /*!40000 ALTER TABLE `bag` DISABLE KEYS */;
+INSERT INTO `bag` VALUES (12,'z1111111',131,140,'반려동물 점퍼','그린',1,40000,'/2019/09/22/1ede24b8-4f1c-4a26-a00a-91419f35cb00_의류.jpg','I');
 /*!40000 ALTER TABLE `bag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-22 23:00:01
+-- Dump completed on 2019-09-23 12:06:07

@@ -120,8 +120,8 @@
 }
 .wishlist-box{
 	min-height: 150px;
-	border: 1px solid gray;
 	border-top: none;
+	margin-top: 20px;
 }
 .wishlist-box div{
 	text-align: center;
@@ -153,6 +153,11 @@
 .item-img-box img{
 	width: 264px;
 	height: 130px;
+}
+.wishlist-delete{
+	margin-top: 50px;
+	border: none;
+	background-color: white;
 }
 /* 장바구니 클릭 시 */
 .bag-contents{
@@ -227,6 +232,10 @@
 	margin: 20px 20px 20px 0;
 	width: 25px;
 	height: 25px;
+}
+.bag-contents button{
+	border: none;
+	background-color: white;
 }
 /* 쿠폰함 클릭 시 */
 .coupon-bag-contents{

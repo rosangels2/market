@@ -74,8 +74,8 @@
 		where no = #{no} and valid = 'I'
 </select>
 <insert id="insertBuy">
-	insert into buy(id, item_no, option_no, buy.select, detail, buy.count, price, request, image)
-		values(#{bVo.id}, #{bVo.item_no}, #{bVo.option_no}, #{bVo.select}, #{bVo.detail}, #{bVo.count}, #{bVo.price}, #{bVo.request}, #{bVo.image})
+	insert into buy(id, item_no, seller_id , option_no, buy.select, detail, buy.count, price, request, image)
+		values(#{bVo.id}, #{bVo.item_no}, #{bVo.seller_id} , #{bVo.option_no}, #{bVo.select}, #{bVo.detail}, #{bVo.count}, #{bVo.price}, #{bVo.request}, #{bVo.image})
 </insert>
 <select id="selectMaxBuy" resultType="int">
 	select max(no) from buy

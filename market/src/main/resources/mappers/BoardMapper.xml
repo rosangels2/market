@@ -49,6 +49,13 @@
 	select * from board
 		where board_no = #{board_no} and category = '문의답변'
 </select>
+<insert id="insertReply">
+	insert into board(category, board_no, item_no, writer, `to`, contents)
+		values(#{bVo.category}, #{bVo.board_no}, #{bVo.item_no}, #{bVo.writer}, #{bVo.to}, #{bVo.contents})
+</insert>
+<!-- 
+category=문의답변, board_no=41, item_no=133, writer=z11111111, to=null, contents=잘 보관 중이니 안심하세요~^^
+ -->
 <update id="updateReply">
 	update board
 		set contents = #{bVo.contents}, time = now(), `to` = #{bVo.to}

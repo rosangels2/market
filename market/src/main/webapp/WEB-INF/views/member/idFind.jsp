@@ -34,8 +34,8 @@ $(document).ready(function(){
 });	//레디
 </script>
 </head>
-<div style="min-height: 1000px;">
-	<div class="container offset-4 col-4">
+<div style="min-height: 605px;">
+	<div class="container offset-4 col-4" style="margin-top: 50px;">
 		<div class="offset-3"> <h1>Find ID</h1></div>
 		<form method="post" action="" clfass="form clearfix">
 			<div class="form-group">

@@ -23,12 +23,13 @@
 }
 .delivery-menu div{
 	border: 1px solid gray;
-	border-bottom: none;
 	padding: 5px 10px;
+}
+.delivery-menu div:hover{
+	cursor: pointer;
 }
 .delivery-info{ 
 	padding: 10px;
-	border: 1px solid gray;
 }
 .name-box{
 	margin: 10px 0 8px 0; 
@@ -122,7 +123,6 @@
 	padding: 10px;
 }
 .order-contents{
-	border: 1px solid gray;
 	min-height: 300px;
 	padding: 5px;
 }
@@ -179,8 +179,8 @@
 	min-width: 600px;
 	min-height: 200px;
 	z-index: 20;
-	border: 1px solid gray;
 	background-color: white; 
+	border: none;
 }
 .addressList-cancel{
 	float: right;
@@ -194,6 +194,9 @@
 }
 .display-none{
 	display: none;
+}
+.info-box input{
+	border: none;
 }
 </style>
 <script type="text/javascript">

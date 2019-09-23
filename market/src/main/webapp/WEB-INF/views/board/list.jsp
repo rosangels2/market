@@ -113,7 +113,7 @@ $(document).ready(function(){
 });		//레디
 </script>
 </head>
-<div style="min-height: 400px;">
+<div style="min-height: 660px;">
 	<div class="board-list">
 		<div class="board-list-contents">
 		<!-- 검색창 -->

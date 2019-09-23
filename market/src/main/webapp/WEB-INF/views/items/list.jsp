@@ -127,6 +127,9 @@ ul{
 	padding: 10px 10px;
 	margin-bottom: 20px;
 }
+.item-contents:hover{
+	background-color: #dee2e6;
+}
 .item-contents div{
 	float: left;
 }
@@ -195,6 +198,26 @@ ul{
 .display-none{
 	display: none;
 }
+input, select,.page-item{
+	border-radius: 5pt;
+}
+.d {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.d:hover {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  cursor: pointer; 
+}
+.d1 {width:325px; height:280px; overflow:hidden }
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -273,7 +296,7 @@ $(document).ready(function(){
 				<div class="page-select">
 					<div class="page-select-contents">
 						<div class="list-select-box">
-							<select name="type" id="type">
+							<select name="type" id="type" style="border-radius: 5pt;">
 								<option value="1" <c:if test="${pageMaker.criteria.type eq 1}">selected</c:if> >최신 순으로 보기</option>
 								<option value="2" <c:if test="${pageMaker.criteria.type eq 2}">selected</c:if> >추천 많은 순으로 보기</option>
 								<option value="3" <c:if test="${pageMaker.criteria.type eq 3}">selected</c:if> >낮은 가격 순으로 보기</option>
@@ -296,10 +319,12 @@ $(document).ready(function(){
 					<div class="item-list-contents">
 						<c:forEach var="item" items="${itemList}">
 							<div class="item-contents clearfix">
-								<div class="item-img">
-									<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}&id=${user.id}">
-										<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
-									</a>
+								<div class="item-img d1">
+									<div class="clearfix d">
+										<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}&id=${user.id}">
+											<img alt="" src="<%=request.getContextPath()%>/resources/uploadFiles${item.file}">
+										</a>
+									</div>
 								</div>
 								<div class="item-info">
 									<div>
