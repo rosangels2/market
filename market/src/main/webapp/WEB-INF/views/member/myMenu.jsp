@@ -15,13 +15,12 @@
 .nav-bar{
 	position: fixed;
 	float: left;
-	//border: 1px solid gray;
 	width: 130px;
 	min-height: 400px;
 }
 .nav-box{
+    border-radius: 7pt;
 	height: calc( 100% / 9 );
-	//border-bottom: 1px solid gray;
 	text-align: center;
 	padding: 15px 0 10px 0;
 }
@@ -120,8 +119,9 @@
 }
 .wishlist-box{
 	min-height: 150px;
-	border-top: none;
 	margin-top: 20px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #dee2e6;
 }
 .wishlist-box div{
 	text-align: center;
@@ -176,8 +176,8 @@
 	margin-top: 15px;
 }
 .bag-box{
- border: 1px solid gray;
- border-top: none;
+	padding-bottom: 15px;
+    border-bottom: 1px solid #dee2e6;
 }
 .bag-box input{
 	border: none;
@@ -240,9 +240,6 @@
 	border: none;
 	background-color: white;
 }
-.bag-box{
-	border-radius: 5pt;
-}
 /* 쿠폰함 클릭 시 */
 .coupon-bag-contents{
 	float: right;
@@ -290,6 +287,7 @@
 .board-set{
 	border: 1px solid gray;
 	border-top: none;
+	border-radius: 5pt;
 }
 .board-set .set-top div{
 	float: left;
@@ -335,7 +333,7 @@
 	display: none;
 }
 .background-gray{
-	background-color: gray;
+	background-color: #dee2e6;
 }
 select, input{
 	border-radius: 5pt;
@@ -1103,7 +1101,7 @@ function menuClick(selecter){
 										<label for="account">account</label>
 										<input type="text" class="form-control" id="account" name="account" value="${user.account}">
 									</div>
-									<button class="btn btn-dark float-right" style="margin-right: 15px; margin-bottom: 20px;" id="modify-ok">입력완료</button>
+									<button class="btn btn-dark float-right" style="margin-bottom: 20px;" id="modify-ok">입력완료</button>
 								</form>							
 							</div>
 						</div>

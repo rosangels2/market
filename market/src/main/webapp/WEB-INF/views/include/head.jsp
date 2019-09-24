@@ -21,3 +21,4 @@
 <!-- 벨리데이션 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/additional-methods.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/main.css"></script>

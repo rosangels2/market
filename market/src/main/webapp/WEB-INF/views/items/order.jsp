@@ -22,7 +22,6 @@
 	position: relative;
 }
 .delivery-menu>div{
-	border: 1px solid gray;
 	padding: 5px 10px;
 	border-radius: 5pt;
 }
@@ -140,7 +139,7 @@
 	width: 300px;
 	text-align: center;
 	border-radius: 5pt;
-	background-color: white;
+	background-color: #dee2e6;
 }
 .last-set input{
 	text-align: right;
@@ -193,7 +192,7 @@
 
 /* 공통 */
 .background-gray{
-	background-color: gray;
+	background-color: #dee2e6;
 }
 .display-none{
 	display: none;
@@ -203,6 +202,12 @@
 }
 select, input{
 	border-radius: 5pt;
+}
+.coupon-price button{
+	background-color: #dee2e6;
+	color: black;
+	border-radius: 5pt;
+	border: 1px solid #dee2e6;
 }
 </style>
 <script type="text/javascript">

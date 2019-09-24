@@ -129,6 +129,7 @@ ul{
 }
 .item-contents:hover{
 	background-color: #dee2e6;
+	border-radius: 7pt;
 }
 .item-contents div{
 	float: left;
@@ -267,8 +268,8 @@ $(document).ready(function(){
 				<!-- 검색창 -->
 				<div class="search">
 					<div class="search-contents">
-						<div class="search-text"><img src="<%=request.getContextPath()%>/resources/images/search-text.jpg"></div>
-						<div class="search-input">
+						<div class="search-text"><img src="<%=request.getContextPath()%>/resources/images/search.jpg"></div>
+						<div class="search-input"> 
 							<input class="input" name="search" id="search" value="${pageMaker.criteria.search}">
 							<input type="hidden" name="category" id="category" value="${pageMaker.criteria.category}">
 						</div>

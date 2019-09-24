@@ -16,6 +16,7 @@
 	float: left;
 	width: 59%;
 	min-height: 600px;
+	border-radius: 8pt;
 }
 .img-box-contents{
 	position: relative;
@@ -116,6 +117,12 @@
 }
 select, input{
 	border-radius: 5pt;
+}
+button{
+	background-color: #dee2e6;
+	color: black;
+	border-radius: 5pt;
+	border: 1px solid #dee2e6;
 }
 </style>
 <script type="text/javascript">

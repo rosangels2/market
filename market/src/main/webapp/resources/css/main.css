@@ -1,1 +1,6 @@
 @charset "EUC-KR";
+@font-face { font-family: 'GyeonggiBatang'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiBatang.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+h1, h2, h3, h4, h5, h6, input, button, th, td{
+font-family: 'GyeonggiBatang';
+}

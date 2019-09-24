@@ -70,6 +70,10 @@
 .button-contents button{
 	float: right;
 	margin-left: 20px;
+	background-color: #dee2e6;
+	color: black;
+	border-radius: 5pt;
+	border: 1px solid #dee2e6;
 }
 .button-contents .buy-button{
 	text-align: center;
@@ -82,8 +86,12 @@
 .menu-box{
 	position: relative; 
 }
+.menu-box>div{
+	 border-radius: 5pt;
+}
 .menu-box div:hover{
 	 cursor: pointer;
+	 border-radius: 5pt;
 }
 .menu-box .menu-box-left{
 	float: left;
@@ -227,10 +235,6 @@
 
 
 /* 공통 적용 */
-.button-contents button{
-	border-radius: 5pt;
-	border: 1px solid #dee2e6;
-}
 .display-none{
 	display: none;
 }
@@ -239,6 +243,9 @@ select, input{
 }
 .background{
 	background-color: #dee2e6;
+}
+.board-set{
+	border-radius: 5pt;
 }
 </style>
 <script type="text/javascript">
@@ -694,23 +701,23 @@ function askTitleClick(){
 			<div class="button">   
 				<div class="button-contents clearfix">
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button class="buy-button" style="background-color: white;">
-							<h4>구매하기</h4>
+						<button class="buy-button">
+							<h4 style="margin: 5px;">구매하기</h4>
 						</button>
 					</a>
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button type="button" id="add-bag" style=" background-color: white;">
-							<h4>장바구니 담기</h4>
+						<button type="button" id="add-bag">
+							<h4 style="margin: 5px;">장바구니 담기</h4>
 						</button>
 					</a>				
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button type="button" id="add-wishlist" style=" background-color: white;">
-							<h4>위시리스트 담기</h4>
+						<button type="button" id="add-wishlist">
+							<h4 style="margin: 5px;">위시리스트 담기</h4>
 						</button>
 					</a>
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button type="button" id="add-commend" style=" background-color: white;">
-							<h4>좋아요♡</h4>
+						<button type="button" id="add-commend">
+							<h4 style="margin: 5px;">좋아요♡</h4>
 						</button>
 					</a>	
 				</div>

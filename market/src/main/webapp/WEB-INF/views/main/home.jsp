@@ -201,7 +201,7 @@ $(document).ready(function(){
 	        		var str = "";
 	        		for(i=0; i<data.more.length; i++){
 	        			console.log("data.more["+i+"].no : " + data.more[i].no);
-	        			str += '<li class="items-li d1"><div class="img-box d"><img src="<%=request.getContextPath()%>/resources/uploadFiles'+data.more[i].file+'"></div><a href="<%=request.getContextPath()%>/items/detail?item_no='+data.more[i].no+'&id='+id+'"><h5 style="text-align: center; font-style: italic;">'+data.more[i].title+'</h5><h6 style="text-align: center; font-style: oblique;">'+data.more[i].price+'원</h6></a></li>';
+	        			str += '<li class="items-li d1"><div style="overflow: hidden;"><div class="img-box d"><img src="<%=request.getContextPath()%>/resources/uploadFiles'+data.more[i].file+'"></div></div><a href="<%=request.getContextPath()%>/items/detail?item_no='+data.more[i].no+'&id='+id+'"><h5 style="text-align: center; font-style: italic;">'+data.more[i].title+'</h5><h6 style="text-align: center; font-style: oblique;">'+data.more[i].price+'원</h6></a></li>';
 	        		}
 	        		$('.items-ul').append(str);
 	        		console.log("data.no : " + data.no);
@@ -223,7 +223,7 @@ $(document).ready(function(){
 				<div class="search-contents">
 					<form method="get" action="<%=request.getContextPath()%>/items/list" id="search-form">
 						<div class="search-text">
-							<img src="<%=request.getContextPath()%>/resources/images/search-text.jpg">
+							<img src="<%=request.getContextPath()%>/resources/images/search.jpg">
 						</div>
 						<div class="search-input">
 							<input type="hidden" name="type" value="1">

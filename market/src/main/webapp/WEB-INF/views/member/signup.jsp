@@ -12,6 +12,9 @@ margin-bottom: 20px;
 select, input{
 	border-radius: 5pt;
 }
+div{
+	border-radius: 8pt;
+}
 </style>
 <script type="text/javascript">
 
