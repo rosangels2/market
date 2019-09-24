@@ -71,6 +71,9 @@ ul{
 .bottom-contents{
 	height: 200px;
 }
+select, input{
+	border-radius: 5pt;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){	

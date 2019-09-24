@@ -96,6 +96,9 @@
 .background-gray{
 	background-color: gray;
 }
+select, input{
+	border-radius: 5pt;
+}
 </style>
 <script type="text/javascript">
 

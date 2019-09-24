@@ -6,6 +6,9 @@
 .form button{
 	margin-top: 15px;
 }
+select, input{
+	border-radius: 5pt;
+}
 </style>
 </head>
 <div style="min-height: 605px;">

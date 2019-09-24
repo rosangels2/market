@@ -145,6 +145,9 @@ ul{
 .display-none{
 	display: none;
 }
+select, input{
+	border-radius: 5pt;
+}
 .d {
   transform: scale(1);
   -webkit-transform: scale(1);

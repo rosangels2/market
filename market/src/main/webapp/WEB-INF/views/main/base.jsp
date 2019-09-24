@@ -3,7 +3,9 @@
 <html>
 <head>
 <style type="text/css">
-
+select, input{
+	border-radius: 5pt;
+}
 </style>
 <script type="text/javascript">
 

@@ -218,6 +218,9 @@ input, select,.page-item{
   cursor: pointer; 
 }
 .d1 {width:325px; height:280px; overflow:hidden }
+select, input{
+	border-radius: 5pt;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){

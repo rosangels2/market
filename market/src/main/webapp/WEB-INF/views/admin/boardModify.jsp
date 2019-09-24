@@ -40,6 +40,9 @@
 	text-align: center;
 	float: right;
 }
+select, input{
+	border-radius: 5pt;
+}
 </style>
 <script type="text/javascript">
 

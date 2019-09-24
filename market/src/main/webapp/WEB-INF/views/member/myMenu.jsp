@@ -159,6 +159,9 @@
 	border: none;
 	background-color: white;
 }
+.wishlist-box input{
+	text-align: center;
+}
 /* 장바구니 클릭 시 */
 .bag-contents{
 	float: right;
@@ -236,6 +239,9 @@
 .bag-contents button{
 	border: none;
 	background-color: white;
+}
+.bag-box{
+	border-radius: 5pt;
 }
 /* 쿠폰함 클릭 시 */
 .coupon-bag-contents{
@@ -330,6 +336,9 @@
 }
 .background-gray{
 	background-color: gray;
+}
+select, input{
+	border-radius: 5pt;
 }
 </style>
 <script type="text/javascript">

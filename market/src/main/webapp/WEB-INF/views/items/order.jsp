@@ -21,9 +21,10 @@
 .delivery-menu{
 	position: relative;
 }
-.delivery-menu div{
+.delivery-menu>div{
 	border: 1px solid gray;
 	padding: 5px 10px;
+	border-radius: 5pt;
 }
 .delivery-menu div:hover{
 	cursor: pointer;
@@ -133,11 +134,13 @@
 	margin: 0 10px;
 }
 .button-box{
-	padding: 20px 52px;
+	padding: 20px 0px 20px 105px;
 }
 .button-box button{
 	width: 300px;
 	text-align: center;
+	border-radius: 5pt;
+	background-color: white;
 }
 .last-set input{
 	text-align: right;
@@ -197,6 +200,9 @@
 }
 .info-box input{
 	border: none;
+}
+select, input{
+	border-radius: 5pt;
 }
 </style>
 <script type="text/javascript">
@@ -501,7 +507,7 @@ $(document).ready(function(){
 					</div>
 					<!-- 최종 주문 정보창 -->
 					<div class="total-order-box">
-						<div class="order-text">
+						<div class="order-text" style="padding-left: 140px; margin-bottom: 20px;">
 							<h1>최종 결제 정보</h1>
 						</div>
 						<div class="order-contents">

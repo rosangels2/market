@@ -43,12 +43,12 @@
 .bottom-contents{
 	min-height: 100px;
 }
-
-
-
 /* 공통 */
 .display-none{
 	display: none;
+}
+select, input{
+	border-radius: 5pt;
 }
 </style>
 <script type="text/javascript">

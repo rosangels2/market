@@ -228,10 +228,17 @@
 
 /* 공통 적용 */
 .button-contents button{
-	
+	border-radius: 5pt;
+	border: 1px solid #dee2e6;
 }
 .display-none{
 	display: none;
+}
+select, input{
+	border-radius: 5pt;
+}
+.background{
+	background-color: #dee2e6;
 }
 </style>
 <script type="text/javascript">
@@ -392,18 +399,26 @@ $(document).ready(function(){
 	
 	//상품 정보 메뉴 클릭 시
 	$('.item-info-menu').click(function(){
+		$(this).addClass("background");
+		$('.ask-menu').removeClass("background");
+		$('.comment-menu').removeClass("background");
 		$('#contents').removeClass('display-none');
 		$('#ask').addClass('display-none');
 		$('#comment').addClass('display-none');
 		$('.menu-box-right').addClass('display-none');
+		$('.request-contents').addClass('display-none');
 	});
 	
 	//문의/답변 메뉴 클릭 시
 	$('.ask-menu').click(function(){
+		$(this).addClass("background");
+		$('.item-info-menu').removeClass("background");
+		$('.comment-menu').removeClass("background");
 		$('#ask').removeClass('display-none');
 		$('#contents').addClass('display-none');
 		$('#comment').addClass('display-none');
-		$('.menu-box-right').removeClass('display-none');
+		$('.menu-box-right').removeClass('display-none'); 
+		$('.request-contents').addClass('display-none');
 	});
 	//문의하기 클릭 시
 	$('#ask-request').click(function(){
@@ -460,6 +475,7 @@ $(document).ready(function(){
 	
 	//문의글 제목 클릭 시
 	$('.board-set .ask-title').click(function(){
+		$('.request-contents').addClass('display-none');
 		$(this).parent().siblings('.set-bottom').toggleClass('display-none');
 		if($(this).siblings('.ask-state').text() == '답변완료'){
 			$(this).parent().siblings('.reply-box').toggleClass('display-none');	
@@ -470,19 +486,26 @@ $(document).ready(function(){
 	$('#ask-my').click(function(){
 		if($('input[name=id]').val() == "" || $('input[name=id]').val() == null){
 			location.href = '<%=request.getContextPath()%>/signin';
+			return false;
 		}
+		$(this).addClass("background");
+		$('#ask-all').removeClass("background");
 		$('.board-box-contents').addClass('display-none');
 		$('.board-box-contents .set-bottom').addClass('display-none');
 		$('.board-box-contents .reply-box').addClass('display-none');
 		$('.board-box-contents-my').removeClass('display-none');
+		$('.request-contents').addClass('display-none');
 	});
 	
 	//전체 문의 보기 클릭 시
 	$('#ask-all').click(function(){
+		$(this).addClass("background");
+		$('#ask-my').removeClass("background");
 		$('.board-box-contents-my').addClass('display-none');
 		$('.board-box-contents-my .set-bottom').addClass('display-none');
 		$('.board-box-contents-my .reply-box').addClass('display-none');
 		$('.board-box-contents').removeClass('display-none');
+		$('.request-contents').addClass('display-none');
 	});
 	
 	//문의 답변 버튼 클릭 시
@@ -566,10 +589,14 @@ $(document).ready(function(){
 	
 	//댓글 메뉴 클릭 시
 	$('.comment-menu').click(function(){
+		$(this).addClass("background");
+		$('.item-info-menu').removeClass("background");
+		$('.ask-menu').removeClass("background");
 		$('#comment').removeClass('display-none');
 		$('#contents').addClass('display-none');
 		$('#ask').addClass('display-none');
 		$('.menu-box-right').addClass('display-none');
+		$('.request-contents').addClass('display-none');
 	});
 
 });	//레디
@@ -667,22 +694,22 @@ function askTitleClick(){
 			<div class="button">   
 				<div class="button-contents clearfix">
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button class="buy-button" style="border: none; background-color: white;">
+						<button class="buy-button" style="background-color: white;">
 							<h4>구매하기</h4>
 						</button>
 					</a>
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button type="button" id="add-bag" style="border: none; background-color: white;">
+						<button type="button" id="add-bag" style=" background-color: white;">
 							<h4>장바구니 담기</h4>
 						</button>
 					</a>				
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button type="button" id="add-wishlist" style="border: none; background-color: white;">
+						<button type="button" id="add-wishlist" style=" background-color: white;">
 							<h4>위시리스트 담기</h4>
 						</button>
 					</a>
 					<a class="clearfix float-right" style="margin-left: 20px;">
-						<button type="button" id="add-commend" style="border: none; background-color: white;">
+						<button type="button" id="add-commend" style=" background-color: white;">
 							<h4>좋아요♡</h4>
 						</button>
 					</a>	
@@ -693,7 +720,7 @@ function askTitleClick(){
 		<div class="menu">
 			<div class="menu-contents">
 				<div class="menu-box clearfix">
-					<div class="item-info-menu menu-box-left" style="border:none; margin-right: 20px;">
+					<div class="item-info-menu menu-box-left background" style="border:none; margin-right: 20px;">
 						<h2>상품 정보</h2>
 					</div>
 					<div class="ask-menu menu-box-left" style="border:none; margin-right: 20px;">
@@ -702,7 +729,7 @@ function askTitleClick(){
 					<div class="comment-menu menu-box-left" style="border:none; margin-right: 20px;">
 						<h2>댓글</h2>
 					</div>
-					<div class="menu-box-right display-none" id="ask-all" style="border:none; margin-left: 20px;">
+					<div class="menu-box-right display-none background" id="ask-all" style="border:none; margin-left: 20px;">
 						<h2>전체 문의 보기</h2>
 					</div>
 					<div class="menu-box-right display-none" id="ask-my" style="border:none; margin-left: 20px;"">
