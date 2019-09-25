@@ -734,7 +734,7 @@ function askTitleClick(){
 						<h2>문의/답변</h2>
 					</div>
 					<div class="comment-menu menu-box-left" style="border:none; margin-right: 20px;">
-						<h2>댓글</h2>
+						<h2>상품평</h2>
 					</div>
 					<div class="menu-box-right display-none background" id="ask-all" style="border:none; margin-left: 20px;">
 						<h2>전체 문의 보기</h2>

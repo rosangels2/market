@@ -69,7 +69,7 @@ ul{
 	position: relative;
 	min-width: 30px;
 	height: 50px;
-	padding: 10px 10px;
+	padding: 7px 10px;
 }
 .selected-category-box .category-text{
 	margin: 0;
@@ -302,7 +302,7 @@ $(document).ready(function(){
 						<div class="list-select-box">
 							<select name="type" id="type" style="border-radius: 5pt;">
 								<option value="1" <c:if test="${pageMaker.criteria.type eq 1}">selected</c:if> >최신 순으로 보기</option>
-								<option value="2" <c:if test="${pageMaker.criteria.type eq 2}">selected</c:if> >추천 많은 순으로 보기</option>
+								<option value="2" <c:if test="${pageMaker.criteria.type eq 2}">selected</c:if> >좋아요 많은 순으로 보기</option>
 								<option value="3" <c:if test="${pageMaker.criteria.type eq 3}">selected</c:if> >낮은 가격 순으로 보기</option>
 								<option value="4" <c:if test="${pageMaker.criteria.type eq 4}">selected</c:if> >높은 가격 순으로 보기</option>
 								<option value="5" <c:if test="${pageMaker.criteria.type eq 5}">selected</c:if> >상품평 많은 순으로 보기</option>
@@ -352,7 +352,7 @@ $(document).ready(function(){
 								</div>
 								<div class="item-info">
 									<div>
-										<h4>추천 수</h4>
+										<h4>좋아요</h4>
 									</div>
 									<div class="item-link">
 										<a href="<%=request.getContextPath()%>/items/detail?item_no=${item.no}">
